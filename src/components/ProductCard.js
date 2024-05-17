@@ -4,7 +4,7 @@ export const ProductCard = ({itemProd}) => {
   return (
     <div className="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <Link to='/'>
-            <img className="rounded-t-lg" src={itemProd.imagen} alt="" />
+            <img className="rounded-t-lg" src={itemProd.imagen} alt="lo que sea" />
         </Link>
         <div className="p-5 flex flex-wrap justify-center">
             <Link to='/'>

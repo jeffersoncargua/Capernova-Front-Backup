@@ -1,5 +1,6 @@
 import { Routes,Route } from "react-router-dom";
-import { Home, Login, Register,Products,Estudiante} from "../pages";
+import { Home, Login, Register,Products} from "../pages/index";
+import { Estudiante } from "../pages/Estudiante/Estudiante";
 
 export const AllRoutes = () => {
   return (
