@@ -26,14 +26,14 @@ export const Feedback = () => {
     
   return (
     
-        <div className="w-[95%] flex flex-col my-[50px] mx-auto">
+        <div className="w-[95%] flex flex-col my-[50px] mx-auto dark:bg-gray-900">
 
-            <h1 className="self-center text-5xl font-extrabold before:block before:absolute before:-inset-1 before:-skew-y-[1.7deg] before:bg-cyan-400 relative " ><span className=" text-white relative ">Nuestros </span></h1>
-            <h1 className="self-center text-5xl font-extrabold before:block before:absolute before:-inset-1 before:-skew-y-[1.7deg] before:bg-cyan-400 relative my-1" ><span className=" text-white relative ">Estudiantes </span></h1>
+            <h1 className="self-center text-5xl font-extrabold before:block before:absolute before:-inset-1 before:-skew-y-[1.7deg] before:bg-cyan-400 relative my-1" ><span className="before:block before:absolute before:-inset-1 before:skew-y-[1.7deg] before:bg-pink-400 "><span className=" text-white relative ">Nuestros</span></span></h1>
+            <h1 className="self-center text-5xl font-extrabold before:block before:absolute before:-inset-1 before:-skew-y-[1.7deg] before:bg-cyan-400 relative my-1" ><span className="before:block before:absolute before:-inset-1 before:skew-y-[1.7deg] before:bg-pink-400 "><span className=" text-white relative ">Estudiantes</span></span></h1>
 
             <div className="overflow-hidden w-full dark:border-gray-700 md:mb-12 bg-white dark:bg-gray-800 my-8">
                 {/*Para pantalla grande */}
-                <div className="md:flex hidden bg-white w-[98%] transition ease-in-out duration-400 gap-x-2" style={{transform: `translateX(-${feedback * 50}%)`}}>
+                <div className="md:flex hidden bg-white w-[98%] transition ease-in-out duration-400 gap-x-2 dark:bg-gray-900" style={{transform: `translateX(-${feedback * 50}%)`}}>
                     {users.map((user,index) => (
                         <figure key={index} className="flex-none flex flex-col items-center justify-center border border-gray-200 rounded-lg shadow-sm p-8 text-center bg-white dark:bg-gray-800  w-full md:w-1/2">
                             <blockquote className="max-w-2xl mx-auto mb-4 text-gray-500 lg:mb-8 dark:text-gray-400">

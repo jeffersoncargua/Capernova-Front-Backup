@@ -1,6 +1,7 @@
 import { Routes,Route } from "react-router-dom";
-import { Home, Login, Register,Products} from "../pages/index";
-import { Estudiante } from "../pages/Estudiante/Estudiante";
+import { Home, Login, Register,Products,Estudiante, Cart, ForgetPassword, ChangePassword} from "../pages/index";
+
+
 
 export const AllRoutes = () => {
   return (
@@ -11,6 +12,9 @@ export const AllRoutes = () => {
             <Route path="register" element={<Register />} />
             <Route path="products" element={<Products />} />
             <Route path="student" element={<Estudiante />} />
+            <Route path="cart" element={<Cart />} />
+            <Route path="forget" element={<ForgetPassword />} /> {/*Para enviar la solicitud del cambio de contraseña */}
+            <Route path="changePass" element={<ChangePassword />} /> {/*Para realizar el cambio de contraseña */}
         </Routes>
     </main>    
   )

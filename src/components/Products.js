@@ -55,39 +55,48 @@ export const Products = () => {
 
       <h1 className="self-center text-5xl font-extrabold before:block before:absolute before:-inset-1 before:bg-cyan-400 relative my-8" ><span className=" text-white relative ">Nuestros Cursos</span></h1>        
 
-      <div className='w-full overflow-hidden static rounded-lg'>
+      <div className='w-full static overflow-x-hidden rounded-lg'>
         {/* permite transformar el desplazamiento en x en pantalla completa  style={{transform: `translateX(-${current/3 * 100}%)`}} */}
-          <div className={`md:flex transition ease-in-out duration-40 mx-auto hidden`} style={{transform: `translateX(-${current/3 * 100}%)`}} >
-              {slices.map((itemProd,index) => (
-                  <div className= 'shrink-0 w-full md:w-1/3 ' key={index}>
-                    {/*ProductCard */}
-                      <ProductCard itemProd={itemProd} />
-                  </div> 
-              ))}
-          </div>
+        <div className={`w-[95%] lg:flex  transition ease-in-out duration-40 ml-[31px]  hidden mx-auto `} style={{transform: `translateX(-${current * 25}%)`}} >
+            {slices.map((itemProd,index) => (
+                <div className= 'shrink-0 w-full lg:w-1/4' key={index}>
+                  {/*ProductCard */}
+                    <ProductCard itemProd={itemProd} />
+                </div> 
+            ))}
+        </div>
+          
+        {/* permite transformar el desplazamiento en x en pantalla tablet  style={{transform: `translateX(-${current/3 * 100}%)`}} */}
+        <div className={`w-[95%] md:flex  transition ease-in-out duration-40 ml-[31px]  lg:hidden `} style={{transform: `translateX(-${current * 50}%)`}} >
+            {slices.map((itemProd,index) => (
+                <div className= 'shrink-0 w-full md:w-1/2' key={index}>
+                  {/*ProductCard */}
+                    <ProductCard itemProd={itemProd} />
+                </div> 
+            ))}
+        </div>
 
-          {/* permite transformar el desplazamiento en x en pantalla pequeña  style={{transform: `translateX(-${current/3 * 100}%)`}} */}
-          <div className={`flex transition md:hidden ease-in-out duration-40 mx-auto`} style={{transform: `translateX(-${current* 100}%)`}} >
-              {slices.map((itemProd,index) => (
-                  <div className= 'shrink-0 w-full md:w-1/3' key={index}>
-                    {/*ProductCard */}
-                      <ProductCard itemProd={itemProd} />
-                  </div> 
-              ))}
-          </div>
+        {/* permite transformar el desplazamiento en x en pantalla pequeña  style={{transform: `translateX(-${current/3 * 100}%)`}} */}
+        <div className={`flex transition sm:hidden ease-in-out duration-40 mx-auto`} style={{transform: `translateX(-${current* 100}%)`}} >
+            {slices.map((itemProd,index) => (
+                <div className= 'shrink-0 sm:w-full' key={index}>
+                  {/*ProductCard */}
+                    <ProductCard itemProd={itemProd} />
+                </div> 
+            ))}
+        </div>
 
-          {/*Slider buttons */}
-          <div className="absolute top-0 h-full w-full justify-between flex items-center text-black text-3xl">
-              {/*boton para pasar al item item */}
-              <span onClick={()=> previousSlice()} className="cursor-pointer">
-                <i className="bi bi-arrow-left-circle-fill"></i>
-              </span>
-              {/*boton para pasar al proximo item */}
-              <span onClick={()=> nextSlice()} className="cursor-pointer">
-                <i className="bi bi-arrow-right-circle-fill"></i>
-              </span>
-          </div>
-
+        {/*Slider buttons */}
+        <div className="absolute top-0 h-full w-full justify-between flex items-center text-black text-3xl">
+            {/*boton para pasar al item item */}
+            <span onClick={()=> previousSlice()} className="cursor-pointer z-10">
+              <i className="bi bi-arrow-left-circle-fill"></i>
+            </span>
+            {/*boton para pasar al proximo item */}
+            <span onClick={()=> nextSlice()} className="cursor-pointer z-10">
+              <i className="bi bi-arrow-right-circle-fill"></i>
+            </span>
+        </div>
 
       </div>
     </div>

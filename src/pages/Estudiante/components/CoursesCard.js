@@ -1,7 +1,7 @@
 
 export const CoursesCard = ({isActive, title, isCompleted ,children}) => {
 
-  console.log(isCompleted);
+  //console.log(isCompleted); imprime el estado de si esta completo o no
 
   return (
     <div className="w-full md:max-w-xs mx-auto bg-white mb-8 flex flex-col items-center border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">

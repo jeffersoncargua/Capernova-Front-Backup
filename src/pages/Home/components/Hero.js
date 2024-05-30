@@ -11,24 +11,6 @@ export const Hero = () => {
 
     const [current, setCurrent] = useState(0);
 
-    /*let previousSlice = () => {
-        if(current === 0){
-            setCurrent(slices.length -1);
-        }else{
-            setCurrent(current - 1);
-        }
-    }
-
-    let nextSlice = () => {
-        if(current === slices.length -1){
-            setCurrent(0);
-        }else{
-            setCurrent(current + 1);
-        }
-    }*/
-
-    //
-
     const slices = [
         {imagen : 'https://i.postimg.cc/wjFMLyF7/fondo5.png' , title: 'Titulo 5' , description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur, dolor sequi officiis illum distinctio in eos voluptatum omnis qui cumque molestiae tempore ex eligendi ipsam ad aut minus! Sequi, molestiae!'},
         {imagen : 'https://i.postimg.cc/bNcZhjsN/fondo2.jpg' , title: 'Titulo 1' , description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus, sint!'},
@@ -51,7 +33,7 @@ export const Hero = () => {
     },[current,slices.length])
 
   return (
-    <div className='bg-gradient-to-r from-green-400 to-blue-500 my-10 rounded-lg'>
+    <div className='bg-gradient-to-r from-green-400 to-blue-500 my-10 rounded-lg dark:bg-gray-900'>
         <div className='m-auto w-full md:w-[60%] overflow-hidden relative rounded-lg'>
             <div className='flex transition ease-in-out duration-1000' style={{transform: `translateX(-${current * 100}%)`}} >
                 {slices.map((s,index) => (
