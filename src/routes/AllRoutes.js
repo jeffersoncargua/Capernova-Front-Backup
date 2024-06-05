@@ -1,5 +1,5 @@
 import { Routes,Route } from "react-router-dom";
-import { Home, Login, Register,Products,Estudiante, Cart, ForgetPassword, ChangePassword} from "../pages/index";
+import { Home, Login, Register,Products,Estudiante, Cart, ForgotPassword, ChangePassword,ConfirmationEmail,Order} from "../pages/index";
 
 
 
@@ -13,8 +13,10 @@ export const AllRoutes = () => {
             <Route path="products" element={<Products />} />
             <Route path="student" element={<Estudiante />} />
             <Route path="cart" element={<Cart />} />
-            <Route path="forget" element={<ForgetPassword />} /> {/*Para enviar la solicitud del cambio de contraseña */}
-            <Route path="changePass" element={<ChangePassword />} /> {/*Para realizar el cambio de contraseña */}
+            <Route path="forget" element={<ForgotPassword />} /> {/*Para enviar la solicitud del cambio de contraseña */}
+            <Route path="changePassword" element={<ChangePassword />} /> {/*Para realizar el cambio de contraseña */}
+            <Route path="confirmEmail" element={<ConfirmationEmail />} /> {/*Para confirmar el Email */}
+            <Route path="order" element={<Order />} /> {/*Pagina para realizar el pago */}
         </Routes>
     </main>    
   )

@@ -4,5 +4,7 @@ export {Register} from './Register';
 export {Products} from './Products/Products';
 export {Cart} from './Cart/Cart';
 export {Estudiante} from './Estudiante/Estudiante';
-export {ForgetPassword} from './ForgetPassword';
+export {ForgotPassword} from './ForgotPassword';
 export {ChangePassword} from './ChangePassword';
+export {ConfirmationEmail} from './ConfirmationEmail';
+export {Order} from './Order/Order';
