@@ -1,10 +1,7 @@
 export {Home} from './Home/Home';
-export {Login} from './Login';
-export {Register} from './Register';
+export {Login, Register, ChangePassword,ForgotPassword,ConfirmationEmail} from './Authentication';
 export {Products} from './Products/Products';
 export {Cart} from './Cart/Cart';
 export {Estudiante} from './Estudiante/Estudiante';
-export {ForgotPassword} from './ForgotPassword';
-export {ChangePassword} from './ChangePassword';
-export {ConfirmationEmail} from './ConfirmationEmail';
 export {Order} from './Order/Order';
+export {CancelPayment,ConfirmPay} from './Payment';
