@@ -11,7 +11,6 @@ export const ModalLogin = ({response,setShowModal}) => {
     const navigate = useNavigate();
     //const refUserName = useRef();
     //const refCodigo = useRef();
-    console.log(typeof(refEmail));
 
     /*const handleSubmitOTP = async (event) => {
         event.preventDefault();

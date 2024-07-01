@@ -5,32 +5,58 @@ export const ConfirmPay = () => {
 
   const [searchParams] = useSearchParams();
   const token = searchParams.get('token');
+  const status = searchParams.get('status');
   const [showLoader,setShowLoader] = useState(true);
   const [response,setResponse] = useState({});
+
+  console.log(token);
+  console.log(status);
 
 
   const fetchConfirm = useCallback( async () => {
     setShowLoader(true);
+
+    
+
+
     try{
-      let resultFetch = await fetch(`https://localhost:7164/api/Payment/confirmPaypal?token=${token}`,{
-        method: 'GET',
-        credentials:"include",
-        headers:{
-            "Content-Type" : "application/json" ,
-            "Accept" : "application/json",
-        },
-      });
-      if (resultFetch.ok) {
-        let result = await resultFetch.json();
-        console.log(result);
-        setResponse(result);
+      if(token !==null){
+        let resultFetch = await fetch(`https://localhost:7164/api/Payment/confirmPaypal?token=${token}`,{
+          method: 'GET',
+          credentials:"include",
+          headers:{
+              "Content-Type" : "application/json" ,
+              "Accept" : "application/json",
+          },
+        });
+        if (resultFetch.ok) {
+          let result = await resultFetch.json();
+          console.log(result);
+          setResponse(result);
+        }
+        setShowLoader(false);
       }
-      setShowLoader(false);
+      if(status !==null){
+        let resultFetch = await fetch(`https://localhost:7164/api/Payment/orderConfirm?status=${status}`,{
+          method: 'GET',
+          credentials:"include",
+          headers:{
+              "Content-Type" : "application/json" ,
+              "Accept" : "application/json",
+          },
+        });
+        if (resultFetch.ok) {
+          let result = await resultFetch.json();
+          console.log(result);
+          setResponse(result);
+        }
+        setShowLoader(false);
+      }
     }catch(error){
       console.error(error);
       setShowLoader(false);
     }
-  },[token])
+  },[token,status])
 
   
 
@@ -40,12 +66,10 @@ export const ConfirmPay = () => {
 
   return (
     <div className="w-[95%] mx-auto ">  
-
-      
       
       {showLoader && 
       <div className="mx-auto flex justify-center z-50 fixed top-0 left-0 right-0 md:inset-0 h-[calc(100%-1rem)] max-h-full" tabIndex='-1'>
-        <div aria-label="Loading..." role="status" className="flex items-center space-x-2 my-[50%]">
+        <div aria-label="Loading..." role="status" className="flex items-center space-x-2 my-[30%]">
           <svg className="h-20 w-20 animate-spin stroke-orange-500" viewBox="0 0 256 256">
               <line x1="128" y1="32" x2="128" y2="64" strokeLinecap="round" strokeLinejoin="round" strokeWidth="24"></line>
               <line x1="195.9" y1="60.1" x2="173.3" y2="82.7" strokeLinecap="round" strokeLinejoin="round"
@@ -68,9 +92,9 @@ export const ConfirmPay = () => {
       }
 
       <div className={`${showLoader===false? '':'hidden'}`}>
-      {(response.isSuccess) ? 
+      {response.isSuccess ? 
       ( /*Respuesta exitosa */
-        <div className="flex flex-col mt-[10%] gap-y-4 my-8">
+        <div className="flex flex-col gap-y-4 my-8">
           <h1 className="font-medium text-lg sm:text-2xl text-green-500 text-center">¡Gracias por tu compra!</h1>
           <h3 className="font-medium text-sm sm:text-lg text-green-500 text-center">ID transacción : {response.result || ''}</h3>
           <div className="mx-auto w-full flex justify-center">
@@ -105,7 +129,7 @@ export const ConfirmPay = () => {
         </div>)
       :
       ( /*Respuesta fallida */
-        <div className="flex flex-col mt-[10%] gap-y-4 my-8">
+        <div className="flex flex-col gap-y-4 my-8">
           <h1 className="font-medium text-lg sm:text-2xl text-red-500 text-center">¡Lo sentimos, no se pudo completar tu transaccion!</h1>
           <h3 className="font-medium text-sm sm:text-lg text-red-500 text-center">La solicitud de pago no se ha generado. Por favor revise sus movimientos bancarios.</h3>
           <h3 className="font-medium text-sm sm:text-lg text-red-500 text-center">Si el error persiste comuniquese con nuestros operadores a través de whatsapp</h3>

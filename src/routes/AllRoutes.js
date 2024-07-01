@@ -1,6 +1,5 @@
 import { Routes,Route } from "react-router-dom";
-import { Home, Login, Register,Products,Estudiante, Cart, ForgotPassword, ChangePassword,ConfirmationEmail,Order,CancelPayment,ConfirmPay} from "../pages/index";
-
+import { Home, Login, Register,Products,Estudiante, Cart, ForgotPassword, ChangePassword,ConfirmationEmail,Order,CancelPayment,ConfirmPay,Administracion} from "../pages/index";
 
 
 export const AllRoutes = () => {
@@ -19,6 +18,7 @@ export const AllRoutes = () => {
             <Route path="order" element={<Order />} /> {/*Pagina para realizar el pago */}
             <Route path="confirmPay" element={<ConfirmPay />} /> {/*Pagina para realizar el pago */}
             <Route path="cancelPay" element={<CancelPayment />} /> {/*Pagina para realizar el pago */}
+            <Route path="admin" element={<Administracion />} /> {/*Pagina para Administrar la plataforma */}
         </Routes>
     </main>    
   )

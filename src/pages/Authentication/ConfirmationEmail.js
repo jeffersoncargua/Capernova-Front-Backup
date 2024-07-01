@@ -38,9 +38,9 @@ export const ConfirmationEmail = () => {
     },[token,email]);
 
   return (
-    <div>
-        <h1>{response.message}</h1>
-        {response.isSuccess && <p>navega por nuestro sitio web y conoce acerca de nosotros asi como de nuestros productos</p>}
+    <div className="w-[95%] mx-auto">
+        <h1 className="text-xl">{response.message}</h1>
+        {response.isSuccess && <p className="text-sm">navega por nuestro sitio web y conoce acerca de nosotros asi como de nuestros productos</p>}
         
     </div>
   )

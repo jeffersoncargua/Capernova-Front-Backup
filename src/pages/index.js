@@ -5,3 +5,4 @@ export {Cart} from './Cart/Cart';
 export {Estudiante} from './Estudiante/Estudiante';
 export {Order} from './Order/Order';
 export {CancelPayment,ConfirmPay} from './Payment';
+export {Administracion} from './Administracion/Administracion';

@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { store } from './redux/store';
 import { ScrollToTop } from './components';
 
+import 'react-loading-skeleton/dist/skeleton.css';
 import './index.css';
 import App from './App';
 

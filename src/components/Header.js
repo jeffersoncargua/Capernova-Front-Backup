@@ -1,7 +1,11 @@
 import {Link, useNavigate} from 'react-router-dom';
-//import CaperNova from '../assets/Capernova.png';
-import CaperNova2 from '../assets/Capernova2.png';
 import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { logout,signIn } from '../redux/userSlice';
+import { JWTDecode } from '../hooks/JWTDecode';
+
+import CaperNova2 from '../assets/Capernova2.png';
 
 export const Header = () => {
 
@@ -9,6 +13,11 @@ export const Header = () => {
     const [hidden, setHidden] = useState(true);
     const [showDrop, setShowDrop] = useState(true);
     const [darkMode, setDarkMode] = useState(JSON.parse(localStorage.getItem('darkMode')) || true);
+    const dispatch = useDispatch();
+
+    const user = useSelector(state => state.userState.user);
+    const isAuth = useSelector(state => state.userState.isAuth);
+    console.log(user);
 
     useEffect(()=>{
         localStorage.setItem("darkMode",JSON.stringify(darkMode));
@@ -17,11 +26,24 @@ export const Header = () => {
         }else{
             document.documentElement.classList.add('dark');
         }    
-        //document.getElementById('dropdownNavbarLink').addEventListener('blur', setShowDrop(true));
-    },[darkMode])
+        const token = sessionStorage.getItem('auth');
+        console.log(token);
+        //Funcion para decodificar el token y acceder a su informacion para el inicio de sesion
+        if (token !== null) {
+            const objet = JWTDecode(token);
+        //Se guarda la seccion 
+        //Permite almacenar el inicio de sesion de un usuario que se ha logeado de forma exitosa
+            dispatch(signIn(objet));
+        }
+        
+    },[darkMode,dispatch])
 
-
-    
+    const handleLogout = () => {
+        //Permite quitar de la sessionStorage para que deba logearse de nuevo
+        sessionStorage.setItem('auth','');
+        dispatch(logout());
+        console.log(user);
+    }
 
 
   return (
@@ -93,15 +115,30 @@ export const Header = () => {
                             <path d="M10 15a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0-11a1 1 0 0 0 1-1V1a1 1 0 0 0-2 0v2a1 1 0 0 0 1 1Zm0 12a1 1 0 0 0-1 1v2a1 1 0 1 0 2 0v-2a1 1 0 0 0-1-1ZM4.343 5.757a1 1 0 0 0 1.414-1.414L4.343 2.929a1 1 0 0 0-1.414 1.414l1.414 1.414Zm11.314 8.486a1 1 0 0 0-1.414 1.414l1.414 1.414a1 1 0 0 0 1.414-1.414l-1.414-1.414ZM4 10a1 1 0 0 0-1-1H1a1 1 0 0 0 0 2h2a1 1 0 0 0 1-1Zm15-1h-2a1 1 0 1 0 0 2h2a1 1 0 0 0 0-2ZM4.343 14.243l-1.414 1.414a1 1 0 1 0 1.414 1.414l1.414-1.414a1 1 0 0 0-1.414-1.414ZM14.95 6.05a1 1 0 0 0 .707-.293l1.414-1.414a1 1 0 1 0-1.414-1.414l-1.414 1.414a1 1 0 0 0 .707 1.707Z"></path>
                         </svg>)
                         }                        
-                    </button>                
-                    <Link to="register" className="block py-2 px-3 mx-2 text-gray-900 rounded hover:bg-gray-100 hover:underline md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Register</Link>
-                    <Link to="login" className="block py-[10px] flex items-center px-3 mx-2 rounded bg-blue-600 hover:bg-blue-700 md:hover:text-gray-50 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-box-arrow-right inline-block mr-3" viewBox="0 0 16 16">
-                            <path fillRule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"/>
-                            <path fillRule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
+                    </button>        
+                           
+                    
+                    {isAuth ? 
+                    (<button onClick={() => handleLogout()} className="block py-[10px] flex items-center px-3 mx-2 rounded bg-blue-600 hover:bg-blue-700 md:hover:text-gray-50 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-box-arrow-left inline-block mr-3" viewBox="0 0 16 16">
+                            <path fillRule="evenodd" d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z"/>
+                            <path fillRule="evenodd" d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z"/>
                         </svg>
-                        Login
-                    </Link>
+                        Logout
+                    </button>)
+                    :
+                    (<div className='flex items-center'>
+                        <Link to="register" onClick={() => showDrop(false)} className="block py-2 px-3 mx-2 text-gray-900 rounded hover:bg-gray-100 hover:underline md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Register</Link>
+                        <Link to="login" onClick={() => showDrop(false)} className="block py-[10px] flex items-center px-3 mx-2 rounded bg-blue-600 hover:bg-blue-700 md:hover:text-gray-50 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-box-arrow-right inline-block mr-3" viewBox="0 0 16 16">
+                                <path fillRule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"/>
+                                <path fillRule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
+                            </svg>
+                            Login
+                        </Link>
+                    </div>)
+                    }
+                    
                     <div className='group'>
                         <Link to='/cart' className='relative w-10 h-10 flex items-center text-gray-500 group-hover:text-blue-600 dark:text-white'>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-cart3 w-7 h-7  " viewBox="0 0 16 16">
@@ -126,10 +163,10 @@ export const Header = () => {
                     </div>
                     <ul className="flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                         <li >
-                            <Link onClick={() => setShowDrop(true)} to="/" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700" aria-current="page">Home</Link>
+                            <Link onClick={() => {setShowDrop(true);setHidden(!hidden)}} to="/" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700" aria-current="page">Home</Link>
                         </li>
                         <li>
-                            <Link onClick={() => setShowDrop(true)} to="/" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Nosotros</Link>
+                            <Link onClick={() => {setShowDrop(true);setHidden(!hidden)}} to="/" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Nosotros</Link>
                         </li>
                         <li >
                             <button onClick={() => setShowDrop(!showDrop)} id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" className="flex items-center justify-between w-full py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:hover:bg-gray-700 md:dark:hover:bg-transparent">
@@ -142,36 +179,46 @@ export const Header = () => {
                             <div id="dropdownNavbar" className={`${showDrop ? 'hidden':''} md:absolute z-50 font-normal bg-white divide-y divide-gray-100 rounded-lg shadow md:w-44 dark:bg-gray-700 dark:divide-gray-600`} >
                                 <ul className="rounded-lg py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownLargeButton">
                                     <li >
-                                        <Link onClick={() => setShowDrop(!showDrop)} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Cocina</Link>
+                                        <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden)}} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Cocina</Link>
                                     </li>
                                     <li >
-                                        <Link onClick={() => setShowDrop(!showDrop)} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Cosmetología</Link>
+                                        <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden)}} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Cosmetología</Link>
                                     </li>
                                     <li >
-                                        <Link onClick={() => setShowDrop(!showDrop)} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Peluquería</Link>
+                                        <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden)}} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Peluquería</Link>
                                     </li>
                                     <li >
-                                        <Link onClick={() => setShowDrop(!showDrop)} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Veterinaria</Link>
+                                        <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden)}} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Veterinaria</Link>
                                     </li>
                                     <li >
-                                        <Link onClick={() => setShowDrop(!showDrop)} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Chocolatería Fina</Link>
+                                        <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden)}} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Chocolatería Fina</Link>
                                     </li>
                                     <li >
-                                        <Link onClick={() => setShowDrop(!showDrop)} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Reposteria Fina</Link>
+                                        <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden)}} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Reposteria Fina</Link>
                                     </li>
                                     <li >
-                                        <Link onClick={() => setShowDrop(!showDrop)} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Make Up</Link>
+                                        <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden)}} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Make Up</Link>
                                     </li>
                                 </ul>
                             </div>
                             
                         </li>
-                        <li className='md:hidden'>
-                            <Link onClick={() => setShowDrop(true)} to="register" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Registrarse</Link>
+                        <li>
+                            <Link onClick={() => {setShowDrop(true);setHidden(!hidden)}} to="admin" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Administración</Link>
                         </li>
-                        <li className='md:hidden'>
-                            <Link onClick={() => setShowDrop(true)} to="login" className=" block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Sign In</Link>
-                        </li>
+                        {isAuth? 
+                        (<li className='md:hidden'>
+                            <button onClick={() => handleLogout()} className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Logout</button>
+                        </li>)
+                        :
+                        (<>
+                            <li className='md:hidden'>
+                                <Link onClick={() => setHidden(true)} to="register" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Registrarse</Link>
+                            </li>
+                            <li className='md:hidden'>
+                                <Link onClick={() => setHidden(true)} to="login" className=" block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Sign In</Link>
+                            </li>
+                        </>)}
                     </ul>
                 </div>
             </div>

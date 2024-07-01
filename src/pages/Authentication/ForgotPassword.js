@@ -47,7 +47,7 @@ export const ForgotPassword = () => {
         </blockquote>
         <div className="flex justify-center items-center my-8">
           <form onSubmit={handleSubmitForget} >
-            <input pattern="[a-zA-Z0-9!#$%&'*\/=?^_`\{\|\}~\+\-]([\.]?[a-zA-Z0-9!#$%&'*\/=?^_`\{\|\}~\+\-])+@[a-zA-Z0-9]([^@&%$\/\(\)=?¿!\.,:;]|\d)+[a-zA-Z0-9][\.][a-zA-Z]{2,4}([\.][a-zA-Z]{2})?" className="text-sm rounded-l-lg focus:border-blue-200 focus:ring-2 focus:ring-blue-200 w-80" name="email" id="email" type="text" placeholder="Escribe tu correo electrónico" required ref={refEmail} />
+            <input pattern="[a-zA-Z0-9!#$%&'*\/=?^_`\{\|\}~\+\-]([\.]?[a-zA-Z0-9!#$%&'*\/=?^_`\{\|\}~\+\-])+@[a-zA-Z0-9]([^@&%$\/\(\)=?¿!\.,:;]|\d)+[a-zA-Z0-9][\.][a-zA-Z]{2,4}([\.][a-zA-Z]{2})?" className="text-sm rounded-l-lg focus:border-blue-200 focus:ring-2 focus:ring-blue-200 w-80" name="email" id="email" type="text" placeholder="Escribe tu correo electrónico" required ref={refEmail} autoComplete='off' />
               {showButtonLoading ? 
               (<button disabled type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-r-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center">
                   <svg aria-hidden="true" role="status" className="inline w-4 h-4 me-3 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
