@@ -4,7 +4,7 @@ import {Modal} from './components';
 
 import Registro from '../../assets/registro.jpg';
 
-export const Register = () => {
+export const Register = ({children}) => {
 
   const [showPass1, setShowPass1] = useState(false);
   const [showPass2, setShowPass2] = useState(false);
@@ -152,6 +152,7 @@ export const Register = () => {
       </div>
 
       {showModal && <Modal response={response} setShowModal={setShowModal} messagePassword={messagePassword} setMessagePassword={setMessagePassword}  />}
+      {children}
 
     </div>
   )

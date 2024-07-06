@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import {ModalForget} from './components';
 
-export const ForgotPassword = () => {
+export const ForgotPassword = ({children}) => {
     const [showButtonLoading, setShowButtonLoading] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [response,setResponse] = useState({});
@@ -63,6 +63,8 @@ export const ForgotPassword = () => {
         </div>
 
         {showModal && <ModalForget response={response} setShowModal={setShowModal}/>}
+
+        {children}
     </div>
   )
 }

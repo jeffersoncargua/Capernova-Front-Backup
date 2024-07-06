@@ -2,7 +2,7 @@ import {useState,useEffect, useRef} from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Modal } from './components';
 
-export const ChangePassword = () => {
+export const ChangePassword = ({children}) => {
 
   const [showPass1, setShowPass1] = useState(false);
   const [showPass2, setShowPass2] = useState(false);
@@ -141,6 +141,7 @@ export const ChangePassword = () => {
       </form>
 
       {showModal && <Modal response={response} setShowModal={setShowModal} messagePassword={messagePassword} setMessagePassword={setMessagePassword}  />}
+      {children}
 
     </div>
   )

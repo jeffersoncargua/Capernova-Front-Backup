@@ -11,7 +11,7 @@ import LogoImg from '../../assets/registro2.jpg'
 
 
 
-export const Login = () => {
+export const Login = ({children}) => {
 
   const [showPass, setShowPass] = useState(false);
   const [showButtonLoading, setShowButtonLoading] = useState(false);
@@ -112,6 +112,7 @@ export const Login = () => {
       
       {/*{showModal && <ModalLogin response={response} setShowModal={setShowModal} refEmail={refEmail.current.value}/>} */}
       {showModal && <ModalLogin response={response} setShowModal={setShowModal}/>}
+      {children}
 
     </div>
   )

@@ -1,23 +1,34 @@
-import {Link, useNavigate} from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import {Link} from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { logout,signIn } from '../redux/userSlice';
 import { JWTDecode } from '../hooks/JWTDecode';
+import { search } from '../redux/searchCourseSlice';
 
 import CaperNova2 from '../assets/Capernova2.png';
 
 export const Header = () => {
 
     const navigate = useNavigate();
+    const refSearch = useRef();
+    //const refSearch2 = useRef();
     const [hidden, setHidden] = useState(true);
-    const [showDrop, setShowDrop] = useState(true);
+    //const [showDrop, setShowDrop] = useState(true);
     const [darkMode, setDarkMode] = useState(JSON.parse(localStorage.getItem('darkMode')) || true);
     const dispatch = useDispatch();
 
+    //Esta seccion permite utilizar redux con el usuario para mantener el inicio de sesion
     const user = useSelector(state => state.userState.user);
     const isAuth = useSelector(state => state.userState.isAuth);
     console.log(user);
+
+    //Esta seccion permite verificar si las busquedas de los cursos se realizan mediante redux
+    //Aqui se verifica si se actualiza la variable para realizar la busqueda de cursos
+    const searchCourse = useSelector(state => state.searchState.searchCourse);
+    console.log(searchCourse);
+
 
     useEffect(()=>{
         localStorage.setItem("darkMode",JSON.stringify(darkMode));
@@ -44,6 +55,12 @@ export const Header = () => {
         dispatch(logout());
         console.log(user);
     }
+
+    const handleSubmitSearch = (event) => {
+        event.preventDefault();
+        dispatch(search(refSearch.current.value));
+        navigate('/products');
+    }    
 
 
   return (
@@ -79,23 +96,25 @@ export const Header = () => {
                             <span className=" absolute top-0 right-0 w-5 h-5 bg-gray-500 group-hover:bg-green-600 text-white rounded-full flex items-center justify-center text-xs">1</span>
                         </Link>           
                     </div>
-                    <button onClick={()=> setHidden(!hidden) }  type="button" data-collapse-toggle="navbar-search" aria-controls="navbar-search" aria-expanded="false" className="md:hidden text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 me-1">
+                    {/*<button onClick={()=> setHidden(!hidden) }  type="button" data-collapse-toggle="navbar-search" aria-controls="navbar-search" aria-expanded="false" className="md:hidden text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 me-1">
                         <svg className="w-5 h-5 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                         </svg>
                         <span className="sr-only">Search</span>
-                    </button>
+                    </button>*/}
                     
-                    <div className="relative hidden md:block w-full ">   
-                        <button onClick={()=> navigate('/')}>
-                            <div className="absolute inset-y-0 end-2 flex items-center ps-3 ">
-                                <svg className="w-4 h-4 text-gray-500 dark:text-white hover:text-blue-500 dark:hover:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                                </svg>
-                                <span className="sr-only">Search icon</span>   
-                            </div> 
-                        </button>                     
-                        <input type="text" id="search-navbar" className="w-full p-2 ps-2 text-sm text-gray-900 rounded-lg bg-gray-50 hover:border-blue-300 focus:outline-none focus:ring-inset focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-white dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Buscar Cursos..." />                        
+                    <div className="relative hidden md:block w-full "> 
+                        <form onSubmit={handleSubmitSearch}>
+                            <button type='submit'>
+                                <div className="absolute inset-y-0 end-2 flex items-center ps-3 ">
+                                    <svg className="w-4 h-4 text-gray-500 dark:text-white hover:text-blue-500 dark:hover:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                                    </svg>
+                                    <span className="sr-only">Search icon</span>   
+                                </div> 
+                            </button>                     
+                            <input type="text" id="search-navbar" className="w-full p-2 ps-2 text-sm text-gray-900 rounded-lg bg-gray-50 hover:border-blue-300 focus:outline-none focus:ring-inset focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-white dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Buscar Cursos..." ref={refSearch} />                        
+                        </form>  
                     </div>
                     <button onClick={()=> setHidden(!hidden) } data-collapse-toggle="navbar-search" type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-search" aria-expanded="false">
                         <span className="sr-only">Open main menu</span>
@@ -128,8 +147,8 @@ export const Header = () => {
                     </button>)
                     :
                     (<div className='flex items-center'>
-                        <Link to="register" onClick={() => showDrop(false)} className="block py-2 px-3 mx-2 text-gray-900 rounded hover:bg-gray-100 hover:underline md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Register</Link>
-                        <Link to="login" onClick={() => showDrop(false)} className="block py-[10px] flex items-center px-3 mx-2 rounded bg-blue-600 hover:bg-blue-700 md:hover:text-gray-50 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                        <Link to="register"  className="block py-2 px-3 mx-2 text-gray-900 rounded hover:bg-gray-100 hover:underline md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Register</Link>
+                        <Link to="login" className="block py-[10px] flex items-center px-3 mx-2 rounded bg-blue-600 hover:bg-blue-700 md:hover:text-gray-50 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-box-arrow-right inline-block mr-3" viewBox="0 0 16 16">
                                 <path fillRule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"/>
                                 <path fillRule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
@@ -150,7 +169,7 @@ export const Header = () => {
                 </div>
 
                 <div className={`${hidden ? 'hidden' :''} items-center justify-between w-full md:flex md:w-auto md:order-1 md:mr-4 flex-none`} id="navbar-search" >
-                    <div className="relative md:hidden">
+                    {/*<div className="relative md:hidden">
                         <button onClick={()=> navigate('student')} className=''>
                             <div className="absolute bottom-3 end-2 flex items-end ps-3 ">
                                 <svg className="w-4 h-4 text-gray-500 dark:text-gray-400 hover:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -159,24 +178,25 @@ export const Header = () => {
                                 <span className="sr-only">Search icon</span>   
                             </div> 
                         </button> 
-                        <input type="text" id="search-navbar-mobile" className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Buscar Cursos..." />
-                    </div>
+                        <input type="text" id="search-navbar-mobile" className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Buscar Cursos..." ref={refSearch2} />
+                    </div>*/}
                     <ul className="flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                         <li >
-                            <Link onClick={() => {setShowDrop(true);setHidden(!hidden)}} to="/" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700" aria-current="page">Home</Link>
+                            <Link onClick={() => {setHidden(!hidden)}} to="/" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700" aria-current="page">Home</Link>
                         </li>
                         <li>
-                            <Link onClick={() => {setShowDrop(true);setHidden(!hidden)}} to="/" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Nosotros</Link>
+                            <Link onClick={() => {setHidden(!hidden)}} to="/" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Nosotros</Link>
                         </li>
                         <li >
-                            <button onClick={() => setShowDrop(!showDrop)} id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" className="flex items-center justify-between w-full py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:hover:bg-gray-700 md:dark:hover:bg-transparent">
+                            <Link onClick={() => {setHidden(!hidden)}} to="products" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Cursos</Link>
+                            {/*<button onClick={() => setShowDrop(!showDrop)} id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" className="flex items-center justify-between w-full py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:hover:bg-gray-700 md:dark:hover:bg-transparent">
                              Cursos 
                                 <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4"/>
                             </svg>
-                            </button>
+                            </button>*/}
                             {/*<!-- Dropdown menu -->*/}
-                            <div id="dropdownNavbar" className={`${showDrop ? 'hidden':''} md:absolute z-50 font-normal bg-white divide-y divide-gray-100 rounded-lg shadow md:w-44 dark:bg-gray-700 dark:divide-gray-600`} >
+                            {/*<div id="dropdownNavbar" className={`${showDrop ? 'hidden':''} md:absolute z-50 font-normal bg-white divide-y divide-gray-100 rounded-lg shadow md:w-44 dark:bg-gray-700 dark:divide-gray-600`} >
                                 <ul className="rounded-lg py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownLargeButton">
                                     <li >
                                         <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden)}} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Cocina</Link>
@@ -200,11 +220,11 @@ export const Header = () => {
                                         <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden)}} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Make Up</Link>
                                     </li>
                                 </ul>
-                            </div>
+                            </div>*/}
                             
                         </li>
                         <li>
-                            <Link onClick={() => {setShowDrop(true);setHidden(!hidden)}} to="admin" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Administración</Link>
+                            <Link onClick={() => {setHidden(!hidden)}} to="admin" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Administración</Link>
                         </li>
                         {isAuth? 
                         (<li className='md:hidden'>

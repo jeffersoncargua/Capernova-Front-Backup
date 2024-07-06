@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ProductCard } from "../../../components/ProductCard";
 
 export const SliderProduct = () => {
 
   const [current, setCurrent] = useState(0);
+  const [slices, setSlices] = useState([]);
+  
 
-  const slices = [
+  /*const slices = [
     {imagen : 'https://i.postimg.cc/wjFMLyF7/fondo5.png' , title: 'Titulo 5' , description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur, dolor sequi officiis illum distinctio in eos voluptatum omnis qui cumque molestiae tempore ex eligendi ipsam ad aut minus! Sequi, molestiae!'},
     {imagen : 'https://i.postimg.cc/bNcZhjsN/fondo2.jpg' , title: 'Titulo 1' , description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus, sint!'},
     {imagen : 'https://i.postimg.cc/BnJtjcTr/fondo3.jpg' , title: 'Titulo 2' , description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quae eum perferendis quasi maiores tenetur totam!'},
@@ -21,7 +23,28 @@ export const SliderProduct = () => {
     {imagen : 'https://i.postimg.cc/BnJtjcTr/fondo3.jpg' , title: 'Titulo 2' , description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quae eum perferendis quasi maiores tenetur totam!'},
     {imagen : 'https://i.postimg.cc/hPLf43d8/fondo4.jpg' , title: 'Titulo 3' , description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum sunt quis iure blanditiis autem consequatur illo dicta perspiciatis doloribus officia.'},
     {imagen : 'https://i.postimg.cc/wjFMLyF7/fondo5.png' , title: 'Titulo 4' , description: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nesciunt animi velit incidunt, vel facere placeat repudiandae. Recusandae omnis sint officia autem numquam assumenda sit odio?'},
-]
+]*/
+
+  useEffect(() => {
+    try {
+      const fetchCourses = async() => {
+        const result = await fetch(`https://localhost:7164/api/Course/getAllCourse`,{
+          method: 'GET',
+          headers:{
+            'Content-Type' : 'application/json',
+            'Accept' : 'application/json'
+          }
+        });
+        const resultFetch = await result.json();
+        console.log(resultFetch);
+        setSlices(resultFetch.result);
+      }
+      fetchCourses();
+      
+    } catch (error) {
+      console.error(error);
+    }
+  },[])
 
 
   let previousSlice = () => {

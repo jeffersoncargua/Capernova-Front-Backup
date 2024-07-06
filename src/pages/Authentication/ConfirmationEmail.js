@@ -4,7 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 //import { baseURL } from "../endpoints";
 
-export const ConfirmationEmail = () => {
+export const ConfirmationEmail = ({children}) => {
 
 
     const [response,setResponse] = useState({});
@@ -41,7 +41,7 @@ export const ConfirmationEmail = () => {
     <div className="w-[95%] mx-auto">
         <h1 className="text-xl">{response.message}</h1>
         {response.isSuccess && <p className="text-sm">navega por nuestro sitio web y conoce acerca de nosotros asi como de nuestros productos</p>}
-        
+        {children}
     </div>
   )
 }

@@ -7,5 +7,7 @@ export {ProductCard} from './ProductCard';
 
 export {ScrollToTop} from './ScrollToTop';
 
+export {WhatsappComponent} from './WhatsappComponent';
+
 
 
