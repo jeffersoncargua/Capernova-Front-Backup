@@ -10,9 +10,9 @@ export const JWTDecode = (token) => {
 
     const result = JSON.parse(jsonPayload);
     const unique_name=result.unique_name;
-    console.log(unique_name);
+    //console.log(unique_name);
     const role = result.role;
-    console.log(role);
+    //console.log(role);
     const object = {unique_name,role}
     return object
 

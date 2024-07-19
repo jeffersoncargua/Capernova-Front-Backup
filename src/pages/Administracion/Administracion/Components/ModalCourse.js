@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 
 
-export const ModalCourse = ({showModalCourse,setShowModalCourse}) => {
+export const ModalCourse = ({showModalCourse,setShowModalCourse,setResponse}) => {
 
     const [showButtonLoading, setShowButtonLoading] = useState(false);
     const refImageUrl = useRef();
@@ -25,17 +25,24 @@ export const ModalCourse = ({showModalCourse,setShowModalCourse}) => {
                     imageUrl: refImageUrl.current.value,
                     titulo: refTitulo.current.value,
                     descripcion: refDescripcion.current.value,
+                    state: 'Por Aprobar',
+                    deberes: [],
+                    pruebas: [],
+                    notaFinal : 0,
                     price: parseFloat(refPrice.current.value),
                     isActive: false,
                     capituloList: []
                 }))
             });
             const resultFetch = await result.json();
-            console.log(resultFetch.result);
+            console.log(resultFetch);
             setShowModalCourse(false);
             setShowButtonLoading(false);
+            setResponse(resultFetch);
         } catch (error) {
             setShowButtonLoading(false);
+            setShowModalCourse(false);
+            console.error(error);
         }
     }
 
@@ -52,7 +59,7 @@ export const ModalCourse = ({showModalCourse,setShowModalCourse}) => {
                         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                             Crear Curso
                         </h3>
-                        <button onClick={()=>{setShowModalCourse(!showModalCourse)}} type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="crud-modal">
+                        <button onClick={()=>{setShowModalCourse(!showModalCourse);setResponse({})}} type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="crud-modal">
                             <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
                             </svg>

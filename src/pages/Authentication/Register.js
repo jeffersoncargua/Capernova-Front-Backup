@@ -27,7 +27,8 @@ export const Register = ({children}) => {
     setShowButtonLoading(true);
     try {
       const resultFetch = await fetch(`https://localhost:7164/api/Authentication/register`, {
-        method:'POST',  
+        method:'POST',
+        credentials:'include',
         headers:{
           "Content-Type" : "application/json",
           "Accept" : "application/json",

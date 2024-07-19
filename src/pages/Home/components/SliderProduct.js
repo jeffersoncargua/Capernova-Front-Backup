@@ -67,8 +67,8 @@ let nextSlice = () => {
 
   return (
     <div className="w-[95%] mx-auto flex flex-col dark:bg-gray-900">
-      <h1 className="self-center text-5xl font-extrabold before:block before:absolute before:-inset-1 before:-skew-y-[1.7deg] before:bg-cyan-400 relative my-1" ><span className="before:block before:absolute before:-inset-1 before:skew-y-[1.8deg] before:bg-pink-400 "><span className=" text-white relative ">Nuestros </span></span></h1>  {/* <span className=" text-white relative ">Te Ofrecemos ...</span>*/}
-      <h1 className="self-center text-5xl font-extrabold before:block before:absolute before:-inset-1 before:-skew-y-[1.7deg] before:bg-cyan-400 relative my-1" ><span className="before:block before:absolute before:-inset-1 before:skew-y-[1.8deg] before:bg-pink-400 "><span className=" text-white relative ">Cursos </span></span></h1>
+      <h1 className="self-center text-5xl font-extrabold before:block before:absolute before:-inset-1 before:-skew-y-[1.7deg] before:bg-blue-400 relative my-1" ><span className="before:block before:absolute before:-inset-1 before:skew-y-[1.8deg] before:bg-pink-400 "><span className=" text-white relative ">Nuestros </span></span></h1>  {/* <span className=" text-white relative ">Te Ofrecemos ...</span>*/}
+      <h1 className="self-center text-5xl font-extrabold before:block before:absolute before:-inset-1 before:-skew-y-[1.7deg] before:bg-blue-400 relative my-1" ><span className="before:block before:absolute before:-inset-1 before:skew-y-[1.8deg] before:bg-pink-400 "><span className=" text-white relative ">Cursos </span></span></h1>
       
       <h1 className="self-end text-4xl font-bold before:block before:absolute before:-inset-1 before:-skew-y-[1.7deg] before:bg-cyan-400 relative my-8 " ><span className="before:block before:absolute before:-inset-1 before:skew-y-[1.7deg] before:bg-pink-400 "><span className=" text-white relative ">Te Ofrecemos ...</span></span></h1> 
       {/*<h1 className="self-end text-4xl font-bold before:block before:absolute before:-inset-1 before:-skew-y-[1.7deg] before:bg-cyan-400 relative my-8 " ><span className=" text-white relative ">Te Ofrecemos ...</span></h1>*/}

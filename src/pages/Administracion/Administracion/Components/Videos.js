@@ -18,6 +18,7 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso}) => {
   const refTitulo = useRef();
   const refDescripcion = useRef();
   const refPrice = useRef();
+  const refImageUrl = useRef();
 
   console.log(curso);
   console.log(capitulos);
@@ -66,6 +67,11 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso}) => {
           imageUrl: curso.imageUrl,
           titulo: refTitulo.current.value,
           descripcion: refDescripcion.current.value,
+          state: curso.state,
+          deberes: JSON.parse(curso.deberes),
+          pruebas: JSON.parse(curso.pruebas),
+          notaFinal : curso.notaFinal,
+          teacherId: curso.teacherId,
           price: refPrice.current.value,
           isActive: curso.isActive,
           capituloList: capitulos
@@ -93,10 +99,10 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso}) => {
       {showModalDeleteVideo && <ModalDeleteVideo showModalDeleteVideo={showModalDeleteVideo} setShowModalDeleteVideo={setShowModalDeleteVideo} video={video} setVideo={setVideo} capitulos={capitulos} setCapitulos={setCapitulos} />}
       {showModalSuccess && <ModalSuccess showModalSuccess={showModalSuccess} setShowModalSuccess={setShowModalSuccess} response={response} setResponse={setResponse} setShowCursos={setShowCursos} setShowVideos={setShowVideos} />}
 
-      <div className="flex justify-around">
+      <div className="w-[95%] mx-auto mt-5 flex justify-between">
         <div>
           <label className="mr-2 font-medium" htmlFor="titulo">Curso: </label>
-          <input type="text" className="rounded-lg" name="titulo" id="titulo" defaultValue={curso.titulo} ref={refTitulo} />
+          <input type="text" className="rounded-lg bg-gray-50" name="titulo" id="titulo" defaultValue={curso.titulo} ref={refTitulo} />
         </div>
         <div>
           <button onClick={()=>setShowModalCapitulo(true)} className="bg-green-500 hover:bg-green-700 hover:text-white hover:cursor-pointer flex items-center px-4 py-2 rounded-lg">
@@ -109,7 +115,11 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso}) => {
         </div>
       </div>
       <div className="w-[95%] mx-auto mt-5">
-        <label htmlFor="descripcion" className="block mb-2 font-medium text-gray-900 dark:text-white">Descripción</label>
+        <label className="block mb-2 font-medium" htmlFor="imageUrl">Imagen: </label>
+        <input type="text" className="rounded-lg w-full bg-gray-50" name="imageUrl" id="imageUrl" defaultValue={curso.imageUrl} ref={refImageUrl} />
+      </div>
+      <div className="w-[95%] mx-auto mt-5">
+        <label htmlFor="descripcion" className="block mb-2 font-medium text-gray-900 dark:text-white">Descripción:</label>
         <textarea id="descripcion" name='descripcion' rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Escribe la descripción del curso aquí" defaultValue={curso.descripcion} ref={refDescripcion}></textarea>                    
       </div>
       <div className="w-[95%] mx-auto my-5">

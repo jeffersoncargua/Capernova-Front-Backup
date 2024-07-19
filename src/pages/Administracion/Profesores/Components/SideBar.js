@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const SideBar = ({setShowPublicidad,setShowCursos,setShowVentas,setShowVideos}) => {
+export const SideBar = ({setShowInformacion,setShowCursos,setShowVideos,setShowEstudiantes}) => {
 
     const [showBar, setShowBar] = useState(false);
 
@@ -25,25 +25,20 @@ export const SideBar = ({setShowPublicidad,setShowCursos,setShowVentas,setShowVi
                 <ul className="space-y-2 font-medium">
                     <li>
                         <span className="ms-3 whitespace-nowrap w-full text-xl dark:text-white flex items-center p-2 text-gray-900">Administración</span>
-                    </li>   
+                    </li>     
                     <li>
-                        <button onClick={()=> {setShowPublicidad(true);setShowCursos(false);setShowVentas(false);setShowVideos(false)}} className="w-full flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                            <span className=" ms-3 whitespace-nowrap">Publicidad</span>
+                        <button onClick={()=> {setShowInformacion(false);setShowCursos(true);setShowVideos(false);setShowEstudiantes(false)}} className="w-full flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <span className="ms-3 whitespace-nowrap">Tu Información</span>
                         </button>
-                    </li>              
+                    </li>           
                     <li>
-                        <button onClick={()=> {setShowPublicidad(false);setShowCursos(true);setShowVentas(false);setShowVideos(false)}} className="w-full flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <button onClick={()=> {setShowInformacion(false);setShowCursos(true);setShowVideos(false);setShowEstudiantes(false)}} className="w-full flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                             <span className="ms-3 whitespace-nowrap">Cursos</span>
                         </button>
                     </li>
                     <li>
-                        <button onClick={()=> {setShowPublicidad(false);setShowCursos(false);setShowVentas(true);setShowVideos(false)}} className="w-full flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                            <span className="ms-3 whitespace-nowrap">Ventas</span>
-                        </button>
-                    </li>
-                    <li>
-                        <button onClick={()=> {setShowPublicidad(true);setShowCursos(false);setShowVentas(false);setShowVideos(false)}} className="w-full flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                            <span className=" ms-3 whitespace-nowrap">Usuarios</span>
+                        <button onClick={()=> {setShowInformacion(false);setShowCursos(true);setShowVideos(false);setShowEstudiantes(false)}} className="w-full flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <span className=" ms-3 whitespace-nowrap">Estudiantes</span>
                         </button>
                     </li>                
                     {/*<li>

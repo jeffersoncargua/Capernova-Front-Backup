@@ -1,9 +1,10 @@
 import { useState,useEffect, useRef } from "react";
 import { ModalPublicidad, ModalDelete } from "../Components";
+import { toast } from "react-toastify";
 
 
 
-export const Publicidad = () => {
+export const Publicidad = ({response,setResponse}) => {
     const pageSize = 5;
     const [publicidadList, setPublicidadList] = useState([]);
     const [publicidad, setPublicidad] = useState({});
@@ -32,20 +33,21 @@ export const Publicidad = () => {
   
         const resultFetch = await resultFromApi.json();
         
-          setPublicidadList(resultFetch.result);
-          setNumberOfPages(Math.ceil(resultFetch.result.length / pageSize));
+        setPublicidadList(resultFetch.result);
+        setNumberOfPages(Math.ceil(resultFetch.result.length / pageSize));
 
-          //publicidadList &&
-          setCurrentDataDisplayed(() => {
-          const page = resultFetch?.result?.slice((currentPage - 1) * pageSize, currentPage * pageSize);
-          return { list: page }; //List es una lista con la cantidad de items de publicidad que se va a mostrar en la tabla
-          });
-          setPreviousAllowed(() => currentPage > 1);
-          setNextAllowed(() => currentPage < numberOfPages);
+        //publicidadList &&
+        setCurrentDataDisplayed(() => {
+        const page = resultFetch?.result?.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+        return { list: page }; //List es una lista con la cantidad de items de publicidad que se va a mostrar en la tabla
+        });
+        setPreviousAllowed(() => currentPage > 1);
+        setNextAllowed(() => currentPage < numberOfPages);
         
       }
       fetchPublicidad();
-    }, [currentPage,numberOfPages,showModal,showModalDelete,search]);
+      response.isSuccess ? toast.success(response.message): toast.error(response.message) ;
+    }, [currentPage,numberOfPages,showModal,showModalDelete,search,response]);
     
   
     /*useEffect(() => {
@@ -59,16 +61,19 @@ export const Publicidad = () => {
       }else{
         setSearch('');
       }
+      setResponse({});
     }
 
     const handleEdit = (publicidad) => {
       setPublicidad(publicidad);
       setShowModal(!showModal);
+      setResponse({});
     }    
 
     const handleDelete = (publicidad) => {
       setPublicidad(publicidad);
       setShowModalDelete(!showModalDelete);
+      setResponse({});
     }
 
     const handlePagination = (action) => {
@@ -80,6 +85,7 @@ export const Publicidad = () => {
         if (!nextAllowed) return;
         setCurrentPage((prevState) => (prevState += 1));
       }
+      setResponse({});
     }
   
   
@@ -87,8 +93,8 @@ export const Publicidad = () => {
       <div>
         {/*Modal para ingresar los valores de la publicidad */}
         
-        {showModal && <ModalPublicidad showModal={showModal} setShowModal={setShowModal} publicidad={publicidad}  />}
-        {showModalDelete && <ModalDelete showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete} publicidad={publicidad}  />}
+        {showModal && <ModalPublicidad showModal={showModal} setShowModal={setShowModal} publicidad={publicidad} setResponse={setResponse} />}
+        {showModalDelete && <ModalDelete showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete} publicidad={publicidad} setResponse={setResponse}  />}
 
         {/* Tabla para la informacion */}
         <section className="">
@@ -110,7 +116,7 @@ export const Publicidad = () => {
                   </form>
                 </div>
                 <div className="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
-                    <button onClick={() => {setShowModal(!showModal);setPublicidad({})}} type="button" className="flex items-center justify-center text-gray-900 hover:text-white bg-green-500 hover:bg-green-700 focus:ring-4 focus:ring-primary-300 rounded-lg text-sm px-4 py-2 focus:outline-none dark:focus:ring-primary-800">
+                    <button onClick={() => {setShowModal(!showModal);setPublicidad({});setResponse({})}} type="button" className="flex items-center justify-center text-gray-900 hover:text-white bg-green-500 hover:bg-green-700 focus:ring-4 focus:ring-primary-300 rounded-lg text-sm px-4 py-2 focus:outline-none dark:focus:ring-primary-800">
                       <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-plus-circle h-4 w-4 mr-2" viewBox="0 0 16 16">
                           <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
                           <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
