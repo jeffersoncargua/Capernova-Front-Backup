@@ -1,6 +1,9 @@
-import { useState, useRef ,useEffect} from "react";
+import { useState,useRef, useEffect} from "react";
+//import { ModalCourse, ModalDeleteCurso } from "../Components";
+import { toast } from "react-toastify";
 
-export const Cursos = ({setShowCursos,cursoList,setCursoList}) => {
+
+export const Cursos = ({setShowCursos, setShowVideos,cursoList ,curso, setCurso, setSearch, response ,setResponse, setShowDeberes,setShowPruebas}) => {
 
   const pageSize = 5;
   
@@ -9,13 +12,15 @@ export const Cursos = ({setShowCursos,cursoList,setCursoList}) => {
   const [currentDataDisplayed, setCurrentDataDisplayed] = useState([]);
   const [previousAllowed, setPreviousAllowed] = useState(false);
   const [nextAllowed, setNextAllowed] = useState(true);
-  const [search , setSearch] = useState('');
-  const columns = ["Imagen", "Titulo", "Profesor", "Precio","Ver Detalles"];
+  //const [search , setSearch] = useState('');
+  // const [showModalCourse,setShowModalCourse] = useState(false);
+  // const [showModalDeleteCurso,setShowModalDeleteCurso] = useState(false);
+  const columns = ["Imagen", "Titulo", "Descripción" ,"Acciones"];
   const refSearch = useRef();
 
   useEffect(() => {
-    const fetchCurso = async() => {
-      const resultFromApi = await fetch(`https://localhost:7164/api/Managment/getAllCourse?search=${search}`,{
+    /*const fetchCurso = async() => {
+      const resultFromApi = await fetch(`https://localhost:7164/api/Course/getAllCourse?search=${search}`,{
         method:'GET',
         credentials : 'include',
         headers:{
@@ -39,9 +44,22 @@ export const Cursos = ({setShowCursos,cursoList,setCursoList}) => {
       setPreviousAllowed(() => currentPage > 1);
       setNextAllowed(() => currentPage < numberOfPages);
       
-    }
-    fetchCurso();
-  }, [currentPage,numberOfPages,search,setCursoList]);
+    }*/
+
+    setNumberOfPages(Math.ceil(cursoList.length / pageSize));
+
+    //publicidadList &&
+    setCurrentDataDisplayed(() => {
+    const page = cursoList?.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+    return { list: page }; //List es una lista con la cantidad de items de publicidad que se va a mostrar en la tabla
+    });
+    setPreviousAllowed(() => currentPage > 1);
+    setNextAllowed(() => currentPage < numberOfPages);
+    //fetchCurso();
+
+    response.isSuccess? toast.success(response.message): toast.error(response.message);
+    
+  }, [currentPage,numberOfPages,cursoList,response]);
 
   const handlePagination = (action) => {
     if (action === "prev") {
@@ -52,22 +70,32 @@ export const Cursos = ({setShowCursos,cursoList,setCursoList}) => {
       if (!nextAllowed) return;
       setCurrentPage((prevState) => (prevState += 1));
     }
+    setResponse({});
   }
 
 
   const handleSearch = () => {
+    console.log(refSearch.current.value);
     if (refSearch.current.value.length > 0) {
       setCurrentPage(1);
-      setSearch(refSearch.current.value)
+      setSearch(refSearch.current.value);
     }else{
       setSearch('');
     }
+    setResponse({});
   }
+
+  /*const handleEdit = (curso) => {
+    setCurso(curso);
+    setShowModalCourse(!showModalCourse);
+  }*/
+
 
   console.log(cursoList);
 
   return (
-    <div>
+    <div>       
+        
         {/* Tabla para la informacion */}
         <section className="">
           <div className="mx-auto max-w-screen-xl px-4 lg:px-12">
@@ -83,9 +111,18 @@ export const Cursos = ({setShowCursos,cursoList,setCursoList}) => {
                             <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
                         </svg>
                       </div>
-                      <input onChange={handleSearch} type="text" id="simple-search" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Buscar por el titulo del curso" required="" ref={refSearch} />
+                      <input onChange={handleSearch} type="text" id="simple-search" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Busca el curso por el titulo" required="" ref={refSearch} />
                     </div>
                   </form>
+                </div>
+                <div className="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
+                    {/*<button onClick={() => {setShowModalCourse(!showModalCourse);setCurso({});setResponse({})}} type="button" className="flex items-center justify-center text-gray-900 hover:text-white bg-green-500 hover:bg-green-700 focus:ring-4 focus:ring-primary-300 rounded-lg text-sm px-4 py-2 focus:outline-none dark:focus:ring-primary-800">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-plus-circle h-4 w-4 mr-2" viewBox="0 0 16 16">
+                          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                          <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                      </svg>
+                        Añadir
+                    </button>*/}
                 </div>
               </div>
               <div className="overflow-x-auto">
@@ -104,17 +141,27 @@ export const Cursos = ({setShowCursos,cursoList,setCursoList}) => {
                         <img src={item.imageUrl} className="w-16 md:w-44 max-w-full max-h-full" alt={item.titulo} />
                       </td>
                       <td className="px-4 py-3">{item.titulo}</td>
-                      <td className="px-4 py-3">{item.teacher !== null ? (item.teacher.name +' '+item.teacher.lastName):'Sin asignar'}</td>
-                      <td className="px-4 py-3 text-blue-500 text-lg">${item.price}</td>
+                      <td className="px-4 py-3">{item.descripcion}</td>
                       <td className="px-4 py-3">
                         <div className="py-1 flex justify-start">                          
-                            <button onClick={() => {}} className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-yellow-300 hover:bg-yellow-400 rounded-lg mr-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-pencil-square h-4 w-4 mr-2" viewBox="0 0 16 16">
-                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                    <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-                                </svg>
-                                Ver Detalle
-                            </button>                          
+                          <button onClick={() => {setShowVideos(true); setShowCursos(false); setCurso(item);setResponse({});setShowDeberes(false);setShowPruebas(false)}} className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-yellow-300 hover:bg-yellow-400 rounded-lg mr-2">
+                            <svg className="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd"></path></svg>
+                              Agregar Videos
+                          </button> 
+                          <button onClick={() => {setShowVideos(false); setShowCursos(false); setCurso(item);setResponse({});setShowDeberes(true);setShowPruebas(false)}} className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-green-300 hover:bg-green-400 rounded-lg mr-2">
+                            <svg className="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd"></path></svg>
+                              Agregar Deberes
+                          </button>
+                          <button onClick={() => {setShowVideos(false); setShowCursos(false); setCurso(item);setResponse({});setShowDeberes(false);setShowPruebas(true)}} className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-violet-300 hover:bg-violet-400 rounded-lg mr-2">
+                            <svg className="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd"></path></svg>
+                              Agregar Pruebas
+                          </button>                             
+                          {/*<button onClick={() => handleDelete(item)} className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-red-500 hover:bg-red-600 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-trash3 w-4 h-4 mr-2" viewBox="0 0 16 16">
+                              <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+                            </svg>
+                            Eliminar
+                          </button>*/}
                         </div>
                       </td>
                     </tr>

@@ -9,11 +9,26 @@ export const JWTDecode = (token) => {
     }).join(''));
 
     const result = JSON.parse(jsonPayload);
-    const unique_name=result.unique_name;
+    const unique_name = result.unique_name;
     //console.log(unique_name);
     const role = result.role;
     //console.log(role);
-    const object = {unique_name,role}
+    const id = result.nameid; // contiene el id del usuario
+
+    const name = result.actort;
+
+    const lastName = result.given_name; // contiene el apellido del usuario
+
+    const object = {id,unique_name, role, name, lastName}
+    //console.log(object);
     return object
 
 }
+
+
+/*
+"unique_name": "cmyd_nleww12@juaxe.com",
+  "role": "Teacher",
+  "nameid": "a4836aad-d5bd-4935-9ac7-ee61fc521dc4",
+  "actort": "Guillermo",
+  "given_name": "Cargua", */

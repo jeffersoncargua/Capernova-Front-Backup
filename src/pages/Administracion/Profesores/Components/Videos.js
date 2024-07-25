@@ -17,7 +17,7 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso}) => {
 
   const refTitulo = useRef();
   const refDescripcion = useRef();
-  const refPrice = useRef();
+  //const refPrice = useRef();
   const refImageUrl = useRef();
 
   console.log(curso);
@@ -64,7 +64,7 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso}) => {
         },
         body:(JSON.stringify({
           id: curso.id,
-          imageUrl: curso.imageUrl,
+          imageUrl: refImageUrl.current.value,
           titulo: refTitulo.current.value,
           descripcion: refDescripcion.current.value,
           state: curso.state,
@@ -72,7 +72,7 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso}) => {
           pruebas: JSON.parse(curso.pruebas),
           notaFinal : curso.notaFinal,
           teacherId: curso.teacherId,
-          price: refPrice.current.value,
+          price: curso.price,
           isActive: curso.isActive,
           capituloList: capitulos
         }))
@@ -82,7 +82,6 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso}) => {
       console.log(resultFetch);
       setShowButtonLoading(false);
       setShowModalSuccess(true);
-
     } catch (error) {
       setShowButtonLoading(false);
       console.error(error);
@@ -122,10 +121,10 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso}) => {
         <label htmlFor="descripcion" className="block mb-2 font-medium text-gray-900 dark:text-white">Descripción:</label>
         <textarea id="descripcion" name='descripcion' rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Escribe la descripción del curso aquí" defaultValue={curso.descripcion} ref={refDescripcion}></textarea>                    
       </div>
-      <div className="w-[95%] mx-auto my-5">
+      {/*<div className="w-[95%] mx-auto my-5">
         <label htmlFor="price" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
         <input type="text" pattern="[0-9]{1,}\.[0-9]{1,}" name="price" id="price" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="$100,50" required="" defaultValue={curso.price} ref={refPrice} />
-      </div>
+      </div>*/}
 
       {/*Aqui va la tabla con el contenido del capitulo */}
       <div className="w-[95%] mx-auto border-2 border-gray-400 my-10 rounded-lg">
@@ -219,7 +218,7 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso}) => {
         </button>)
         :
         (<button onClick={()=> handleCursoEdit()} className="flex items-center px-4 py-2 bg-gray-400 hover:bg-gray-600 text-gray 900 hover:text-white text-sm rounded-lg hover:scale-125">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-floppy w-5 h-5 mr-2" viewBox="0 0 16 16">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-floppy w-5 h-5 mr-2" viewBox="0 0 16 16">
             <path d="M11 2H9v3h2z"/>
             <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z"/>
           </svg>

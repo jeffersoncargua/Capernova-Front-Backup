@@ -102,6 +102,7 @@ export const Profesor = ({profesor, setProfesor,cursoList,response,setResponse})
                 <select onChange={() => handleSelectCourse()} id="curso" className="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" defaultValue={''} ref={refCurso}>
                     <option selected value=''>---- Selecciona el curso a asignar ----</option>
                     {cursoList.map((curso) => (
+                        curso.teacherId === null &&
                        <option key={curso.id} value={curso.id}>{curso.titulo}</option> 
                     ))}
                 </select>
@@ -157,7 +158,7 @@ export const Profesor = ({profesor, setProfesor,cursoList,response,setResponse})
                 <tbody>
                     {cursoList.map((curso) => (
                         (profesor.id === curso.teacherId) && (
-                        <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                        <tr key={curso.id} className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
                             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {curso.id}
                             </td>

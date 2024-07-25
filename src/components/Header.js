@@ -54,6 +54,7 @@ export const Header = () => {
         sessionStorage.setItem('auth','');
         dispatch(logout());
         console.log(user);
+        navigate('/');
     }
 
     const handleSubmitSearch = (event) => {
