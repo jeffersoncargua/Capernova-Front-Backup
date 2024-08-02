@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { ModalCapitulo,ModalVideo,ModalDeleteCapitulo,ModalDeleteVideo,ModalSuccess } from "../Components";
 
-export const Videos = ({setShowCursos,setShowVideos,curso, setCurso}) => {
+export const Videos = ({setShowCursos,setShowVideos,curso, setCurso,setShowDeberes,setShowPruebas}) => {
 
   let [capitulos, setCapitulos] = useState(JSON.parse(curso.capitulos));
   const [capitulo, setCapitulo] = useState({});
@@ -96,7 +96,7 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso}) => {
       {showModalDeleteCapitulo && <ModalDeleteCapitulo showModalDeleteCapitulo={showModalDeleteCapitulo} setShowModalDeleteCapitulo={setShowModalDeleteCapitulo} capitulo={capitulo} setCapitulo={setCapitulo} capitulos={capitulos} setCapitulos={setCapitulos} />}
       {showModalVideo && <ModalVideo showModalVideo={showModalVideo} setShowModalVideo={setShowModalVideo} video={video} setVideo={setVideo} videos={videos} setVideos={setVideos} capitulo={capitulo} setCapitulo={setCapitulo} capitulos={capitulos} setCapitulos={setCapitulos} />}
       {showModalDeleteVideo && <ModalDeleteVideo showModalDeleteVideo={showModalDeleteVideo} setShowModalDeleteVideo={setShowModalDeleteVideo} video={video} setVideo={setVideo} capitulos={capitulos} setCapitulos={setCapitulos} />}
-      {showModalSuccess && <ModalSuccess showModalSuccess={showModalSuccess} setShowModalSuccess={setShowModalSuccess} response={response} setResponse={setResponse} setShowCursos={setShowCursos} setShowVideos={setShowVideos} />}
+      {showModalSuccess && <ModalSuccess showModalSuccess={showModalSuccess} setShowModalSuccess={setShowModalSuccess} response={response} setResponse={setResponse} setShowCursos={setShowCursos} setShowVideos={setShowVideos} setShowDeberes={setShowDeberes} setShowPruebas={setShowPruebas} />}
 
       <div className="w-[95%] mx-auto mt-5 flex justify-between">
         <div>

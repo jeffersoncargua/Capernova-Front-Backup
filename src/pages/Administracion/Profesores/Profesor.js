@@ -5,12 +5,13 @@ import { SideBar,Cursos,Videos,Estudiantes,Informacion,Deberes,Pruebas } from ".
 
 export const Profesor = () => {
 
-  const userTeacher = useSelector(state=>state.userState.user); //permite obtener el id del profesor cuando se loguea
+  const userTeacher = useSelector(state => state.userState.user); //permite obtener el id del profesor cuando se loguea
 
   let [cursoList, setCursoList] = useState([]);
   let [curso, setCurso] = useState({});
+  const [profersor, setProfesor] = useState({});
   //const [search, setSearch] = useState('');
-  const [showInformacion,setShowInformacion] = useState(false);
+  const [showInformacion,setShowInformacion] = useState(true);
   const [showEstudiante,setShowEstudiantes] = useState(false);
   const [showCursos,setShowCursos] = useState(false);
   const [showDeberes,setShowDeberes] = useState(false);
@@ -19,21 +20,33 @@ export const Profesor = () => {
   const [response, setResponse] = useState({});
 
   const GetCurso = useCallback(async()=>{
-    const resultFromApi = await fetch(`https://localhost:7164/api/Teacher?id=${userTeacher.nameIdentifier}`,{
+    try {
+      const resultFromApi = await fetch(`https://localhost:7164/api/Teacher/getAllCourse?id=${userTeacher.nameIdentifier}`,{
         method:'GET',
         credentials : 'include',
-         headers:{
+        //mode: 'no-cors',
+        headers:{
           'Content-Type' : 'application/json',
-          'Accept' : 'application/json'
+          'Accept' : 'application/json',
+          
         }
       });
+
      let resultFetch = await resultFromApi.json();
+
+     if (resultFetch.isSuccess) {
+      console.log(resultFetch);
+      setCursoList(resultFetch.result);
+      setProfesor(resultFetch.result[0].teacher);
+     }
     //const capitulos = JSON.parse(resultFetch.result[0].capitulos);
-   setCursoList(resultFetch.result);
-   
+    } catch (error) {
+      console.error(error)
+    }
+    
    //setCursoList(list);
  },[userTeacher])
- 
+
  
    useEffect(()=>{
    
@@ -41,7 +54,8 @@ export const Profesor = () => {
 
    },[GetCurso,showCursos,showVideos,response])
 
-   console.log(cursoList);
+   //console.log(cursoList);
+   //console.log(profersor);
 
   return (
     <div className="w-[95%] mx-auto">
@@ -49,7 +63,7 @@ export const Profesor = () => {
       
       <div className="md:ml-64">
         
-        {showInformacion && <Informacion />}
+        {showInformacion && <Informacion profesor={profersor} response={response} setResponse={setResponse}/>}
         {showCursos && <Cursos setShowCursos={setShowCursos} setShowVideos={setShowVideos} cursoList={cursoList} curso={curso} setCurso={setCurso} response={response} setResponse={setResponse} setShowDeberes={setShowDeberes} setShowPruebas={setShowPruebas} />}
         {showVideos && <Videos setShowCursos={setShowCursos} setShowVideos={setShowVideos} curso={curso} setCurso={setCurso} setShowDeberes={setShowDeberes} setShowPruebas={setShowPruebas} />}
         {showDeberes && <Deberes setShowCursos={setShowCursos} setShowVideos={setShowVideos} curso={curso} setCurso={setCurso} setShowDeberes={setShowDeberes} setShowPruebas={setShowPruebas} />}

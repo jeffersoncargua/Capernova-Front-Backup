@@ -19,3 +19,5 @@ export {ModalDeleteDeber} from './ModalDeleteDeber';
 export {ModalPrueba} from './ModalPrueba';
 export {ModalDeletePrueba} from './ModalDeletePrueba';
 
+export {Loading} from './Loading';
+
