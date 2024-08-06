@@ -1,15 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import { ModalDeber, ModalDeleteDeber , ModalSuccess} from "../Components";
 
 
 export const Deberes = ({setShowCursos,setShowVideos,curso, setCurso,setShowDeberes,setShowPruebas}) => {
 
-  let [deberes, setDeberes] = useState(JSON.parse(curso.deberes));
+  let [deberes, setDeberes] = useState([]);
   const [deber, setDeber] = useState({});
   const [showModalDeber, setShowModalDeber] = useState(false);
   const [showModalDeleteDeber, setShowModalDeleteDeber] = useState(false);
   const [showModalSuccess, setShowModalSuccess] = useState(false);
-  const [showButtonLoading, setShowButtonLoading] = useState(false);
+  //const [showButtonLoading, setShowButtonLoading] = useState(false);
   const [response, setResponse] = useState({});
 
   //const refTitulo = useRef();
@@ -19,6 +20,24 @@ export const Deberes = ({setShowCursos,setShowVideos,curso, setCurso,setShowDebe
 
   console.log(curso);
   console.log(deberes);
+
+  useEffect(()=>{
+    const getDeber = async()=>{
+      const resultFromApi = await fetch(`https://localhost:7164/api/Deber/getAllDeberes/${curso.id}`,{
+        method:'GET',
+        credentials:'include',
+        headers: {
+          'Content-Type' : 'application/json',
+          'Accept' : 'application/json'
+        }
+      });
+      const resultFetch = await resultFromApi.json();
+      console.log(resultFetch);
+      setDeberes(resultFetch.result);
+    }
+    getDeber();
+    response.isSuccess ? toast.success(response.message):toast.error(response.message);
+  },[curso,response])
 
 
   const handleEditDeber = (deber) => {
@@ -34,41 +53,41 @@ export const Deberes = ({setShowCursos,setShowVideos,curso, setCurso,setShowDebe
   
 
   //Esta funcion permite enviar la informacion para editar el curso en la base de datos
-  const handleCursoEdit = async() => {
-    setShowButtonLoading(true);
-    try {
-      const result = await fetch(`https://localhost:7164/api/Course/updateCourse/${curso.id}`,{
-        method: 'PUT',
-        credentials:'include',
-        headers:{
-          'Content-Type' : 'application/json',
-          'Accept' : 'application/json'
-        },
-        body:(JSON.stringify({
-          id: curso.id,
-          imageUrl: curso.imageUrl,
-          titulo: curso.titulo,
-          descripcion: curso.descripcion,
-          state: curso.state,
-          deberes: deberes,
-          pruebas: JSON.parse(curso.pruebas),
-          notaFinal : curso.notaFinal,
-          teacherId: curso.teacherId,
-          price: curso.price,
-          isActive: curso.isActive,
-          capituloList: JSON.parse(curso.capitulos)
-        }))
-      });
-      const resultFetch =await result.json();
-      setResponse(resultFetch);
-      console.log(resultFetch);
-      setShowButtonLoading(false);
-      setShowModalSuccess(true);
-    } catch (error) {
-      setShowButtonLoading(false);
-      console.error(error);
-    }
-  }
+  // const handleCursoEdit = async() => {
+  //   setShowButtonLoading(true);
+  //   try {
+  //     const result = await fetch(`https://localhost:7164/api/Course/updateCourse/${curso.id}`,{
+  //       method: 'PUT',
+  //       credentials:'include',
+  //       headers:{
+  //         'Content-Type' : 'application/json',
+  //         'Accept' : 'application/json'
+  //       },
+  //       body:(JSON.stringify({
+  //         id: curso.id,
+  //         imageUrl: curso.imageUrl,
+  //         titulo: curso.titulo,
+  //         descripcion: curso.descripcion,
+  //         state: curso.state,
+  //         deberes: deberes,
+  //         pruebas: JSON.parse(curso.pruebas),
+  //         notaFinal : curso.notaFinal,
+  //         teacherId: curso.teacherId,
+  //         price: curso.price,
+  //         isActive: curso.isActive,
+  //         capituloList: JSON.parse(curso.capitulos)
+  //       }))
+  //     });
+  //     const resultFetch =await result.json();
+  //     setResponse(resultFetch);
+  //     console.log(resultFetch);
+  //     setShowButtonLoading(false);
+  //     setShowModalSuccess(true);
+  //   } catch (error) {
+  //     setShowButtonLoading(false);
+  //     console.error(error);
+  //   }
+  // }
 
 
 
@@ -77,8 +96,8 @@ export const Deberes = ({setShowCursos,setShowVideos,curso, setCurso,setShowDebe
 
     <div className="w-[95%] mx-auto">
         {/*Se muestran los modales para la generacion, edicion y eliminacion de los capitulos y videos del curso */}
-      {showModalDeber && <ModalDeber showModalDeber={showModalDeber} setShowModalDeber={setShowModalDeber} deber={deber} setDeber={setDeber} deberes={deberes} setDeberes={setDeberes} />}
-      {showModalDeleteDeber && <ModalDeleteDeber showModalDeleteDeber={showModalDeleteDeber} setShowModalDeleteDeber={setShowModalDeleteDeber} deber={deber} setDeber={setDeber} deberes={deberes} setDeberes={setDeberes} />}
+      {showModalDeber && <ModalDeber showModalDeber={showModalDeber} setShowModalDeber={setShowModalDeber} deber={deber} setDeber={setDeber} curso={curso} setResponse={setResponse} /*deberes={deberes} setDeberes={setDeberes}*/ />}
+      {showModalDeleteDeber && <ModalDeleteDeber showModalDeleteDeber={showModalDeleteDeber} setShowModalDeleteDeber={setShowModalDeleteDeber} deber={deber} setDeber={setDeber} setResponse={setResponse}  /*deberes={deberes} setDeberes={setDeberes}*/ />}
       {showModalSuccess && <ModalSuccess showModalSuccess={showModalSuccess} setShowModalSuccess={setShowModalSuccess} response={response} setResponse={setResponse} setShowCursos={setShowCursos} setShowVideos={setShowVideos} setShowDeberes={setShowDeberes} setShowPruebas={setShowPruebas} />}
         
       <div className="w-[95%] mx-auto mt-5 flex justify-between">
@@ -104,20 +123,20 @@ export const Deberes = ({setShowCursos,setShowVideos,curso, setCurso,setShowDebe
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
-                    <th scope="col" className="px-4 py-3">Id</th>
+                    {/* <th scope="col" className="px-4 py-3">Id</th> */}
                     <th scope="col" className="px-4 py-3">Titulo</th>
                     <th scope="col" className="px-4 py-3">Descripcion</th>
-                    <th scope="col" className="px-4 py-3">Estado</th>
+                    {/* <th scope="col" className="px-4 py-3">Estado</th> */}
                     <th scope="col" className="px-4 py-3">Editar/Eliminar</th>
                   </tr>
                 </thead>
                 <tbody>
-                {deberes? (deberes.map((task) => (
+                {deberes.map((task) => (
                   <tr key={task.id} className="border-b dark:border-gray-700">
-                    <td className="px-4 py-3">{task.Id}</td>
-                    <td className="px-4 py-3">{task.Titulo}</td>
-                    <td className="px-4 py-3">{task.Detalle}</td>
-                    <td className="px-4 py-3">{task.Estado}</td>
+                    {/* <td className="px-4 py-3">{task.Id}</td> */}
+                    <td className="px-4 py-3">{task.titulo}</td>
+                    <td className="px-4 py-3">{task.detalle}</td>
+                    {/* <td className="px-4 py-3">{task.Estado}</td> */}
                     
                     <td className="px-4 py-3">
                       <div className="py-1 flex justify-start">                          
@@ -137,14 +156,14 @@ export const Deberes = ({setShowCursos,setShowVideos,curso, setCurso,setShowDebe
                       </div>
                     </td>
                   </tr>
-                ))): (null)}
+                ))}
                   
                 </tbody>
               </table>
             </div>
       </div>
       
-      <div className="flex justify-end my-10">
+      {/* <div className="flex justify-end my-10">
         {showButtonLoading ? 
         (<button disabled className="flex items-center px-4 py-2 bg-blue-400 hover:bg-blue-600 text-gray 900 hover:text-white text-sm rounded-lg hover:scale-125">
           <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-floppy w-5 h-5 mr-2" viewBox="0 0 16 16">
@@ -163,7 +182,7 @@ export const Deberes = ({setShowCursos,setShowVideos,curso, setCurso,setShowDebe
         </button>)
         }
         
-      </div>
+      </div> */}
 
       
     </div>

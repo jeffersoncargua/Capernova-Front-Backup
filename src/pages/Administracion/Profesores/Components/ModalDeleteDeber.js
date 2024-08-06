@@ -1,10 +1,20 @@
 
 
-export const ModalDeleteDeber = ({showModalDeleteDeber,setShowModalDeleteDeber,deber,setDeber,deberes,setDeberes}) => {
+export const ModalDeleteDeber = ({showModalDeleteDeber,setShowModalDeleteDeber,deber,setDeber,setResponse/*deberes,setDeberes*/}) => {
 
-  const handleDeleteDeber = (tarea) => {
-    let updateDeberes = deberes.filter((task)=> task.Id !==tarea.Id );
-    setDeberes(updateDeberes);
+  const handleDeleteDeber = async(tarea) => {
+    // let updateDeberes = deberes.filter((task)=> task.Id !==tarea.Id );
+    // setDeberes(updateDeberes);
+    const resultFromApi = await fetch(`https://localhost:7164/api/Deber/deleteDeber/${deber.id}`,{
+        method:'DELETE',
+        credentials:'include',
+        headers:{
+            'Content-Type' : 'application/json',
+            'Accept' : 'application/json'
+        },
+    });
+    const resultFetch = await resultFromApi.json();
+    setResponse(resultFetch);
     setDeber({});
     setShowModalDeleteDeber(false);
 }

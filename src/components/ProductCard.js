@@ -2,7 +2,7 @@
 export const ProductCard = ({itemProd}) => {
   return (
     <div className=" w-[300px] sm:w-[260px] md:w-[220px] lg:w-[230px] mx-auto bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-        <img className="rounded-t-lg h-[230px] sm:h-[190px] md:h-[150px] lg:h-[160px]" src={itemProd.imageUrl} alt="lo que sea" />
+        <img className="rounded-t-lg h-[230px] sm:h-[190px] md:h-[150px] lg:h-[160px]" src={itemProd.imagenUrl} alt="lo que sea" />
         <div className="p-5 flex flex-col justify-center">
             <h5 className="mb-2 text-center block text-md font-medium tracking-tight text-gray-900 dark:text-white">{itemProd.titulo}</h5>
             {/*<p className="block mb-3 font-normal text-gray-700 dark:text-gray-400">{itemProd.description}</p>*/}

@@ -1,14 +1,26 @@
 
-export const ModalDeleteCapitulo = ({showModalDeleteCapitulo,setShowModalDeleteCapitulo,capitulo,setCapitulo,capitulos,setCapitulos}) => {
+export const ModalDeleteCapitulo = ({showModalDeleteCapitulo,setShowModalDeleteCapitulo,capitulo,setCapitulo,setResponse/*,capitulos,setCapitulos*/}) => {
 
-    const handleDeleteCapitulo = (capitulo) => {
-        let updateCapitulos = capitulos.filter((cap)=> cap.Codigo !==capitulo.Codigo );
-        setCapitulos(updateCapitulos);
-        setCapitulo({});
+    const handleDeleteCapitulo = async(capitulo) => {
+        // let updateCapitulos = capitulos.filter((cap)=> cap.Codigo !==capitulo.Codigo );
+        // setCapitulos(updateCapitulos);
+        // setCapitulo({});
+        // setShowModalDeleteCapitulo(false);
+        const resultFromApi = await fetch(`https://localhost:7164/api/Capitulo/deleteCapitulo/${capitulo.id}`,{
+            method: 'DELETE',
+            credentials:'include',
+            headers:{
+                'Content-Type' : 'application/json',
+                'Accept' : 'application/json'
+            },
+        });
+        const resultFetch = await resultFromApi.json();
+        console.log(resultFetch);
+        setResponse(resultFetch);
         setShowModalDeleteCapitulo(false);
     }
 
-    console.log(capitulo);
+    //console.log(capitulo);
   return (
     <div>
         <div id="popup-modal" tabIndex="-1" className={`${showModalDeleteCapitulo? '':'hidden'} overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full`}>

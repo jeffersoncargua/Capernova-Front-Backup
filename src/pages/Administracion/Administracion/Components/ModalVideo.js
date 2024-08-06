@@ -1,41 +1,78 @@
 import { useRef } from "react"
 
-export const ModalVideo = ({showModalVideo,setShowModalVideo,video,setVideo,videos,setVideos,capitulo,setCapitulo,capitulos,setCapitulos}) => {
+export const ModalVideo = ({showModalVideo,setShowModalVideo,video,setVideo,videos,setVideos,capitulo,setCapitulo,setResponse/*,capitulos,setCapitulos*/}) => {
 
-  const refCodigo = useRef();
+  //const refCodigo = useRef();
   const refTitulo = useRef();
   const refVideoUrl = useRef();
   const refOrden = useRef();
+  
 
+  console.log(capitulo);
 
-  const handleSubmitAdd = (event) => {
+  const handleSubmitAdd = async(event) => {
     event.preventDefault();
     console.log(capitulo);
-    let object = {Codigo:refCodigo.current.value,Titulo:refTitulo.current.value,VideoUrl:refVideoUrl.current.value,OrdenReproduccion:refOrden.current.value, Visto: false}
-    console.log(object);
-    let updatedVideos = videos.concat(object);
-    console.log(updatedVideos);
-    let updatedCapitulos = capitulos.map((cap) => cap.Codigo === capitulo.Codigo ? {...cap, Videos:updatedVideos } : cap);
-    console.log(updatedCapitulos);
-    setCapitulos(updatedCapitulos);
+    // let object = {Codigo:refCodigo.current.value,Titulo:refTitulo.current.value,VideoUrl:refVideoUrl.current.value,OrdenReproduccion:refOrden.current.value, Visto: false}
+    // console.log(object);
+    // let updatedVideos = videos.concat(object);
+    // console.log(updatedVideos);
+    // let updatedCapitulos = capitulos.map((cap) => cap.Codigo === capitulo.Codigo ? {...cap, Videos:updatedVideos } : cap);
+    // console.log(updatedCapitulos);
+    // setCapitulos(updatedCapitulos);
+    const resultFromApi = await fetch(`https://localhost:7164/api/Video/createVideo`,{
+        method: 'POST',
+        credentials:'include',
+        headers:{
+            'Content-Type' : 'application/json',
+            'Accept' : 'application/json'
+        },
+        body: JSON.stringify({
+            titulo: refTitulo.current.value,
+            videoUrl : refVideoUrl.current.value,
+            ordenReproduccion : refOrden.current.value,
+            capituloId: capitulo.id
+        })
+    });
+    const resultFetch = await resultFromApi.json();
+    console.log(resultFetch);
     setCapitulo({});
-    setVideos([]);
+    //setVideos([]);
     setShowModalVideo(false);
+    setResponse(resultFetch);
     console.log('Se agrego el video');
   }
 
-  const handleSubmitEdit = (event) => {
+  const handleSubmitEdit = async(event) => {
     event.preventDefault();
-    let updatedCapitulo = capitulos.find((cap) => (cap.Videos.find(vid => vid.Codigo === video.Codigo))); 
-    let updatedVideoList = updatedCapitulo.Videos;
-    let updatedVideos = updatedVideoList.map(vid => vid.Codigo === video.Codigo? {...vid,Codigo:refCodigo.current.value,Titulo:refTitulo.current.value,VideoUrl:refVideoUrl.current.value,OrdenReproduccion:refOrden.current.value}:vid);
-    //Luego de obtener el capitulo y la lista de videos con el video ya eliminado se procede a editar la lista completa para poder 
-    //presentar la lista actualizada en la interfaz
-    console.log(updatedVideos);
-    let updateCapitulos = capitulos.map((cap) => cap.Codigo===updatedCapitulo.Codigo ? {...cap, Videos:updatedVideos}:cap)
-    console.log(updateCapitulos);
-    setCapitulos(updateCapitulos);
+    // let updatedCapitulo = capitulos.find((cap) => (cap.Videos.find(vid => vid.Codigo === video.Codigo))); 
+    // let updatedVideoList = updatedCapitulo.Videos;
+    // let updatedVideos = updatedVideoList.map(vid => vid.Codigo === video.Codigo? {...vid,Codigo:refCodigo.current.value,Titulo:refTitulo.current.value,VideoUrl:refVideoUrl.current.value,OrdenReproduccion:refOrden.current.value}:vid);
+    // //Luego de obtener el capitulo y la lista de videos con el video ya eliminado se procede a editar la lista completa para poder 
+    // //presentar la lista actualizada en la interfaz
+    // console.log(updatedVideos);
+    // let updateCapitulos = capitulos.map((cap) => cap.Codigo===updatedCapitulo.Codigo ? {...cap, Videos:updatedVideos}:cap)
+    // console.log(updateCapitulos);
+    // setCapitulos(updateCapitulos);
+    const resultFromApi = await fetch(`https://localhost:7164/api/Video/updateVideo/${video.id}`,{
+        method: 'PUT',
+        credentials:'include',
+        headers:{
+            'Content-Type' : 'application/json',
+            'Accept' : 'application/json'
+        },
+        body: JSON.stringify({
+            id: video.id,
+            titulo: refTitulo.current.value,
+            videoUrl : refVideoUrl.current.value,
+            ordenReproduccion : refOrden.current.value,
+            capituloId: video.capituloId
+        })
+    });
+    const resultFetch = await resultFromApi.json();
+    console.log(resultFetch);
     setShowModalVideo(false);
+    setResponse(resultFetch);
     setVideo({});
   }
 
@@ -49,7 +86,7 @@ export const ModalVideo = ({showModalVideo,setShowModalVideo,video,setVideo,vide
                     {/*<!-- Modal header -->*/}
                     <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                            {video.Codigo ? 'Editar Video':'Agregar Video'}
+                            {video.id ? 'Editar Video':'Agregar Video'}
                         </h3>
                         <button onClick={()=>setShowModalVideo(false)} type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="crud-modal">
                             <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -59,26 +96,26 @@ export const ModalVideo = ({showModalVideo,setShowModalVideo,video,setVideo,vide
                         </button>
                     </div>
                     {/*<!-- Modal body -->*/}
-                    <form className="p-4 md:p-5" onSubmit={video.Codigo ?  handleSubmitEdit : handleSubmitAdd} >
+                    <form className="p-4 md:p-5" onSubmit={video.id ?  handleSubmitEdit : handleSubmitAdd} >
                         <div className="grid gap-4 mb-4 grid-cols-2">
-                            <div className="col-span-2">
+                            {/* <div className="col-span-2">
                                 <label htmlFor="codigo" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Codigo</label>
                                 <input type="text" name="codigo" id="codigo" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Escribe el Código" required="" ref={refCodigo} defaultValue={video.Codigo || ''} />
-                            </div>                            
+                            </div>                             */}
                             <div className="col-span-2">
                                 <label htmlFor="titulo" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Titulo</label>
-                                <input type="text" name="titulo" id="titulo" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Escribe el Titulo" required="" ref={refTitulo} defaultValue={video.Titulo || ''} />
+                                <input type="text" name="titulo" id="titulo" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Escribe el Titulo" required="" ref={refTitulo} defaultValue={video.titulo || ''} />
                             </div>
                             <div className="col-span-2">
                                 <label htmlFor="videoUrl" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Video Url</label>
-                                <input type="text" name="videoUrl" id="videoUrl" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Inserta la Url del video aquí" required="" ref={refVideoUrl} defaultValue={video.VideoUrl || ''} />
+                                <input type="text" name="videoUrl" id="videoUrl" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Inserta la Url del video aquí" required="" ref={refVideoUrl} defaultValue={video.videoUrl || ''} />
                             </div>
                             <div className="col-span-2">
                                 <label htmlFor="ordenReproduccion" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Orden de Reproducción</label>
-                                <input type="number" name="ordenReproduccion" id="ordenReproduccion" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Escribe el orden del video" required="" ref={refOrden} defaultValue={video.OrdenReproduccion || ''} />
+                                <input type="number" name="ordenReproduccion" id="ordenReproduccion" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Escribe el orden del video" required="" ref={refOrden} defaultValue={video.ordenReproduccion || ''} />
                             </div>
                         </div>
-                        {video.Codigo ? 
+                        {video.id ? 
                             (<button type="submit" className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-pen me-1 -ms-1 w-5 h-5" viewBox="0 0 16 16">
                                    <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"/>

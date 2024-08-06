@@ -10,7 +10,7 @@ export const Profesor = () => {
   let [cursoList, setCursoList] = useState([]);
   let [curso, setCurso] = useState({});
   const [profersor, setProfesor] = useState({});
-  //const [search, setSearch] = useState('');
+  const [search, setSearch] = useState('');
   const [showInformacion,setShowInformacion] = useState(true);
   const [showEstudiante,setShowEstudiantes] = useState(false);
   const [showCursos,setShowCursos] = useState(false);
@@ -21,7 +21,7 @@ export const Profesor = () => {
 
   const GetCurso = useCallback(async()=>{
     try {
-      const resultFromApi = await fetch(`https://localhost:7164/api/Teacher/getAllCourse?id=${userTeacher.nameIdentifier}`,{
+      const resultFromApi = await fetch(`https://localhost:7164/api/Teacher/getAllCourse?id=${userTeacher.nameIdentifier}&search=${search}`,{
         method:'GET',
         credentials : 'include',
         //mode: 'no-cors',
@@ -45,7 +45,7 @@ export const Profesor = () => {
     }
     
    //setCursoList(list);
- },[userTeacher])
+ },[userTeacher,search])
 
  
    useEffect(()=>{
@@ -64,10 +64,10 @@ export const Profesor = () => {
       <div className="md:ml-64">
         
         {showInformacion && <Informacion profesor={profersor} response={response} setResponse={setResponse}/>}
-        {showCursos && <Cursos setShowCursos={setShowCursos} setShowVideos={setShowVideos} cursoList={cursoList} curso={curso} setCurso={setCurso} response={response} setResponse={setResponse} setShowDeberes={setShowDeberes} setShowPruebas={setShowPruebas} />}
+        {showCursos && <Cursos setShowCursos={setShowCursos} setShowVideos={setShowVideos} cursoList={cursoList}  curso={curso} setCurso={setCurso} setSearch={setSearch} response={response} setResponse={setResponse} setShowDeberes={setShowDeberes} setShowPruebas={setShowPruebas} />}
         {showVideos && <Videos setShowCursos={setShowCursos} setShowVideos={setShowVideos} curso={curso} setCurso={setCurso} setShowDeberes={setShowDeberes} setShowPruebas={setShowPruebas} />}
         {showDeberes && <Deberes setShowCursos={setShowCursos} setShowVideos={setShowVideos} curso={curso} setCurso={setCurso} setShowDeberes={setShowDeberes} setShowPruebas={setShowPruebas} />}
-        {showPruebas && <Pruebas setShowCursos={setShowCursos} setShowVideos={setShowVideos} curso={curso} setCurso={setCurso} setShowDeberes={setShowDeberes} setShowPruebas={setShowPruebas} />}
+        {showPruebas && <Pruebas setShowCursos={setShowCursos} setShowVideos={setShowVideos} curso={curso} setCurso={setCurso} response={response} setResponse={setResponse} setShowDeberes={setShowDeberes} setShowPruebas={setShowPruebas} />}
         {showEstudiante && <Estudiantes />}
       </div>
     </div>

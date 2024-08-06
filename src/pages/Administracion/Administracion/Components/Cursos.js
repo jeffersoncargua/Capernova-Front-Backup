@@ -146,11 +146,11 @@ export const Cursos = ({setShowCursos, setShowVideos, showModalCourse ,setShowMo
                   {currentDataDisplayed.list? (currentDataDisplayed.list.map((item) => (
                     <tr key={item.id} className="border-b dark:border-gray-700">
                       <td className="px-4 py-3">
-                        <img src={item.imageUrl} className="w-16 md:w-44 max-w-full max-h-full" alt={item.titulo} />
+                        <img src={item.imagenUrl} className="w-16 md:w-44 max-w-full max-h-full" alt={item.titulo} />
                       </td>
                       <td className="px-4 py-3">{item.titulo}</td>
-                      <td className="px-4 py-3">{item.descripcion}</td>
-                      <td className="px-4 py-3 text-blue-500 text-lg">${item.price}</td>
+                      <td className="px-4 py-3">{item.detalle}</td>
+                      <td className="px-4 py-3 text-blue-500 text-lg">${item.precio}</td>
                       <td className="px-4 py-3">
                         <div className="py-1 flex justify-start">                          
                           <button onClick={() => {setShowVideos(true); setShowCursos(false); setCurso(item);setResponse({})}} className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-yellow-300 hover:bg-yellow-400 rounded-lg mr-2">

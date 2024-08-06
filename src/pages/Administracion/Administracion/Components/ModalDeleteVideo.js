@@ -1,17 +1,28 @@
 
 
-export const ModalDeleteVideo = ({showModalDeleteVideo, setShowModalDeleteVideo, video, setVideo, capitulos, setCapitulos}) => {
+export const ModalDeleteVideo = ({showModalDeleteVideo, setShowModalDeleteVideo, video, setVideo, setResponse /*capitulos, setCapitulos*/}) => {
 
-    const handleDeleteVideo= (video)=> {
-        let updatedCapitulo = capitulos.find((cap) => (cap.Videos.find(vid => vid.Codigo === video.Codigo))); 
-        let updatedVideoList = updatedCapitulo.Videos;
-        let updatedVideos = updatedVideoList.filter(vid => vid.Codigo !== video.Codigo);
-        //Luego de obtener el capitulo y la lista de videos con el video ya eliminado se procede a editar la lista completa para poder 
-        //presentar la lista actualizada en la interfaz
-        let updateCapitulos = capitulos.map((cap) => cap.Codigo===updatedCapitulo.Codigo ? {...cap, Videos:updatedVideos}:cap)
-        setCapitulos(updateCapitulos);
+    const handleDeleteVideo= async(video)=> {
+        // let updatedCapitulo = capitulos.find((cap) => (cap.Videos.find(vid => vid.Codigo === video.Codigo))); 
+        // let updatedVideoList = updatedCapitulo.Videos;
+        // let updatedVideos = updatedVideoList.filter(vid => vid.Codigo !== video.Codigo);
+        // //Luego de obtener el capitulo y la lista de videos con el video ya eliminado se procede a editar la lista completa para poder 
+        // //presentar la lista actualizada en la interfaz
+        // let updateCapitulos = capitulos.map((cap) => cap.Codigo===updatedCapitulo.Codigo ? {...cap, Videos:updatedVideos}:cap)
+        // setCapitulos(updateCapitulos);
+        const resultFromApi = await fetch(`https://localhost:7164/api/Video/deleteVideo/${video.id}`,{
+            method: 'DELETE',
+            credentials:'include',
+            headers:{
+                'Content-Type' : 'application/json',
+                'Accept' : 'application/json'
+            },
+        });
+        const resultFetch = await resultFromApi.json();
+        console.log(resultFetch);
         setShowModalDeleteVideo(false);
         setVideo({});
+        setResponse(resultFetch);
     }
 
   return (

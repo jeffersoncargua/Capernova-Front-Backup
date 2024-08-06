@@ -1,14 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import {ModalPrueba, ModalDeletePrueba, ModalSuccess} from '../Components'
 
 export const Pruebas = ({setShowCursos,setShowVideos,curso, setCurso,setShowDeberes,setShowPruebas}) => {
 
-  let [pruebas, setPruebas] = useState(JSON.parse(curso.pruebas));
+  let [pruebas, setPruebas] = useState([]);
   const [prueba, setPrueba] = useState({});
   const [showModalPrueba, setShowModalPrueba] = useState(false);
   const [showModalDeletePrueba, setShowModalDeletePrueba] = useState(false);
   const [showModalSuccess, setShowModalSuccess] = useState(false);
-  const [showButtonLoading, setShowButtonLoading] = useState(false);
+  //const [showButtonLoading, setShowButtonLoading] = useState(false);
   const [response, setResponse] = useState({});
 
   //const refTitulo = useRef();
@@ -18,6 +19,24 @@ export const Pruebas = ({setShowCursos,setShowVideos,curso, setCurso,setShowDebe
 
   console.log(curso);
   console.log(pruebas);
+
+  useEffect(()=>{
+    const getDeber = async()=>{
+      const resultFromApi = await fetch(`https://localhost:7164/api/Prueba/getAllPruebas/${curso.id}`,{
+        method:'GET',
+        credentials:'include',
+        headers: {
+          'Content-Type' : 'application/json',
+          'Accept' : 'application/json'
+        }
+      });
+      const resultFetch = await resultFromApi.json();
+      console.log(resultFetch);
+      setPruebas(resultFetch.result);
+    }
+    getDeber();
+    response.isSuccess ? toast.success(response.message):toast.error(response.message);
+  },[curso,response])
 
 
   const handleEditPrueba = (deber) => {
@@ -33,47 +52,47 @@ export const Pruebas = ({setShowCursos,setShowVideos,curso, setCurso,setShowDebe
   
 
   //Esta funcion permite enviar la informacion para editar el curso en la base de datos
-  const handleCursoEdit = async() => {
-    setShowButtonLoading(true);
-    try {
-      const result = await fetch(`https://localhost:7164/api/Course/updateCourse/${curso.id}`,{
-        method: 'PUT',
-        credentials:'include',
-        headers:{
-          'Content-Type' : 'application/json',
-          'Accept' : 'application/json'
-        },
-        body:(JSON.stringify({
-          id: curso.id,
-          imageUrl: curso.imageUrl,
-          titulo: curso.titulo,
-          descripcion: curso.descripcion,
-          state: curso.state,
-          deberes: JSON.parse(curso.deberes),
-          pruebas: pruebas,
-          notaFinal : curso.notaFinal,
-          teacherId: curso.teacherId,
-          price: curso.price,
-          isActive: curso.isActive,
-          capituloList: JSON.parse(curso.capitulos)
-        }))
-      });
-      const resultFetch =await result.json();
-      setResponse(resultFetch);
-      console.log(resultFetch);
-      setShowButtonLoading(false);
-      setShowModalSuccess(true);
-    } catch (error) {
-      setShowButtonLoading(false);
-      console.error(error);
-    }
-  }
+  // const handleCursoEdit = async() => {
+  //   setShowButtonLoading(true);
+  //   try {
+  //     const result = await fetch(`https://localhost:7164/api/Course/updateCourse/${curso.id}`,{
+  //       method: 'PUT',
+  //       credentials:'include',
+  //       headers:{
+  //         'Content-Type' : 'application/json',
+  //         'Accept' : 'application/json'
+  //       },
+  //       body:(JSON.stringify({
+  //         id: curso.id,
+  //         imageUrl: curso.imageUrl,
+  //         titulo: curso.titulo,
+  //         descripcion: curso.descripcion,
+  //         state: curso.state,
+  //         deberes: JSON.parse(curso.deberes),
+  //         pruebas: pruebas,
+  //         notaFinal : curso.notaFinal,
+  //         teacherId: curso.teacherId,
+  //         price: curso.price,
+  //         isActive: curso.isActive,
+  //         capituloList: JSON.parse(curso.capitulos)
+  //       }))
+  //     });
+  //     const resultFetch =await result.json();
+  //     setResponse(resultFetch);
+  //     console.log(resultFetch);
+  //     setShowButtonLoading(false);
+  //     setShowModalSuccess(true);
+  //   } catch (error) {
+  //     setShowButtonLoading(false);
+  //     console.error(error);
+  //   }
+  // }
 
   return (
     <div className="w-[95%] mx-auto">
           {/*Se muestran los modales para la generacion, edicion y eliminacion de los capitulos y videos del curso */}
-      {showModalPrueba && <ModalPrueba showModalPrueba={showModalPrueba} setShowModalPrueba={setShowModalPrueba} prueba={prueba} setPrueba={setPrueba} pruebas={pruebas} setPruebas={setPruebas} />}
-      {showModalDeletePrueba && <ModalDeletePrueba showModalDeleteDeber={showModalDeletePrueba} setShowModalDeletePrueba={setShowModalDeletePrueba} prueba={prueba} setPrueba={setPrueba} pruebas={pruebas} setPruebas={setPruebas} />}
+      {showModalPrueba && <ModalPrueba showModalPrueba={showModalPrueba} setShowModalPrueba={setShowModalPrueba}  prueba={prueba} setPrueba={setPrueba} curso={curso} setResponse={setResponse} /*pruebas={pruebas} setPruebas={setPruebas}*/ />}
+      {showModalDeletePrueba && <ModalDeletePrueba showModalDeleteDeber={showModalDeletePrueba} setShowModalDeletePrueba={setShowModalDeletePrueba} prueba={prueba} setPrueba={setPrueba} setResponse={setResponse} /*pruebas={pruebas} setPruebas={setPruebas}*/ />}
       {showModalSuccess && <ModalSuccess showModalSuccess={showModalSuccess} setShowModalSuccess={setShowModalSuccess} response={response} setResponse={setResponse} setShowCursos={setShowCursos} setShowVideos={setShowVideos} setShowDeberes={setShowDeberes} setShowPruebas={setShowPruebas} />}
         
       <div className="w-[95%] mx-auto mt-5 flex justify-between">
@@ -99,20 +118,20 @@ export const Pruebas = ({setShowCursos,setShowVideos,curso, setCurso,setShowDebe
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
-                    <th scope="col" className="px-4 py-3">Id</th>
+                    {/* <th scope="col" className="px-4 py-3">Id</th> */}
                     <th scope="col" className="px-4 py-3">Titulo</th>
                     <th scope="col" className="px-4 py-3">Descripcion</th>
-                    <th scope="col" className="px-4 py-3">Estado</th>
+                    <th scope="col" className="px-4 py-3">Test</th>
                     <th scope="col" className="px-4 py-3">Editar/Eliminar</th>
                   </tr>
                 </thead>
                 <tbody>
-                {pruebas? (pruebas.map((test) => (
-                  <tr key={test.Id} className="border-b dark:border-gray-700">
-                    <td className="px-4 py-3">{test.Id}</td>
-                    <td className="px-4 py-3">{test.Titulo}</td>
-                    <td className="px-4 py-3">{test.Detalle}</td>
-                    <td className="px-4 py-3">{test.Estado}</td>
+                {pruebas.map((test) => (
+                  <tr key={test.id} className="border-b dark:border-gray-700">
+                    {/* <td className="px-4 py-3">{test.Id}</td> */}
+                    <td className="px-4 py-3">{test.titulo}</td>
+                    <td className="px-4 py-3">{test.detalle}</td>
+                    <td className="px-4 py-3">{test.test}</td>
                     
                     <td className="px-4 py-3">
                       <div className="py-1 flex justify-start">                          
@@ -132,14 +151,14 @@ export const Pruebas = ({setShowCursos,setShowVideos,curso, setCurso,setShowDebe
                       </div>
                     </td>
                   </tr>
-                ))): (null)}
+                ))}
                   
                 </tbody>
               </table>
             </div>
       </div>
       
-      <div className="flex justify-end my-10">
+      {/* <div className="flex justify-end my-10">
         {showButtonLoading ? 
         (<button disabled className="flex items-center px-4 py-2 bg-blue-400 hover:bg-blue-600 text-gray 900 hover:text-white text-sm rounded-lg hover:scale-125">
           <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-floppy w-5 h-5 mr-2" viewBox="0 0 16 16">
@@ -158,7 +177,7 @@ export const Pruebas = ({setShowCursos,setShowVideos,curso, setCurso,setShowDebe
         </button>)
         }
         
-      </div>
+      </div> */}
     </div>
   )
 }

@@ -1,9 +1,10 @@
-import { useRef, useState } from "react";
-import { ModalCapitulo,ModalVideo,ModalDeleteCapitulo,ModalDeleteVideo,ModalSuccess } from "../Components";
+import { useRef, useState,useEffect } from "react";
+import { toast } from "react-toastify";
+import { ModalCapitulo,ModalVideo,ModalDeleteCapitulo,ModalDeleteVideo,ModalSuccess ,VideoCard} from "../Components";
 
 export const Videos = ({setShowCursos,setShowVideos,curso, setCurso,setShowDeberes,setShowPruebas}) => {
 
-  let [capitulos, setCapitulos] = useState(JSON.parse(curso.capitulos));
+  let [capitulos, setCapitulos] = useState([]);
   const [capitulo, setCapitulo] = useState({});
   let [videos, setVideos] = useState([]);
   const [video, setVideo] = useState({});
@@ -17,11 +18,31 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso,setShowDeber
 
   const refTitulo = useRef();
   const refDescripcion = useRef();
-  //const refPrice = useRef();
+  const refPrice = useRef();
   const refImageUrl = useRef();
+  const refFolder = useRef();
+  const refCodigo = useRef();
 
   console.log(curso);
-  console.log(capitulos);
+  //console.log(capitulos);
+
+  useEffect(()=>{
+    const getCapitulo = async()=>{
+      const resultFromApi = await fetch(`https://localhost:7164/api/Capitulo/getAllCapitulo/${curso.id}`,{
+        method:'GET',
+        credentials:'include',
+        headers: {
+          'Content-Type' : 'application/json',
+          'Accept' : 'application/json'
+        }
+      });
+      const resultFetch = await resultFromApi.json();
+      console.log(resultFetch);
+      setCapitulos(resultFetch.result);
+    }
+    getCapitulo();
+    response.isSuccess ? toast.success(response.message):toast.error(response.message);
+  },[curso,response])
 
 
   const handleEditCap = (cap) => {
@@ -37,18 +58,8 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso,setShowDeber
   const handleAddVideo = (cap) => {
     setShowModalVideo(true);
     setCapitulo(cap);
-    setVideos(cap.Videos);
+    //setVideos(cap.Videos);
     
-  }
-
-  const handleEditVideo= (video) => {
-    setShowModalVideo(true);
-    setVideo(video);
-  }
-
-  const handleDeleteVideo = (video) => {
-    setShowModalDeleteVideo(true);
-    setVideo(video);
   }
 
   //Esta funcion permite enviar la informacion para editar el curso en la base de datos
@@ -64,17 +75,19 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso,setShowDeber
         },
         body:(JSON.stringify({
           id: curso.id,
-          imageUrl: refImageUrl.current.value,
+          codigo : refCodigo.current.value,
+          imagenUrl: curso.imagenUrl,
           titulo: refTitulo.current.value,
-          descripcion: refDescripcion.current.value,
-          state: curso.state,
-          deberes: JSON.parse(curso.deberes),
-          pruebas: JSON.parse(curso.pruebas),
-          notaFinal : curso.notaFinal,
+          detalle: refDescripcion.current.value,
+          // state: curso.state,
+          // deberes: JSON.parse(curso.deberes),
+          // pruebas: JSON.parse(curso.pruebas),
+          // notaFinal : curso.notaFinal,
           teacherId: curso.teacherId,
-          price: curso.price,
-          isActive: curso.isActive,
-          capituloList: capitulos
+          precio: refPrice.current.value,
+          //isActive: curso.isActive,
+          //capituloList: capitulos
+          folderId: refFolder.current.value,
         }))
       });
       const resultFetch =await result.json();
@@ -82,6 +95,7 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso,setShowDeber
       console.log(resultFetch);
       setShowButtonLoading(false);
       setShowModalSuccess(true);
+
     } catch (error) {
       setShowButtonLoading(false);
       console.error(error);
@@ -92,16 +106,20 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso,setShowDeber
     <div className="w-[95%] mx-auto">
 
       {/*Se muestran los modales para la generacion, edicion y eliminacion de los capitulos y videos del curso */}
-      {showModalCapitulo && <ModalCapitulo showModalCapitulo={showModalCapitulo} setShowModalCapitulo={setShowModalCapitulo} capitulo={capitulo} setCapitulo={setCapitulo} capitulos={capitulos} setCapitulos={setCapitulos} />}
-      {showModalDeleteCapitulo && <ModalDeleteCapitulo showModalDeleteCapitulo={showModalDeleteCapitulo} setShowModalDeleteCapitulo={setShowModalDeleteCapitulo} capitulo={capitulo} setCapitulo={setCapitulo} capitulos={capitulos} setCapitulos={setCapitulos} />}
-      {showModalVideo && <ModalVideo showModalVideo={showModalVideo} setShowModalVideo={setShowModalVideo} video={video} setVideo={setVideo} videos={videos} setVideos={setVideos} capitulo={capitulo} setCapitulo={setCapitulo} capitulos={capitulos} setCapitulos={setCapitulos} />}
-      {showModalDeleteVideo && <ModalDeleteVideo showModalDeleteVideo={showModalDeleteVideo} setShowModalDeleteVideo={setShowModalDeleteVideo} video={video} setVideo={setVideo} capitulos={capitulos} setCapitulos={setCapitulos} />}
-      {showModalSuccess && <ModalSuccess showModalSuccess={showModalSuccess} setShowModalSuccess={setShowModalSuccess} response={response} setResponse={setResponse} setShowCursos={setShowCursos} setShowVideos={setShowVideos} setShowDeberes={setShowDeberes} setShowPruebas={setShowPruebas} />}
+      {showModalCapitulo && <ModalCapitulo showModalCapitulo={showModalCapitulo} setShowModalCapitulo={setShowModalCapitulo} capitulo={capitulo} setCapitulo={setCapitulo} curso={curso} setResponse={setResponse} /*capitulos={capitulos} setCapitulos={setCapitulos}*/ />}
+      {showModalDeleteCapitulo && <ModalDeleteCapitulo showModalDeleteCapitulo={showModalDeleteCapitulo} setShowModalDeleteCapitulo={setShowModalDeleteCapitulo} capitulo={capitulo} setCapitulo={setCapitulo} setResponse={setResponse} /*capitulos={capitulos} setCapitulos={setCapitulos}*//>}
+      {showModalVideo && <ModalVideo showModalVideo={showModalVideo} setShowModalVideo={setShowModalVideo} video={video} setVideo={setVideo} videos={videos} setVideos={setVideos} capitulo={capitulo} setCapitulo={setCapitulo} setResponse={setResponse} /*capitulos={capitulos} setCapitulos={setCapitulos}*/ />}
+      {showModalDeleteVideo && <ModalDeleteVideo showModalDeleteVideo={showModalDeleteVideo} setShowModalDeleteVideo={setShowModalDeleteVideo} video={video} setVideo={setVideo} setResponse={setResponse} /*capitulos={capitulos} setCapitulos={setCapitulos}*/ />}
+      {showModalSuccess && <ModalSuccess showModalSuccess={showModalSuccess} setShowModalSuccess={setShowModalSuccess} response={response} setResponse={setResponse} setShowCursos={setShowCursos} setShowVideos={setShowVideos} />}
 
       <div className="w-[95%] mx-auto mt-5 flex justify-between">
         <div>
           <label className="mr-2 font-medium" htmlFor="titulo">Curso: </label>
           <input type="text" className="rounded-lg bg-gray-50" name="titulo" id="titulo" defaultValue={curso.titulo} ref={refTitulo} />
+        </div>
+        <div>
+          <label className="mr-2 font-medium" htmlFor="titulo">Codigo: </label>
+          <input type="text" className="rounded-lg bg-gray-50" name="codigo" id="codigo" defaultValue={curso.codigo} ref={refCodigo} />
         </div>
         <div>
           <button onClick={()=>setShowModalCapitulo(true)} className="bg-green-500 hover:bg-green-700 hover:text-white hover:cursor-pointer flex items-center px-4 py-2 rounded-lg">
@@ -114,27 +132,33 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso,setShowDeber
         </div>
       </div>
       <div className="w-[95%] mx-auto mt-5">
-        <label className="block mb-2 font-medium" htmlFor="imageUrl">Imagen: </label>
-        <input type="text" className="rounded-lg w-full bg-gray-50" name="imageUrl" id="imageUrl" defaultValue={curso.imageUrl} ref={refImageUrl} />
+        <label className="block mb-2 font-medium text-gray-900 dark:text-white" htmlFor="imageUrl">Imagen: </label>
+        <input type="text" className="rounded-lg w-full bg-gray-50" name="imageUrl" id="imageUrl" defaultValue={curso.imagenUrl} ref={refImageUrl} />
       </div>
+      <div className="w-[95%] mx-auto mt-5 flex justify-between space-x-4">
+        <div className="w-[95%] mx-auto my-5">
+          <label htmlFor="price" className="block mb-2 font-medium text-gray-900 dark:text-white">Precio:</label>
+          <input type="text" pattern="[0-9]{1,}\.[0-9]{1,}" name="price" id="price" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="$100,50" required="" defaultValue={curso.precio} ref={refPrice} />
+        </div>
+        <div className="w-[95%] mx-auto mt-5">
+          <label className="block mb-2 font-medium text-gray-900 dark:text-white" htmlFor="folderId">Carpeta: </label>
+          <input type="text" className="rounded-lg w-full bg-gray-50" name="folderId" id="folderId" defaultValue={curso.folderId} ref={refFolder} />
+        </div>
+      </div>      
       <div className="w-[95%] mx-auto mt-5">
         <label htmlFor="descripcion" className="block mb-2 font-medium text-gray-900 dark:text-white">Descripción:</label>
-        <textarea id="descripcion" name='descripcion' rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Escribe la descripción del curso aquí" defaultValue={curso.descripcion} ref={refDescripcion}></textarea>                    
+        <textarea id="descripcion" name='descripcion' rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Escribe la descripción del curso aquí" defaultValue={curso.detalle} ref={refDescripcion}></textarea>                    
       </div>
-      {/*<div className="w-[95%] mx-auto my-5">
-        <label htmlFor="price" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
-        <input type="text" pattern="[0-9]{1,}\.[0-9]{1,}" name="price" id="price" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="$100,50" required="" defaultValue={curso.price} ref={refPrice} />
-      </div>*/}
-
+      
       {/*Aqui va la tabla con el contenido del capitulo */}
       <div className="w-[95%] mx-auto border-2 border-gray-400 my-10 rounded-lg">
         {/*curso.capituloList*/}
         {capitulos && capitulos.map((cap)=> (
-          <div key={cap.Codigo}>
+          <div key={cap.id}>
             <div  className="flex justify-around items-center my-4">
               <div className="">
                 <label className="mr-2 font-medium" htmlFor="titulo">Capitulo: </label>
-                <span className="" name="titulo" id="titulo" >{cap.Titulo}</span>
+                <span className="" name="titulo" id="titulo" >{cap.titulo}</span>
               </div>
               <div className="flex">
                 <button onClick={()=>handleAddVideo(cap)} className="bg-orange-400 hover:bg-orange-600 hover:text-white hover:cursor-pointer flex items-center px-4 py-2 text-sm rounded-lg mr-2">
@@ -142,7 +166,7 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso,setShowDeber
                       <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
                       <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
                   </svg>
-                  Agregar videos
+                  Agregar Videos
                 </button>
                 <button onClick={() => handleEditCap(cap)} className="flex items-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-cyan-400 hover:bg-cyan-600 rounded-lg mr-2">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-pencil-square h-4 w-4 mr-2" viewBox="0 0 16 16">
@@ -164,23 +188,24 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso,setShowDeber
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
-                  <th scope="col" className="px-4 py-3">Código</th>
+                  {/* <th scope="col" className="px-4 py-3">Código</th> */}
                   <th scope="col" className="px-4 py-3">Titulo</th>
-                  <th scope="col" className="px-4 py-3">Url Video</th>
+                  <th scope="col" className="px-4 py-3">VideoURL</th>
                   <th scope="col" className="px-4 py-3">Orden de Reproducción</th>
-                  <th scope="col" className="px-4 py-3">Visto</th>
+                  {/* <th scope="col" className="px-4 py-3">Visto</th> */}
                   <th scope="col" className="px-4 py-3">Editar/Eliminar</th>
                   </tr>
                 </thead>
                 <tbody>
-                {cap.Videos? (cap.Videos.map((video) => (
-                  <tr key={video.Codigo} className="border-b dark:border-gray-700">
-                    <td className="px-4 py-3">{video.Codigo}</td>
-                    <td className="px-4 py-3">{video.Titulo}</td>
-                    <td className="px-4 py-3">{video.VideoUrl}</td>
-                    <td className="px-4 py-3">{video.OrdenReproduccion}</td>
-                    <td className="px-4 py-3">{String(video.Visto)}</td>
-                    <td className="px-4 py-3">
+                  <VideoCard cap={cap} setShowModalVideo={setShowModalVideo} setShowModalDeleteVideo={setShowModalDeleteVideo} setVideo={setVideo} />
+                {/*{(cap.Videos.map((video) => (
+                  <tr key={video.id} className="border-b dark:border-gray-700">
+                    {/* <td className="px-4 py-3">{video.Codigo}</td>
+                    <td className="px-4 py-3">{video.titulo}</td>
+                    <td className="px-4 py-3">{video.videoUrl}</td>
+                    <td className="px-4 py-3">{video.ordenReproduccion}</td>
+                    {/* <td className="px-4 py-3">{String(video.Visto)}</td> */}
+                    {/*<td className="px-4 py-3">
                       <div className="py-1 flex justify-start">                          
                         <button onClick={() => handleEditVideo(video)} className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-yellow-300 hover:bg-yellow-400 rounded-lg mr-2">
                           <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-pencil-square h-4 w-4 mr-2" viewBox="0 0 16 16">
@@ -198,7 +223,7 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso,setShowDeber
                       </div>
                     </td>
                   </tr>
-                ))): (null)}
+                ))): (null)} */}
                   
                 </tbody>
               </table>
@@ -218,7 +243,7 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso,setShowDeber
         </button>)
         :
         (<button onClick={()=> handleCursoEdit()} className="flex items-center px-4 py-2 bg-gray-400 hover:bg-gray-600 text-gray 900 hover:text-white text-sm rounded-lg hover:scale-125">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-floppy w-5 h-5 mr-2" viewBox="0 0 16 16">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-floppy w-5 h-5 mr-2" viewBox="0 0 16 16">
             <path d="M11 2H9v3h2z"/>
             <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z"/>
           </svg>

@@ -1,13 +1,24 @@
 
-export const ModalDeletePrueba = ({showModalDeletePrueba,setShowModalDeletePrueba,prueba,setPrueba,pruebas,setPruebas}) => {
+export const ModalDeletePrueba = ({showModalDeletePrueba,setShowModalDeletePrueba,prueba,setPrueba, setResponse/*pruebas,setPruebas*/}) => {
 
-    const handleDeletePrueba = (test) => {
-        let updatedPruebas = pruebas.filter((examen)=> examen.Id !==prueba.Id );
-        setPruebas(updatedPruebas);
+    const handleDeletePrueba = async(test) => {
+        // let updatedPruebas = pruebas.filter((examen)=> examen.Id !==prueba.Id );
+        // setPruebas(updatedPruebas);
+        const resultFromApi = await fetch(`https://localhost:7164/api/Prueba/deletePrueba/${prueba.id}`,{
+            method:'DELETE',
+            credentials:'include',
+            headers:{
+                'Content-Type' : 'application/json',
+                'Accept' : 'application/json'
+            },
+        });
+        const resultFetch = await resultFromApi.json();
+        setResponse(resultFetch);
         setPrueba({});
         setShowModalDeletePrueba(false);
     }
 
+    
   return (
     <div>
         <div id="popup-modal" tabIndex="-1" className={`${showModalDeletePrueba? '':'hidden'} overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full`}>

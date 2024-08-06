@@ -1,36 +1,67 @@
 import { useRef } from "react";
 
-export const ModalDeber = ({showModalDeber,setShowModalDeber,deber,setDeber,deberes,setDeberes}) => {
+export const ModalDeber = ({showModalDeber,setShowModalDeber,deber,setDeber,curso, setResponse/*deberes,setDeberes*/}) => {
 
-  const refId = useRef();
+  //const refId = useRef();
   const refTitulo = useRef();
   const refDetalle = useRef();
 
 
-  const handleSubmitAdd = (event) => {
+  const handleSubmitAdd = async(event) => {
     event.preventDefault();
     //console.log(deber);
-    let object = {Id:refId.current.value,Titulo:refTitulo.current.value,Detalle:refDetalle.current.value,Estado:'Por Entregar',FileUrl:'',Calificacion:0.0}
-    console.log(object);
-    let updatedDeberes = deberes.concat(object);
-    console.log(updatedDeberes);
-    setDeberes(updatedDeberes);
+    // let object = {Id:refId.current.value,Titulo:refTitulo.current.value,Detalle:refDetalle.current.value,Estado:'Por Entregar',FileUrl:'',Calificacion:0.0}
+    // console.log(object);
+    // let updatedDeberes = deberes.concat(object);
+    // console.log(updatedDeberes);
+    // setDeberes(updatedDeberes);
+    const resultFromApi = await fetch(`https://localhost:7164/api/Deber/createDeber`,{
+        method:'POST',
+        credentials:'include',
+        headers:{
+            'Content-Type' : 'application/json',
+            'Accept' : 'application/json'
+        },
+        body: JSON.stringify({
+            titulo: refTitulo.current.value,
+            detalle:refDetalle.current.value,
+            courseId: curso.id,
+        })
+    });
+    const resultFetch = await resultFromApi.json();
     setShowModalDeber(false);
-    console.log('Se agrego el video');
+    setResponse(resultFetch);
+    //console.log('Se agrego el video');
   }
 
-  const handleSubmitEdit = (event) => {
+  const handleSubmitEdit = async(event) => {
     event.preventDefault();
     //let updatedDeber = deberes.find((task) => task.id === deber.id); 
-    let deberesList = deberes;
-    let updatedDeberes = deberesList.map(task => task.Id === deber.Id? {...task,Id:refId.current.value,Titulo:refTitulo.current.value,Detalle:refDetalle.current.value}:task);
-    //Luego de obtener el capitulo y la lista de videos con el video ya eliminado se procede a editar la lista completa para poder 
-    //presentar la lista actualizada en la interfaz
-    //console.log(updatedVideos);
-    //let updateCapitulos = capitulos.map((cap) => cap.Codigo===updatedCapitulo.Codigo ? {...cap, Videos:updatedVideos}:cap)
-    console.log(updatedDeberes);
-    setDeberes(updatedDeberes);
-    setShowModalDeber(false);
+    // let deberesList = deberes;
+    // let updatedDeberes = deberesList.map(task => task.Id === deber.Id? {...task,Id:refId.current.value,Titulo:refTitulo.current.value,Detalle:refDetalle.current.value}:task);
+    // //Luego de obtener el capitulo y la lista de videos con el video ya eliminado se procede a editar la lista completa para poder 
+    // //presentar la lista actualizada en la interfaz
+    // //console.log(updatedVideos);
+    // //let updateCapitulos = capitulos.map((cap) => cap.Codigo===updatedCapitulo.Codigo ? {...cap, Videos:updatedVideos}:cap)
+    // console.log(updatedDeberes);
+    // setDeberes(updatedDeberes);
+    const resultFromApi = await fetch(`https://localhost:7164/api/Deber/updateDeber/${deber.id}`,{
+        method:'PUT',
+        credentials:'include',
+        headers:{
+            'Content-Type' : 'application/json',
+            'Accept' : 'application/json'
+        },
+        body: JSON.stringify({
+            id: deber.id,
+            titulo: refTitulo.current.value,
+            detalle:refDetalle.current.value,
+            courseId: curso.id,
+        })
+    });
+    const resultFetch = await resultFromApi.json();
+    setResponse(resultFetch);
+    setShowModalDeber(false);    
     setDeber({});
   }
 
@@ -54,23 +85,23 @@ export const ModalDeber = ({showModalDeber,setShowModalDeber,deber,setDeber,debe
                       </button>
                   </div>
                   {/*<!-- Modal body -->*/}
-                  <form className="p-4 md:p-5" onSubmit={deber.Id ?  handleSubmitEdit : handleSubmitAdd} >
+                  <form className="p-4 md:p-5" onSubmit={deber.id ?  handleSubmitEdit : handleSubmitAdd} >
                       <div className="grid gap-4 mb-4 grid-cols-2">
-                          <div className="col-span-2">
+                          {/* <div className="col-span-2">
                               <label htmlFor="id" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Identificador</label>
                               <input type="text" name="id" id="id" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Escribe el Código" required="" ref={refId} defaultValue={deber.Id || ''} />
-                          </div>                            
+                          </div>                             */}
                           <div className="col-span-2">
                               <label htmlFor="titulo" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Titulo</label>
-                              <input type="text" name="titulo" id="titulo" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Escribe el Titulo" required="" ref={refTitulo} defaultValue={deber.Titulo || ''} />
+                              <input type="text" name="titulo" id="titulo" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Escribe el Titulo" required="" ref={refTitulo} defaultValue={deber.titulo || ''} />
                           </div>
                           <div className="col-span-2">
                               <label htmlFor="detalle" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Detalle</label>                                
-                              <textarea id="detalle" name='detalle' rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Escribe la descripción del curso aquí" defaultValue={deber.Detalle} ref={refDetalle}></textarea>                    
+                              <textarea id="detalle" name='detalle' rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Escribe la descripción del curso aquí" defaultValue={deber.detalle} ref={refDetalle}></textarea>                    
                           </div>
                           
                       </div>
-                      {deber.Id ? 
+                      {deber.id ? 
                           (<button type="submit" className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                               <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-pen me-1 -ms-1 w-5 h-5" viewBox="0 0 16 16">
                                   <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"/>

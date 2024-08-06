@@ -8,6 +8,7 @@ export const ModalCourse = ({showModalCourse,setShowModalCourse,setResponse}) =>
     const refTitulo = useRef();
     const refDescripcion = useRef();
     const refPrice = useRef();
+    const refCodigo = useRef();
 
 
     const handleSubmitAdd = async(event) => {
@@ -22,16 +23,18 @@ export const ModalCourse = ({showModalCourse,setShowModalCourse,setResponse}) =>
                     'Accept' : 'application/json'
                 },
                 body: (JSON.stringify({
-                    imageUrl: refImageUrl.current.value,
+                    imagenUrl: refImageUrl.current.value,
                     titulo: refTitulo.current.value,
-                    descripcion: refDescripcion.current.value,
-                    state: 'Por Aprobar',
-                    deberes: [],
-                    pruebas: [],
-                    notaFinal : 0,
-                    price: parseFloat(refPrice.current.value),
-                    isActive: false,
-                    capituloList: []
+                    codigo : refCodigo.current.value,
+                    detalle: refDescripcion.current.value,
+                    // state: 'Por Aprobar',
+                    // deberes: [],
+                    // pruebas: [],
+                    // notaFinal : 0,
+                    precio: parseFloat(refPrice.current.value),
+                    // isActive: false,
+                    // capituloList: []
+                    
                 }))
             });
             const resultFetch = await result.json();
@@ -69,6 +72,10 @@ export const ModalCourse = ({showModalCourse,setShowModalCourse,setResponse}) =>
                     {/*<!-- Modal body -->*/}
                     <form className="p-4 md:p-5" onSubmit={handleSubmitAdd}>
                         <div className="grid gap-4 mb-4 grid-cols-2">
+                            <div className="col-span-2">
+                                <label htmlFor="codigo" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Codigo</label>
+                                <input type="text" name="codigo" id="codigo" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Escribe el titulo del curso aquí" required="" ref={refCodigo} />
+                            </div>
                             <div className="col-span-2">
                                 <label htmlFor="titulo" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Titulo</label>
                                 <input type="text" name="titulo" id="titulo" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Escribe el titulo del curso aquí" required="" ref={refTitulo} />

@@ -17,6 +17,7 @@ export {ModalDeleteVideo} from './ModalDeleteVideo';
 export {ModalSuccess} from './ModalSuccess'; //Cuando se Guardan la informacion de los videos
 export {ModalTalento} from './ModalTalento';
 export {ModalDeleteTalento} from './ModalDeleteTalento';
+export {VideoCard} from './VideoCard';
 
 export {Profesor} from './Profesor'; //Permite asignar el curso al profesor
 export {ModalSuccessAssigment} from './ModalSuccessAssigment'; //Cuando se Guardan la informacion de los videos

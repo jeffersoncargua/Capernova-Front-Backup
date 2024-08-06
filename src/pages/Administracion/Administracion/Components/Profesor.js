@@ -160,14 +160,14 @@ export const Profesor = ({profesor, setProfesor,cursoList,response,setResponse})
                         (profesor.id === curso.teacherId) && (
                         <tr key={curso.id} className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
                             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {curso.id}
+                                {curso.codigo}
                             </td>
                             <td className="px-6 py-4">
                                 {curso.titulo}
                             </td>
                             <td className="px-6 py-4">
-                                {curso.price}
-                            </td>
+                                {curso.precio}
+                            </td> 
                             <td className="px-6 py-4">
                                 {showButtonLoading2? (
                                 <button disabled className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-red-500 hover:bg-red-600 rounded-lg">

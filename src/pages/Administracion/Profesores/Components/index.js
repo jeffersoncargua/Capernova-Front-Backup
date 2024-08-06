@@ -12,6 +12,7 @@ export {ModalDeleteCapitulo} from './ModalDeleteCapitulo';
 export {ModalVideo} from './ModalVideo';
 export {ModalDeleteVideo} from './ModalDeleteVideo';
 export {ModalSuccess} from './ModalSuccess';
+export {VideoCard} from './VideoCard';
 
 export {ModalDeber} from './ModalDeber';
 export {ModalDeleteDeber} from './ModalDeleteDeber';
