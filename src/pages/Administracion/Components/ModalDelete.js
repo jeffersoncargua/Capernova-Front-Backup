@@ -25,9 +25,21 @@ export const ModalDelete = ({showModalDelete,setShowModalDelete, objeto,setObjet
                             setResponse(resultFetch);
                             
                 break;
-            case 'curso': //instrucciones para eliminar la prueba
+            case 'curso': //instrucciones para eliminar la prueba Course/deleteCourse
+                            resultFetch = await Delete('Course/deleteCourse',object)
+                            setResponse(resultFetch);
 
-            break;
+                break;
+            case 'publicidad': //instrucciones para eliminar la prueba Course/deleteCourse
+                            resultFetch = await Delete('Marketing/deletePublicidad',object)
+                            setResponse(resultFetch);
+
+                break;
+            case 'talento': //instrucciones para eliminar la prueba Course/deleteCourse
+                            resultFetch = await Delete('Managment/deleteUser',object)
+                            setResponse(resultFetch);
+
+                break;        
             default:
                 break;
         
@@ -66,7 +78,7 @@ export const ModalDelete = ({showModalDelete,setShowModalDelete, objeto,setObjet
                             <span className="sr-only">Close modal</span>
                         </button>
                         <div className="p-4 md:p-5 text-center">
-                            <svg className="mx-auto mb-4 w-12 h-12 text-red-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <svg className="mx-auto mb-4 w-12 h-12 text-red-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                             </svg>
                             <h3 className="mb-5 text-lg font-normal dark:text-white">Estas seguro de eliminar este/esta {tipo}?</h3>

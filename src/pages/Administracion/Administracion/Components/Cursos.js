@@ -1,9 +1,12 @@
 import { useState,useRef, useEffect} from "react";
-import { ModalCourse, ModalDeleteCurso } from "../Components";
+import { ModalDelete } from "../../Components";
+//import { ModalCourse, ModalDeleteCurso } from "../Components";
+import { ModalCourse } from "../Components";
 import { toast } from "react-toastify";
 
 
-export const Cursos = ({setShowCursos, setShowVideos, showModalCourse ,setShowModalCourse,showModalDeleteCurso,setShowModalDeleteCurso, cursoList ,curso, setCurso, setSearch, response ,setResponse}) => {
+//export const Cursos = ({setShowCursos, setShowVideos, showModalCourse ,setShowModalCourse,showModalDeleteCurso,setShowModalDeleteCurso, cursoList ,curso, setCurso, setSearch, response ,setResponse}) => {
+  export const Cursos = ({setShowCursos, setShowVideos, showModalCourse ,setShowModalCourse,showModalDelete,setShowModalDelete, cursoList ,curso, setCurso, setSearch, response ,setResponse}) => {
 
   const pageSize = 5;
   
@@ -16,6 +19,8 @@ export const Cursos = ({setShowCursos, setShowVideos, showModalCourse ,setShowMo
   // const [showModalCourse,setShowModalCourse] = useState(false);
   // const [showModalDeleteCurso,setShowModalDeleteCurso] = useState(false);
   const columns = ["Imagen", "Titulo", "Descripción", "Precio" ,"Editar/Eliminar"];
+  const [tipo,setTipo] = useState(''); //es para almacenar el tipo de objeto a eliminar que puede ser curso, capitulo, video, deber, etc
+  const [objeto, setObjeto] = useState({}); //es para almacenar el objeto a eliminar mediante el componente ModalDelete
   const refSearch = useRef();
 
   useEffect(() => {
@@ -91,8 +96,11 @@ export const Cursos = ({setShowCursos, setShowVideos, showModalCourse ,setShowMo
   }*/
 
   const handleDelete = (curso) => {
-    setCurso(curso);
-    setShowModalDeleteCurso(!showModalDeleteCurso);
+    //setCurso(curso);
+    setObjeto(curso);
+    setTipo('curso');
+    //setShowModalDeleteCurso(!showModalDeleteCurso);
+    setShowModalDelete(!showModalDelete);
     setResponse({});
   }
 
@@ -100,10 +108,13 @@ export const Cursos = ({setShowCursos, setShowVideos, showModalCourse ,setShowMo
 
   return (
     <div>
+
+        <h1 className="text-center font-medium text-xl dark:text-white mb-10">Cursos Capernova</h1>
         {/*Aqui van los modales */}
         
         {showModalCourse && <ModalCourse showModalCourse={showModalCourse} setShowModalCourse={setShowModalCourse} setSearch={setSearch} setResponse={setResponse} />}
-        {showModalDeleteCurso && <ModalDeleteCurso showModalDeleteCurso={showModalDeleteCurso} setShowModalDeleteCurso={setShowModalDeleteCurso} curso={curso} setSearch={setSearch} setResponse={setResponse} />}
+        {/* {showModalDeleteCurso && <ModalDeleteCurso showModalDeleteCurso={showModalDeleteCurso} setShowModalDeleteCurso={setShowModalDeleteCurso} curso={curso} setSearch={setSearch} setResponse={setResponse} />} */}
+        {showModalDelete && <ModalDelete showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete} objeto={objeto} setObjeto={setObjeto} setResponse={setResponse} tipo={tipo} setTipo={setTipo} />}
         {/* Tabla para la informacion */}
         <section className="">
           <div className="mx-auto max-w-screen-xl px-4 lg:px-12">
@@ -115,7 +126,7 @@ export const Cursos = ({setShowCursos, setShowVideos, showModalCourse ,setShowMo
                     <label htmlFor="simple-search" className="sr-only">Search</label>
                     <div className="relative w-full">
                       <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                        <svg aria-hidden="true" className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <svg aria-hidden="true" className="w-5 h-5 text-gray-500 dark:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
                         </svg>
                       </div>
@@ -134,8 +145,8 @@ export const Cursos = ({setShowCursos, setShowVideos, showModalCourse ,setShowMo
                 </div>
               </div>
               <div className="overflow-x-auto">
-                <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                  <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <table className="w-full text-sm text-left dark:text-white">
+                  <thead className="text-xs uppercase bg-gray-50 dark:bg-gray-700 dark:text-white">
                     <tr>
                     {columns.map((column) => (
                       <th key={column} scope="col" className="px-4 py-3">{column}</th>
@@ -177,7 +188,7 @@ export const Cursos = ({setShowCursos, setShowVideos, showModalCourse ,setShowMo
   
         {/* Pagination section */}
         <div className="flex justify-around items-center p-3 sm:p-5">
-          <div>
+          <div className="group dark:text-white">
             <p>
               Mostrando{" "}
               <span>{pageSize * (currentPage - 1) + 1}</span>
