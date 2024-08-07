@@ -6,7 +6,7 @@ export const ModalCapitulo = ({showModalCapitulo,setShowModalCapitulo,capitulo, 
     //const refCodigo = useRef();
     const refTitulo = useRef();
 
-    console.log(capitulo);
+    //console.log(capitulo);
  
     const handleSubmitAdd = async(event) =>  {
         event.preventDefault();

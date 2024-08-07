@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
-
-import { SideBar,Cursos,Videos,Estudiantes,Informacion,Deberes,Pruebas } from "./Components"
+import { Videos } from '../Components'
+//import { SideBar,Cursos,Videos,Estudiantes,Informacion,Deberes,Pruebas } from "./Components" //Estos contiente los componentes del Profesor pero se quiere emplear componentes en comun con Administración
+import { SideBar,Cursos,Estudiantes,Informacion,Deberes,Pruebas } from "./Components";
 
 export const Profesor = () => {
 

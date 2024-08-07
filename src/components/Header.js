@@ -64,7 +64,7 @@ export const Header = () => {
         setShowDrop(true)
         setShowDropProductos(true);
         navigate('/products');
-    }    
+    }   
 
 
   return (
@@ -147,7 +147,7 @@ export const Header = () => {
                             <path fillRule="evenodd" d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z"/>
                             <path fillRule="evenodd" d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z"/>
                         </svg>
-                        Logout
+                        Cerrar Sesión
                     </button>)
                     :
                     (<div className='flex items-center'>
@@ -157,7 +157,7 @@ export const Header = () => {
                                 <path fillRule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"/>
                                 <path fillRule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
                             </svg>
-                            Login
+                            Iniciar Sesión
                         </Link>
                     </div>)
                     }
@@ -203,25 +203,25 @@ export const Header = () => {
                             <div id="dropdownNavbar" className={`${showDrop ? 'hidden':''} md:absolute z-50 font-normal bg-white divide-y divide-gray-100 rounded-lg shadow md:w-44 dark:bg-gray-700 dark:divide-gray-600`} >
                                 <ul className="rounded-lg py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownLargeButton">
                                     <li >
-                                        <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden);setShowDropProductos(!showDropProductos)}} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Cocina</Link>
+                                        <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden);setShowDropProductos(true)}} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Cocina</Link>
                                     </li>
                                     <li >
-                                        <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden);setShowDropProductos(!showDropProductos)}} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Cosmetología</Link>
+                                        <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden);setShowDropProductos(true)}} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Cosmetología</Link>
                                     </li>
                                     <li >
-                                        <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden);setShowDropProductos(!showDropProductos)}} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Peluquería</Link>
+                                        <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden);setShowDropProductos(true)}} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Peluquería</Link>
                                     </li>
                                     <li >
-                                        <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden);setShowDropProductos(!showDropProductos)}} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Veterinaria</Link>
+                                        <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden);setShowDropProductos(true)}} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Veterinaria</Link>
                                     </li>
                                     <li >
-                                        <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden);setShowDropProductos(!showDropProductos)}} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Chocolatería Fina</Link>
+                                        <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden);setShowDropProductos(true)}} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Chocolatería Fina</Link>
                                     </li>
                                     <li >
-                                        <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden);setShowDropProductos(!showDropProductos)}} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Reposteria Fina</Link>
+                                        <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden);setShowDropProductos(true)}} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Reposteria Fina</Link>
                                     </li>
                                     <li >
-                                        <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden);setShowDropProductos(!showDropProductos)}} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Make Up</Link>
+                                        <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden);setShowDropProductos(true)}} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Make Up</Link>
                                     </li>
                                 </ul>
                             </div>
@@ -239,13 +239,13 @@ export const Header = () => {
                             <div id="dropdownNavbar" className={`${showDropProductos ? 'hidden':''} md:absolute z-50 font-normal bg-white divide-y divide-gray-100 rounded-lg shadow md:w-44 dark:bg-gray-700 dark:divide-gray-600`} >
                                 <ul className="rounded-lg py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownLargeButton">
                                     <li >
-                                        <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden);setShowDropProductos(!showDropProductos)}} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Shampoo</Link>
+                                        <Link onClick={() => {setShowDrop(true);setHidden(!hidden);setShowDropProductos(!showDropProductos)}} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Shampoo</Link>
                                     </li>
                                     <li >
-                                        <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden);setShowDropProductos(!showDropProductos)}} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Aceites Naturales</Link>
+                                        <Link onClick={() => {setShowDrop(true);setHidden(!hidden);setShowDropProductos(!showDropProductos)}} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Aceites Naturales</Link>
                                     </li>
                                     <li >
-                                        <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden);setShowDropProductos(!showDropProductos)}} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Cremas</Link>
+                                        <Link onClick={() => {setShowDrop(true);setHidden(!hidden);setShowDropProductos(!showDropProductos)}} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Cremas</Link>
                                     </li>                                
                                 </ul>
                             </div>
@@ -253,28 +253,28 @@ export const Header = () => {
                         </li>
                         {/*Se debe colocar el link para cada rol de administración: Profesor, Secretaria y Administrador, Tambien se puede colocar el enlace a los cursos del estudiante*/}
                         {user.role === 'Admin' && <li>
-                            <Link onClick={() => {setHidden(!hidden);;setShowDrop(true);setShowDropProductos(!showDropProductos)}} to="admin" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Administración</Link>
+                            <Link onClick={() => {setHidden(!hidden);setShowDrop(true);setShowDropProductos(true)}} to="admin" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Administración</Link>
                         </li>}
                         {user.role === 'Teacher' && <li>
-                            <Link onClick={() => {setHidden(!hidden);;setShowDrop(true);setShowDropProductos(!showDropProductos)}} to="teacher" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Profesor</Link>
+                            <Link onClick={() => {setHidden(!hidden);setShowDrop(true);setShowDropProductos(true)}} to="teacher" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Profesor</Link>
                         </li>}
                         {user.role === 'Secretary' && <li>
-                            <Link onClick={() => {setHidden(!hidden);;setShowDrop(true);setShowDropProductos(!showDropProductos)}} to="secretary" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Secretaria</Link>
+                            <Link onClick={() => {setHidden(!hidden);setShowDrop(true);setShowDropProductos(true)}} to="secretary" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Secretaria</Link>
                         </li>}
                         {user.role === 'Student' && <li>
-                            <Link onClick={() => {setHidden(!hidden);;setShowDrop(true)}} to="student" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Mis Cursos</Link>
+                            <Link onClick={() => {setHidden(!hidden);setShowDrop(true);setShowDropProductos(true)}} to="student" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Mis Cursos</Link>
                         </li>}
                         {isAuth? 
                         (<li className='md:hidden'>
-                            <button onClick={() => {handleLogout();setShowDrop(true);setShowDropProductos(!showDropProductos)}} className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Logout</button>
+                            <button onClick={() => {handleLogout();setShowDrop(true);setShowDropProductos(true)}} className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Logout</button>
                         </li>)
                         :
                         (<>
                             <li className='md:hidden'>
-                                <Link onClick={() => {setHidden(true);setShowDrop(true);setShowDropProductos(!showDropProductos)}} to="register" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Registrarse</Link>
+                                <Link onClick={() => {setHidden(true);setShowDrop(true);setShowDropProductos(true)}} to="register" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Registrarse</Link>
                             </li>
                             <li className='md:hidden'>
-                                <Link onClick={() => {setHidden(true);setShowDrop(true);setShowDropProductos(!showDropProductos)}} to="login" className=" block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Sign In</Link>
+                                <Link onClick={() => {setHidden(true);setShowDrop(true);setShowDropProductos(true)}} to="login" className=" block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Iniciar Sesión</Link>
                             </li>
                         </>)}
                     </ul>

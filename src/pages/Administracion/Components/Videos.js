@@ -1,6 +1,8 @@
 import { useRef, useState,useEffect } from "react";
 import { toast } from "react-toastify";
-import { ModalCapitulo,ModalVideo,ModalDeleteCapitulo,ModalDeleteVideo,ModalSuccess ,VideoCard} from "../Components";
+import {ModalCapitulo,ModalDelete,ModalVideo,VideoCard} from '../Components';
+//import { ModalCapitulo,ModalVideo,ModalDeleteCapitulo,ModalDeleteVideo,ModalSuccess ,VideoCard} from "../Components"; //son componentes de la carpeta administracion/profesor/components
+import { ModalSuccess} from "../Profesores/Components"; //son componentes de la carpeta administarcion/components
 
 export const Videos = ({setShowCursos,setShowVideos,curso, setCurso,setShowDeberes,setShowPruebas}) => {
 
@@ -8,10 +10,13 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso,setShowDeber
   const [capitulo, setCapitulo] = useState({});
   let [videos, setVideos] = useState([]);
   const [video, setVideo] = useState({});
+  const [objeto, setObjeto] = useState({}); //es el objeto que se va a eliminar el cual puede ser video o capitulo
+  const [tipo,setTipo] = useState(''); //es el objeto que contiene el tipo sea video, capitulo, deber o prueba a eliminar
   const [showModalCapitulo, setShowModalCapitulo] = useState(false);
-  const [showModalDeleteCapitulo, setShowModalDeleteCapitulo] = useState(false);
+  //const [showModalDeleteCapitulo, setShowModalDeleteCapitulo] = useState(false);
   const [showModalVideo, setShowModalVideo] = useState(false);
-  const [showModalDeleteVideo, setShowModalDeleteVideo] = useState(false);
+  //const [showModalDeleteVideo, setShowModalDeleteVideo] = useState(false);
+  const [showModalDelete, setShowModalDelete] = useState(false);
   const [showModalSuccess, setShowModalSuccess] = useState(false);
   const [showButtonLoading, setShowButtonLoading] = useState(false);
   const [response, setResponse] = useState({});
@@ -47,12 +52,14 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso,setShowDeber
 
   const handleEditCap = (cap) => {
     setShowModalCapitulo(true);
-    setCapitulo(cap);
+    setCapitulo(cap);    
   }
 
   const handleDeleteCap = (cap) => {
-    setShowModalDeleteCapitulo(true);
-    setCapitulo(cap);
+    setShowModalDelete(true);
+    //setCapitulo(cap);
+    setObjeto(cap);
+    setTipo('capitulo');
   }
 
   const handleAddVideo = (cap) => {
@@ -108,9 +115,11 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso,setShowDeber
 
       {/*Se muestran los modales para la generacion, edicion y eliminacion de los capitulos y videos del curso */}
       {showModalCapitulo && <ModalCapitulo showModalCapitulo={showModalCapitulo} setShowModalCapitulo={setShowModalCapitulo} capitulo={capitulo} setCapitulo={setCapitulo} curso={curso} setResponse={setResponse} /*capitulos={capitulos} setCapitulos={setCapitulos}*/ />}
-      {showModalDeleteCapitulo && <ModalDeleteCapitulo showModalDeleteCapitulo={showModalDeleteCapitulo} setShowModalDeleteCapitulo={setShowModalDeleteCapitulo} capitulo={capitulo} setCapitulo={setCapitulo} setResponse={setResponse} /*capitulos={capitulos} setCapitulos={setCapitulos}*//>}
+      
+      
       {showModalVideo && <ModalVideo showModalVideo={showModalVideo} setShowModalVideo={setShowModalVideo} video={video} setVideo={setVideo} videos={videos} setVideos={setVideos} capitulo={capitulo} setCapitulo={setCapitulo} setResponse={setResponse} /*capitulos={capitulos} setCapitulos={setCapitulos}*/ />}
-      {showModalDeleteVideo && <ModalDeleteVideo showModalDeleteVideo={showModalDeleteVideo} setShowModalDeleteVideo={setShowModalDeleteVideo} video={video} setVideo={setVideo} setResponse={setResponse} /*capitulos={capitulos} setCapitulos={setCapitulos}*/ />}
+      
+      {showModalDelete && <ModalDelete showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete} objeto={objeto} setObjeto={setObjeto} setResponse={setResponse} tipo={tipo} setTipo={setTipo}  />}
       {showModalSuccess && <ModalSuccess showModalSuccess={showModalSuccess} setShowModalSuccess={setShowModalSuccess} response={response} setResponse={setResponse} setShowCursos={setShowCursos} setShowVideos={setShowVideos} />}
 
       <div className="w-[95%] mx-auto mt-5 flex justify-between">
@@ -198,7 +207,8 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso,setShowDeber
                   </tr>
                 </thead>
                 <tbody>
-                  <VideoCard cap={cap} setShowModalVideo={setShowModalVideo} setShowModalDeleteVideo={setShowModalDeleteVideo} setVideo={setVideo} />
+                  {/* <VideoCard cap={cap} setShowModalVideo={setShowModalVideo} setShowModalDeleteVideo={setShowModalDeleteVideo} setVideo={setVideo} /> */}
+                  <VideoCard cap={cap} setShowModalVideo={setShowModalVideo} setShowModalDelete={setShowModalDelete} setVideo={setVideo} setObjeto={setObjeto} setTipo={setTipo} />
                 {/*{(cap.Videos.map((video) => (
                   <tr key={video.id} className="border-b dark:border-gray-700">
                     {/* <td className="px-4 py-3">{video.Codigo}</td>

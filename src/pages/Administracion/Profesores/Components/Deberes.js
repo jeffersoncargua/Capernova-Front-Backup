@@ -99,14 +99,16 @@ export const Deberes = ({setShowCursos,setShowVideos,curso, setCurso,setShowDebe
       {showModalDeber && <ModalDeber showModalDeber={showModalDeber} setShowModalDeber={setShowModalDeber} deber={deber} setDeber={setDeber} curso={curso} setResponse={setResponse} /*deberes={deberes} setDeberes={setDeberes}*/ />}
       {showModalDeleteDeber && <ModalDeleteDeber showModalDeleteDeber={showModalDeleteDeber} setShowModalDeleteDeber={setShowModalDeleteDeber} deber={deber} setDeber={setDeber} setResponse={setResponse}  /*deberes={deberes} setDeberes={setDeberes}*/ />}
       {showModalSuccess && <ModalSuccess showModalSuccess={showModalSuccess} setShowModalSuccess={setShowModalSuccess} response={response} setResponse={setResponse} setShowCursos={setShowCursos} setShowVideos={setShowVideos} setShowDeberes={setShowDeberes} setShowPruebas={setShowPruebas} />}
+
+      <h1 className="text-center font-medium text-xl dark:text-white">Deberes Capernova</h1>
         
-      <div className="w-[95%] mx-auto mt-5 flex justify-between">
-        <div>
+      <div className="w-[95%] mx-auto mt-5 flex justify-between ">
+        <div className="group dark:text-white">
           <label className="mr-2 font-medium" htmlFor="titulo">Curso: </label>
-          <input type="text" className="rounded-lg bg-gray-50" name="titulo" id="titulo" defaultValue={curso.titulo} />
+          <input type="text" className="rounded-lg bg-transparent dark:bg-slate-900 border-0" name="titulo" id="titulo" defaultValue={curso.titulo} />
         </div>
         <div>
-          <button onClick={()=>setShowModalDeber(true)} className="bg-green-500 hover:bg-green-700 hover:text-white hover:cursor-pointer flex items-center px-4 py-2 rounded-lg">
+          <button onClick={()=>{setShowModalDeber(true);setDeber({})}} className="bg-green-500 hover:bg-green-700 hover:text-white hover:cursor-pointer flex items-center px-4 py-2 rounded-lg">
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-plus-circle h-4 w-4 mr-2" viewBox="0 0 16 16">
                 <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
                 <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
@@ -120,8 +122,8 @@ export const Deberes = ({setShowCursos,setShowVideos,curso, setCurso,setShowDebe
       <div className="w-[95%] mx-auto border-2 border-gray-400 my-10 rounded-lg">
         {/*tabla con la informacion de los deberes */}
         <div className="overflow-x-auto">
-              <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <table className="w-full text-sm text-left dark:text-white">
+                <thead className="text-xs uppercase bg-gray-50 dark:bg-gray-700 dark:text-white">
                   <tr>
                     {/* <th scope="col" className="px-4 py-3">Id</th> */}
                     <th scope="col" className="px-4 py-3">Titulo</th>
