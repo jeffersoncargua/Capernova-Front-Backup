@@ -1,16 +1,21 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import {ModalPrueba, ModalDeletePrueba, ModalSuccess} from '../Components'
+import { ModalDelete } from "../../Components";
+//import {ModalPrueba, ModalDeletePrueba, ModalSuccess} from '../Components'
+import {ModalPrueba,  ModalSuccess} from '../Components'
 
 export const Pruebas = ({setShowCursos,setShowVideos,curso, setCurso,setShowDeberes,setShowPruebas}) => {
 
   let [pruebas, setPruebas] = useState([]);
   const [prueba, setPrueba] = useState({});
   const [showModalPrueba, setShowModalPrueba] = useState(false);
-  const [showModalDeletePrueba, setShowModalDeletePrueba] = useState(false);
+  //const [showModalDeletePrueba, setShowModalDeletePrueba] = useState(false);
+  const [showModalDelete, setShowModalDelete] = useState(false);
   const [showModalSuccess, setShowModalSuccess] = useState(false);
   //const [showButtonLoading, setShowButtonLoading] = useState(false);
   const [response, setResponse] = useState({});
+  const [tipo,setTipo] = useState('');
+  const [objeto,setObjeto] = useState({});
 
   //const refTitulo = useRef();
   //const refDescripcion = useRef();
@@ -45,8 +50,11 @@ export const Pruebas = ({setShowCursos,setShowVideos,curso, setCurso,setShowDebe
   }
 
   const handleDeletePrueba = (test) => {
-    setShowModalDeletePrueba(true);
-    setPrueba(test);
+    //setShowModalDeletePrueba(true);
+    //setPrueba(test);
+    setShowModalDelete(!showModalDelete);
+    setObjeto(test);
+    setTipo('prueba');
   }
 
   
@@ -94,7 +102,8 @@ export const Pruebas = ({setShowCursos,setShowVideos,curso, setCurso,setShowDebe
       <h1 className="text-center font-medium text-xl dark:text-white">Pruebas Capernova</h1>
           {/*Se muestran los modales para la generacion, edicion y eliminacion de los capitulos y videos del curso */}
       {showModalPrueba && <ModalPrueba showModalPrueba={showModalPrueba} setShowModalPrueba={setShowModalPrueba}  prueba={prueba} setPrueba={setPrueba} curso={curso} setResponse={setResponse} /*pruebas={pruebas} setPruebas={setPruebas}*/ />}
-      {showModalDeletePrueba && <ModalDeletePrueba showModalDeletePrueba={showModalDeletePrueba} setShowModalDeletePrueba={setShowModalDeletePrueba} prueba={prueba} setPrueba={setPrueba} setResponse={setResponse} /*pruebas={pruebas} setPruebas={setPruebas}*/ />}
+      
+      {showModalDelete && <ModalDelete showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete} objeto={objeto} setObjeto={setObjeto} setResponse={setResponse} tipo={tipo} setTipo={setTipo} />}
       {showModalSuccess && <ModalSuccess showModalSuccess={showModalSuccess} setShowModalSuccess={setShowModalSuccess} response={response} setResponse={setResponse} setShowCursos={setShowCursos} setShowVideos={setShowVideos} setShowDeberes={setShowDeberes} setShowPruebas={setShowPruebas} />}
         
       <div className="w-[95%] mx-auto mt-5 flex justify-between">

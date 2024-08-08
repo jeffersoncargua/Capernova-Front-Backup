@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { ModalDeber, ModalDeleteDeber , ModalSuccess} from "../Components";
+import { ModalDelete } from "../../Components";
+import { ModalDeber, ModalSuccess} from "../Components";
 
 
 export const Deberes = ({setShowCursos,setShowVideos,curso, setCurso,setShowDeberes,setShowPruebas}) => {
@@ -8,10 +9,13 @@ export const Deberes = ({setShowCursos,setShowVideos,curso, setCurso,setShowDebe
   let [deberes, setDeberes] = useState([]);
   const [deber, setDeber] = useState({});
   const [showModalDeber, setShowModalDeber] = useState(false);
-  const [showModalDeleteDeber, setShowModalDeleteDeber] = useState(false);
+  //const [showModalDeleteDeber, setShowModalDeleteDeber] = useState(false);
+  const [showModalDelete, setShowModalDelete] = useState(false);
   const [showModalSuccess, setShowModalSuccess] = useState(false);
   //const [showButtonLoading, setShowButtonLoading] = useState(false);
   const [response, setResponse] = useState({});
+  const [tipo,setTipo] = useState('');
+  const [objeto,setObjeto] = useState({});
 
   //const refTitulo = useRef();
   //const refDescripcion = useRef();
@@ -46,8 +50,11 @@ export const Deberes = ({setShowCursos,setShowVideos,curso, setCurso,setShowDebe
   }
 
   const handleDeleteDeber = (deber) => {
-    setShowModalDeleteDeber(true);
-    setDeber(deber);
+    //setShowModalDeleteDeber(true);
+    //setDeber(deber);
+    setShowModalDelete(!showModalDelete);
+    setObjeto(deber);
+    setTipo('deber');
   }
 
   
@@ -97,7 +104,7 @@ export const Deberes = ({setShowCursos,setShowVideos,curso, setCurso,setShowDebe
     <div className="w-[95%] mx-auto">
         {/*Se muestran los modales para la generacion, edicion y eliminacion de los capitulos y videos del curso */}
       {showModalDeber && <ModalDeber showModalDeber={showModalDeber} setShowModalDeber={setShowModalDeber} deber={deber} setDeber={setDeber} curso={curso} setResponse={setResponse} /*deberes={deberes} setDeberes={setDeberes}*/ />}
-      {showModalDeleteDeber && <ModalDeleteDeber showModalDeleteDeber={showModalDeleteDeber} setShowModalDeleteDeber={setShowModalDeleteDeber} deber={deber} setDeber={setDeber} setResponse={setResponse}  /*deberes={deberes} setDeberes={setDeberes}*/ />}
+      {showModalDelete && <ModalDelete showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete} objeto={objeto} setObjeto={setObjeto} setResponse={setResponse} tipo={tipo} setTipo={setTipo} />}
       {showModalSuccess && <ModalSuccess showModalSuccess={showModalSuccess} setShowModalSuccess={setShowModalSuccess} response={response} setResponse={setResponse} setShowCursos={setShowCursos} setShowVideos={setShowVideos} setShowDeberes={setShowDeberes} setShowPruebas={setShowPruebas} />}
 
       <h1 className="text-center font-medium text-xl dark:text-white">Deberes Capernova</h1>

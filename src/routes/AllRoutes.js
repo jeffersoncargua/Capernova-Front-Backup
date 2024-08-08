@@ -1,5 +1,5 @@
 import { Routes,Route } from "react-router-dom";
-import { Home, Login, Register,Products,Estudiante, Cart, ForgotPassword, ChangePassword,ConfirmationEmail,Order,CancelPayment,ConfirmPay,Administracion, Profesor,Secretaria ,Certificado} from "../pages/index";
+import { Home, Login, Register,Products,Estudiante, Cart, ForgotPassword, ChangePassword,ConfirmationEmail,Order,CancelPayment,ConfirmPay,Administracion, Profesor,Secretaria ,Certificado,Nosotros} from "../pages/index";
 import {WhatsappComponent} from '../components'
 
 
@@ -9,6 +9,7 @@ export const AllRoutes = () => {
         <Routes>
           {/*Paginas home y products para cualquier usuario */}
           <Route path="/" element={<Home><WhatsappComponent /></Home>} />
+          <Route path="nosotros" element={<Nosotros><WhatsappComponent /></Nosotros>} />
           <Route path="products" element={<Products><WhatsappComponent /></Products>} />
           {/*Paginas de autenticacion para realizar el login, resgister, recuperacion de contraseñas */}
           <Route path="login" element={<Login><WhatsappComponent /></Login>} />

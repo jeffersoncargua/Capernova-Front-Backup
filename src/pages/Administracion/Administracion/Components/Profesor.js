@@ -86,20 +86,20 @@ export const Profesor = ({profesor, setProfesor,cursoList,response,setResponse})
         
         {/*showModalAssigment && <ModalSuccessAssigment showModalAssigment={showModalAssigment} setShowModalAssigment={setShowModalAssigment} response={response} setResponse={setResponse}  />*/}
 
-        <h1 className="text-center font-medium text-xl">Profesor Capernova</h1>
+        <h1 className="text-center font-medium text-xl dark:text-white">Profesor Capernova</h1>
 
-        <div className="mb-2">
+        <div className="mb-2 group dark:text-white">
             <label className="mb-2 font-medium" htmlFor="titulo">Nombre: {profesor.name} </label>
         </div>
-        <div className="mb-2">
+        <div className="mb-2 group dark:text-white">
             <label className="mb-2 font-medium" htmlFor="titulo">Apellido: {profesor.lastName}</label>
         </div>
         <div className="w-full flex justify-start items-center mb-2">
             
             {/*Select para selecionar el curso a asignarle al profe */}
             <div>
-                <label htmlFor="curso" className="block mb-2 font-medium text-gray-900 dark:text-white">Cursos Capernova:</label>
-                <select onChange={() => handleSelectCourse()} id="curso" className="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" defaultValue={''} ref={refCurso}>
+                <label htmlFor="curso" className="block mb-2 font-medium  dark:text-white">Cursos Capernova:</label>
+                <select onChange={() => handleSelectCourse()} id="curso" className="block w-full p-2 text-sm border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" defaultValue={''} ref={refCurso}>
                     <option selected value=''>---- Selecciona el curso a asignar ----</option>
                     {cursoList.map((curso) => (
                         curso.teacherId === null &&
@@ -133,13 +133,13 @@ export const Profesor = ({profesor, setProfesor,cursoList,response,setResponse})
         
 
         
-        <h1 className="text-center mb-5 font-medium text-xl">Cursos que se dicta:</h1>
+        <h1 className="text-center mb-5 font-medium text-xl dark:text-white">Cursos que se dicta:</h1>
 
         {/* Tabla con la informacion de los cursos que va a impartir el profe */}
 
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg mb-20">
-            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <table className="w-full text-sm text-left rtl:text-right dark:text-white">
+                <thead className="text-xs uppercase bg-gray-50 dark:bg-gray-700 dark:text-white">
                     <tr>
                         <th scope="col" className="px-6 py-3">
                             Cod. Curso

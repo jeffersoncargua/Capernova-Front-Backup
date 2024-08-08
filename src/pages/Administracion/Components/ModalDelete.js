@@ -13,7 +13,7 @@ export const ModalDelete = ({showModalDelete,setShowModalDelete, objeto,setObjet
 
                 break;
             case 'deber': //instrucciones para eliminar la deber
-                            resultFetch = await Delete('Prueba/deleteDeber',object)
+                            resultFetch = await Delete('Deber/deleteDeber',object)
                             setResponse(resultFetch);
                 break;
             case 'capitulo': //instrucciones para eliminar el capitulo

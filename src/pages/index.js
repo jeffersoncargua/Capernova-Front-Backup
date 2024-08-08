@@ -1,4 +1,5 @@
 export {Home} from './Home/Home';
+export {Nosotros} from './Empresa/Nosotros';
 export {Login, Register, ChangePassword,ForgotPassword,ConfirmationEmail} from './Authentication';
 export {Products} from './Products/Products';
 export {Cart} from './Cart/Cart';

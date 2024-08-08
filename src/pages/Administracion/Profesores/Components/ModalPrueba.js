@@ -16,7 +16,7 @@ export const ModalPrueba = ({showModalPrueba,setShowModalPrueba,prueba,setPrueba
     // console.log(updatedPruebas);
     // setPruebas(updatedPruebas);
     const resultFromApi = await fetch(`https://localhost:7164/api/Prueba/createPrueba`,{
-        method:'PUT',
+        method:'POST',
         credentials:'include',
         headers:{
             'Content-Type' : 'application/json',
