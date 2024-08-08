@@ -1,17 +1,25 @@
 import { useState } from "react";
-import { PlayerVideo, SideBar, Logros, Courses} from "../Estudiante/components";
+import { PlayerVideo, SideBar, Logros, Courses, Informacion} from "../Estudiante/components";
 
 
 export const Estudiante = () => {
 
   const [showPlayer, setShowPlayer] = useState(false);
   const [showLogro, setShowLogro] = useState(false);
-  const [showCourses, setShowCourses] = useState(true);
+  const [showCourses, setShowCourses] = useState(false);
+  const [showInformacion, setShowInformacion] = useState(true);
 
   return (
     <div className="relative w-[95%] mx-auto">
-        <SideBar setShowPlayer={setShowPlayer}  setShowLogro={setShowLogro} setShowCourses={setShowCourses} /> {/*Barra lateral de navegacion del estudiante */}
+        <SideBar setShowPlayer={setShowPlayer}  setShowLogro={setShowLogro} setShowCourses={setShowCourses} setShowInformacion={setShowInformacion} /> {/*Barra lateral de navegacion del estudiante */}
 
+        {/*Informacion del estudiante */}
+        
+        {showInformacion && 
+        <div className="p-4 sm:ml-56">
+          <Informacion setShowInformacion={setShowInformacion} />
+        </div>
+        }
 
         {showCourses && 
         <div className="p-4 sm:ml-56">

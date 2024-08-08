@@ -21,11 +21,11 @@ export const ShoppingCart = ({cartList}) => {
 
   return (
     <div className="w-[95%] mx-auto flex flex-col gap-y-8">
-    <h1 className="font-medium text-xl text-center">Tu carrito contine: <span className="text-pink-400 text-2xl">{cartList.length}</span>  items</h1>
+    <h1 className="font-medium text-xl text-center dark:text-white">Tu carrito contine: <span className="text-pink-400 text-2xl dark:text-pink-500">{cartList.length}</span>  items</h1>
     {/*Nuevo modelo del carrito de compras */} 
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-[80%] mx-auto">
-      <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <table className="w-full text-sm text-left rtl:text-right dark:text-white">
+          <thead className="text-xs uppercase bg-gray-50 dark:bg-gray-700 dark:text-white">
               <tr>
                   <th scope="col" className="px-16 py-3">
                       <span className="sr-only">Image</span>

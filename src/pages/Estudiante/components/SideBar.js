@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export const SideBar = ({setShowPlayer, setShowLogro, setShowCourses}) => {
+export const SideBar = ({setShowPlayer, setShowLogro, setShowCourses,setShowInformacion}) => {
 
     const navigate = useNavigate();
     const [showBar, setShowBar] = useState(true);
@@ -43,7 +43,15 @@ export const SideBar = ({setShowPlayer, setShowLogro, setShowCourses}) => {
                         </button>
                     </li>
                     <li>
-                        <button onClick={() => {setShowCourses(true);setShowPlayer(false);setShowLogro(false)}} className="w-full flex items-center p-2 text-gray-300 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group">
+                        <button onClick={()=> {setShowCourses(false);setShowPlayer(false);setShowLogro(false);setShowInformacion(true)}} className="w-full flex items-center text-gray-300 p-2 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-person w-5 h-5 text-gray-500 transition duration-75 group-hover:text-black dark:group-hover:text-white" viewBox="0 0 16 16">
+                                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                            </svg>
+                            <span className="ms-3 whitespace-nowrap">Tu Información</span>
+                        </button>
+                    </li> 
+                    <li>
+                        <button onClick={() => {setShowCourses(true);setShowPlayer(false);setShowLogro(false);setShowInformacion(false)}} className="w-full flex items-center p-2 text-gray-300 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group">
                             <svg className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4H1m3 4H1m3 4H1m3 4H1m6.071.286a3.429 3.429 0 1 1 6.858 0M4 1h12a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1Zm9 6.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z"/>
                             </svg>                        
@@ -51,7 +59,7 @@ export const SideBar = ({setShowPlayer, setShowLogro, setShowCourses}) => {
                         </button>
                     </li>
                     <li>
-                        <button onClick={()=>{setShowLogro(true);setShowPlayer(false);setShowCourses(false)}} className=" w-full flex items-center p-2 text-gray-300 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group">
+                        <button onClick={()=>{setShowLogro(true);setShowPlayer(false);setShowCourses(false);setShowInformacion(false)}} className=" w-full flex items-center p-2 text-gray-300 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"  className="bi bi-award flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" viewBox="0 0 16 16">
                                 <path d="M9.669.864 8 0 6.331.864l-1.858.282-.842 1.68-1.337 1.32L2.6 6l-.306 1.854 1.337 1.32.842 1.68 1.858.282L8 12l1.669-.864 1.858-.282.842-1.68 1.337-1.32L13.4 6l.306-1.854-1.337-1.32-.842-1.68zm1.196 1.193.684 1.365 1.086 1.072L12.387 6l.248 1.506-1.086 1.072-.684 1.365-1.51.229L8 10.874l-1.355-.702-1.51-.229-.684-1.365-1.086-1.072L3.614 6l-.25-1.506 1.087-1.072.684-1.365 1.51-.229L8 1.126l1.356.702z"/>
                                 <path d="M4 11.794V16l4-1 4 1v-4.206l-2.018.306L8 13.126 6.018 12.1z"/>
@@ -73,7 +81,7 @@ export const SideBar = ({setShowPlayer, setShowLogro, setShowCourses}) => {
                                 <path fillRule="evenodd" d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z"/>
                                 <path fillRule="evenodd" d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z"/>
                             </svg>
-                            <span className="ms-3 whitespace-nowrap">Sign Up</span>
+                            <span className="ms-3 whitespace-nowrap">Cerrar Sesión</span>
                         </button>
                     </li>
                 </ul>
