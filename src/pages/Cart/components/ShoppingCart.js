@@ -1,23 +1,31 @@
-import { useEffect, useState } from "react"
+//import { useEffect, useState } from "react"
 //import { ShoppingCard } from "../components"
+import { removeToCart } from "../../../redux/cartSlice";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
-export const ShoppingCart = ({cartList}) => {
+export const ShoppingCart = ({cartList,total}) => {
 
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [total,setTotal] = useState(0);
+  //const [total,setTotal] = useState(0);
+
+  const handleRemoveToCart = (item) => {
+    dispatch(removeToCart(item));
+    toast.success("Se eliminó el item de su carrito");
+  }
   
 
   /*Permite realizar la suma del total de los articulos del carrito de compras cada vez que se quiera revisar cuanto se debe pagar */
-  useEffect(()=>{
-    let totalRef = 0;
-    /*Este forEach permite realizar la suma de los precios de cada item en el carrito de compras */
-    cartList.forEach(element => {
-      totalRef += element.price;
-    });
-    setTotal(totalRef);
-  },[cartList])
+  // useEffect(()=>{
+  //   let totalRef = 0;
+  //   /*Este forEach permite realizar la suma de los precios de cada item en el carrito de compras */
+  //   cartList.forEach(element => {
+  //     totalRef += element.price;
+  //   });
+  //   setTotal(totalRef);
+  // },[cartList])
 
   return (
     <div className="w-[95%] mx-auto flex flex-col gap-y-8">
@@ -28,7 +36,7 @@ export const ShoppingCart = ({cartList}) => {
           <thead className="text-xs uppercase bg-gray-50 dark:bg-gray-700 dark:text-white">
               <tr>
                   <th scope="col" className="px-16 py-3">
-                      <span className="sr-only">Image</span>
+                      <span className="sr-only">Imagen</span>
                   </th>
                   <th scope="col" className="px-6 py-3">
                       Producto
@@ -36,23 +44,23 @@ export const ShoppingCart = ({cartList}) => {
                   <th scope="col" className="px-6 py-3">
                       Precio
                   </th>
-                  <th scope="col" className="px-6 py-3"></th>
+                  <th scope="col" className="px-6 py-3 text-center">Acción</th>
               </tr>
           </thead>
           <tbody>
             {cartList.length>0 && cartList.map((item)=>(
-              <tr key={item.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+              <tr key={item.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-green-100 dark:hover:bg-gray-600">
                   <td className="p-4">
                       <img src={item.imagen} className="w-16 md:w-32 max-w-full max-h-full" alt="Apple Watch"/>
                   </td>
                   <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                      {item.title}
+                      {item.titulo}
                   </td>                      
                   <td className="px-6 py-4 text-pink-400 font-semibold text-gray-900 dark:text-white">
-                    ${item.price}
+                    ${item.precio}
                   </td>
                   <td className="px-6 py-4 text-center">
-                    <button className=" transition duration-300 ease-in-out rounded-lg hover:scale-90 hover:text-white text-black bg-blue-600 hover:bg-red-600 py-2 px-6 mx-8 mb-2">Remove</button>
+                    <button onClick={()=>handleRemoveToCart(item)} className=" transition duration-300 ease-in-out rounded-lg hover:scale-90 hover:text-white text-black bg-blue-600 hover:bg-red-600 py-2 px-6 mx-8 mb-2">Remove</button>
                   </td>
               </tr>
             ))}

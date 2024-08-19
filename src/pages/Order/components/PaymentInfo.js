@@ -1,96 +1,204 @@
-import { useState } from "react";
+//import { useState } from "react";
+import { useSelector } from "react-redux";
+import {PaymentPaypal} from '../components/PaymentPaypal';
 
-import { SkeletonPayment } from "../components";
+//import { SkeletonPayment } from "../components";
 
-import PaypalLogo from '../../../assets/pagospaypal.png';
-import PayCardLogo from '../../../assets/pagosTarjeta.png';
+//import PaypalLogo from '../../../assets/pagospaypal.png';
+//import PayCardLogo from '../../../assets/pagosTarjeta.png';
 
-export const PaymentInfo = ({checkCard,checkPaypal}) => {
+export const PaymentInfo = () => {
 
-    const [showButtonLoading, setShowButtonLoading] = useState(false);
+    //const [showButtonLoading, setShowButtonLoading] = useState(false);
     //const [response,setResponse] = useState({});
+    const cartList = useSelector(state => state.cartState.cartList);
+    const total = useSelector(state => state.cartState.total);
 
     
-    const handlePaypal = async (event) =>{
-        event.preventDefault();
-        setShowButtonLoading(true);
-        try {
-            let resultFetch = await fetch('https://localhost:7164/api/Payment/paypal',{
-                method: 'POST',
-                credentials:"include",
-                headers:{
-                    "Content-Type" : "application/json" ,
-                    "Accept" : "application/json",
-                },
-                body: JSON.stringify({
-                    total: "100",
-                }) 
-            });
-            let result = await resultFetch.json();
-            console.log(result);
-            if(result.isSuccess){
-                //se convierte a un objeto legible para react (Javascript) mediante el metodo parse
-                var dataJson = JSON.parse(result.result);
-                console.log(dataJson);
-                //Se obtiene los link de la respuesta que contienen para dirigirnos a la pagina de paypal
-                var links = dataJson.links;
-                console.log(links);
-                //Se obtiene el link para poder dirifirnos a la pagina de paypal
-                var resultado = links.find(item => item.rel === 'approve');
-                console.log(resultado);
-                //si es satisfactoria la peticion se redirigira a la pagina de Paypal para realizar el pago
-                window.location.href = resultado.href;
-            }else{
-                //se agrega un modal para cuando sea una respuesta negativa
-            }
+    // const handlePaypal = async (event) =>{
+    //     event.preventDefault();
+    //     setShowButtonLoading(true);
+    //     try {
+    //         let resultFetch = await fetch('https://localhost:7164/api/Payment/paypal',{
+    //             method: 'POST',
+    //             credentials:"include",
+    //             headers:{
+    //                 "Content-Type" : "application/json" ,
+    //                 "Accept" : "application/json",
+    //             },
+    //             body: JSON.stringify({
+    //                 productos : JSON.stringify(cartList),
+    //                 total: String(total),
+    //             }) 
+    //         });
+    //         let result = await resultFetch.json();
+    //         console.log(result);
+    //         if(result.isSuccess){
+    //             //se convierte a un objeto legible para react (Javascript) mediante el metodo parse
+    //             var dataJson = JSON.parse(result.result);
+    //             console.log(dataJson);
+    //             //Se obtiene los link de la respuesta que contienen para dirigirnos a la pagina de paypal
+    //             var links = dataJson.links;
+    //             console.log(links);
+    //             //Se obtiene el link para poder dirifirnos a la pagina de paypal
+    //             var resultado = links.find(item => item.rel === 'approve');
+    //             console.log(resultado);
+    //             //si es satisfactoria la peticion se redirigira a la pagina de Paypal para realizar el pago
+    //             window.location.href = resultado.href;
+    //         }else{
+    //             //se agrega un modal para cuando sea una respuesta negativa
+    //         }
             
-            setShowButtonLoading(false); 
+    //         setShowButtonLoading(false); 
             
-        } catch (error) {
-            setShowButtonLoading(false);
-            console.error(error);
-        }
-    }
+    //     } catch (error) {
+    //         setShowButtonLoading(false);
+    //         console.error(error);
+    //     }
+    // }
 
-    const handlePayCard = async (event) => {
-        event.preventDefault();
-        setShowButtonLoading(true);
-        try{
-            let resultFetch = await fetch('https://localhost:7164/api/Payment/paymentCard',{
-                method:"POST",
-                headers:{
-                    "Content-Type" : 'application/json',
-                    "Accept" : 'application/json',
-                },
-                body: JSON.stringify(),
-            });
-            let result = await resultFetch.json();
-            console.log(result);
-            setShowButtonLoading(false);
-            window.location.href=result.result;
+    // const handlePaypalCard = async (event) =>{
+    //     event.preventDefault();
+    //     setShowButtonLoading(true);
+    //     try {
+    //         let resultFetch = await fetch('https://localhost:7164/api/Payment/paypalCard',{
+    //             method: 'POST',
+    //             credentials:"include",
+    //             headers:{
+    //                 "Content-Type" : "application/json" ,
+    //                 "Accept" : "application/json",
+    //             },
+    //             body: JSON.stringify({
+    //                 productos : JSON.stringify(cartList),
+    //                 total: String(total),
+    //             }) 
+    //         });
+    //         let result = await resultFetch.json();
+    //         console.log(result);
+    //         if(result.isSuccess){
+    //             //se convierte a un objeto legible para react (Javascript) mediante el metodo parse
+    //             var dataJson = JSON.parse(result.result);
+    //             console.log(dataJson);
+    //             //Se obtiene los link de la respuesta que contienen para dirigirnos a la pagina de paypal
+    //             var links = dataJson.links;
+    //             console.log(links);
+    //             //Se obtiene el link para poder dirifirnos a la pagina de paypal
+    //             var resultado = links.find(item => item.rel === 'approve');
+    //             console.log(resultado); 
+    //             //const url = new URL(resultado.href);
+    //             // console.log(url.searchParams.get('token'));
+    //             // const token = url.searchParams.get('token'); 
+    //             // const urlCard = new URL(`https://www.sandbox.paypal.com/checkoutweb/signup?token=${token}&ssrt=1723592703757&rcache=1&useraction=PAY&country.x=EC&locale.x=es_XC&locale.x=es_EC&country.x=EC`)
+    //             // console.log(urlCard);
+    //             //si es satisfactoria la peticion se redirigira a la pagina de Paypal para realizar el pago
+    //             window.location.href = resultado.href;
+    //         }else{
+    //             //se agrega un modal para cuando sea una respuesta negativa
+    //         }
+            
+    //         setShowButtonLoading(false); 
+            
+    //     } catch (error) {
+    //         setShowButtonLoading(false);
+    //         console.error(error);
+    //     }
+    // }
 
-        }catch(error){
-            console.error(error);
-            setShowButtonLoading(false);
-        }
-    }
+    // const handlePayCard = async (event) => {
+    //     event.preventDefault();
+    //     setShowButtonLoading(true);
+    //     try{
+    //         let resultFetch = await fetch('https://localhost:7164/api/Payment/paymentCard',{
+    //             method:"POST",
+    //             headers:{
+    //                 "Content-Type" : 'application/json',
+    //                 "Accept" : 'application/json',
+    //             },
+    //             body: JSON.stringify(),
+    //         });
+    //         let result = await resultFetch.json();
+    //         console.log(result);
+    //         setShowButtonLoading(false);
+    //         window.location.href = result.result;
+
+    //     }catch(error){
+    //         console.error(error);
+    //         setShowButtonLoading(false);
+    //     }
+    // }
 
 
   return (
-    <div className="w-[95] flex flex-col md:ms-4">
+    <div className="w-[95] flex flex-col md:my-12 mx-auto">
         {/*Info con el metodo de pafo con tarjeta */}
         <div className="">
-            <h1 className="font-medium text-2xl mb-10">Pago con tarjeta de Crédito o Débito:</h1>
+            <h1 className="font-medium text-2xl mb-10 dark:text-white">Selecciona el método de pago:</h1>
+            {/* <h1 className="font-medium text-2xl mb-10 dark:text-white">Pago con tarjeta de Crédito o Débito:</h1> */}                
+
+            <div className="relative overflow-x-auto">
+                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" className="px-6 py-3">
+                                Detalle
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Precio
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {cartList.map((item) => (
+                            <tr key={item.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {item.titulo}
+                                </th>
+                                <td className="px-6 py-4">
+                                    ${item.precio}
+                                </td>
+                            </tr>
+                        ) )}
+                        
+                    </tbody>
+                    <tfoot>
+                        <tr class="font-semibold text-gray-900 dark:text-white">
+                            <th scope="row" class="px-6 py-3 text-base">Total</th>
+                            <td class="px-6 py-3">${total}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+
+            
+
+            <PaymentPaypal cartList={cartList} total={total}  />
+            
+        </div>
+    </div>
+  )
+}
+
+
+/*
+
+//Este metodo funciona con stripe y paypal por separado
+
+<div className="w-[95] flex flex-col md:ms-4">
+        {/*Info con el metodo de pafo con tarjeta 
+        <div className="">
+            <h1 className="font-medium text-2xl mb-10 dark:text-white">Pago con tarjeta de Crédito o Débito:</h1>
             {checkCard ? 
-            (<form onSubmit={handlePayCard} className="border w-80 shadow-lg shadow-gray-500 rounded-t-lg mx-auto " >
+            // (<form onSubmit={handlePayCard} className="border w-80 shadow-lg shadow-gray-500 rounded-t-lg mx-auto " >
+            (<form onSubmit={handlePaypalCard} className="border w-80 shadow-lg shadow-gray-500 rounded-t-lg mx-auto " >
                 <div className="relative">
                     <img src={PayCardLogo} className="w-[19rem] h-36 mx-auto mt-2 rounded-lg" alt="Imagen para cobrar" />
                     <div className="flex justify-around items-center">
-                        <span className="font-semibold text-lg">
+                        <span className="font-semibold text-lg dark:text-white">
                             Total:
                         </span>
                         <span className="text-3xl text-pink-500">
-                            $2000
+                            ${total}
                         </span>
                     </div>
                 </div>
@@ -118,18 +226,18 @@ export const PaymentInfo = ({checkCard,checkPaypal}) => {
         </div>
 
         <div className="">
-            <h1 className="font-medium text-2xl my-10">Pago con Paypal:</h1>
-            {/*Infor con el metodo de pago con paypal */}
+            <h1 className="font-medium text-2xl my-10 dark:text-white">Pago con Paypal:</h1>
+            {/*Infor con el metodo de pago con paypal 
             {checkPaypal ? 
             (<form onSubmit={handlePaypal} className="border w-80 shadow-lg shadow-gray-500 rounded-t-lg mx-auto ">
                 <div className="relative">
                     <img src={PaypalLogo} className="w-[19rem] h-36 mx-auto mt-2 rounded-lg" alt="Imagen para cobrar" />
                     <div className="flex justify-around items-center">
-                        <span className="font-semibold text-lg">
+                        <span className="font-semibold text-lg dark:text-white">
                             Total:
                         </span>
                         <span className="text-3xl text-pink-500">
-                            $2000
+                            ${total}
                         </span>
                     </div>
                 </div>
@@ -152,5 +260,5 @@ export const PaymentInfo = ({checkCard,checkPaypal}) => {
             (<SkeletonPayment />)}   
         </div>  
     </div>
-  )
-}
+
+*/

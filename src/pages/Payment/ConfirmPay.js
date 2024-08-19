@@ -1,73 +1,75 @@
-import { useCallback, useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+//import { useCallback, useEffect, useState } from "react";
+//import {useState } from "react";
+import { Link, useSearchParams,  } from "react-router-dom";
 
 export const ConfirmPay = () => {
 
   const [searchParams] = useSearchParams();
+  // const { token } = useParams();
   const token = searchParams.get('token');
-  const status = searchParams.get('status');
-  const [showLoader,setShowLoader] = useState(true);
-  const [response,setResponse] = useState({});
+  //const status = searchParams.get('status');
+  // const [showLoader,setShowLoader] = useState(true);
+  // const [response,setResponse] = useState({});
 
   console.log(token);
-  console.log(status);
+  //console.log(status);
 
 
-  const fetchConfirm = useCallback( async () => {
-    setShowLoader(true);
+  // const fetchConfirm = useCallback( async () => {
+  //   setShowLoader(true);
 
     
 
 
-    try{
-      if(token !==null){
-        let resultFetch = await fetch(`https://localhost:7164/api/Payment/confirmPaypal?token=${token}`,{
-          method: 'GET',
-          credentials:"include",
-          headers:{
-              "Content-Type" : "application/json" ,
-              "Accept" : "application/json",
-          },
-        });
-        if (resultFetch.ok) {
-          let result = await resultFetch.json();
-          console.log(result);
-          setResponse(result);
-        }
-        setShowLoader(false);
-      }
-      if(status !==null){
-        let resultFetch = await fetch(`https://localhost:7164/api/Payment/orderConfirm?status=${status}`,{
-          method: 'GET',
-          credentials:"include",
-          headers:{
-              "Content-Type" : "application/json" ,
-              "Accept" : "application/json",
-          },
-        });
-        if (resultFetch.ok) {
-          let result = await resultFetch.json();
-          console.log(result);
-          setResponse(result);
-        }
-        setShowLoader(false);
-      }
-    }catch(error){
-      console.error(error);
-      setShowLoader(false);
-    }
-  },[token,status])
+  //   try{
+  //     if(token !==null){
+  //       let resultFetch = await fetch(`https://localhost:7164/api/Payment/confirmPaypal?token=${token}`,{
+  //         method: 'GET',
+  //         credentials:"include",
+  //         headers:{
+  //             "Content-Type" : "application/json" ,
+  //             "Accept" : "application/json",
+  //         },
+  //       });
+  //       if (resultFetch.ok) {
+  //         let result = await resultFetch.json();
+  //         console.log(result);
+  //         setResponse(result);
+  //       }
+  //       setShowLoader(false);
+  //     }
+  //     if(status !==null){
+  //       let resultFetch = await fetch(`https://localhost:7164/api/Payment/orderConfirm?status=${status}`,{
+  //         method: 'GET',
+  //         credentials:"include",
+  //         headers:{
+  //             "Content-Type" : "application/json" ,
+  //             "Accept" : "application/json",
+  //         },
+  //       });
+  //       if (resultFetch.ok) {
+  //         let result = await resultFetch.json();
+  //         console.log(result);
+  //         setResponse(result);
+  //       }
+  //       setShowLoader(false);
+  //     }
+  //   }catch(error){
+  //     console.error(error);
+  //     setShowLoader(false);
+  //   }
+  // },[token,status])
 
   
 
-  useEffect(() => {
-    fetchConfirm();
-  },[fetchConfirm])
+  // useEffect(() => {
+  //   fetchConfirm();
+  // },[fetchConfirm])
 
   return (
     <div className="w-[95%] mx-auto ">  
       
-      {showLoader && 
+      {/* {showLoader && 
       <div className="mx-auto flex justify-center z-50 fixed top-0 left-0 right-0 md:inset-0 h-[calc(100%-1rem)] max-h-full" tabIndex='-1'>
         <div aria-label="Loading..." role="status" className="flex items-center space-x-2 my-[30%]">
           <svg className="h-20 w-20 animate-spin stroke-orange-500" viewBox="0 0 256 256">
@@ -89,14 +91,17 @@ export const ConfirmPay = () => {
           <span className="text-4xl font-medium text-gray-500">Loading...</span>
         </div>
       </div>
-      }
+      } */}
 
-      <div className={`${showLoader===false? '':'hidden'}`}>
-      {response.isSuccess ? 
+      {/* <div className={`${showLoader===false? '':'hidden'}`}> */}
+      <div >
+      {/* {response.isSuccess ?  */}
+      {(token !== null && token !== '')? 
       ( /*Respuesta exitosa */
         <div className="flex flex-col gap-y-4 my-8">
           <h1 className="font-medium text-lg sm:text-2xl text-green-500 text-center">¡Gracias por tu compra!</h1>
-          <h3 className="font-medium text-sm sm:text-lg text-green-500 text-center">ID transacción : {response.result || ''}</h3>
+          {/* <h3 className="font-medium text-sm sm:text-lg text-green-500 text-center">ID transacción : {response.result || ''}</h3> */}
+          <h3 className="font-medium text-sm sm:text-lg text-green-500 text-center">ID transacción : {token || ''}</h3>
           <div className="mx-auto w-full flex justify-center">
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-cart-check sm:w-96 sm:h-96 w-full text-green-500" viewBox="0 0 16 16">
               <path d="M11.354 6.354a.5.5 0 0 0-.708-.708L8 8.293 6.854 7.146a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z"/>
@@ -105,7 +110,7 @@ export const ConfirmPay = () => {
           </div>
       
       
-          <div className="mx-auto flex justify-center items-center flex-wrap">
+          {/* <div className="mx-auto flex justify-center items-center flex-wrap">
             <p className="text-sm md:text-lg me-2 text-green-700 ">Para ingresar a tus cursos presiona este botón</p>
             <Link to='/student' className="inline-flex text-xs sm:text-sm bg-green-500 hover:bg-green-700 px-2.5 py-2 rounded-lg text-white hover:cursor-pointer">
               <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" className="bi bi-journal-check h-5 w-5 me-2" viewBox="0 0 16 16">
@@ -115,7 +120,7 @@ export const ConfirmPay = () => {
               </svg>
             Mis Cursos
             </Link>
-          </div>
+          </div> */}
       
           <div className="mx-auto flex items-center">
             <Link to='/' className="inline-flex text-xs sm:text-sm bg-green-500 hover:bg-green-700 px-2.5 py-2 rounded-lg text-white hover:cursor-pointer">

@@ -25,6 +25,10 @@ export const Header = () => {
     const isAuth = useSelector(state => state.userState.isAuth);
     console.log(user);
 
+    //Esta seccion permite utilizar redux con el usuario para mantener el inicio de sesion
+    const cartList = useSelector(state => state.cartState.cartList);
+    console.log(cartList);
+
     //Esta seccion permite verificar si las busquedas de los cursos se realizan mediante redux
     //Aqui se verifica si se actualiza la variable para realizar la busqueda de cursos
     const searchCourse = useSelector(state => state.searchState.searchCourse);
@@ -97,7 +101,7 @@ export const Header = () => {
                             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-cart3 w-7 h-7 " viewBox="0 0 16 16">
                                 <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l.84 4.479 9.144-.459L13.89 4zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
                             </svg>
-                            <span className=" absolute top-0 right-0 w-5 h-5 bg-gray-500 group-hover:bg-green-600 text-white rounded-full flex items-center justify-center text-xs">1</span>
+                            <span className={`absolute top-0 right-0 w-5 h-5 bg-gray-500 ${ cartList.length > 0  ? 'group-hover:bg-green-500':'group-hover:bg-red-500'} text-white rounded-full flex items-center justify-center text-xs`}>{cartList.length}</span>
                         </Link>           
                     </div>
                     {/*<button onClick={()=> setHidden(!hidden) }  type="button" data-collapse-toggle="navbar-search" aria-controls="navbar-search" aria-expanded="false" className="md:hidden text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 me-1">
@@ -161,13 +165,13 @@ export const Header = () => {
                         </Link>
                     </div>)
                     }
-                    
+                    {/*Esta seccion es para el carrito de compras */}
                     <div className='group'>
                         <Link to='/cart' className='relative w-10 h-10 flex items-center text-gray-500 group-hover:text-blue-600 dark:text-white'>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-cart3 w-7 h-7  " viewBox="0 0 16 16">
                                 <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l.84 4.479 9.144-.459L13.89 4zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
                             </svg>
-                            <span className=" absolute top-0 right-0 w-5 h-5 bg-gray-500 group-hover:bg-red-500 text-white rounded-full flex items-center justify-center text-xs">0</span>
+                            <span className={`absolute top-0 right-0 w-5 h-5 bg-gray-500 ${ cartList.length > 0  ? 'group-hover:bg-green-500':'group-hover:bg-red-500'} text-white rounded-full flex items-center justify-center text-xs`}>{cartList.length}</span>
                         </Link>           
                     </div>
                 </div>

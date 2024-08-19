@@ -9,6 +9,8 @@ export {CancelPayment,ConfirmPay} from './Payment';
 
 export {Certificado} from './Certificado';
 
+export {PaymentPaypal} from './PaymentPaypal';
+
 
 //Pagina de administración
 export {Administracion} from './Administracion/Administracion/Administracion';
