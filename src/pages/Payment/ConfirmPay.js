@@ -1,12 +1,16 @@
 //import { useCallback, useEffect, useState } from "react";
-//import {useState } from "react";
+import {useEffect } from "react";
 import { Link, useSearchParams,  } from "react-router-dom";
+import { clearToCart } from "../../redux/cartSlice";
+import { useDispatch } from "react-redux";
 
 export const ConfirmPay = () => {
 
   const [searchParams] = useSearchParams();
   // const { token } = useParams();
   const token = searchParams.get('token');
+
+  const dispath = useDispatch();
   //const status = searchParams.get('status');
   // const [showLoader,setShowLoader] = useState(true);
   // const [response,setResponse] = useState({});
@@ -62,9 +66,9 @@ export const ConfirmPay = () => {
 
   
 
-  // useEffect(() => {
-  //   fetchConfirm();
-  // },[fetchConfirm])
+  useEffect(() => {
+    dispath(clearToCart());
+  },[dispath])
 
   return (
     <div className="w-[95%] mx-auto ">  

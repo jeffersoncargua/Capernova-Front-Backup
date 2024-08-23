@@ -9,5 +9,7 @@ export {ScrollToTop} from './ScrollToTop';
 
 export {WhatsappComponent} from './WhatsappComponent';
 
+export {Beneficios} from './Beneficios';
+
 
 

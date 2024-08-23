@@ -39,9 +39,9 @@ export const PaymentPaypal = () => {
 
         const resultFetch = await resultFromApi.json();
         const result = JSON.parse(resultFetch.result);
-        console.log(result.id);       
-        console.log(result.status);
-        console.log(result.links);
+        // console.log(result.id);       
+        // console.log(result.status);
+        // console.log(result.links);
         //setToken(result.id);
         orderId = result.id;
         //const orderId = resultFetch.order.id;
@@ -62,8 +62,13 @@ export const PaymentPaypal = () => {
         });
 
         const resultFetch = await resultFromApi.json();
-        console.log(resultFetch);
-        navigate(`/confirmPay?token=${orderId}`);
+        //console.log(resultFetch);
+        if (resultFetch.isSuccess) {
+            navigate(`/confirmPay?token=${orderId}`);
+        }else{
+            navigate(`/cancelPay`);
+        }
+        
     }
 
     const styles ={

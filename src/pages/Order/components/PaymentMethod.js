@@ -7,7 +7,7 @@ export const PaymentMethod = ({checkCard,setCheckCard,checkPaypal,setCheckPayPal
 
 
   return (
-    <div className="flex flex-col items-center h-full sm:mt-[10%] md:mx-2">
+    <div className="flex flex-col h-full sm:mt-[10%] md:mx-2">
 
         <div className=''>
             <img src={PagandoCuenta} alt="Imagen de Pago" className='w-full h-72 mx-auto rounded-lg' />

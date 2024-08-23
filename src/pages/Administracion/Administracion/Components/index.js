@@ -13,4 +13,7 @@ export {ModalTalento} from './ModalTalento';
 
 
 export {Profesor} from './Profesor'; //Permite asignar el curso al profesor
-export {ModalSuccessAssigment} from './ModalSuccessAssigment'; //Cuando se Guardan la informacion de los videos
+export {ModalSuccessAssigment} from './ModalSuccessAssigment'; //Cuando se Guardan la informacion de los 
+
+export {Productos} from './Productos';
+export {ModalProducto} from './ModalProducto';

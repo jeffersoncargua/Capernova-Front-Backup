@@ -1,64 +1,70 @@
 import { useEffect, useState } from "react";
 import { ProductCard } from "../../../components/ProductCard";
 
-export const SliderProduct = () => {
+export const SliderCursos = () => {
 
-  const [current, setCurrent] = useState(0);
-  const [slices, setSlices] = useState([]);
-  
 
-  useEffect(() => {
-    try {
-      const fetchProducto = async() => {
-        const resultFromApi = await fetch(`https://localhost:7164/api/Producto/getAllProducto?tipo=${"producto"}`,{
-          method:'GET',
-          credentials : 'include',
-          headers:{
-            'Content-Type' : 'application/json',
-            'Accept' : 'application/json'
+    const [current, setCurrent] = useState(0);
+    const [slices, setSlices] = useState([]);
+
+    useEffect(() => {
+        try {
+          const fetchCourses = async() => {
+            //const result = await fetch(`https://localhost:7164/api/Course/getAllCourse`,{
+            const result = await fetch(`https://localhost:7164/api/Producto/getAllProducto?tipo=${"curso"}`,{
+              method: 'GET',
+              headers:{
+                'Content-Type' : 'application/json',
+                'Accept' : 'application/json'
+              }
+            });
+            const resultFetch = await result.json();
+            console.log(resultFetch);
+            setSlices(resultFetch.result);
           }
-        });
-  
-        const resultFetch = await resultFromApi.json();
-        console.log(resultFetch);
-        setSlices(resultFetch.result);
-      }
-      fetchProducto();
-      
-    } catch (error) {
-      console.error(error);
+          fetchCourses();
+          
+        } catch (error) {
+          console.error(error);
+        }
+      },[])
+    
+    
+      let previousSlice = () => {
+        if(current === 0){
+            setCurrent(slices.length - 1);
+        }else{
+            setCurrent(current - 1);
+        }
+        console.log(current);
     }
-  },[])
-
-
-  let previousSlice = () => {
-    if(current === 0){
-        setCurrent(slices.length - 1);
-    }else{
-        setCurrent(current - 1);
+    
+    let nextSlice = () => {
+        if(current === slices.length-1){
+            setCurrent(0);
+        }else{
+            setCurrent(current + 1);
+        }
+        //console.log(current); imprime el slider Actual
     }
-    console.log(current);
-}
 
-let nextSlice = () => {
-    if(current === slices.length-1){
-        setCurrent(0);
-    }else{
-        setCurrent(current + 1);
-    }
-    //console.log(current); imprime el slider Actual
-}
 
   return (
-    <div className="w-[95%] mx-auto flex flex-col dark:bg-gray-900 mt-10">
-      {/* <h1 className="self-center text-5xl font-extrabold before:block before:absolute before:-inset-1 before:-skew-y-[1.7deg] before:bg-black dark:before:bg-slate-50 relative my-1" ><span className="before:block before:absolute before:-inset-1 before:skew-y-[1.8deg] before:bg-amber-300 "><span className=" text-white relative ">Nuestros </span></span></h1> 
-      <h1 className="self-center text-5xl font-extrabold before:block before:absolute before:-inset-1 before:-skew-y-[1.7deg] before:bg-black dark:before:bg-slate-50 relative my-1" ><span className="before:block before:absolute before:-inset-1 before:skew-y-[1.8deg] before:bg-amber-300 "><span className=" text-white relative ">Cursos </span></span></h1> */}
-      
-      {/* <h1 className="self-end text-4xl font-bold before:block before:absolute before:-inset-1 before:-skew-y-[1.7deg] before:bg-black dark:before:bg-slate-50 relative my-8 " ><span className="before:block before:absolute before:-inset-1 before:skew-y-[1.7deg] before:bg-amber-300 "><span className=" text-white relative ">Nuestros Productos ...</span></span></h1>  */}
-      <h1 className="self-center md:self-end text-3xl font-medium text-center my-10 dark:text-white">
+    <div className="w-[95%] mx-auto flex flex-col dark:bg-gray-900">
+      {/* <h1 className="self-center text-5xl font-extrabold before:block before:absolute before:-inset-1 before:-skew-y-[1.7deg] before:bg-black dark:before:bg-slate-50 relative my-1" ><span className="before:block before:absolute before:-inset-1 before:skew-y-[1.8deg] before:bg-amber-300 "><span className=" text-white relative ">Adquiere uno </span></span></h1>
+      <h1 className="self-center text-5xl font-extrabold before:block before:absolute before:-inset-1 before:-skew-y-[1.7deg] before:bg-black dark:before:bg-slate-50 relative my-1" ><span className="before:block before:absolute before:-inset-1 before:skew-y-[1.8deg] before:bg-amber-300 "><span className=" text-white relative "> de</span></span></h1> */}
+      <h1 className="self-center text-4xl font-medium text-center mt-10 dark:text-white">
         <span>
-            Productos
+            Te ofrecemos
             <hr className="mx-auto w-[100px] border border-blue-400 drop-shadow-md" />
+        </span>
+      </h1>
+      
+      {/* <h1 className="self-start text-4xl font-bold before:block before:absolute before:-inset-1 before:-skew-y-[1.7deg] before:bg-black dark:before:bg-slate-50 relative my-8 " ><span className="before:block before:absolute before:-inset-1 before:skew-y-[1.7deg] before:bg-amber-300 "><span className=" text-white relative ">Nuestros Cursos ...</span></span></h1>  */}
+      <h1 className="self-center md:self-start text-3xl font-medium text-center my-10 dark:text-white">
+        <span>
+            Principales Cursos
+            <hr className="mx-auto w-[150px] border border-blue-400 drop-shadow-md" />
         </span>
       </h1>
       {/*<h1 className="self-end text-4xl font-bold before:block before:absolute before:-inset-1 before:-skew-y-[1.7deg] before:bg-cyan-400 relative my-8 " ><span className=" text-white relative ">Te Ofrecemos ...</span></h1>*/}

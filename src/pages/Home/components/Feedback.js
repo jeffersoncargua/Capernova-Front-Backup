@@ -28,8 +28,14 @@ export const Feedback = () => {
     
         <div className="w-[95%] flex flex-col my-[50px] mx-auto dark:bg-gray-900">
 
-            <h1 className="self-center text-5xl font-extrabold before:block before:absolute before:-inset-1 before:-skew-y-[1.7deg] before:bg-black dark:before:bg-slate-50 relative my-1" ><span className="before:block before:absolute before:-inset-1 before:skew-y-[1.7deg] before:bg-amber-300"><span className=" text-white relative ">Nuestros</span></span></h1>
-            <h1 className="self-center text-5xl font-extrabold before:block before:absolute before:-inset-1 before:-skew-y-[1.7deg] before:bg-black dark:before:bg-slate-50 relative my-1" ><span className="before:block before:absolute before:-inset-1 before:skew-y-[1.7deg] before:bg-amber-300"><span className=" text-white relative ">Estudiantes</span></span></h1>
+            {/* <h1 className="self-center text-5xl font-extrabold before:block before:absolute before:-inset-1 before:-skew-y-[1.7deg] before:bg-black dark:before:bg-slate-50 relative my-1" ><span className="before:block before:absolute before:-inset-1 before:skew-y-[1.7deg] before:bg-amber-300"><span className=" text-white relative ">Nuestros</span></span></h1>
+            <h1 className="self-center text-5xl font-extrabold before:block before:absolute before:-inset-1 before:-skew-y-[1.7deg] before:bg-black dark:before:bg-slate-50 relative my-1" ><span className="before:block before:absolute before:-inset-1 before:skew-y-[1.7deg] before:bg-amber-300"><span className=" text-white relative ">Estudiantes</span></span></h1> */}
+            <h1 className="self-center text-3xl font-medium text-center mt-10 dark:text-white">
+                <span>
+                    Nuestros Estudiantes
+                    <hr className="mx-auto w-[150px] border border-blue-400 drop-shadow-md" />
+                </span>
+            </h1>
 
             <div className="overflow-hidden w-full dark:border-gray-700 md:mb-12 bg-white dark:bg-gray-800 my-8">
                 {/*Para pantalla grande */}

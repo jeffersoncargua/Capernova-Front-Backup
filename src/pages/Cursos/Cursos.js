@@ -1,24 +1,22 @@
-import { useEffect, useRef, useState } from "react";
-import { ProductCard } from "../../components/ProductCard";
-import {SearchFilter} from '../Products/components';
-import {Beneficios} from '../../components'
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { search } from "../../redux/searchProductSlice";
+import { useState,useEffect,useRef } from "react";
+//import {  useDispatch } from "react-redux";
+import { Beneficios } from "../../components";
+//import { search } from "../../redux/searchProductSlice";
+import { ProductCard } from "../../components";
+import { SearchFilter } from "./Components";
 
-
-export const Products = ({children}) => {
-
+export const Cursos = ({children}) => {
   const [slices, setSlices] = useState([]);
+  const [search,setSearch] = useState('');
   const refSearch = useRef();
-  const dispatch = useDispatch();
+  //const dispatch = useDispatch();
 
-  const searchProduct = useSelector(state => state.searchState.searchProduct);
+  //const searchProduct = useSelector(state => state.searchState.searchProduct);
 
   useEffect(()=>{
     try {
-      const fetchProductos = async() => {
-        const result = await fetch(`https://localhost:7164/api/Producto/getAllProducto?search=${searchProduct}&tipo=${"producto"}`,{
+      const fetchCourses = async() => {
+        const result = await fetch(`https://localhost:7164/api/Producto/getAllProducto?search=${search}&tipo=${"curso"}`,{
           method: 'GET',
           headers:{
             'Content-Type' : 'application/json',
@@ -29,17 +27,18 @@ export const Products = ({children}) => {
         console.log(resultFetch);
         setSlices(resultFetch.result);
       }
-      fetchProductos();
+      fetchCourses();
       
     } catch (error) {
       console.error(error);
     }
-  },[searchProduct])
+  },[search])
 
   const handleSubmitSearch = (event) => {
     //event.preventDefault();
-    dispatch(search(refSearch.current.value));
-}
+    //dispatch(search(refSearch.current.value));
+    setSearch(refSearch.current.value);
+  }
 
 
   return (
@@ -49,7 +48,7 @@ export const Products = ({children}) => {
         <Beneficios />
         <h1 className=" text-3xl font-medium text-center my-10 dark:text-white">
               <span>
-                  Nuestros Productos
+                  Nuestros Cursos
                   <hr className="mx-auto w-[100px] border border-blue-400 drop-shadow-md" />
               </span>
           </h1>

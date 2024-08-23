@@ -1,12 +1,19 @@
 export {Home} from './Home/Home';
 export {Nosotros} from './Empresa/Nosotros';
 export {Login, Register, ChangePassword,ForgotPassword,ConfirmationEmail} from './Authentication';
+
 export {Products} from './Products/Products';
+export {ProductDetail} from './Products/ProductDetail';
+
+export {Cursos} from './Cursos/Cursos';
+export {CursoDetail} from './Cursos/CursoDetail';
+
 export {Cart} from './Cart/Cart';
-export {Estudiante} from './Estudiante/Estudiante';
 export {Order} from './Order/Order';
+
 export {CancelPayment,ConfirmPay} from './Payment';
 
+export {Estudiante} from './Estudiante/Estudiante';
 export {Certificado} from './Certificado';
 
 export {PaymentPaypal} from './PaymentPaypal';

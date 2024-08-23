@@ -39,7 +39,12 @@ export const ModalDelete = ({showModalDelete,setShowModalDelete, objeto,setObjet
                             resultFetch = await Delete('Managment/deleteUser',object)
                             setResponse(resultFetch);
 
-                break;        
+                break;  
+            case 'producto': //instrucciones para eliminar la prueba Course/deleteCourse
+                        resultFetch = await Delete('Producto/deleteProducto',object)
+                        setResponse(resultFetch);
+
+            break;      
             default:
                 break;
         

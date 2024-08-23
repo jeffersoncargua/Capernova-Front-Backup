@@ -5,14 +5,14 @@ import {createSlice} from '@reduxjs/toolkit';
 const searchSlice = createSlice({
     name:'search',
     initialState:{
-        searchCourse:'',
+        searchProduct:'',
     },
     reducers:{
         search(state,action){
-            return {...state, searchCourse:action.payload}
+            return {...state, searchProduct:action.payload}
         },
         remove(state,action){
-            return {...state, searchCourse:''}
+            return {...state, searchProduct:''}
         }
     }
 });

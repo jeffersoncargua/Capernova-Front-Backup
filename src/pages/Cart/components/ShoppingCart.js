@@ -4,6 +4,7 @@ import { removeToCart } from "../../../redux/cartSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { Tooltip } from "react-tooltip";
 
 export const ShoppingCart = ({cartList,total}) => {
 
@@ -42,6 +43,9 @@ export const ShoppingCart = ({cartList,total}) => {
                       Producto
                   </th>
                   <th scope="col" className="px-6 py-3">
+                      Cantidad
+                  </th>
+                  <th scope="col" className="px-6 py-3">
                       Precio
                   </th>
                   <th scope="col" className="px-6 py-3 text-center">Acción</th>
@@ -51,13 +55,25 @@ export const ShoppingCart = ({cartList,total}) => {
             {cartList.length>0 && cartList.map((item)=>(
               <tr key={item.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-green-100 dark:hover:bg-gray-600">
                   <td className="p-4">
-                      <img src={item.imagen} className="w-16 md:w-32 max-w-full max-h-full" alt="Apple Watch"/>
+                    {item.tipo === 'producto'? (
+                      <button onClick={()=>navigate(`/productDetail?productoId=${item.id}`)} data-tooltip-id='tooltip-image' >
+                        <img src={item.imagen} className="w-16 md:w-32 max-w-full max-h-full" alt="Aqui va la imagen"/>
+                        <Tooltip id='tooltip-image' place='top' content={`Editar pedido`} />
+                      </button> 
+                    
+                    ):(
+                      <img src={item.imagen} className="w-16 md:w-32 max-w-full max-h-full" alt="Aqui va la imagen"/>
+                    )}
+                                         
                   </td>
                   <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
                       {item.titulo}
-                  </td>                      
+                  </td>  
+                  <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                      {item.cantidad}
+                  </td>                    
                   <td className="px-6 py-4 text-pink-400 font-semibold text-gray-900 dark:text-white">
-                    ${item.precio}
+                    ${item.precio*item.cantidad}
                   </td>
                   <td className="px-6 py-4 text-center">
                     <button onClick={()=>handleRemoveToCart(item)} className=" transition duration-300 ease-in-out rounded-lg hover:scale-90 hover:text-white text-black bg-blue-600 hover:bg-red-600 py-2 px-6 mx-8 mb-2">Remove</button>
@@ -82,7 +98,7 @@ export const ShoppingCart = ({cartList,total}) => {
           Realizar Compra
         </button>
       </div>          
-    </div> 
+    </div>
     
   </div>  
   )

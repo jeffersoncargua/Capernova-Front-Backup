@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { logout,signIn } from '../redux/userSlice';
 import { JWTDecode } from '../hooks/JWTDecode';
-import { search } from '../redux/searchCourseSlice';
+import { search } from '../redux/searchProductSlice';
 
 import CaperNova2 from '../assets/Capernova2.png';
 
@@ -31,8 +31,8 @@ export const Header = () => {
 
     //Esta seccion permite verificar si las busquedas de los cursos se realizan mediante redux
     //Aqui se verifica si se actualiza la variable para realizar la busqueda de cursos
-    const searchCourse = useSelector(state => state.searchState.searchCourse);
-    console.log(searchCourse);
+    const searchProduct = useSelector(state => state.searchState.searchProduct);
+    console.log(searchProduct);
 
 
     useEffect(()=>{
@@ -65,6 +65,7 @@ export const Header = () => {
     const handleSubmitSearch = (event) => {
         event.preventDefault();
         dispatch(search(refSearch.current.value));
+        console.log(refSearch.current.value);
         setShowDrop(true)
         setShowDropProductos(true);
         navigate('/products');
@@ -121,7 +122,7 @@ export const Header = () => {
                                     <span className="sr-only">Search icon</span>   
                                 </div> 
                             </button>                     
-                            <input type="text" id="search-navbar" className="w-full p-2 ps-2 text-sm text-gray-900 rounded-lg bg-gray-50 hover:border-blue-300 focus:outline-none focus:ring-inset focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-white dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Buscar Cursos..." ref={refSearch} />                        
+                            <input type="text" id="search-navbar" className="w-full p-2 ps-2 text-sm text-gray-900 rounded-lg bg-gray-50 hover:border-blue-300 focus:outline-none focus:ring-inset focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-white dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Buscar Productos..." ref={refSearch} />                        
                         </form>  
                     </div>
                     <button onClick={()=> {setHidden(!hidden);setShowDrop(true);setShowDropProductos(true)} } data-collapse-toggle="navbar-search" type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-search" aria-expanded="false">
@@ -207,25 +208,25 @@ export const Header = () => {
                             <div id="dropdownNavbar" className={`${showDrop ? 'hidden':''} md:absolute z-50 font-normal bg-white divide-y divide-gray-100 rounded-lg shadow md:w-44 dark:bg-gray-700 dark:divide-gray-600`} >
                                 <ul className="rounded-lg py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownLargeButton">
                                     <li >
-                                        <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden);setShowDropProductos(true)}} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Cocina</Link>
+                                        <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden);setShowDropProductos(true)}} to='cursos' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Cocina</Link>
                                     </li>
                                     <li >
-                                        <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden);setShowDropProductos(true)}} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Cosmetología</Link>
+                                        <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden);setShowDropProductos(true)}} to='cursos' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Cosmetología</Link>
                                     </li>
                                     <li >
-                                        <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden);setShowDropProductos(true)}} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Peluquería</Link>
+                                        <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden);setShowDropProductos(true)}} to='cursos' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Peluquería</Link>
                                     </li>
                                     <li >
-                                        <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden);setShowDropProductos(true)}} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Veterinaria</Link>
+                                        <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden);setShowDropProductos(true)}} to='cursos' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Veterinaria</Link>
                                     </li>
                                     <li >
-                                        <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden);setShowDropProductos(true)}} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Chocolatería Fina</Link>
+                                        <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden);setShowDropProductos(true)}} to='cursos' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Chocolatería Fina</Link>
                                     </li>
                                     <li >
-                                        <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden);setShowDropProductos(true)}} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Reposteria Fina</Link>
+                                        <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden);setShowDropProductos(true)}} to='cursos' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Reposteria Fina</Link>
                                     </li>
                                     <li >
-                                        <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden);setShowDropProductos(true)}} to='products' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Make Up</Link>
+                                        <Link onClick={() => {setShowDrop(!showDrop);setHidden(!hidden);setShowDropProductos(true)}} to='cursos' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Make Up</Link>
                                     </li>
                                 </ul>
                             </div>

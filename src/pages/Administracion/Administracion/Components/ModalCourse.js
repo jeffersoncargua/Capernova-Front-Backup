@@ -53,10 +53,10 @@ export const ModalCourse = ({showModalCourse,setShowModalCourse,setResponse}) =>
     <div>
 
         {/*<!-- Main modal -->*/}
-        <div id="crud-modal" tabIndex="-1" aria-hidden="true" className={`${showModalCourse? '':'hidden'} overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full`}>
-            <div className="relative mx-auto p-4 w-full max-w-md max-h-full">
+        <div id="crud-modal" tabIndex="-1" className={`${showModalCourse? '':'hidden'} overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full`}>
+            <div className="relative mx-auto p-4 w-full max-w-2xl max-h-full">
                 {/*<!-- Modal content -->*/}
-                <div className="relative my-[30%] bg-white rounded-lg shadow dark:bg-gray-700">
+                <div className="relative my-[20%] bg-white rounded-lg shadow dark:bg-gray-700">
                     {/*<!-- Modal header -->*/}
                     <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -72,25 +72,25 @@ export const ModalCourse = ({showModalCourse,setShowModalCourse,setResponse}) =>
                     {/*<!-- Modal body -->*/}
                     <form className="p-4 md:p-5" onSubmit={handleSubmitAdd}>
                         <div className="grid gap-4 mb-4 grid-cols-2">
-                            <div className="col-span-2">
-                                <label htmlFor="codigo" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Codigo</label>
+                            <div className="">
+                                <label htmlFor="codigo" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Código</label>
                                 <input type="text" name="codigo" id="codigo" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Escribe el titulo del curso aquí" required="" ref={refCodigo} />
                             </div>
-                            <div className="col-span-2">
+                            <div className="">
                                 <label htmlFor="titulo" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Titulo</label>
                                 <input type="text" name="titulo" id="titulo" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Escribe el titulo del curso aquí" required="" ref={refTitulo} />
                             </div>
-                            <div className="col-span-2">
+                            <div className="">
                                 <label htmlFor="imageUrl" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Imagen</label>
                                 <input type="text" name="imageUrl" id="imageUrl" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Inserta la url de la imagen aquí" required="" ref={refImageUrl} />
                             </div>
-                            <div className="col-span-2">
-                                <label htmlFor="price" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
+                            <div className="">
+                                <label htmlFor="price" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Precio</label>
                                 <input type="text" pattern="[0-9]{1,}\.[0-9]{1,}" name="price" id="price" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="$100,50" required="" ref={refPrice} />
                             </div>
                             
                             <div className="col-span-2">
-                                <label htmlFor="descripcion" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product Description</label>
+                                <label htmlFor="descripcion" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descripción</label>
                                 <textarea id="descripcion" name='descripcion' rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Escribe la descripción del curso aquí" ref={refDescripcion}></textarea>                    
                             </div>
                         </div>
