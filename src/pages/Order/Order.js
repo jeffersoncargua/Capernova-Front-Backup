@@ -4,18 +4,19 @@ import { PaymentInfo,PaymentMethod } from "./components";
 
 export const Order = () => {
 
-  const [checkCard, setCheckCard] = useState(false);
-  const [checkPaypal, setCheckPayPal] = useState(false);
+  // const [checkCard, setCheckCard] = useState(false);
+  // const [checkPaypal, setCheckPayPal] = useState(false);
+  const [isValid,setIsValid] = useState(false);
 
   return (
     <div className="w-95% flex flex-wrap justify-around mx-auto mb-10 ">
         {/*Apartado para escoger el metodo de pago */}
         <div className="w-full md:w-[50%] flex flex-col items-center border-gray-300">
-          <PaymentMethod checkCard={checkCard} setCheckCard={setCheckCard} checkPaypal={checkPaypal} setCheckPayPal={setCheckPayPal} />
+          <PaymentMethod /*checkCard={checkCard} setCheckCard={setCheckCard} checkPaypal={checkPaypal} setCheckPayPal={setCheckPayPal}*/ setIsValid={setIsValid} />
         </div>
         {/* Apartado para el pago por paypal o el ingreso del numero de la tarjeta */}
         <div className="w-full md:w-[50%] flex flex-col items-center">
-          <PaymentInfo checkCard={checkCard} checkPaypal={checkPaypal}  />
+          <PaymentInfo /*checkCard={checkCard} checkPaypal={checkPaypal}*/ isValid={isValid} />
         </div>
     </div>
   )

@@ -1,17 +1,157 @@
 
-import PagandoCuenta from '../../../assets/MujerPagando.png';
+import { useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
+import {Link} from 'react-router-dom';
+//import PagandoCuenta from '../../../assets/MujerPagando.png';
 
-export const PaymentMethod = ({checkCard,setCheckCard,checkPaypal,setCheckPayPal}) => {
 
-    
+//export const PaymentMethod = ({checkCard,setCheckCard,checkPaypal,setCheckPayPal}) => {
+export const PaymentMethod = ({setIsValid}) => {
 
+    const [check,setCheck] = useState(false);
+
+    const refName = useRef();
+    const refLastName = useRef();
+    const refEmail = useRef();
+    const refPhone = useRef();
+    const refIdentificacion = useRef();
+    const refDireccionPrincipal = useRef();
+    const refDireccionSecundaria = useRef();
+
+    const user = useSelector(state => state.userState.user);
+
+
+    const handleSubmit = (event)=> {
+        event.preventDefault();
+        let cliente = {
+            id: user.nameIdentifier,
+            name: refName.current.value,
+            lastName: refLastName.current.value,
+            phone : refPhone.current.value,
+            email: refEmail.current.value,
+            identification: refIdentificacion.current.value,
+            principalDir : refDireccionPrincipal.current.value,
+            secundaryDir : refDireccionSecundaria.current.value,
+        }
+
+        console.log('si funciono');
+        setIsValid(true);
+        console.log(cliente);
+    }
+
+    const handleChange = (e) => {
+        console.log(e.target.checked); //permite atrapar el checked actual del elemento checkbox
+        if (refName.current.value.length > 0 &&
+            refLastName.current.value.length > 0 &&
+            refEmail.current.value.length > 0 &&
+            refPhone.current.value.length > 0 &&
+            refIdentificacion.current.value.length > 0 &&
+            refDireccionPrincipal.current.value.length > 0 &&
+            refDireccionSecundaria.current.value.length > 0
+        ){
+            setCheck(true);
+            if(e.target.checked){
+                let boton = document.getElementById('btnSubmit');
+                boton.click();
+                console.log('se realizo el submit del formulario');
+            }else{
+                setIsValid(false);
+            }
+        }else{
+            let boton = document.getElementById('btnSubmit');
+            boton.click();
+            setCheck(false);
+            setIsValid(false);
+        }        
+
+    }
+
+    const handleInputs = (e) => {
+        console.log(e.target.value);
+        console.log(e.target.id);
+        if (e.target.value.length >0) {
+            console.log("Si es mayor a cero");
+
+        }else{
+            setCheck(false);
+            setIsValid(false);
+        }
+    }
 
   return (
-    <div className="flex flex-col h-full sm:mt-[10%] md:mx-2">
+    <div className="flex flex-col h-full w-[95%] md:max-w-xl my-12 md:mx-2">
 
-        <div className=''>
-            <img src={PagandoCuenta} alt="Imagen de Pago" className='w-full h-72 mx-auto rounded-lg' />
+        {/* <div className='mb-10'>
+            <img src={PagandoCuenta} alt="Imagen de Pago" className='w-full md:max-w-lg h-72 mx-auto rounded-lg' />
+        </div> */}
+
+        <h1 className='text-center text-lg text-red-500 dark:text-red-400 underline underline-red-500'>Para finalizar con tu compra!!</h1>
+        <ul className='text-start text-black list-disc list-outside leading-loose dark:text-white'>
+            <li>
+                Rellena el formulario con tus datos para el envío.
+            </li>
+            <li>
+                Asegúrate de colocar tu información correctamente para el envío.
+            </li>
+            <li>
+                Los datos que proporciones no serán compartidos con ninguna otra persona o entidad.
+            </li>
+            <li>
+                Una vez que llenes el formulario debes activar el recuadro que aparece en la parte inferior del formulario.
+            </li>
+            <li>
+                Una vez que actives el recuadro podras elegir la forma de pago.
+            </li>
+            <li>
+                Luego de que realices el pago se te notificará con un mensaje de Whatsapp y se procederá a realizar el envío
+            </li>            
+        </ul>
+
+        <div className='w-full mt-5'>
+            <form onSubmit={handleSubmit} className="p-4 md:p-5 "  >
+                <div className="grid gap-4 mb-4 grid-cols-2 border border-gray-500 p-5 rounded-lg">
+                    <div className="">
+                        <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre:</label>
+                        <input onChange={(e) => handleInputs(e)} type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Escribe tu nombre" required ref={refName}  />
+                    </div>                            
+                    <div className="">
+                        <label htmlFor="lastName" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Apellido:</label>
+                        <input onChange={(e) => handleInputs(e)} type="text" name="lastName" id="lastName" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Escribe tu apellido" required ref={refLastName}  />
+                    </div>
+                    <div className="">
+                        <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Correo:</label>
+                        <input onChange={(e) => handleInputs(e)} type="email" pattern="[a-zA-Z0-9!#$%&'*\/=?^_`\{\|\}~\+\-]([\.]?[a-zA-Z0-9!#$%&'*\/=?^_`\{\|\}~\+\-])+@[a-zA-Z0-9]([^@&%$\/\(\)=?¿!\.,:;]|\d)+[a-zA-Z0-9][\.][a-zA-Z]{2,4}([\.][a-zA-Z]{2})?" name="email" id="email"  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Escribe tu correo " required ref={refEmail}  />
+                    </div>
+
+                    <div className="">
+                        <label htmlFor="cedula" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Identificación:</label>
+                        <input onChange={(e) => handleInputs(e)} type="text" pattern="[0-9]{10}" name="cedula" id="cedula" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Escribe tu identificación" required ref={refIdentificacion}  />                            
+                    </div>
+                    
+                    <div className="">
+                        <label htmlFor="phone" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Teléfono:</label>
+                        <input onChange={(e) => handleInputs(e)} type="tel" pattern="[0-9]{10}" name="phone" id="phone" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Escribe tu número de teléfono" required ref={refPhone}  />                            
+                    </div>
+                    <div className="">
+                        <label htmlFor="direccionPrincipal" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Direccion Principal:</label>
+                        <input onChange={(e) => handleInputs(e)} type="text"  name="direccionPrincipal" id="direccionPrincipal" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Escribe tu dirección principal" required ref={refDireccionPrincipal}  />
+                    </div>
+                    <div className="">
+                        <label htmlFor="direccionSecundaria" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Direccion Secundaria:</label>
+                        <input onChange={(e) => handleInputs(e)} type="text"  name="direccionSecundaria" id="direccionSecundaria" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Escribe tu dirección secundaria" required ref={refDireccionSecundaria}  />
+                    </div>
+                                               
+                </div>
+
+                <div className="flex items-center mt-5">
+                    <input onChange={(e)=> handleChange(e)} checked={check} id="link-checkbox" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                    <label htmlFor="link-checkbox" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Acepto los <Link to='leglTemrs' className="text-blue-600 dark:text-blue-500 hover:underline">términos y condiciones</Link>.</label>
+                </div>
+                <button id='btnSubmit' type='submit' className='invisible' >Cargar formulario de pedido</button>
+            </form>
+            
         </div>
+
 
         {/* <h1 className="font-medium text-2xl mb-10 dark:text-white">Selecciona el método de pago:</h1> */} 
         {/* <div className="mb-10 ">

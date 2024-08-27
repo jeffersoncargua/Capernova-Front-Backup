@@ -1,4 +1,4 @@
-//import { useEffect, useState } from "react"
+import {  useState } from "react"
 //import { ShoppingCard } from "../components"
 import { removeToCart } from "../../../redux/cartSlice";
 import { useDispatch } from "react-redux";
@@ -10,10 +10,30 @@ export const ShoppingCart = ({cartList,total}) => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [shoppingCart, setShoppingCart] = useState(JSON.parse(localStorage.getItem('shoppingcart')) || []);
   //const [total,setTotal] = useState(0);
+  
 
   const handleRemoveToCart = (item) => {
+
     dispatch(removeToCart(item));
+    console.log(typeof(String(item.id)));
+
+    console.log(shoppingCart);
+
+    if (shoppingCart.length > 0) {   
+      let updateCartList = shoppingCart;
+      const cartList = updateCartList.filter(itemCart => itemCart.productoId !== String(item.id));
+      console.log(cartList);
+      setShoppingCart(cartList);
+      localStorage.setItem('shoppingcart',JSON.stringify(cartList));
+    }
+    // let shoppingCart = JSON.parse(localStorage.getItem('shoppingcart'));
+    // const updateCartList = shoppingCart.filter(itemCart => itemCart.productoId !== item.id);
+    // localStorage.setItem('shoppingcart',JSON.stringify(updateCartList));
+
+    
+
     toast.success("Se eliminó el item de su carrito");
   }
   
@@ -56,13 +76,17 @@ export const ShoppingCart = ({cartList,total}) => {
               <tr key={item.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-green-100 dark:hover:bg-gray-600">
                   <td className="p-4">
                     {item.tipo === 'producto'? (
-                      <button onClick={()=>navigate(`/productDetail?productoId=${item.id}`)} data-tooltip-id='tooltip-image' >
+                      <button onClick={()=>navigate(`/productDetail?productoId=${item.id}`)} data-tooltip-id='tooltip-producto' >
                         <img src={item.imagen} className="w-16 md:w-32 max-w-full max-h-full" alt="Aqui va la imagen"/>
-                        <Tooltip id='tooltip-image' place='top' content={`Editar pedido`} />
+                        <Tooltip id='tooltip-producto' place='top' content={`Editar pedido`} />
                       </button> 
                     
                     ):(
-                      <img src={item.imagen} className="w-16 md:w-32 max-w-full max-h-full" alt="Aqui va la imagen"/>
+                      <button onClick={()=>navigate(`/cursoDetail?productoId=${item.id}`)} data-tooltip-id='tooltip-curso'>
+                        <img src={item.imagen} className="w-16 md:w-32 max-w-full max-h-full" alt="Aqui va la imagen"/>
+                        <Tooltip id='tooltip-curso' place='top' content={`Ver Curso`} />
+                      </button>
+                      
                     )}
                                          
                   </td>
@@ -76,7 +100,7 @@ export const ShoppingCart = ({cartList,total}) => {
                     ${item.precio*item.cantidad}
                   </td>
                   <td className="px-6 py-4 text-center">
-                    <button onClick={()=>handleRemoveToCart(item)} className=" transition duration-300 ease-in-out rounded-lg hover:scale-90 hover:text-white text-black bg-blue-600 hover:bg-red-600 py-2 px-6 mx-8 mb-2">Remove</button>
+                    <button onClick={() => handleRemoveToCart(item)} className=" transition duration-300 ease-in-out rounded-lg hover:scale-90 hover:text-white text-black bg-blue-600 hover:bg-red-600 py-2 px-6 mx-8 mb-2">Remove</button>
                   </td>
               </tr>
             ))}
@@ -84,7 +108,7 @@ export const ShoppingCart = ({cartList,total}) => {
       </table>
     </div>
     {/*Boton para realizar las compras */}
-    <div className="grid justify-items-end justify-end items-center mb-8 w-[80%] mx-auto">
+    <div className="grid justify-items-end justify-end items-center mb-8 w-[80%] mx-auto dark:text-white">
       <div className="flex items-center">
         <h1 className="text-3xl">Total a pagar: &nbsp; </h1>
         <span className="text-3xl text-pink-600">${total}</span>

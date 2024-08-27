@@ -1,5 +1,6 @@
 //import { useState } from "react";
 import { useSelector } from "react-redux";
+import PagandoCuenta from '../../../assets/MujerPagando.png';
 import {PaymentPaypal} from '../components/PaymentPaypal';
 
 //import { SkeletonPayment } from "../components";
@@ -7,7 +8,7 @@ import {PaymentPaypal} from '../components/PaymentPaypal';
 //import PaypalLogo from '../../../assets/pagospaypal.png';
 //import PayCardLogo from '../../../assets/pagosTarjeta.png';
 
-export const PaymentInfo = () => {
+export const PaymentInfo = ({isValid}) => {
 
     //const [showButtonLoading, setShowButtonLoading] = useState(false);
     //const [response,setResponse] = useState({});
@@ -129,18 +130,25 @@ export const PaymentInfo = () => {
 
 
   return (
-    <div className="w-[95] flex flex-col md:my-12 mx-auto">
+    <div className="w-[95%] flex flex-col mb-12 md:my-12 mx-auto">
         {/*Info con el metodo de pafo con tarjeta */}
-        <div className="">
-            <h1 className="font-medium text-2xl mb-10 dark:text-white">Selecciona el método de pago:</h1>
-            {/* <h1 className="font-medium text-2xl mb-10 dark:text-white">Pago con tarjeta de Crédito o Débito:</h1> */}                
+        <div className=" w-full md:max-w-xl">
+            
+            {/* <h1 className="font-medium text-2xl mb-10 dark:text-white">Pago con tarjeta de Crédito o Débito:</h1> */}
+
+            <div className='mb-10'>
+                <img src={PagandoCuenta} alt="Imagen de Pago" className='w-full md:max-w-md h-60 mx-auto rounded-lg' />
+            </div>                
 
             <div className="relative overflow-x-auto">
-                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <table className="w-full text-sm text-left rtl:text-right text-black dark:text-white">
+                    <thead className="text-xs text-black uppercase bg-gray-50 dark:bg-gray-700 dark:text-white">
                         <tr>
                             <th scope="col" className="px-6 py-3">
                                 Detalle
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Cantidad
                             </th>
                             <th scope="col" className="px-6 py-3">
                                 Precio
@@ -154,6 +162,9 @@ export const PaymentInfo = () => {
                                     {item.titulo}
                                 </th>
                                 <td className="px-6 py-4">
+                                    ${item.cantidad}
+                                </td>
+                                <td className="px-6 py-4">
                                     ${item.precio}
                                 </td>
                             </tr>
@@ -161,18 +172,18 @@ export const PaymentInfo = () => {
                         
                     </tbody>
                     <tfoot>
-                        <tr class="font-semibold text-gray-900 dark:text-white">
-                            <th scope="row" class="px-6 py-3 text-base">Total</th>
-                            <td class="px-6 py-3">${total}</td>
+                        <tr className="font-semibold text-black bg-gray-50 dark:bg-gray-700 dark:text-white">
+                            <th></th>
+                            <th scope="row" className="px-6 py-3 text-base">Total</th>
+                            <td className="px-6 py-3">${total}</td>
                         </tr>
                     </tfoot>
                 </table>
             </div>
 
-
+            <h1 className="font-medium text-center text-xl my-10 dark:text-white">Escoge la forma de pago:</h1>
+            <PaymentPaypal cartList={cartList} total={total} isValid={isValid} />
             
-
-            <PaymentPaypal cartList={cartList} total={total}  />
             
         </div>
     </div>

@@ -14,7 +14,7 @@ export const ProductDetail = () => {
     const [searchParams] = useSearchParams();
     const productoId = searchParams.get('productoId');
     const [cant, setCant] = useState(1);
-    console.log(productoId);
+    //console.log(typeof(productoId));
     const refCant = useRef();
 
     const [producto, setProducto] = useState({});
@@ -22,15 +22,8 @@ export const ProductDetail = () => {
     const [shoppingCart, setShoppingCart] = useState(JSON.parse(localStorage.getItem('shoppingcart')) || []);
 
     useEffect(()=>{
-
-      if (shoppingCart.length > 0) {        
-        const updateCant = shoppingCart.find((item) => item.productoId === productoId);
-        if(updateCant){
-          setCant(updateCant.cantidad);
-        }
-        
-      }
-        try {
+     
+        try {          
             const fetchProducto = async() => {
               const resultFromApi = await fetch(`https://localhost:7164/api/Producto/getProducto/${productoId}`,{
                 method:'GET',
@@ -66,11 +59,24 @@ export const ProductDetail = () => {
           } catch (error) {
             console.error(error);
           }
-    },[productoId,shoppingCart,setShoppingCart])
+    },[productoId])
+
+    useEffect(()=>{
+      if (shoppingCart.length > 0) {        
+        const updateCant = shoppingCart.find((item) => item.productoId === productoId);
+        //console.log(typeof(updateCant.cantidad));
+        console.log(updateCant);
+        if(updateCant){
+          setCant(+updateCant.cantidad);
+        }else{
+          setCant(1);
+        }
+      }
+    },[shoppingCart,productoId,setShoppingCart])
 
     const handleIncrement = ()=>{
       if(cant < producto.cantidad){  
-        setCant(cant+1);
+        setCant(cant + 1);
       }else{
         alert("Alcanzó la máxima cantidad disponible");
       }
@@ -86,6 +92,7 @@ export const ProductDetail = () => {
     }
 
     const handleAddToCart = (itemProd) => {
+
       let objetoCart = {
         id: itemProd.id,
         codigo: itemProd.codigo,
@@ -98,17 +105,24 @@ export const ProductDetail = () => {
 
       dispath(addToCart(objetoCart));
 
-      const itemCart = shoppingCart.find((item) => item.productoId === productoId);
-      console.log(itemCart);
-      if (itemCart) {
-        let updateListCart = shoppingCart.map((itemCart) => itemCart.productoId === productoId ? {...itemCart, cantidad : itemCart.cantidad = refCant.current.value} : itemCart);
-        console.log(updateListCart);
-        localStorage.setItem('shoppingcart',JSON.stringify(updateListCart));
-      }else{
-        let updateListCart= shoppingCart;
-        const newlist = updateListCart.concat({'productoId':productoId,'cantidad':refCant.current.value});
-        localStorage.setItem('shoppingcart',JSON.stringify(newlist));
-      }
+      //let shoppingCart = JSON.parse(localStorage.getItem('shoppingcart'));
+
+        const itemCart = shoppingCart.find((item) => item.productoId === productoId);
+        console.log(itemCart);
+        if (itemCart) {
+          let updateListCart = shoppingCart;
+          let cartist = updateListCart.map(itemCart => itemCart.productoId === productoId ? {...itemCart, cantidad : itemCart.cantidad = refCant.current.value}:itemCart );
+          console.log(updateListCart);
+          setShoppingCart(updateListCart);
+          localStorage.setItem('shoppingcart',JSON.stringify(cartist));
+        }else{
+          let updateListCart= shoppingCart;
+          setShoppingCart([...shoppingCart,{'productoId':productoId,'cantidad':refCant.current.value}]);
+          const newlist = updateListCart.concat({'productoId':productoId,'cantidad':refCant.current.value});        
+          localStorage.setItem('shoppingcart',JSON.stringify(newlist));
+        }
+      
+      
 
       toast.success(`Se agregó el ${itemProd.tipo} de ${itemProd.titulo} a su carrito`);
     }
@@ -121,15 +135,15 @@ export const ProductDetail = () => {
             </div>
             <div className="w-full text-center md:w-[50%] mt-10 md:mt-0">
               <div className="md:mx-10">
-                <h1 className="font-semibold text-3xl">{producto.titulo}</h1>
+                <h1 className="font-semibold text-3xl dark:text-white">{producto.titulo}</h1>
                 <hr className="mx-auto w-[100px] border border-blue-400 drop-shadow-md" />
                 <span className="flex self-start text-xl font-semibold mb-2">Descripción:</span>
-                <div className="flex flex-col self-start text-start text-lg gap-y-2">
-                  <pre className=" text-sm font-sans leading-loose">
+                <div className="flex flex-col self-start text-start text-lg gap-y-2 dark:text-white">
+                  <pre className=" text-sm font-sans leading-loose text-wrap text-justify">
                     {producto.detalle}
                   </pre>
                   
-                  <span className="font-semibold text-md me-3" >
+                  <span className="font-semibold text-md me-3 dark:text-white" >
                   Precio: <p className="inline-block text-md text-pink-500">
                             ${producto.precio}
                           </p>
@@ -145,7 +159,7 @@ export const ProductDetail = () => {
                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h16"/>
                         </svg>
                     </button>
-                    <input type="text" id="quantity-input" data-input-counter aria-describedby="helper-text-explanation" className="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={cant} ref={refCant} required />
+                    <input type="text" id="quantity-input" data-input-counter aria-describedby="helper-text-explanation" className="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" readOnly value={cant} ref={refCant} required />
                     <button onClick={()=>handleIncrement()} type="button" id="increment-button" data-input-counter-increment="quantity-input" className="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
                         <svg className="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 1v16M1 9h16"/>

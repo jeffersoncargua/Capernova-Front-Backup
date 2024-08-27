@@ -4,7 +4,7 @@ import { PayPalScriptProvider,PayPalButtons } from "@paypal/react-paypal-js"
 import { useNavigate } from "react-router-dom";
 
 
-export const PaymentPaypal = ({cartList,total}) => {
+export const PaymentPaypal = ({cartList,total,isValid}) => {
 
     //  const cartList = useSelector(state => state.cartState.cartList);
     //  const total = useSelector(state => state.cartState.total);
@@ -74,14 +74,17 @@ export const PaymentPaypal = ({cartList,total}) => {
 
 
   return (
-    <div>
-        <PayPalScriptProvider options={initialOptions}>
-            <PayPalButtons 
-                style={styles}
-                createOrder={handleCreateOrder}
-                onApprove={handleOnApprove}
-                 />
-        </PayPalScriptProvider>
+    <div className={``}>
+        {isValid && (
+            <PayPalScriptProvider options={initialOptions}>
+                <PayPalButtons 
+                    style={styles}
+                    createOrder={handleCreateOrder}
+                    onApprove={handleOnApprove}
+                    />
+            </PayPalScriptProvider>
+        )}
+        
     </div>
   )
 }
