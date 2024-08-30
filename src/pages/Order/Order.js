@@ -1,22 +1,60 @@
-import { useState } from "react";
-import { PaymentInfo,PaymentMethod } from "./components";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { PaymentInfo, PaymentOrder, PaymentMethod,ModalError } from "./components";
+import { useNavigate } from "react-router-dom";
 
 
 export const Order = () => {
 
   // const [checkCard, setCheckCard] = useState(false);
   // const [checkPaypal, setCheckPayPal] = useState(false);
-  const [isValid,setIsValid] = useState(false);
+  const navigate = useNavigate();
+  const [productList,setProducList] = useState([]);
+  const [cursoList, setCursoList] = useState([]);
+  const cartList = useSelector(state => state.cartState.cartList);
+
+  const [showModal, setShowModal] = useState(false);
+  const [error,setError] = useState('');
+  const [hiddenPaypal,setHiddenPaypal] = useState(true); //permite colocar los botones de paypal atras del modal en caso de error
+
+  const [isValid,setIsValid] = useState(false); //permite activar la forma de pago
+
+  useEffect(()=>{
+
+    if (cartList.length > 0) {
+      const onlyProductos = cartList.filter(itemCart  => itemCart.tipo === 'producto');
+      console.log(onlyProductos);
+      setProducList(onlyProductos);
+      const onlyCursos = cartList.filter(itemCart  => itemCart.tipo === 'curso');
+      console.log(onlyCursos);
+      setCursoList(onlyCursos);
+    }else{
+      navigate('/cart');
+    }
+
+  },[cartList,navigate])
+
+  console.log(productList);
+  console.log(cursoList);
 
   return (
     <div className="w-95% flex flex-wrap justify-around mx-auto mb-10 ">
-        {/*Apartado para escoger el metodo de pago */}
+       {showModal && <ModalError error={error} setShowModal={setShowModal} setHiddenPaypal={setHiddenPaypal} />}
+        {/*Apartado para solicitar la informacion para el pedido en el caso de tener productos */}
         <div className="w-full md:w-[50%] flex flex-col items-center border-gray-300">
-          <PaymentMethod /*checkCard={checkCard} setCheckCard={setCheckCard} checkPaypal={checkPaypal} setCheckPayPal={setCheckPayPal}*/ setIsValid={setIsValid} />
+          {productList.length > 0 && (
+            <PaymentOrder setIsValid={setIsValid} />
+          )}
+          {(cursoList.length > 0 && productList.length === 0) && (
+            <PaymentMethod setIsValid={setIsValid} />
+          )}
+          
+          
         </div>
         {/* Apartado para el pago por paypal o el ingreso del numero de la tarjeta */}
         <div className="w-full md:w-[50%] flex flex-col items-center">
-          <PaymentInfo /*checkCard={checkCard} checkPaypal={checkPaypal}*/ isValid={isValid} />
+
+          <PaymentInfo isValid={isValid} cartList={cartList} setError={setError} setShowModal={setShowModal} hiddenPaypal={hiddenPaypal} setHiddenPaypal={setHiddenPaypal} />
         </div>
     </div>
   )

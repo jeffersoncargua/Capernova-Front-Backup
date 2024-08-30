@@ -130,8 +130,10 @@ export const ProductDetail = () => {
   return (
     <div className="w-[95%] mx-auto group text-black dark:text-white ">
         <div className="flex flex-wrap mt-10 ">
-            <div className="w-full md:w-[50%]">
-                <img className={`mx-auto w-full sm:max-w-lg md:max-w-md  rounded-lg shadow shadow-gray-500 shadow-lg dark:shadow-white`} src={producto.imagenUrl} alt="Aqui va la imagen" />
+            <div className="w-full md:w-[50%] relative">
+                <img className={`mx-auto w-full sm:max-w-lg md:max-w-md rounded-lg shadow shadow-gray-500 shadow-lg dark:shadow-white ${!producto.cantidad>0 ? 'grayscale':''}`} src={producto.imagenUrl} alt="Aqui va la imagen" />
+                {!(producto.cantidad>0) && <h1 className="absolute inset-y-1/2 inset-x-1/3 text-5xl text-red-500 font-bold ">Agotado</h1> }
+                
             </div>
             <div className="w-full text-center md:w-[50%] mt-10 md:mt-0">
               <div className="md:mx-10">
@@ -167,8 +169,9 @@ export const ProductDetail = () => {
                     </button>
                   </div>
                   {/*Esta seccion es para colocar el boton que va a agregar el producto al carrito */}
-                  <div className="flex justify-center group mt-5">
-                    <button onClick={() => handleAddToCart(producto)} className="flex items-center text-black group-hover:text-white group-hover:scale-110 rounded-lg px-2.5 py-2 border border-blue-400 bg-blue-600 hover:border-green-400 hover:bg-green-600">
+                  {/*El disabled en false permite que el boton puede ser accedido y en true el boton no puede ser accedido */}
+                  <div className="flex justify-center group mt-5">                    
+                    <button onClick={() => handleAddToCart(producto)} disabled={producto.cantidad > 0 ? false:true} className={`flex items-center text-black group-hover:text-white group-hover:scale-110 rounded-lg px-2.5 py-2 border border-blue-400 bg-blue-600 hover:border-green-400 hover:bg-green-600 ${producto.cantidad > 0 ? 'cursor-pointer':'cursor-not-allowed'}`}>
                       <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-cart-plus w-5 h-5 me-3" viewBox="0 0 16 16">
                         <path d="M9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9z"/>
                         <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zm3.915 10L3.102 4h10.796l-1.313 7zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>

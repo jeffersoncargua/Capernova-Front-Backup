@@ -32,8 +32,8 @@ export const Capitulo = ({curso}) => {
     <div className="mt-5">
         {capitulos && capitulos.map((capitulo)=>(
             <>
-              <h2 className="text-start mb-2 text-lg font-semibold text-gray-900 dark:text-white">{capitulo.titulo}</h2>
-              <Temario key={capitulo.id} capitulo={capitulo}  />
+              <h2 key={capitulo.id} className="text-start mb-2 text-lg font-semibold text-gray-900 dark:text-white">{capitulo.titulo}</h2>
+              <Temario  capitulo={capitulo}  />
             </> 
         ))}
     

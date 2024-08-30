@@ -1,19 +1,35 @@
 //import { useState } from "react";
 import { useSelector } from "react-redux";
 import PagandoCuenta from '../../../assets/MujerPagando.png';
-import {PaymentPaypal} from '../components/PaymentPaypal';
+import {PaymentPaypal} from '../components';
+import { useEffect, useState } from "react";
+import { cancelOrder } from "../../../redux/orderSlice";
+import { useDispatch } from "react-redux";
 
 //import { SkeletonPayment } from "../components";
 
 //import PaypalLogo from '../../../assets/pagospaypal.png';
 //import PayCardLogo from '../../../assets/pagosTarjeta.png';
 
-export const PaymentInfo = ({isValid}) => {
+export const PaymentInfo = ({isValid,cartList,setError,setShowModal,hiddenPaypal, setHiddenPaypal}) => {
 
     //const [showButtonLoading, setShowButtonLoading] = useState(false);
     //const [response,setResponse] = useState({});
-    const cartList = useSelector(state => state.cartState.cartList);
+
+    const dispatch = useDispatch();
+
+    const [cursoList, setCursoList] = useState([]);
+    const [productoList, setProductoList] = useState([]);
+
+    
+    
+    
     const total = useSelector(state => state.cartState.total);
+
+    const order = useSelector(state => state.orderState.order);
+    console.log(order);
+
+    
 
     
     // const handlePaypal = async (event) =>{
@@ -128,19 +144,40 @@ export const PaymentInfo = ({isValid}) => {
     //     }
     // }
 
+    useEffect(()=>{
+        const onlyCursos = cartList.filter(itemCart => itemCart.tipo === 'curso');
+        setCursoList(onlyCursos);
+        const onlyProductos = cartList.filter(itemCart => itemCart.tipo === 'producto');
+        setProductoList(onlyProductos);
+        if (onlyProductos.length === 0) {
+            dispatch(cancelOrder());
+        }
+    },[cartList,dispatch])
+
 
   return (
-    <div className="w-[95%] flex flex-col mb-12 md:my-12 mx-auto">
+    <div className="w-[95%] flex flex-col mb-5 md:my-12 mx-auto">
+
+   
+
+
         {/*Info con el metodo de pafo con tarjeta */}
-        <div className=" w-full md:max-w-xl">
-            
-            {/* <h1 className="font-medium text-2xl mb-10 dark:text-white">Pago con tarjeta de Crédito o Débito:</h1> */}
+        
+        <div className=" w-full md:max-w-xl" >
+            {(cursoList.length > 0 && productoList.length > 0) && (<div className='mb-10'>
+                <img src={PagandoCuenta} alt="Imagen de Pago" className='w-[80%] md:max-w-sm h-60 mx-auto rounded-lg' />
+            </div>)}
+            {(cursoList.length === 0 && productoList.length > 0) ? (<div className='mb-10'>
+                <img src={PagandoCuenta} alt="Imagen de Pago" className='w-[80%] md:max-w-sm h-60 mx-auto rounded-lg' />
+            </div>)
+            :
+            (< >
+                {/* <img src={PagandoCuenta} alt="Imagen de Pago" className='w-[80%] md:max-w-sm h-60 mx-auto rounded-lg' /> */}
+            </>)}
 
-            <div className='mb-10'>
-                <img src={PagandoCuenta} alt="Imagen de Pago" className='w-full md:max-w-md h-60 mx-auto rounded-lg' />
-            </div>                
-
-            <div className="relative overflow-x-auto">
+            <h1 className="font-medium text-center text-xl mb-5 dark:text-white capitalize">El detalle de tu carrito</h1>
+                            
+            <div className="overflow-x-auto">
                 <table className="w-full text-sm text-left rtl:text-right text-black dark:text-white">
                     <thead className="text-xs text-black uppercase bg-gray-50 dark:bg-gray-700 dark:text-white">
                         <tr>
@@ -162,7 +199,7 @@ export const PaymentInfo = ({isValid}) => {
                                     {item.titulo}
                                 </th>
                                 <td className="px-6 py-4">
-                                    ${item.cantidad}
+                                    {item.cantidad}
                                 </td>
                                 <td className="px-6 py-4">
                                     ${item.precio}
@@ -181,10 +218,9 @@ export const PaymentInfo = ({isValid}) => {
                 </table>
             </div>
 
-            <h1 className="font-medium text-center text-xl my-10 dark:text-white">Escoge la forma de pago:</h1>
-            <PaymentPaypal cartList={cartList} total={total} isValid={isValid} />
             
-            
+            <PaymentPaypal cartList={cartList} total={total} isValid={isValid} setError={setError} setShowModal={setShowModal} hiddenPaypal={hiddenPaypal} setHiddenPaypal={setHiddenPaypal} />
+             
         </div>
     </div>
   )

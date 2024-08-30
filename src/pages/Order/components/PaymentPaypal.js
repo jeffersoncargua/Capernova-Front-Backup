@@ -1,17 +1,26 @@
 import { PayPalScriptProvider,PayPalButtons } from "@paypal/react-paypal-js"
 //import { useState } from "react";
-//import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+//import {ModalError} from '../components'
 
 
-export const PaymentPaypal = ({cartList,total,isValid}) => {
+export const PaymentPaypal = ({cartList,total,isValid,setError,setShowModal,hiddenPaypal,setHiddenPaypal}) => {
 
     //  const cartList = useSelector(state => state.cartState.cartList);
     //  const total = useSelector(state => state.cartState.total);
 
-     //const [token, setToken] = useState('');
-     let orderId = '';
-     const navigate = useNavigate();
+    const user = useSelector(state => state.userState.user);
+
+    
+
+
+    const order = useSelector(state => state.orderState.order);
+    console.log(order);
+
+
+    let orderId = ''; //permite almacenar la orden que se emite desde paypal para realizar las transacciones
+    const navigate = useNavigate();
 
     // const [{isPending}] = usePayPalScriptReducer(); // permite obtener el estado de paypal en la que se encuentra en ese momento de la solicitud de pedido
 
@@ -24,30 +33,40 @@ export const PaymentPaypal = ({cartList,total,isValid}) => {
     }
 
     const handleCreateOrder = async() => {
-        const resultFromApi = await fetch(`https://localhost:7164/api/Payment/paypalCard`,{
-            method: 'POST',
-            credentials: 'include',
-            headers:{
-                'Content-Type' : 'application/json',
-                'Accept' : 'application/json'
-            },
-            body: JSON.stringify({
-                productos : JSON.stringify(cartList),
-                total: String(total)
-            }),            
-        });
 
-        const resultFetch = await resultFromApi.json();
-        const result = JSON.parse(resultFetch.result);
-        console.log(result.id);       
-        console.log(result.status);
-        console.log(result.links);
-        //setToken(result.id);
-        orderId = result.id;
-        //const orderId = resultFetch.order.id;
+        
+            const resultFromApi = await fetch(`https://localhost:7164/api/Payment/paypalCard`,{
+                method: 'POST',
+                credentials: 'include',
+                headers:{
+                    'Content-Type' : 'application/json',
+                    'Accept' : 'application/json'
+                },
+                body: JSON.stringify({
+                    productos : JSON.stringify(cartList),
+                    total: String(total)
+                }),            
+            });
+    
+            const resultFetch = await resultFromApi.json();
+            console.log(resultFetch);
+            if (resultFetch.isSuccess) {
+                const result = JSON.parse(resultFetch.result);
+            // console.log(result.id);       
+            // console.log(result.status);
+            // console.log(result.links);
+            //setToken(result.id);
+            orderId = result.id;
+            return result.id;
+            }
 
-        console.log("Se esta creando un metodo de pago");
-        return result.id;
+            console.log(resultFetch.message);
+            setError(resultFetch.message);
+            setShowModal(true);
+            setHiddenPaypal(false);
+            
+            //console.log("Se esta creando un metodo de pago");
+        
     }
 
     const handleOnApprove = async() => {
@@ -58,12 +77,55 @@ export const PaymentPaypal = ({cartList,total,isValid}) => {
             headers:{
                 'Content-Type' : 'application/json',
                 'Accept' : 'application/json'
-            },
+            }
+            // body:JSON.stringify({
+            //     productos : JSON.stringify(cartList),
+            //     total: String(total),
+            //     orden: JSON.stringify(order),
+            //     identifierName : user.nameIdentifier,
+            //     token: orderId
+            // })
         });
 
         const resultFetch = await resultFromApi.json();
         console.log(resultFetch);
-        navigate(`/confirmPay?token=${orderId}`);
+        if(resultFetch.isSuccess){
+            const resultAPI = await fetch(`https://localhost:7164/api/Payment/createOrder`,{
+                method: 'POST',
+                credentials: 'include',
+                headers:{
+                    'Content-Type' : 'application/json',
+                    'Accept' : 'application/json'
+                },
+                body:JSON.stringify({
+                    productos : JSON.stringify(cartList),
+                    total: String(total),
+                    orden: JSON.stringify(order),
+                    identifierName : user.nameIdentifier,
+                    //token: orderId
+                })
+            });
+            const resultFetch = await resultAPI.json();
+            console.log(resultFetch);
+            if(resultFetch.isSuccess){
+                localStorage.removeItem('shoppingcart');
+                navigate(`/confirmPay?token=${orderId}`);
+            }            
+        }else{
+            navigate(`/cancelPay`);
+            
+        }
+        
+    }
+
+
+    const handleOnError= async() => {
+        console.log('Ha ocurrido un error durante su transacción');
+    }
+
+    const handleOnCancel= async() => {        
+        localStorage.removeItem('shoppingcart');
+        navigate('/cancelPay');
     }
 
     const styles ={
@@ -75,14 +137,21 @@ export const PaymentPaypal = ({cartList,total,isValid}) => {
 
   return (
     <div className={``}>
+
         {isValid && (
-            <PayPalScriptProvider options={initialOptions}>
-                <PayPalButtons 
-                    style={styles}
-                    createOrder={handleCreateOrder}
-                    onApprove={handleOnApprove}
-                    />
-            </PayPalScriptProvider>
+            <div className={`${!hiddenPaypal ? 'relative -z-10':''}`}>
+                <h1 className="font-medium text-center text-xl my-10 dark:text-white">Escoge la forma de pago:</h1>
+                <PayPalScriptProvider options={initialOptions}>
+                    <PayPalButtons 
+                        style={styles}
+                        createOrder={handleCreateOrder}
+                        onApprove={handleOnApprove}
+                        onError={handleOnError}
+                        onCancel={handleOnCancel}
+                        />
+                </PayPalScriptProvider>
+                
+            </div>
         )}
         
     </div>
