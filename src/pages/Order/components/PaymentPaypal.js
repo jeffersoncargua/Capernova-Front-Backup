@@ -2,6 +2,8 @@ import { PayPalScriptProvider,PayPalButtons } from "@paypal/react-paypal-js"
 //import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../../../redux/userSlice";
 //import {ModalError} from '../components'
 
 
@@ -10,10 +12,9 @@ export const PaymentPaypal = ({cartList,total,isValid,setError,setShowModal,hidd
     //  const cartList = useSelector(state => state.cartState.cartList);
     //  const total = useSelector(state => state.cartState.total);
 
+    const dispath = useDispatch();
+
     const user = useSelector(state => state.userState.user);
-
-    
-
 
     const order = useSelector(state => state.orderState.order);
     console.log(order);
@@ -78,13 +79,6 @@ export const PaymentPaypal = ({cartList,total,isValid,setError,setShowModal,hidd
                 'Content-Type' : 'application/json',
                 'Accept' : 'application/json'
             }
-            // body:JSON.stringify({
-            //     productos : JSON.stringify(cartList),
-            //     total: String(total),
-            //     orden: JSON.stringify(order),
-            //     identifierName : user.nameIdentifier,
-            //     token: orderId
-            // })
         });
 
         const resultFetch = await resultFromApi.json();
@@ -109,7 +103,9 @@ export const PaymentPaypal = ({cartList,total,isValid,setError,setShowModal,hidd
             console.log(resultFetch);
             if(resultFetch.isSuccess){
                 localStorage.removeItem('shoppingcart');
+                dispath(logout()); //permite cerrar la session
                 navigate(`/confirmPay?token=${orderId}`);
+                
             }            
         }else{
             navigate(`/cancelPay`);

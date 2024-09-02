@@ -1,5 +1,5 @@
 export {Cursos} from './Cursos';
-export {Ventas} from './Ventas';
+//export {Ventas} from './Ventas';
 export {Usuarios} from './Usuarios';
 export {SideBar} from './SideBar';
 export {Publicidad} from './Publicidad';
@@ -17,3 +17,5 @@ export {ModalSuccessAssigment} from './ModalSuccessAssigment'; //Cuando se Guard
 
 export {Productos} from './Productos';
 export {ModalProducto} from './ModalProducto';
+
+export { Ventas} from './Ventas';

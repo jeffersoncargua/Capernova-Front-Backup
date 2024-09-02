@@ -154,6 +154,8 @@ export const PaymentInfo = ({isValid,cartList,setError,setShowModal,hiddenPaypal
         }
     },[cartList,dispatch])
 
+    
+
 
   return (
     <div className="w-[95%] flex flex-col mb-5 md:my-12 mx-auto">
