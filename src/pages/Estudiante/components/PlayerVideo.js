@@ -1,10 +1,10 @@
 import {  useEffect, useState } from 'react';
-import { Videos } from '../components';
+import { Videos,ModalCompleted } from '../components';
 import { useSelector } from 'react-redux';
 import VideoPlayer from 'react-player/youtube';
 
 
-export const PlayerVideo = ({curso,estudiante,matricula}) => {
+export const PlayerVideo = ({estudiante,matricula,setMatricula}) => {
 
     // const urls = [
     //     {id: 1 , titulo: 'LLapingacho' ,video:'https://www.youtube.com/watch?v=S9HdmW8FHFU', view: false},
@@ -19,21 +19,21 @@ export const PlayerVideo = ({curso,estudiante,matricula}) => {
 
     // const [currentVideo, setCurrentVideo] = useState({id: 1 , titulo: 'LLapingacho' ,video:'https://www.youtube.com/watch?v=S9HdmW8FHFU', view: false});
     // const [playList, setPlayList] = useState(urls);
-    let newObject = '';
     const playList = useSelector(state => state.playListState.playList)
     const [currentVideo, setCurrentVideo] = useState({});
     
     //let [playList, setPlayList] = useState([]);
     //const [total, setTotal] = useState(0);
-    const [duration, setDuration] = useState(0);
+    //const [duration, setDuration] = useState(0);
 
     const [capituloList,setCapiuloList] = useState([]);
+    const [showModalCompleted,setShowModalCompleted] = useState(false);
 
 
 
     useEffect(()=>{
         const fetchCapitulos = async() => {
-            const resultFromApi = await fetch(`https://localhost:7164/api/Student/getCapitulos/${curso.id}`,{
+            const resultFromApi = await fetch(`https://localhost:7164/api/Student/getCapitulos/${matricula.cursoId}`,{
               method: 'GET',
               credentials:'include',
               headers:{
@@ -42,13 +42,13 @@ export const PlayerVideo = ({curso,estudiante,matricula}) => {
               }
             });
             const resultFetch = await resultFromApi.json();
-            console.log(resultFetch);
+            //console.log(resultFetch);
             if(resultFetch.isSuccess){
               setCapiuloList(resultFetch.result);
             }
           }
           fetchCapitulos();
-    },[curso,setCurrentVideo]);
+    },[matricula,setCurrentVideo]);
 
     
     const fetchVisualizacion = async(id) => {
@@ -61,46 +61,46 @@ export const PlayerVideo = ({curso,estudiante,matricula}) => {
             },
             body: JSON.stringify({
                 videoId: id,
-                studentId: estudiante.id
+                studentId: estudiante.id,
+                cursoId: matricula.cursoId
             })
           });
 
         const resultFetch = await resultFromApi.json();
         console.log(resultFetch);
-        newObject = resultFetch.message;
-        console.log(newObject);
     }
 
     const handlePlayer = (id) => {
-        console.log('Se termino el video');
-        console.log(id);
+        // console.log('Se termino el video');
+        // console.log(id);
         if (id !==null) {
-            console.log(`id es distinto null`);
+            //console.log(`id es distinto null`);
             fetchVisualizacion(id);
-        }else{
-            console.log(`id es null`);
-        }
+        }//else{
+        //     console.log(`id es null`);
+        // }
         //setPlayList(playList.map((urlItem) => urlItem.id === id ? {...urlItem, view:true} : urlItem)); // permite cambiar el estado de visto a un video
         const videoActual = playList.find((urlItem) => urlItem.id === id);
-        console.log(videoActual);
+        //console.log(videoActual);
         // if(!videoActual.view){
         //     setTotal(total+duration);
         // }
         const nextVideo = playList[playList.indexOf(videoActual)+1];
+        //console.log(nextVideo);
         if(nextVideo){
             setCurrentVideo(nextVideo);
         }else{
-            console.log(playList[0]);
-            const initialVideo = playList[0];
-            setCurrentVideo(initialVideo);
+            //console.log(playList[0]);
+            // const initialVideo = playList[0];
+            // setCurrentVideo(initialVideo);
+            setShowModalCompleted(true);
         }
     }
 
 
-
-    const handleDuration =  (duration) => {
-        setDuration(duration);
-    }
+    // const handleDuration =  (duration) => {
+    //     setDuration(duration);
+    // }
 
     const handlePlay = (video) => {
         setCurrentVideo(video);
@@ -109,12 +109,14 @@ export const PlayerVideo = ({curso,estudiante,matricula}) => {
     
     //console.log(playList);
     //console.log(currentVideo);
-    console.log('duracion del video: '+ duration);
+    //console.log('duracion del video: '+ duration);
     //console.log('tiempo invertido: ' + total);
     
 
   return (
     <div className='w-[95%] mx-auto flex flex-wrap justify-between'>
+
+        {showModalCompleted &&  <ModalCompleted showModalCompleted={showModalCompleted} setShowModalCompleted={setShowModalCompleted} /> }
         
         <div className='flex-initial w-full md:w-2/3'>
             <VideoPlayer 
@@ -123,7 +125,7 @@ export const PlayerVideo = ({curso,estudiante,matricula}) => {
                 //url={''}
                 controls
                 onEnded={()=>handlePlayer(currentVideo.id || null)}
-                onDuration={(duration)=>handleDuration(duration)}
+                //onDuration={(duration)=>handleDuration(duration)}
                 width='100%'
             />
         </div>
@@ -135,7 +137,7 @@ export const PlayerVideo = ({curso,estudiante,matricula}) => {
                         {capitulo.titulo}
                     </li>
                     {/* <Videos capitulo={capitulo} handlePlay={handlePlay} playList={playList} estudiante={estudiante} matricula={matricula} /> */}
-                    <Videos capitulo={capitulo} handlePlay={handlePlay} estudiante={estudiante} matricula={matricula} currentVideo={currentVideo} />
+                    <Videos capitulo={capitulo} handlePlay={handlePlay} estudiante={estudiante} matricula={matricula} setMatricula={setMatricula}/>
                 </ul>
             ))}
             

@@ -3,13 +3,32 @@ import { useEffect, useState } from "react"
 export const Feedback = () => {
 
     const [feedback, setFeedback] = useState(0);
+    const [users,setUsers] = useState([]);
 
-    const users = [
-        {nombre: 'Bonnie Green', comentario:'If you care for your time, I hands down would go with this."',avatar: 'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/karen-nelson.png',job:'Developer at Open AI'},
-        {nombre: 'Bonnie Green', comentario:'If you care for your time, I hands down would go with this."',avatar: 'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/karen-nelson.png',job:'Developer at Front-End'},
-        {nombre: 'Bonnie Green', comentario:'If you care for your time, I hands down would go with this."',avatar: 'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/karen-nelson.png',job:'Developer at Back-End'},
-        {nombre: 'Bonnie Green', comentario:'If you care for your time, I hands down would go with this."',avatar: 'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/karen-nelson.png',job:'Developer at Api`s'},
-    ]
+    // const users = [
+    //     {nombre: 'Bonnie Green', comentario:'If you care for your time, I hands down would go with this."',avatar: 'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/karen-nelson.png',job:'Developer at Open AI'},
+    //     {nombre: 'Bonnie Green', comentario:'If you care for your time, I hands down would go with this."',avatar: 'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/karen-nelson.png',job:'Developer at Front-End'},
+    //     {nombre: 'Bonnie Green', comentario:'If you care for your time, I hands down would go with this."',avatar: 'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/karen-nelson.png',job:'Developer at Back-End'},
+    //     {nombre: 'Bonnie Green', comentario:'If you care for your time, I hands down would go with this."',avatar: 'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/karen-nelson.png',job:'Developer at Api`s'},
+    // ]
+
+    useEffect(()=>{
+
+        const fetchComentarios = async()=>{
+            const resultFromApi = await fetch(`https://localhost:7164/api/Managment/getComentarios`,{
+                method: 'GET',
+                credentials: 'include',
+                headers:{
+                    'Content-Type' : 'application/json',
+                    'Accept' : 'application/json',
+                }
+            });
+            const resultFetch = await resultFromApi.json();
+            setUsers(resultFetch.result);
+        }
+        fetchComentarios();
+        
+    },[])
 
 
     /* */
@@ -43,14 +62,14 @@ export const Feedback = () => {
                     {users.map((user,index) => (
                         <figure key={index} className="flex-none flex flex-col items-center justify-center border border-gray-200 rounded-lg shadow-sm p-8 text-center bg-white dark:bg-gray-800  w-full md:w-1/2">
                             <blockquote className="max-w-2xl mx-auto mb-4 text-gray-500 lg:mb-8 dark:text-gray-400">
-                                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Very easy this was to integrate</h3>
-                                <p className="my-4">{user.comentario}</p>
+                                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Curso de {user.titulo}</h3>
+                                <p className="my-4">{user.feedBack}</p>
                             </blockquote>
                             <figcaption className="flex items-center justify-center ">
-                                <img className="rounded-full w-9 h-9" src={user.avatar} alt="profilepicture" />
+                                <img className="rounded-full w-9 h-9" src={`https://drive.google.com/thumbnail?id=${user.photoUrl}`}  alt="profilepicture" />
                                 <div className="space-y-0.5 font-medium dark:text-white text-left rtl:text-right ms-3">
-                                    <div>{user.nombre}</div>
-                                    <div className="text-sm text-gray-500 dark:text-gray-400 ">{user.job}</div>
+                                    <div>{`${user.name} ${user.lastName}`}</div>
+                                    {/* <div className="text-sm text-gray-500 dark:text-gray-400 ">{user.job}</div> */}
                                 </div>
                             </figcaption>    
                         </figure>
@@ -62,14 +81,14 @@ export const Feedback = () => {
                     {users.map((user,index) => (
                         <figure key={index} className="flex-none flex flex-col items-center justify-center border border-gray-200 rounded-lg shadow-sm p-8 text-center bg-white dark:bg-gray-800  w-full md:w-1/2">
                             <blockquote className="max-w-2xl mx-auto mb-4 text-gray-500 lg:mb-8 dark:text-gray-400">
-                                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Very easy this was to integrate</h3>
-                                <p className="my-4">{user.comentario}</p>
+                                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Curso de {user.titulo}</h3>
+                                <p className="my-4">{user.feedBack}</p>
                             </blockquote>
-                            <figcaption className="flex items-center justify-center">
-                                <img className="rounded-full w-9 h-9" src={user.avatar} alt="profilepicture" />
+                            <figcaption className="flex items-center justify-center ">
+                                <img className="rounded-full w-9 h-9" src={`https://drive.google.com/thumbnail?id=${user.photoUrl}`}  alt="profilepicture" />
                                 <div className="space-y-0.5 font-medium dark:text-white text-left rtl:text-right ms-3">
-                                    <div>{user.nombre}</div>
-                                    <div className="text-sm text-gray-500 dark:text-gray-400 ">{user.job}</div>
+                                    <div>{`${user.name} ${user.lastName}`}</div>
+                                    {/* <div className="text-sm text-gray-500 dark:text-gray-400 ">{user.job}</div> */}
                                 </div>
                             </figcaption>    
                         </figure>
@@ -80,3 +99,27 @@ export const Feedback = () => {
         </div>
   )
 }
+
+
+/*
+
+{/*Para pantalla pequeña 
+<div className="flex md:hidden bg-white w-[98%] transition ease-in-out duration-400 md:gap-x-2" style={{transform: `translateX(-${feedback * 100}%)`}}>
+{users.map((user,index) => (
+    <figure key={index} className="flex-none flex flex-col items-center justify-center border border-gray-200 rounded-lg shadow-sm p-8 text-center bg-white dark:bg-gray-800  w-full md:w-1/2">
+        <blockquote className="max-w-2xl mx-auto mb-4 text-gray-500 lg:mb-8 dark:text-gray-400">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Very easy this was to integrate</h3>
+            <p className="my-4">{user.comentario}</p>
+        </blockquote>
+        <figcaption className="flex items-center justify-center">
+            <img className="rounded-full w-9 h-9" src={user.avatar} alt="profilepicture" />
+            <div className="space-y-0.5 font-medium dark:text-white text-left rtl:text-right ms-3">
+                <div>{user.nombre}</div>
+                <div className="text-sm text-gray-500 dark:text-gray-400 ">{user.job}</div>
+            </div>
+        </figcaption>    
+    </figure>
+))}
+</div>
+
+*/

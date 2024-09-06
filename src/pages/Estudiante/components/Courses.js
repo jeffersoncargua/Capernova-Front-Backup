@@ -2,13 +2,16 @@ import { useEffect, useState } from "react";
 import { CoursesCard } from '../components'
 import { clearPlaylist } from "../../../redux/playlistSlice";
 import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
-export const Courses = ({setShowPlayer,setShowCourses,estudiante,curso,setCurso,setMarticula}) => {
+export const Courses = ({setShowPlayer,setShowCourses,estudiante,setMatricula}) => {
 
   const [matriculaList,setMatriculaList] = useState([]);
   const dispatch = useDispatch();
 
   
+  const playList = useSelector(state => state.playListState.playList);
+  console.log(playList);
 
   useEffect(()=>{
     const fecthCourses = async()=>{
@@ -28,10 +31,10 @@ export const Courses = ({setShowPlayer,setShowCourses,estudiante,curso,setCurso,
     }
 
     fecthCourses();
-    dispatch(clearPlaylist());
-  },[estudiante,dispatch])
+    dispatch(clearPlaylist([]));
+  },[estudiante,dispatch,setShowCourses])
 
-  //console.log(matriculaList);
+  console.log(matriculaList);
   //const isActive = false;
 
   return (
@@ -39,8 +42,8 @@ export const Courses = ({setShowPlayer,setShowCourses,estudiante,curso,setCurso,
 
       {matriculaList.length > 0 && matriculaList.map((matricula) => (
         <div key={matricula.id}>
-          <button disabled={!matricula.isActive} onClick={()=>{setShowPlayer(true);setShowCourses(false);setMarticula(matricula)}} className={`${matricula.isActive ? `hover:cursor-pointer`: 'hover:cursor-not-allowed'}`}>
-            <CoursesCard matricula={matricula} curso={curso} setCurso={setCurso} />
+          <button disabled={!matricula.isActive} onClick={()=>{setShowPlayer(true);setShowCourses(false);setMatricula(matricula)}} className={`${matricula.isActive ? `hover:cursor-pointer`: 'hover:cursor-not-allowed'}`}>
+            <CoursesCard matricula={matricula}  />
           </button>
         </div>
         

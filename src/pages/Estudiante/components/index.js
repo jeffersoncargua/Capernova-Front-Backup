@@ -9,5 +9,7 @@ export {Deberes} from './Deberes';
 export {Pruebas} from './Pruebas';
 export {Loading} from './Loading';
 export {Videos} from './Videos';
+export {ModalCompleted} from './ModalCompleted';
+export {Comentario} from './Comentario';
 
 export {ModalDownload} from './ModalDownload';

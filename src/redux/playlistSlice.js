@@ -15,7 +15,7 @@ const playlistSlice = createSlice({
             }
         },
         clearPlaylist(state,action){
-            return {...state, playlist:[]}
+            return {...state, playList:action.payload}
         }
     }
 });

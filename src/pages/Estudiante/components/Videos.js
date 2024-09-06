@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addVideo } from "../../../redux/playlistSlice";
 import { useSelector } from 'react-redux';
+import { toast } from "react-toastify";
 
 //export const Videos = ({capitulo,handlePlay,playList,estudiante,matricula}) => {
-export const Videos = ({capitulo,handlePlay,estudiante,matricula,currentVideo}) => {
+export const Videos = ({capitulo,handlePlay,estudiante,matricula,setMatricula}) => {
 
     const [videoList,setVideoList] = useState([]);
     const [videoViewList,setVideoViewList] = useState([]);
@@ -43,7 +44,7 @@ export const Videos = ({capitulo,handlePlay,estudiante,matricula,currentVideo}) 
 
     useEffect(()=>{
       const fetchVisualizacion = async() => {
-        const resultFromApi = await fetch(`https://localhost:7164/api/Student/getViewVideos?studentId=${estudiante.id}`,{
+        const resultFromApi = await fetch(`https://localhost:7164/api/Student/getViewVideos?studentId=${estudiante.id}&cursoId=${matricula.cursoId}`,{
             method: 'GET',
             credentials:'include',
             headers:{
@@ -57,15 +58,19 @@ export const Videos = ({capitulo,handlePlay,estudiante,matricula,currentVideo}) 
             setVideoViewList(resultFetch.result);
         }
       }
-      fetchVisualizacion();
 
-    },[estudiante,currentVideo])
+      const interval = setInterval(() => {
+        fetchVisualizacion();
+    }, 1500);
+    return () => clearInterval(interval);   
+
+    },[estudiante,matricula])
 
     useEffect(()=>{
       const fecthUpdateEstadoMatricula = async() => {
         // console.log(playList);
         // console.log(videoViewList);
-        if(playList.length === videoViewList.length && matricula.estado === 'En progreso'){
+        if(playList.length>0 && (playList.length === videoViewList.length) && matricula.estado === 'En progreso'){
           const resultFromApi = await fetch(`https://localhost:7164/api/Student/updateMatricula/${matricula.id}`,{
             method: 'PUT',
             credentials:'include',
@@ -80,14 +85,19 @@ export const Videos = ({capitulo,handlePlay,estudiante,matricula,currentVideo}) 
               isActive: matricula.isActive,
             })
           });
-          
+        
           const resultFetch = await resultFromApi.json();
+          if(resultFetch.isSuccess){
+            setMatricula(resultFetch.result);
+            toast.success(`Has finalizado de ver los videos tutoriales del curso ${matricula.curso.titulo}`);
+          }
+
           console.log(resultFetch);
         }
       }
       
       fecthUpdateEstadoMatricula()
-    },[matricula,videoViewList,playList])
+    },[matricula,videoViewList,playList,setMatricula])
 
 
 
@@ -105,7 +115,7 @@ export const Videos = ({capitulo,handlePlay,estudiante,matricula,currentVideo}) 
         {videoList.length > 0 && videoList.map((video)=>(
             <li key={video.id} className="w-full px-4 py-2 border-b border-gray-200 dark:border-gray-600 hover:bg-gray-50 group">
                 <button className='w-[80%] flex justify-between' onClick={()=>handlePlay(video)}>
-                    <svg className={`w-4 h-4 ${GetVideoView(video.id) ? 'text-green-500' :'text-gray-500'} dark:text-gray-400 flex-shrink-0`} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className={`w-4 h-4 ${GetVideoView(video.id) ? 'text-green-500 dark:text-green-500 ' :'text-gray-500 dark:text-gray-400 '} flex-shrink-0`} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
                     </svg>
                     <span className='ml-5 dark:group-hover:text-black' >{video.titulo}</span>
