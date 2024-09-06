@@ -9,12 +9,12 @@ export const Secretaria = () => {
 
   const [showEstudiantes,setShowEstudiantes] = useState(false);
   const [showCursos,setShowCursos] = useState(false);
-  const [showVentas,setShowVentas] = useState(false);
+  //const [showVentas,setShowVentas] = useState(false);
 
 
   return (
     <div className="w-[95%] mx-auto">
-        <SideBar setShowEstudiantes={setShowEstudiantes} setShowCursos={setShowCursos} setShowVentas={setShowVentas}  />
+        <SideBar setShowEstudiantes={setShowEstudiantes} setShowCursos={setShowCursos} /*setShowVentas={setShowVentas} */ />
 
         
       <div className="sm:ml-56">

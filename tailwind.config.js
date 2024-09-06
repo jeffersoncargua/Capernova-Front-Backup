@@ -1,7 +1,9 @@
 module.exports = {
     content: [
       "./src/**/*.{html,js}",
-      "node_modules/flowbite-react/lib/esm/**/*.js"
+      "node_modules/flowbite-react/lib/esm/**/*.js",
+      "./src/**/*.{js,jsx,ts,tsx}",
+      "./node_modules/react-tailwindcss-datepicker/dist/index.esm.js"
     ],
     darkMode : 'class',
     theme: {

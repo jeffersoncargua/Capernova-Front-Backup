@@ -23,10 +23,10 @@ export const PaymentOrder = ({setIsValid}) => {
     const dispatch = useDispatch();
 
     const user = useSelector(state => state.userState.user);
-    console.log(user);
+    //console.log(user);
 
-    const order = useSelector(state => state.orderState.order);
-    console.log(order);
+    //const order = useSelector(state => state.orderState.order);
+    //console.log(order);
 
 
     const handleSubmit = (event)=> {
@@ -48,7 +48,7 @@ export const PaymentOrder = ({setIsValid}) => {
 
     const handleChange = (e) => {
         let boton = document.getElementById('btnSubmit');
-        console.log(e.target.checked); //permite atrapar el checked actual del elemento checkbox
+        //console.log(e.target.checked); //permite atrapar el checked actual del elemento checkbox
         if(e.target.checked && (refName.current.value.length > 0 &&
             refLastName.current.value.length > 0 &&
             refEmail.current.value.length > 0 &&
@@ -58,7 +58,7 @@ export const PaymentOrder = ({setIsValid}) => {
             refDireccionSecundaria.current.value.length > 0)){
             setCheck(true);
             boton.click();
-            console.log('se realizo el submit del formulario');
+            //console.log('se realizo el submit del formulario');
         }else{            
             boton.click();
             setCheck(false);
@@ -69,10 +69,10 @@ export const PaymentOrder = ({setIsValid}) => {
     }
 
     const handleInputs = (e) => {
-        console.log(e.target.value);
-        console.log(e.target.id);
+        //console.log(e.target.value);
+        //console.log(e.target.id);
         if (e.target.value.length > 0) {
-            console.log("Si es mayor a cero");
+            //console.log("Si es mayor a cero");
 
         }else{
             setCheck(false);

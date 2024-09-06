@@ -19,3 +19,7 @@ export {Productos} from './Productos';
 export {ModalProducto} from './ModalProducto';
 
 export { Ventas} from './Ventas';
+export { VentaDetails} from './VentaDetails';
+
+export { Pedidos} from './Pedidos';
+export { PedidoDetails} from './PedidoDetails';

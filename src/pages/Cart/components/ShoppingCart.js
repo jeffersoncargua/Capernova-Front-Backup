@@ -51,9 +51,13 @@ export const ShoppingCart = ({cartList,total}) => {
       }else{
         navigate('/order');
       }
+    }else{
+      navigate('/order');
     }
+    
 
   }
+  
   /*Permite realizar la suma del total de los articulos del carrito de compras cada vez que se quiera revisar cuanto se debe pagar */
   // useEffect(()=>{
   //   let totalRef = 0;

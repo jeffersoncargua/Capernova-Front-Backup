@@ -1,25 +1,26 @@
 import { useState, useRef,useEffect} from "react";
 import { toast } from "react-toastify";
 import { ModalDelete } from "../../Components";
-import {VentaDetails} from '../Components';
+import {PedidoDetails} from '../Components';
 import Datepicker from "react-tailwindcss-datepicker";
 
 
-export const Ventas = () => {
+
+export const Pedidos = () => {
 
   
-  const [ventaList, setVentaList] = useState([]);
-  const [venta, setVenta] = useState({});
+  const [pedidoList, setPedidoList] = useState([]);
+  const [pedido, setPedido] = useState({});
   const [search , setSearch] = useState('');
-  const [total, setTotal] = useState(0);
+  //const [total, setTotal] = useState(0);
   const [value,setValue] = useState({
     startDate:null,
     endDate:null
   }); // permite escoger las fechas de inicio y final para buscar las ventas de acuedo al rango de fecha que se solicite
-  const [showModalVentaDetail, setShowModalVentaDetail] = useState(false);
+  const [showModalPedidoDetail, setShowModalPedidoDetail] = useState(false);
   //const [showModal,setShowModal] = useState(false);
   const [showModalDelete,setShowModalDelete] = useState(false);
-  const columns = ["Fecha Emisión","ID Cliente", "Nombre Cliente" ,"Apellido Cliente", "Correo", "Teléfono", "Total" , "Ver Detalle/Eliminar"];
+  const columns = ["Fecha Emisión","ID Cliente", "Nombre Cliente" ,"Apellido Cliente", "Teléfono", "Calle Principal", "Calle Secundaria" ,"Estado", "Ver Detalle/Eliminar"];
   const [tipo,setTipo] = useState(''); //es para almacenar el tipo de objeto a eliminar que puede ser curso, capitulo, video, deber, etc
   const [objeto, setObjeto] = useState({}); //es para almacenar el objeto a eliminar mediante el componente ModalDelete
   const [response,setResponse] = useState({});
@@ -27,8 +28,8 @@ export const Ventas = () => {
   //getAllVentas
 
   useEffect(() => {
-    const fetchVentas = async() => {
-      const resultFromApi = await fetch(`https://localhost:7164/api/Venta/getAllVentas?search=${search}&start=${JSON.stringify(value.startDate)}&end=${JSON.stringify(value.endDate)}`,{
+    const fetchPedidos = async() => {
+      const resultFromApi = await fetch(`https://localhost:7164/api/Venta/getAllPedidos?search=${search}&start=${JSON.stringify(value.startDate)}&end=${JSON.stringify(value.endDate)}`,{
         method:'GET',
         credentials : 'include',
         headers:{
@@ -39,22 +40,20 @@ export const Ventas = () => {
 
 
       const resultFetch = await resultFromApi.json();
-      //console.log(resultFetch);
+      console.log(resultFetch);
       if (resultFetch.isSuccess) {
-        let subTotal = 0;
-        setVentaList(resultFetch.result);
-        resultFetch.result.forEach(element => {
-          subTotal += element.total; 
-        });
-        setTotal(subTotal);
+        //let subTotal = 0;
+        setPedidoList(resultFetch.result);
+        // resultFetch.result.forEach(element => {
+        //   subTotal += element.total; 
+        // });
+        //setTotal(subTotal);
       }
       
-      
-      
     }
-    fetchVentas();
+    fetchPedidos();
     response.isSuccess ? toast.success(response.message): toast.error(response.message) ;
-  }, [showModalVentaDetail,showModalDelete,search,response,value]);
+  }, [showModalPedidoDetail,showModalDelete,search,response,value]);
 
 
   const handleSearch = (event) => {
@@ -62,15 +61,16 @@ export const Ventas = () => {
     setResponse({});
   }
 
-  const handleDetail = (venta) => {
-    setVenta(venta);
-    setShowModalVentaDetail(!showModalVentaDetail);
+  const handleDetail = (pedido) => {
+    setPedido(pedido);
+    setShowModalPedidoDetail(!showModalPedidoDetail);
+    setResponse({});
   }    
 
-  const handleDelete = (venta) => {
+  const handleDelete = (pedido) => {
     //setPublicidad(publicidad);
-    setObjeto(venta);
-    setTipo('venta');
+    setObjeto(pedido);
+    setTipo('pedido');
     setShowModalDelete(!showModalDelete);
     setResponse({});
   }
@@ -85,7 +85,7 @@ export const Ventas = () => {
 
       <h1 className="text-center font-medium text-xl dark:text-white mb-10">Ventas de Capernova</h1>
       {/*Modal para ingresar los valores de la publicidad */}
-      {showModalVentaDetail && <VentaDetails showModalVentaDetail={showModalVentaDetail} setShowModalVentaDetail={setShowModalVentaDetail} venta={venta} setVenta={setVenta} /> }
+      {showModalPedidoDetail && <PedidoDetails showModalPedidoDetail={showModalPedidoDetail} setShowModalPedidoDetail={setShowModalPedidoDetail} pedido={pedido} setPedido={setPedido} setResponse={setResponse} /> }
       {/* {showModalDelete && <ModalDelete showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete} publicidad={publicidad} setResponse={setResponse}  />} */}
       {showModalDelete && <ModalDelete showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete} objeto={objeto} setObjeto={setObjeto} setResponse={setResponse} tipo={tipo} setTipo={setTipo} />}
 
@@ -136,15 +136,16 @@ export const Ventas = () => {
                   </tr>
                 </thead>
                 <tbody>
-                {ventaList.length > 0 && ventaList.map((item) => (
+                {pedidoList.length > 0 && pedidoList.map((item) => (
                   <tr key={item.id} className="border-b dark:border-gray-700">
                     <td className="px-4 py-3">{GetFecha(item.emision)}</td>
-                    <td className="px-4 py-3">{item.userId}</td>
-                    <td className="px-4 py-3">{item.name}</td>
-                    <td className="px-4 py-3">{item.lastName}</td>
-                    <td className="px-4 py-3">{item.email}</td>                      
-                    <td className="px-4 py-3">{item.phone}</td>
-                    <td className="px-4 py-3">{item.total}</td>
+                    <td className="px-4 py-3">{item.venta.userId}</td>
+                    <td className="px-4 py-3">{item.venta.name}</td>
+                    <td className="px-4 py-3">{item.venta.lastName}</td>
+                    <td className="px-4 py-3">{item.venta.phone}</td>
+                    <td className="px-4 py-3">{item.directionMain}</td>
+                    <td className="px-4 py-3">{item.directionSec}</td>
+                    <td className="px-4 py-3">{item.estado}</td>
                     <td className="px-4 py-3">
                       <div className="py-1 flex justify-start">                          
                         <button onClick={() => handleDetail(item)} className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-yellow-300 hover:bg-yellow-400 rounded-lg mr-2">
@@ -152,7 +153,7 @@ export const Ventas = () => {
                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                             <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
                           </svg>
-                          Ver Detalle 
+                          Ver Pedido 
                         </button>                              
                         <button onClick={() => handleDelete(item)} className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-red-500 hover:bg-red-600 rounded-lg">
                           <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-trash3 w-4 h-4 mr-2" viewBox="0 0 16 16">
@@ -166,14 +167,14 @@ export const Ventas = () => {
                 ))}
                   
                 </tbody>
-                <tfoot>
-                        <tr className="font-semibold text-black bg-gray-50 dark:bg-gray-700 dark:text-white">
-                            <th></th><th></th><th></th><th></th><th></th>
-                            <th scope="row" className="px-6 py-3 text-base">Total</th>
-                            <td className="px-6 py-3">${total}</td>
-                            <th></th>
-                        </tr>
-                    </tfoot>
+                {/* <tfoot>
+                    <tr className="font-semibold text-black bg-gray-50 dark:bg-gray-700 dark:text-white">
+                        <th></th><th></th><th></th><th></th><th></th>
+                        <th scope="row" className="px-6 py-3 text-base">Total</th>
+                        <td className="px-6 py-3">${total}</td>
+                        <th></th>
+                    </tr>
+                </tfoot> */}
               </table>
             </div>
           </div>

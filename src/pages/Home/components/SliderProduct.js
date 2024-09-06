@@ -20,7 +20,7 @@ export const SliderProduct = () => {
         });
   
         const resultFetch = await resultFromApi.json();
-        console.log(resultFetch);
+        //console.log(resultFetch);
         setSlices(resultFetch.result);
       }
       fetchProducto();
@@ -37,7 +37,7 @@ export const SliderProduct = () => {
     }else{
         setCurrent(current - 1);
     }
-    console.log(current);
+    //console.log(current);
 }
 
 let nextSlice = () => {

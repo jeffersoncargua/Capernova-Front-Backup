@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { Videos} from "../Components";
 //import { SideBar , Publicidad,Cursos, Videos, TalentoHumano,Profesor} from "./Components";
-import { SideBar , Publicidad,Cursos, TalentoHumano,Profesor,Productos,Ventas} from "./Components";
+import { SideBar , Publicidad,Cursos, TalentoHumano,Profesor,Productos,Ventas,Pedidos} from "./Components";
 
 
 export const Administracion = () => {
@@ -19,6 +19,7 @@ export const Administracion = () => {
   const [showTalento,setShowTalento] = useState(false); //Permite visualizar el talento humano de la empresa
   const [showProfesor,setShowProfesor] = useState(false); //Permite visualizar los cursos que tiene y se le puede asignar a un profesor
   const [showVentas,setShowVentas] = useState(false);
+  const [showPedidos,setShowPedidos] = useState(false);
   //const [showUsuarios,setShowUsuarios] = useState(false);
   const [showVideos,setShowVideos] = useState(false);
   //const [showModalAssigment,setShowModalAssigment] = useState(false);
@@ -55,7 +56,7 @@ export const Administracion = () => {
   return (
     <div className="w-[95%] mx-auto">
         
-        <SideBar setShowPublicidad={setShowPublicidad} setShowCursos={setShowCursos} setShowVentas={setShowVentas} setShowVideos={setShowVideos} setShowTalento={setShowTalento} setShowProfesor={setShowProfesor} setShowProductos={setShowProductos} setResponse={setResponse} />
+        <SideBar setShowPublicidad={setShowPublicidad} setShowCursos={setShowCursos} setShowVentas={setShowVentas} setShowPedidos={setShowPedidos} setShowVideos={setShowVideos} setShowTalento={setShowTalento} setShowProfesor={setShowProfesor} setShowProductos={setShowProductos} setResponse={setResponse} />
 
         <div className="sm:ml-56">
             {showPublicidad && <Publicidad response={response} setResponse={setResponse} />}
@@ -66,6 +67,7 @@ export const Administracion = () => {
             {showProfesor && <Profesor profesor={profesor} setProfesor={setProfesor} cursoList={cursoList} setSearch={setSearch} response={response} setResponse={setResponse} />} {/* Permite asignar el/los curso/s a un profesor */}
             {showProductos && <Productos  />}
             {showVentas && <Ventas  />}
+            {showPedidos && <Pedidos  />}
 
         </div>
 

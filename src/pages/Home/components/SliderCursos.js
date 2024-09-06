@@ -19,7 +19,7 @@ export const SliderCursos = () => {
               }
             });
             const resultFetch = await result.json();
-            console.log(resultFetch);
+            //console.log(resultFetch);
             setSlices(resultFetch.result);
           }
           fetchCourses();
@@ -36,7 +36,7 @@ export const SliderCursos = () => {
         }else{
             setCurrent(current - 1);
         }
-        console.log(current);
+        //console.log(current);
     }
     
     let nextSlice = () => {

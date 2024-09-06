@@ -1,39 +1,101 @@
-import {  useState } from 'react';
+import {  useEffect, useState } from 'react';
+import { Videos } from '../components';
+import { useSelector } from 'react-redux';
 import VideoPlayer from 'react-player/youtube';
 
-export const PlayerVideo = () => {
 
-    const urls = [
-        {id: 1 , titulo: 'LLapingacho' ,video:'https://www.youtube.com/watch?v=S9HdmW8FHFU', view: false},
-        {id: 2 , titulo: 'Encebollado' ,video:'https://www.youtube.com/watch?v=AhJpRnQqcVs', view: false},
-        {id: 3 , titulo: 'Camarón al Ajillo' ,video:'https://www.youtube.com/watch?v=yXFnChtAJdY', view: false},
-        {id: 4 , titulo: 'Arroz Marinero' ,video:'https://www.youtube.com/watch?v=88uCobiTaBI', view: false},
-        {id: 5 , titulo: 'Tigrillo' ,video:'https://www.youtube.com/watch?v=mbZETORPR2c', view: false},
-        {id: 6 , titulo: 'Bandeja Paisa' ,video:'https://www.youtube.com/watch?v=fed_bdj-ZN4', view: false},
-        {id: 7 , titulo: 'Tartar' ,video:'https://www.youtube.com/watch?v=isH2-fyNC10', view: false},
-        {id: 8 , titulo: 'Cangrejada' ,video:'https://www.youtube.com/watch?v=g3yVaYGezDk', view: false},
-    ]
+export const PlayerVideo = ({curso,estudiante,matricula}) => {
 
-    const [currentVideo, setCurrentVideo] = useState({id: 1 , titulo: 'LLapingacho' ,video:'https://www.youtube.com/watch?v=S9HdmW8FHFU', view: false});
-    const [playList, setPlayList] = useState(urls);
-    const [total, setTotal] = useState(0);
+    // const urls = [
+    //     {id: 1 , titulo: 'LLapingacho' ,video:'https://www.youtube.com/watch?v=S9HdmW8FHFU', view: false},
+    //     {id: 2 , titulo: 'Encebollado' ,video:'https://www.youtube.com/watch?v=AhJpRnQqcVs', view: false},
+    //     {id: 3 , titulo: 'Camarón al Ajillo' ,video:'https://www.youtube.com/watch?v=yXFnChtAJdY', view: false},
+    //     {id: 4 , titulo: 'Arroz Marinero' ,video:'https://www.youtube.com/watch?v=88uCobiTaBI', view: false},
+    //     {id: 5 , titulo: 'Tigrillo' ,video:'https://www.youtube.com/watch?v=mbZETORPR2c', view: false},
+    //     {id: 6 , titulo: 'Bandeja Paisa' ,video:'https://www.youtube.com/watch?v=fed_bdj-ZN4', view: false},
+    //     {id: 7 , titulo: 'Tartar' ,video:'https://www.youtube.com/watch?v=isH2-fyNC10', view: false},
+    //     {id: 8 , titulo: 'Cangrejada' ,video:'https://www.youtube.com/watch?v=g3yVaYGezDk', view: false},
+    // ]
+
+    // const [currentVideo, setCurrentVideo] = useState({id: 1 , titulo: 'LLapingacho' ,video:'https://www.youtube.com/watch?v=S9HdmW8FHFU', view: false});
+    // const [playList, setPlayList] = useState(urls);
+    let newObject = '';
+    const playList = useSelector(state => state.playListState.playList)
+    const [currentVideo, setCurrentVideo] = useState({});
+    
+    //let [playList, setPlayList] = useState([]);
+    //const [total, setTotal] = useState(0);
     const [duration, setDuration] = useState(0);
+
+    const [capituloList,setCapiuloList] = useState([]);
+
+
+
+    useEffect(()=>{
+        const fetchCapitulos = async() => {
+            const resultFromApi = await fetch(`https://localhost:7164/api/Student/getCapitulos/${curso.id}`,{
+              method: 'GET',
+              credentials:'include',
+              headers:{
+                'Content-Type':'application/json',
+                'Accept':'application/json'
+              }
+            });
+            const resultFetch = await resultFromApi.json();
+            console.log(resultFetch);
+            if(resultFetch.isSuccess){
+              setCapiuloList(resultFetch.result);
+            }
+          }
+          fetchCapitulos();
+    },[curso,setCurrentVideo]);
+
+    
+    const fetchVisualizacion = async(id) => {
+        const resultFromApi = await fetch(`https://localhost:7164/api/Student/createViewVideo`,{
+            method: 'POST',
+            credentials:'include',
+            headers:{
+              'Content-Type':'application/json',
+              'Accept':'application/json'
+            },
+            body: JSON.stringify({
+                videoId: id,
+                studentId: estudiante.id
+            })
+          });
+
+        const resultFetch = await resultFromApi.json();
+        console.log(resultFetch);
+        newObject = resultFetch.message;
+        console.log(newObject);
+    }
 
     const handlePlayer = (id) => {
         console.log('Se termino el video');
-        setPlayList(playList.map((urlItem) => urlItem.id === id ? {...urlItem, view:true} : urlItem));
-        const videoActual = playList.find((urlItem) => urlItem.id === id);
-        if(!videoActual.view){
-            setTotal(total+duration);
+        console.log(id);
+        if (id !==null) {
+            console.log(`id es distinto null`);
+            fetchVisualizacion(id);
+        }else{
+            console.log(`id es null`);
         }
+        //setPlayList(playList.map((urlItem) => urlItem.id === id ? {...urlItem, view:true} : urlItem)); // permite cambiar el estado de visto a un video
+        const videoActual = playList.find((urlItem) => urlItem.id === id);
+        console.log(videoActual);
+        // if(!videoActual.view){
+        //     setTotal(total+duration);
+        // }
         const nextVideo = playList[playList.indexOf(videoActual)+1];
         if(nextVideo){
             setCurrentVideo(nextVideo);
         }else{
-            const initialVideo= urls[0]
+            console.log(playList[0]);
+            const initialVideo = playList[0];
             setCurrentVideo(initialVideo);
         }
     }
+
 
 
     const handleDuration =  (duration) => {
@@ -45,25 +107,45 @@ export const PlayerVideo = () => {
     }
 
     
-    console.log(playList);
+    //console.log(playList);
+    //console.log(currentVideo);
     console.log('duracion del video: '+ duration);
-    console.log('tiempo invertido: ' + total);
+    //console.log('tiempo invertido: ' + total);
     
 
   return (
     <div className='w-[95%] mx-auto flex flex-wrap justify-between'>
+        
         <div className='flex-initial w-full md:w-2/3'>
             <VideoPlayer 
-                playing={false}
-                url={currentVideo.video}
+                playing={true}
+                url={currentVideo.videoUrl || 'https://www.youtube.com/watch?v=pJjjzarKotI'}
+                //url={''}
                 controls
-                onEnded={()=>handlePlayer(currentVideo.id)}
+                onEnded={()=>handlePlayer(currentVideo.id || null)}
                 onDuration={(duration)=>handleDuration(duration)}
                 width='100%'
             />
         </div>
-
+        
         <div className='flex-initial w-full md:w-[30%]'>
+            {capituloList.length > 0 && capituloList.map((capitulo)=>(
+                <ul key={capitulo.id} className="text-sm text-center text-black bg-white border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white mt-8 md:m-0">
+                    <li className="w-full px-4 py-2 font-bold text-lg border-b border-gray-200 bg-blue-100 dark:bg-gray-500 dark:border-gray-600">
+                        {capitulo.titulo}
+                    </li>
+                    {/* <Videos capitulo={capitulo} handlePlay={handlePlay} playList={playList} estudiante={estudiante} matricula={matricula} /> */}
+                    <Videos capitulo={capitulo} handlePlay={handlePlay} estudiante={estudiante} matricula={matricula} currentVideo={currentVideo} />
+                </ul>
+            ))}
+            
+        </div>
+    </div>
+  )
+}
+
+/*
+<div className='flex-initial w-full md:w-[30%]'>
             <ul className="text-sm text-center text-gray-900 bg-white border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white mt-8 md:m-0">
                 <li className="w-full px-4 py-2 font-bold text-lg border-b border-gray-200 bg-blue-100 dark:border-gray-600">
                     Gastronomia
@@ -81,6 +163,5 @@ export const PlayerVideo = () => {
                 
             </ul>
         </div>
-    </div>
-  )
-}
+
+*/

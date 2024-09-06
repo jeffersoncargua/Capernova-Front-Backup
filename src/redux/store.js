@@ -4,6 +4,7 @@ import { userReducer } from "./userSlice";
 import { searchReducer } from "./searchProductSlice";
 import { courseReducer } from "./courseSlice";
 import { orderReducer } from "./orderSlice";
+import { playListReducer } from "./playlistSlice";
 
 
 
@@ -14,5 +15,6 @@ export const store = configureStore({
     searchState: searchReducer,
     courseState: courseReducer,
     orderState : orderReducer,
+    playListState: playListReducer,
    },
 });

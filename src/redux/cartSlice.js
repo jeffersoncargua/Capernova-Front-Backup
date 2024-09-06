@@ -11,11 +11,11 @@ const cartSlice = createSlice({
             
             const cartItem = state.cartList.find(item => item.id === action.payload.id);
              
-            console.log(cartItem);
+            //console.log(cartItem);
             
             if (cartItem) {
-                console.log(cartItem.cantidad);
-                console.log(cartItem.precio);
+                //console.log(cartItem.cantidad);
+                //console.log(cartItem.precio);
                 state.total = state.total - (cartItem.cantidad* cartItem.precio);
                 state.cartList.map((item) => item.id === action.payload.id ? {...item, cantidad:item.cantidad = action.payload.cantidad}:item);
                 state.total = state.total + (action.payload.precio*action.payload.cantidad);         

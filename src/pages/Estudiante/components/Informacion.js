@@ -1,21 +1,19 @@
-import {  useRef, useState } from 'react';
+import {  useRef, useState, useEffect} from 'react';
 import { Tooltip } from 'react-tooltip';
-//import { toast } from 'react-toastify';
-//import {Loading} from '../Components';
+import { toast } from 'react-toastify';
+import {Loading} from '../components';
 //import Photo from '../../../../assets/Capernova2.png'
 
-export const Informacion = ({profesor,response,setResponse}) => {
+export const Informacion = ({estudiante,response,setResponse}) => {
 
   const refName = useRef();
   const refLastName = useRef();
   const refPhone = useRef();
-  const refBiography = useRef();
   const refImageUrl = useRef();
 
   let formData = new FormData();
 
   const [uploadFile,setUploadFile] = useState(false);
-  //const [enableBiography,setEnableBiography] = useState(false);
   const [enableName,setEnableName] = useState(false);
   const [enableLastName,setEnableLastName] = useState(false);
   const [enablePhone,setEnablePhone] = useState(false);
@@ -30,7 +28,7 @@ export const Informacion = ({profesor,response,setResponse}) => {
     
     try {
 
-      const resultFromApi = await fetch(`https://localhost:7164/api/Teacher/updateTeacher?id=${profesor.id}`,{
+      const resultFromApi = await fetch(`https://localhost:7164/api/Student/updateStudent?id=${estudiante.id}`,{
         method: 'PUT',
         credentials:'include',
         headers: {
@@ -38,24 +36,18 @@ export const Informacion = ({profesor,response,setResponse}) => {
          'Accept' : 'application/json',         
        },
         body: JSON.stringify({
-          id : profesor.id,
+          id : estudiante.id,
           name : refName.current.value,
           lastName : refLastName.current.value,
           phone : refPhone.current.value,
-          biografy : refBiography.current.value,
-          email: profesor.email,
-          photoURL : profesor.photoURL
+          photoUrl : estudiante.photoURL
         })   
       });
 
       const resultFecthInfo = await resultFromApi.json();
-      //console.log(resultFecthInfo);
-      
 
-      //formData.append('file',refImageUrl.current.files[0] )
-
-      if (refImageUrl.current !== undefined) {
-        const result = await fetch(`https://localhost:7164/api/Teacher/updateImageTeacher?id=${profesor.id}`,{
+      if (refImageUrl.current !== null) {
+        const result = await fetch(`https://localhost:7164/api/Student/updateImageStudent?id=${estudiante.id}`,{
           method: 'PUT',
           credentials:'include',
           headers: {
@@ -72,42 +64,43 @@ export const Informacion = ({profesor,response,setResponse}) => {
       setLoading(false);
       formData.delete('file');
     } catch (error) {
-      console.error(error);
+      //console.error(error);
       setShowButtonLoading(false);
     }
 
   }
 
-//   useEffect(()=>{
 
-//     //console.log(response);
-//     // if(response.isSuccess === true){
-//     //   setUploadFile(false);
-//     //   setEnableName(false);
-//     //   setEnableLastName(false);
-//     //   setEnablePhone(false);
-//     //   setEnableBiography(false);
-//     // }    
+  useEffect(()=>{
+
+    //console.log(response);
+    if(response.isSuccess === true){
+      setUploadFile(false);
+      setEnableName(false);
+      setEnableLastName(false);
+      setEnablePhone(false);
+    }    
     
-//     // response.isSuccess ? toast.success(response.message):toast.error(response.message);
-//   },[response])
+    response.isSuccess ? toast.success(response.message):toast.error(response.message);
+  },[response])
 
   const changePhoto = () => {
-    //console.log(refImageUrl.current.files[0]); //imprime el contenido del archivo seleccionado
     formData.append('file',refImageUrl.current.files[0]);
   }
 
-  //console.log(refImageUrl.current)
+  //console.log(estudiante);
+
 
   return (
     <div className='w-[95%] mx-auto mb-10'>
-      {/* {showLoading && <Loading /> } */}
+
+      {showLoading && <Loading /> }
 
       <form onSubmit={handleSubmit} encType='multipart/form-data' className={`${!showLoading ? '':'hidden'}`} >
         <div className='w-[95%] mx-auto flex items-center justify-center flex-col'>
           <div className='flex justify-center w-60 h-60 relative rounded-full outline outline-4 outline-gray-300 shadow-lg bg-slate-50 z-20'>
-            {/* <img className="w-60 h-60 rounded-full self-center"  src={`https://drive.google.com/thumbnail?id=${profesor.photoURL}`} alt="Aqui va la foto" /> */}
-            <img className="w-60 h-60 rounded-full self-center"  src={``} alt="Aqui va la foto" />
+            <img className="w-60 h-60 rounded-full self-center"  src={`https://drive.google.com/thumbnail?id=${estudiante.photoUrl}`} alt="Aqui va la foto" />
+            {/* <img className="w-60 h-60 rounded-full self-center"  src={`https://drive.google.com/file/d/${estudiante.photoUrl}/preview`} alt="Aqui va la foto" />  */}
             <button onClick={()=>setUploadFile(!uploadFile)} data-tooltip-id='tooltip-image' type='button' className='absolute bottom-4 right-0 w-10 h-10 bg-gray-100 group hover:bg-gray-300 dark:hover:bg-gray-400 flex justify-center items-center rounded-full border shadow'>
               <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-camera text-slate-300 group-hover:text-black h-7 w-7" viewBox="0 0 16 16">
                 <path d="M15 12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h1.172a3 3 0 0 0 2.12-.879l.83-.828A1 1 0 0 1 6.827 3h2.344a1 1 0 0 1 .707.293l.828.828A3 3 0 0 0 12.828 5H14a1 1 0 0 1 1 1zM2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4z"/>
@@ -120,7 +113,7 @@ export const Informacion = ({profesor,response,setResponse}) => {
             <div className='p-6 mt-24 flex flex-col gap-y-3'>
               <div className='relative group dark:text-white'>
                 <label htmlFor="nombre" className='font-semibold'>Nombre: </label>
-                <input className={`rounded-lg ${!enableName ? 'border-0 bg-transparent':'border border-blue-300 bg-blue-200 dark:bg-slate-900'}`} disabled={!enableName} type="text" id='nombre' name='nombre' defaultValue={''} ref={refName} />
+                <input className={`rounded-lg ${!enableName ? 'border-0 bg-transparent':'border border-blue-300 bg-blue-200 dark:bg-slate-900'}`} disabled={!enableName} type="text" id='nombre' name='nombre' defaultValue={estudiante.name || ''} ref={refName} />
                 <button onClick={()=>setEnableName(!enableName)} data-tooltip-id='tooltip-name' type='button' className='absolute bottom-2 right-2 w-8 h-8 bg-gray-100 group-hover:bg-gray-300 dark:group-hover:bg-gray-400 flex justify-center items-center rounded-lg border shadow'>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-pencil-fill text-slate-300 group-hover:text-black  h-4 w-4" viewBox="0 0 16 16">
                     <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z"/>
@@ -130,7 +123,7 @@ export const Informacion = ({profesor,response,setResponse}) => {
               </div>
               <div className='relative group dark:text-white'>
                 <label htmlFor="apellido" className='font-semibold'>Apellido: </label>
-                <input className={`rounded-lg ${!enableLastName ? 'border-0 bg-transparent':'border border-blue-300 bg-blue-200 dark:bg-slate-900'}`} disabled={!enableLastName} type="text" id='apellido' name='apellido' defaultValue={''} ref={refLastName} />
+                <input className={`rounded-lg ${!enableLastName ? 'border-0 bg-transparent':'border border-blue-300 bg-blue-200 dark:bg-slate-900'}`} disabled={!enableLastName} type="text" id='apellido' name='apellido' defaultValue={estudiante.lastName ||''} ref={refLastName} />
                 <button onClick={()=>setEnableLastName(!enableLastName)} data-tooltip-id='tooltip-lastName' type='button' className='absolute bottom-2 right-2 w-8 h-8 bg-gray-100 group-hover:bg-gray-300 dark:group-hover:bg-gray-400 flex justify-center items-center rounded-lg border shadow'>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-pencil-fill text-slate-300 group-hover:text-black h-4 w-4" viewBox="0 0 16 16">
                     <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z"/>
@@ -140,7 +133,7 @@ export const Informacion = ({profesor,response,setResponse}) => {
               </div>
               <div className='relative group dark:text-white'>
                 <label htmlFor="telefono" className='font-semibold'>Teléfono: </label>
-                <input type="tel" pattern="[0-9]{10}" className={`rounded-lg ${!enablePhone ? 'border-0 bg-transparent':'border border-blue-300 bg-blue-200 dark:bg-slate-900'}`} disabled={!enablePhone} id='telefono' name='telefono' defaultValue={''} ref={refPhone} />
+                <input type="tel" pattern="[0-9]{10}" className={`rounded-lg ${!enablePhone ? 'border-0 bg-transparent':'border border-blue-300 bg-blue-200 dark:bg-slate-900'}`} disabled={!enablePhone} id='telefono' name='telefono' defaultValue={estudiante.phone || ''} ref={refPhone} />
                 <button onClick={()=>setEnablePhone(!enablePhone)} data-tooltip-id='tooltip-phone' type='button' className='absolute bottom-2 right-2 w-8 h-8 bg-gray-100 group-hover:bg-gray-300 dark:group-hover:bg-gray-400 flex justify-center items-center rounded-lg border shadow'>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-pencil-fill text-slate-300 group-hover:text-black h-4 w-4" viewBox="0 0 16 16">
                     <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z"/>
@@ -148,22 +141,13 @@ export const Informacion = ({profesor,response,setResponse}) => {
                 </button>
                 <Tooltip id='tooltip-phone' place='top' content={enablePhone ?'No Editar Teléfono':'Editar Teléfono'} />     
               </div>
-              {/* <div className='w-[95%] relative group dark:text-white' >
-                <label htmlFor="biography" className='font-semibold'>Biografía:</label>
-                <textarea className={`w-full ${!enableBiography ? 'border-0 bg-transparent':'border-1 border-blue-300 bg-blue-200 dark:bg-slate-900'} rounded-lg px-0 py-3 text-justify`} rows='8'  disabled={!enableBiography} name="biography" id="biography" defaultValue={''} placeholder='Ingrese información sobre su biografía...' ref={refBiography}></textarea>
-                <button onClick={()=>setEnableBiography(!enableBiography)} data-tooltip-id='tooltip-biography' type='button' className='absolute bottom-2 right-2 w-8 h-8 bg-gray-100 group-hover:bg-gray-300 dark:group-hover:bg-gray-400 flex justify-center items-center rounded-lg border shadow'>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-pencil-fill text-slate-300 group-hover:text-black h-4 w-4" viewBox="0 0 16 16">
-                    <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z"/>
-                  </svg>
-                </button>
-                <Tooltip id='tooltip-biography' place='top' content={enableBiography ?'No Editar Biografía':'Editar Biografía'} />     
-              </div> */}
+              
             </div>
           </div>
         </div>
       
         <div>
-          {uploadFile && <input type="file" onChange={()=>changePhoto()} className='ms-10 mt-10 rounded-full border border-blue-300' required ref={refImageUrl} />}    
+          {uploadFile && <input type="file" onChange={()=>changePhoto()} className='ms-10 mt-10 rounded-full border border-blue-300' ref={refImageUrl} />}    
         </div>
 
         <div className="flex justify-end my-10">

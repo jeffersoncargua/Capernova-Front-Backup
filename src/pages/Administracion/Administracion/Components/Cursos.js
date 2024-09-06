@@ -80,7 +80,7 @@ import { toast } from "react-toastify";
 
 
   const handleSearch = () => {
-    console.log(refSearch.current.value);
+    //console.log(refSearch.current.value);
     if (refSearch.current.value.length > 0) {
       setCurrentPage(1);
       setSearch(refSearch.current.value);

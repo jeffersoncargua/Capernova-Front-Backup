@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { PlayerVideo, SideBar, Logros, Courses, Informacion} from "../Estudiante/components";
+import { useEffect, useState } from "react";
+import { PlayerVideo, SideBar, Logros, Courses, Informacion,Deberes,Pruebas} from "../Estudiante/components";
+import { useSelector } from "react-redux";
 
 
 export const Estudiante = () => {
@@ -7,29 +8,61 @@ export const Estudiante = () => {
   const [showPlayer, setShowPlayer] = useState(false);
   const [showLogro, setShowLogro] = useState(false);
   const [showCourses, setShowCourses] = useState(false);
+  const [showDeberes, setShowDeberes] = useState(false);
+  const [showPruebas, setShowPruebas] = useState(false);
   const [showInformacion, setShowInformacion] = useState(true);
+  const [estudiante, setEstudiante] = useState({});
+  const [curso, setCurso] = useState({});
+  const [response, setResponse] = useState({});
+  const [matricula,setMarticula] = useState({});
+
+
+  const userStudent = useSelector(state => state.userState.user);
+  //console.log(userStudent);
+
+  useEffect(()=>{
+      const fetchEstudiante = async() => {
+        const resultFromApi = await fetch(`https://localhost:7164/api/Student/getEstudiante?id=${userStudent.nameIdentifier}`,{
+          method:'GET',
+          credentials : 'include',
+          headers:{
+            'Content-Type' : 'application/json',
+            'Accept' : 'application/json'
+          }
+        });
+  
+        const resultFetch = await resultFromApi.json();
+        //console.log(resultFetch);
+        if (resultFetch.isSuccess) {
+          setEstudiante(resultFetch.result);
+        }
+      };
+
+      fetchEstudiante();
+
+  },[userStudent])
 
   return (
     <div className="relative w-[95%] mx-auto">
-        <SideBar setShowPlayer={setShowPlayer}  setShowLogro={setShowLogro} setShowCourses={setShowCourses} setShowInformacion={setShowInformacion} /> {/*Barra lateral de navegacion del estudiante */}
+        <SideBar setShowPlayer={setShowPlayer}  setShowLogro={setShowLogro} setShowCourses={setShowCourses} setShowDeberes={setShowDeberes} setShowPruebas={setShowPruebas} setShowInformacion={setShowInformacion} /> {/*Barra lateral de navegacion del estudiante */}
 
         {/*Informacion del estudiante */}
         
         {showInformacion && 
         <div className="p-4 sm:ml-56">
-          <Informacion setShowInformacion={setShowInformacion} />
+          <Informacion estudiante={estudiante} response={response} setResponse={setResponse} />
         </div>
         }
 
         {showCourses && 
         <div className="p-4 sm:ml-56">
-          <Courses setShowPlayer={setShowPlayer} setShowCourses={setShowCourses}/>
+          <Courses setShowPlayer={setShowPlayer} setShowCourses={setShowCourses} estudiante={estudiante} curso={curso} setCurso={setCurso} setMarticula={setMarticula} />
         </div>}
 
         {showPlayer && 
         <div className="p-4 sm:ml-56">
           {/*Reproductor de video con el playlist */}
-           <PlayerVideo /> 
+           <PlayerVideo curso={curso} estudiante={estudiante} matricula={matricula} /> 
            {/*Componente para escribir un comentario */}
             <div className="my-8 w-[95%] md:w-2/3 mx-auto flex flex-col sm:ml-4 justifify-center">          
               <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Dejanos tu comentario</label>
@@ -41,8 +74,18 @@ export const Estudiante = () => {
         
         {showLogro && 
           <div className="p-4 sm:ml-56" >
-            <Logros />
+            <Logros estudiante={estudiante} />
           </div>}
+
+        {showDeberes && 
+        <div className="p-4 sm:ml-56" >
+          <Deberes />
+        </div>}
+
+        {showPruebas && 
+        <div className="p-4 sm:ml-56" >
+          <Pruebas />
+        </div>}
 
     </div>
   )

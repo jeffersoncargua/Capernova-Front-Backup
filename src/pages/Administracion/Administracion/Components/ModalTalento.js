@@ -36,15 +36,15 @@ export const ModalTalento = ({showModalTalento,setShowModalTalento,talento,setTa
                   }))
             });
             const result = await resultFetch.json();
-            console.log(result.message);
+            //console.log(result.message);
             setShowButtonLoading(false);
             setShowModalTalento(false);
-            console.log(result.isSuccess);
+            //console.log(result.isSuccess);
             setResponse(result);
         } catch (error) {
             setShowButtonLoading(false);
             setShowModalTalento(false);
-            console.error(error);
+            //console.error(error);
         }
         
     }
@@ -58,12 +58,12 @@ export const ModalTalento = ({showModalTalento,setShowModalTalento,talento,setTa
   return (
     <div>
         {/*<!-- Main modal -->*/}
-        <div id="crud-modal" tabIndex='-1' className={`${showModalTalento? '' :'hidden'} overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full`}>
+        <div id="crud-modal" tabIndex='-1' className={`${showModalTalento? '' :'hidden'} overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] h-full bg-gray-700/[0.6]`}>
             <div className="relative p-4 mx-auto w-full max-w-2xl max-h-full">
                 {/*<!-- Modal content -->*/}
-                <div className="relative bg-white my-[20%] rounded-lg shadow dark:bg-gray-700">
+                <div className="relative bg-white my-[10%] rounded-lg shadow dark:bg-gray-700 mb-14">
                     {/*<!-- Modal header -->*/}
-                    <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                    <div className="flex items-center justify-between p-4 md:p-5 dark:border-gray-600">
                         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                             {talento.Codigo ? 'Editar trabajador':'Agregar Nuevo trabajador'}
                         </h3>
@@ -104,7 +104,7 @@ export const ModalTalento = ({showModalTalento,setShowModalTalento,talento,setTa
                             <div className="col-span-2">
                                 <label htmlFor="role" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Rol de Usuario:</label>
                                 <select id="role" className="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" ref={refRole} defaultValue={talento.role || ''}>
-                                    <option selected>---- Seleccion el Rol de Usuario ----</option>
+                                    <option value=''>---- Seleccion el Rol de Usuario ----</option>
                                     <option value="Admin">Administrador</option>
                                     <option value="Teacher">Profesor</option>
                                     <option value="Secretary">Secretaria</option>
