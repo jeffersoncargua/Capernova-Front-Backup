@@ -16,6 +16,9 @@ export {ModalDeber} from './ModalDeber';
 
 export {ModalPrueba} from './ModalPrueba';
 
+export {ModalCalificarDeber} from './ModalCalificarDeber';
+export {CalificarDeber} from './CalificarDeber';
+
 
 export {Loading} from './Loading';
 

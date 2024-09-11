@@ -29,7 +29,7 @@ export const Logros = ({estudiante}) => {
   },[estudiante])
 
   return (
-    <div className="w-[95%] mx-auto flex flex-wrap ">
+    <div className="w-[95%] mx-auto flex flex-wrap space-x-8  ">
 
       {/*Aqui van los modal */}
       

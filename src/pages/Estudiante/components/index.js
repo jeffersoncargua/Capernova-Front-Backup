@@ -11,5 +11,9 @@ export {Loading} from './Loading';
 export {Videos} from './Videos';
 export {ModalCompleted} from './ModalCompleted';
 export {Comentario} from './Comentario';
+export {DeberDetail} from './DeberDetail';
+export {NotaDeber} from './NotaDeber';
+export {ModalDeber} from './ModalDeber';
+
 
 export {ModalDownload} from './ModalDownload';

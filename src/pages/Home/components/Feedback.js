@@ -66,7 +66,7 @@ export const Feedback = () => {
                                 <p className="my-4">{user.feedBack}</p>
                             </blockquote>
                             <figcaption className="flex items-center justify-center ">
-                                <img className="rounded-full w-9 h-9" src={`https://drive.google.com/thumbnail?id=${user.photoUrl}`}  alt="profilepicture" />
+                                <img className="rounded-full w-14 h-14" src={`https://drive.google.com/thumbnail?id=${user.photoUrl}`}  alt="profilepicture" />
                                 <div className="space-y-0.5 font-medium dark:text-white text-left rtl:text-right ms-3">
                                     <div>{`${user.name} ${user.lastName}`}</div>
                                     {/* <div className="text-sm text-gray-500 dark:text-gray-400 ">{user.job}</div> */}
@@ -85,7 +85,7 @@ export const Feedback = () => {
                                 <p className="my-4">{user.feedBack}</p>
                             </blockquote>
                             <figcaption className="flex items-center justify-center ">
-                                <img className="rounded-full w-9 h-9" src={`https://drive.google.com/thumbnail?id=${user.photoUrl}`}  alt="profilepicture" />
+                                <img className="rounded-full w-14 h-14" src={`https://drive.google.com/thumbnail?id=${user.photoUrl}`}  alt="profilepicture" />
                                 <div className="space-y-0.5 font-medium dark:text-white text-left rtl:text-right ms-3">
                                     <div>{`${user.name} ${user.lastName}`}</div>
                                     {/* <div className="text-sm text-gray-500 dark:text-gray-400 ">{user.job}</div> */}

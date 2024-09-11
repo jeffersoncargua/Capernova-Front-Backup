@@ -144,7 +144,7 @@ export const Deberes = ({setShowCursos,setShowVideos,curso, setCurso,setShowDebe
                   <tr key={task.id} className="border-b dark:border-gray-700">
                     {/* <td className="px-4 py-3">{task.Id}</td> */}
                     <td className="px-4 py-3">{task.titulo}</td>
-                    <td className="px-4 py-3">{task.detalle}</td>
+                    <td className="px-4 py-3 line-clamp-2 ">{task.detalle}</td>
                     {/* <td className="px-4 py-3">{task.Estado}</td> */}
                     
                     <td className="px-4 py-3">

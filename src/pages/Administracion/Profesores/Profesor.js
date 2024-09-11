@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Videos } from '../Components'
 //import { SideBar,Cursos,Videos,Estudiantes,Informacion,Deberes,Pruebas } from "./Components" //Estos contiente los componentes del Profesor pero se quiere emplear componentes en comun con Administración
@@ -20,40 +20,65 @@ export const Profesor = () => {
   const [showVideos,setShowVideos] = useState(false);
   const [response, setResponse] = useState({});
 
-  const GetCurso = useCallback(async()=>{
-    try {
-      const resultFromApi = await fetch(`https://localhost:7164/api/Teacher/getAllCourse?id=${userTeacher.nameIdentifier}&search=${search}`,{
-        method:'GET',
-        credentials : 'include',
-        //mode: 'no-cors',
-        headers:{
-          'Content-Type' : 'application/json',
-          'Accept' : 'application/json',
+//   const GetCurso = useCallback(async()=>{
+//     try {
+//       const resultFromApi = await fetch(`https://localhost:7164/api/Teacher/getAllCourse?id=${userTeacher.nameIdentifier}&search=${search}`,{
+//         method:'GET',
+//         credentials : 'include',
+//         //mode: 'no-cors',
+//         headers:{
+//           'Content-Type' : 'application/json',
+//           'Accept' : 'application/json',
           
-        }
-      });
+//         }
+//       });
 
-     let resultFetch = await resultFromApi.json();
+//      let resultFetch = await resultFromApi.json();
 
-     if (resultFetch.isSuccess) {
-      console.log(resultFetch);
-      setCursoList(resultFetch.result);
-      setProfesor(resultFetch.result[0].teacher);
-     }
-    //const capitulos = JSON.parse(resultFetch.result[0].capitulos);
-    } catch (error) {
-      console.error(error)
-    }
+//      if (resultFetch.isSuccess) {
+//       console.log(resultFetch);
+//       setCursoList(resultFetch.result);
+//       setProfesor(resultFetch.result[0].teacher);
+//      }
+//     //const capitulos = JSON.parse(resultFetch.result[0].capitulos);
+//     } catch (error) {
+//       console.error(error)
+//     }
     
-   //setCursoList(list);
- },[userTeacher,search])
+//    //setCursoList(list);
+//  },[userTeacher,search])
 
  
    useEffect(()=>{
-   
+    const GetCurso = async()=>{
+      try {
+        const resultFromApi = await fetch(`https://localhost:7164/api/Teacher/getAllCourse?id=${userTeacher.nameIdentifier}&search=${search}`,{
+          method:'GET',
+          credentials : 'include',
+          //mode: 'no-cors',
+          headers:{
+            'Content-Type' : 'application/json',
+            'Accept' : 'application/json',
+            
+          }
+        });
+  
+       let resultFetch = await resultFromApi.json();
+  
+       if (resultFetch.isSuccess) {
+        console.log(resultFetch);
+        setCursoList(resultFetch.result);
+        setProfesor(resultFetch.result[0].teacher);
+       }
+      //const capitulos = JSON.parse(resultFetch.result[0].capitulos);
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
    GetCurso();
 
-   },[GetCurso,showCursos,showVideos,response])
+   },[response,search,userTeacher])
 
    //console.log(cursoList);
    //console.log(profersor);
@@ -65,11 +90,11 @@ export const Profesor = () => {
       <div className="md:ml-64">
         
         {showInformacion && <Informacion profesor={profersor} response={response} setResponse={setResponse}/>}
-        {showCursos && <Cursos setShowCursos={setShowCursos} setShowVideos={setShowVideos} cursoList={cursoList}  curso={curso} setCurso={setCurso} setSearch={setSearch} response={response} setResponse={setResponse} setShowDeberes={setShowDeberes} setShowPruebas={setShowPruebas} />}
+        {showCursos && <Cursos setShowCursos={setShowCursos} setShowVideos={setShowVideos} cursoList={cursoList} curso={curso} setResponse={setResponse} setCurso={setCurso} setSearch={setSearch} setShowDeberes={setShowDeberes} setShowPruebas={setShowPruebas} />}
         {showVideos && <Videos setShowCursos={setShowCursos} setShowVideos={setShowVideos} curso={curso} setCurso={setCurso} setShowDeberes={setShowDeberes} setShowPruebas={setShowPruebas} />}
         {showDeberes && <Deberes setShowCursos={setShowCursos} setShowVideos={setShowVideos} curso={curso} setCurso={setCurso} setShowDeberes={setShowDeberes} setShowPruebas={setShowPruebas} />}
         {showPruebas && <Pruebas setShowCursos={setShowCursos} setShowVideos={setShowVideos} curso={curso} setCurso={setCurso} response={response} setResponse={setResponse} setShowDeberes={setShowDeberes} setShowPruebas={setShowPruebas} />}
-        {showEstudiante && <Estudiantes />}
+        {showEstudiante && <Estudiantes cursoList={cursoList} />}
       </div>
     </div>
   )

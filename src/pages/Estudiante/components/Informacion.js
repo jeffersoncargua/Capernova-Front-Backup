@@ -66,6 +66,7 @@ export const Informacion = ({estudiante,response,setResponse}) => {
     } catch (error) {
       //console.error(error);
       setShowButtonLoading(false);
+      formData.delete('file');
     }
 
   }

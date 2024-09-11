@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { PlayerVideo, SideBar, Logros, Courses, Informacion,Deberes,Pruebas,Comentario} from './components';
+import { PlayerVideo, SideBar, Logros, Courses, Informacion,Deberes,Pruebas,Comentario,DeberDetail} from './components';
 import { useSelector } from "react-redux";
 
 
@@ -11,6 +11,7 @@ export const Estudiante = () => {
   const [showDeberes, setShowDeberes] = useState(false);
   const [showPruebas, setShowPruebas] = useState(false);
   const [showInformacion, setShowInformacion] = useState(true);
+  const [showDeberDetail,setShowDeberDetail] = useState(false);
   const [estudiante, setEstudiante] = useState({});
   //const [curso, setCurso] = useState({});
   const [response, setResponse] = useState({});
@@ -44,7 +45,9 @@ export const Estudiante = () => {
 
   return (
     <div className="relative w-[95%] mx-auto">
-        <SideBar setShowPlayer={setShowPlayer}  setShowLogro={setShowLogro} setShowCourses={setShowCourses} setShowDeberes={setShowDeberes} setShowPruebas={setShowPruebas} setShowInformacion={setShowInformacion} /> {/*Barra lateral de navegacion del estudiante */}
+        {/*Barra lateral de navegacion del estudiante */}
+
+        <SideBar setShowPlayer={setShowPlayer}  setShowLogro={setShowLogro} setShowCourses={setShowCourses} setShowDeberes={setShowDeberes} setShowPruebas={setShowPruebas} setShowInformacion={setShowInformacion} setShowDeberDetail={setShowDeberDetail} /> 
 
         {/*Informacion del estudiante */}
         
@@ -75,12 +78,17 @@ export const Estudiante = () => {
 
         {showDeberes && 
         <div className="p-4 sm:ml-56" >
-          <Deberes />
+          <Deberes estudiante={estudiante} setMatricula={setMatricula} setShowDeberDetail={setShowDeberDetail} />
+        </div>}
+
+        {showDeberDetail && 
+        <div className="p-4 sm:ml-56" >
+          <DeberDetail matricula={matricula} />
         </div>}
 
         {showPruebas && 
         <div className="p-4 sm:ml-56" >
-          <Pruebas />
+          <Pruebas estudiante={estudiante} />
         </div>}
 
     </div>

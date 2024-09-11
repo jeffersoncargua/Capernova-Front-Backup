@@ -46,10 +46,11 @@ export const Administracion = () => {
   
   
     useEffect(()=>{
+      
     
     GetCurso();
 
-    },[GetCurso,showModalCourse,showModalDelete,showTalento,showVideos])
+    },[GetCurso,showModalCourse,showModalDelete,showTalento,showVideos,response])
 
     //[GetCurso,showModalCourse,showModalDeleteCurso,showTalento,showVideos,response])
 

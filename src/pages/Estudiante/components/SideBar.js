@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export const SideBar = ({setShowPlayer, setShowLogro, setShowCourses,setShowInformacion}) => {
+export const SideBar = ({setShowPlayer, setShowLogro, setShowCourses, setShowDeberes, setShowPruebas,setShowInformacion,setShowDeberDetail}) => {
 
     const navigate = useNavigate();
     const [showBar, setShowBar] = useState(true);
@@ -43,7 +43,7 @@ export const SideBar = ({setShowPlayer, setShowLogro, setShowCourses,setShowInfo
                         </button>
                     </li>
                     <li>
-                        <button onClick={()=> {setShowCourses(false);setShowPlayer(false);setShowLogro(false);setShowInformacion(true)}} className="w-full flex items-center text-gray-300 p-2 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group">
+                        <button onClick={()=> {setShowCourses(false);setShowPlayer(false);setShowLogro(false);setShowDeberes(false);setShowPruebas(false);setShowInformacion(true);setShowDeberDetail(false)}} className="w-full flex items-center text-gray-300 p-2 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-person w-5 h-5 text-gray-500 transition duration-75 group-hover:text-black dark:group-hover:text-white" viewBox="0 0 16 16">
                                 <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
                             </svg>
@@ -51,7 +51,7 @@ export const SideBar = ({setShowPlayer, setShowLogro, setShowCourses,setShowInfo
                         </button>
                     </li> 
                     <li>
-                        <button onClick={() => {setShowCourses(true);setShowPlayer(false);setShowLogro(false);setShowInformacion(false)}} className="w-full flex items-center p-2 text-gray-300 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group">
+                        <button onClick={() => {setShowCourses(true);setShowPlayer(false);setShowLogro(false);setShowDeberes(false);setShowPruebas(false);setShowInformacion(false);setShowDeberDetail(false)}} className="w-full flex items-center p-2 text-gray-300 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group">
                             <svg className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4H1m3 4H1m3 4H1m3 4H1m6.071.286a3.429 3.429 0 1 1 6.858 0M4 1h12a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1Zm9 6.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z"/>
                             </svg>                        
@@ -59,7 +59,7 @@ export const SideBar = ({setShowPlayer, setShowLogro, setShowCourses,setShowInfo
                         </button>
                     </li>
                     <li>
-                        <button onClick={()=>{setShowLogro(true);setShowPlayer(false);setShowCourses(false);setShowInformacion(false)}} className=" w-full flex items-center p-2 text-gray-300 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group">
+                        <button onClick={()=>{setShowLogro(false);setShowPlayer(false);setShowCourses(false);setShowDeberes(true);setShowPruebas(false);setShowInformacion(false)}} className=" w-full flex items-center p-2 text-gray-300 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-book flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" viewBox="0 0 16 16">
                               <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783"/>
                             </svg>
@@ -67,7 +67,7 @@ export const SideBar = ({setShowPlayer, setShowLogro, setShowCourses,setShowInfo
                         </button>                                                
                     </li>
                     <li>
-                        <button onClick={()=>{setShowLogro(true);setShowPlayer(false);setShowCourses(false);setShowInformacion(false)}} className=" w-full flex items-center p-2 text-gray-300 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group">                            
+                        <button onClick={()=>{setShowLogro(false);setShowPlayer(false);setShowCourses(false);setShowDeberes(false);setShowPruebas(true);setShowInformacion(false);setShowDeberDetail(false)}} className=" w-full flex items-center p-2 text-gray-300 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group">                            
                             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-journal-check flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" viewBox="0 0 16 16">
                                 <path fillRule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
                                 <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
@@ -77,7 +77,7 @@ export const SideBar = ({setShowPlayer, setShowLogro, setShowCourses,setShowInfo
                         </button>                                                
                     </li>
                     <li>
-                        <button onClick={()=>{setShowLogro(true);setShowPlayer(false);setShowCourses(false);setShowInformacion(false)}} className=" w-full flex items-center p-2 text-gray-300 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group">
+                        <button onClick={()=>{setShowLogro(true);setShowPlayer(false);setShowCourses(false);setShowDeberes(false);setShowPruebas(false);setShowInformacion(false);setShowDeberDetail(false)}} className=" w-full flex items-center p-2 text-gray-300 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"  className="bi bi-award flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" viewBox="0 0 16 16">
                                 <path d="M9.669.864 8 0 6.331.864l-1.858.282-.842 1.68-1.337 1.32L2.6 6l-.306 1.854 1.337 1.32.842 1.68 1.858.282L8 12l1.669-.864 1.858-.282.842-1.68 1.337-1.32L13.4 6l.306-1.854-1.337-1.32-.842-1.68zm1.196 1.193.684 1.365 1.086 1.072L12.387 6l.248 1.506-1.086 1.072-.684 1.365-1.51.229L8 10.874l-1.355-.702-1.51-.229-.684-1.365-1.086-1.072L3.614 6l-.25-1.506 1.087-1.072.684-1.365 1.51-.229L8 1.126l1.356.702z"/>
                                 <path d="M4 11.794V16l4-1 4 1v-4.206l-2.018.306L8 13.126 6.018 12.1z"/>
@@ -93,7 +93,7 @@ export const SideBar = ({setShowPlayer, setShowLogro, setShowCourses,setShowInfo
                             <span className="ms-3 whitespace-nowrap">Comprar Cursos</span>
                         </button>
                     </li>
-                    <li>
+                    {/* <li>
                         <button className=" w-full flex items-center p-2 text-gray-300 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group">                        
                             <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" className="bi bi-box-arrow-left flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" viewBox="0 0 16 16">
                                 <path fillRule="evenodd" d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z"/>
@@ -101,7 +101,7 @@ export const SideBar = ({setShowPlayer, setShowLogro, setShowCourses,setShowInfo
                             </svg>
                             <span className="ms-3 whitespace-nowrap">Cerrar Sesión</span>
                         </button>
-                    </li>
+                    </li> */}
                 </ul>
             </div>
         </div>

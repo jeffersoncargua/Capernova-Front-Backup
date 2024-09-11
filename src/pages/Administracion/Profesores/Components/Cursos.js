@@ -1,9 +1,9 @@
 import { useState,useRef, useEffect} from "react";
 //import { ModalCourse, ModalDeleteCurso } from "../Components";
-import { toast } from "react-toastify";
+//import { toast } from "react-toastify";
 
 
-export const Cursos = ({setShowCursos, setShowVideos,cursoList ,curso, setCurso, setSearch, response ,setResponse, setShowDeberes,setShowPruebas}) => {
+export const Cursos = ({setShowCursos, setShowVideos,cursoList ,curso, setResponse, setCurso, setSearch, setShowDeberes,setShowPruebas}) => {
 
   const pageSize = 5;
   
@@ -57,9 +57,9 @@ export const Cursos = ({setShowCursos, setShowVideos,cursoList ,curso, setCurso,
     setNextAllowed(() => currentPage < numberOfPages);
     //fetchCurso();
 
-    response.isSuccess? toast.success(response.message): toast.error(response.message);
+    //response.isSuccess? toast.success(response.message): toast.error(response.message);
     
-  }, [currentPage,numberOfPages,cursoList,response]);
+  }, [currentPage,numberOfPages,cursoList]);
 
   const handlePagination = (action) => {
     if (action === "prev") {

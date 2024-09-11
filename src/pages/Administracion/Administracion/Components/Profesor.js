@@ -100,7 +100,7 @@ export const Profesor = ({profesor, setProfesor,cursoList,response,setResponse})
             <div>
                 <label htmlFor="curso" className="block mb-2 font-medium  dark:text-white">Cursos Capernova:</label>
                 <select onChange={() => handleSelectCourse()} id="curso" className="block w-full p-2 text-sm border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" defaultValue={''} ref={refCurso}>
-                    <option selected value=''>---- Selecciona el curso a asignar ----</option>
+                    <option value=''>---- Selecciona el curso a asignar ----</option>
                     {cursoList.map((curso) => (
                         curso.teacherId === null &&
                        <option key={curso.id} value={curso.id}>{curso.titulo}</option> 
