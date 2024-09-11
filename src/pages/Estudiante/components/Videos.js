@@ -92,7 +92,7 @@ export const Videos = ({capitulo,handlePlay,estudiante,matricula,setMatricula}) 
             toast.success(`Has finalizado de ver los videos tutoriales del curso ${matricula.curso.titulo}`);
           }
 
-          console.log(resultFetch);
+          //console.log(resultFetch);
         }
       }
       

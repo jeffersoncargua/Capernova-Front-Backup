@@ -29,7 +29,7 @@ export const ShoppingCart = ({cartList,total}) => {
     if (shoppingCart.length > 0) {   
       let updateCartList = shoppingCart;
       const cartList = updateCartList.filter(itemCart => itemCart.productoId !== String(item.id));
-      console.log(cartList);
+      //console.log(cartList);
       setShoppingCart(cartList);
       localStorage.setItem('shoppingcart',JSON.stringify(cartList));
     }
@@ -43,7 +43,7 @@ export const ShoppingCart = ({cartList,total}) => {
 
   const handlePay = () => {
     const onlyCursos = cartList.filter(item => item.tipo === 'curso');
-    console.log(onlyCursos);
+    //console.log(onlyCursos);
     if(onlyCursos.length > 0)
     {
       if(!userIsAuth){

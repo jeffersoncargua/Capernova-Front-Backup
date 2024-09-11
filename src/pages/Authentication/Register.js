@@ -52,9 +52,9 @@ export const Register = ({children}) => {
         if(result.errors.ConfirmPassword){
           setMessagePassword(result.errors.ConfirmPassword);
         }
-        console.log(result.errors.ConfirmPassword);
+        //console.log(result.errors.ConfirmPassword);
         setResponse(result);
-        console.log(result);        
+        //console.log(result);        
       
     } catch (error) {
       setShowButtonLoading(false);

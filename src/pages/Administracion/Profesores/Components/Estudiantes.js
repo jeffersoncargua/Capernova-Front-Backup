@@ -1,7 +1,7 @@
 import { useState,useRef, useEffect } from "react";
 //import { ModalDelete } from "../../Components";
 //import { ModalTalento, ModalDeleteTalento } from '../Components';
-import { ModalCalificarDeber } from '../Components';
+import { ModalCalificarDeber, ModalCalificarPrueba } from '../Components';
 import { toast } from "react-toastify";
 
 export const Estudiantes = ({cursoList}) => {
@@ -16,6 +16,7 @@ export const Estudiantes = ({cursoList}) => {
   const [previousAllowed, setPreviousAllowed] = useState(false);
   const [nextAllowed, setNextAllowed] = useState(true);
   const [showModalCalificarDeber,setShowModalCalificarDeber] = useState(false);
+  const [showModalCalificarPrueba,setShowModalCalificarPrueba] = useState(false);
 
   const [searchUser,setSearchUser] = useState('');
   
@@ -26,7 +27,7 @@ export const Estudiantes = ({cursoList}) => {
   //const [tipo,setTipo] = useState(''); //es para almacenar el tipo de objeto a eliminar que puede ser curso, capitulo, video, deber, etc
   //const [objeto, setObjeto] = useState({}); //es para almacenar el objeto a eliminar mediante el componente ModalDelete
   
-  const columns = ["Nombre", "Apellido" , "Teléfono" , "Curso inscrito" ,"Acciones"];
+  const columns = ["Nombre", "Apellido" , "Teléfono" , "Curso" ,"Correo","Acciones"];
   const refSearch = useRef();
   const refCurso = useRef();
 
@@ -57,7 +58,7 @@ export const Estudiantes = ({cursoList}) => {
     }
     fetchEstudiantes();
     response.isSuccess? toast.success(response.message): toast.error(response.message);
-    console.log(response);
+    //console.log(response);
   }, [currentPage,numberOfPages,searchUser,response,cursoId]);
 
   // [currentPage,numberOfPages,showModalTalento,showModalDeleteTalento,searchRole,searchUser,response]);
@@ -74,7 +75,7 @@ export const Estudiantes = ({cursoList}) => {
   }
 
   const handleSelectedCourse = () => {
-    console.log(refCurso.current.value);
+    //console.log(refCurso.current.value);
     if (refCurso.current.value !== '') {
       setCurrentPage(1);
       setCursoId(refCurso.current.value);
@@ -89,6 +90,14 @@ export const Estudiantes = ({cursoList}) => {
     // setShowTalento(false);
     // setShowProfesor(true);
     setShowModalCalificarDeber(true);
+    setMatricula(matricula);
+    setResponse({});
+  }   
+
+  //handleCalificarPruebas
+
+  const handleCalificarPruebas = (matricula) => {
+    setShowModalCalificarPrueba(true);
     setMatricula(matricula);
     setResponse({});
   }   
@@ -119,11 +128,12 @@ export const Estudiantes = ({cursoList}) => {
     <div className="w-[95%] mx-auto">
         
         {showModalCalificarDeber && <ModalCalificarDeber showModalCalificarDeber={showModalCalificarDeber} setShowModalCalificarDeber={setShowModalCalificarDeber} matricula={matricula}  setResponse={setResponse} />}
+        {showModalCalificarPrueba && <ModalCalificarPrueba showModalCalificarPrueba={showModalCalificarPrueba} setShowModalCalificarPrueba={setShowModalCalificarPrueba} matricula={matricula}  setResponse={setResponse} />}
         
         {/* {showModalDeleteTalento && <ModalDeleteTalento showModalDeleteTalento={showModalDeleteTalento} setShowModalDeleteTalento={setShowModalDeleteTalento} talento={talento} setResponse={setResponse} />} */}
         {/* {showModalDelete && <ModalDelete showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete} objeto={objeto} setObjeto={setObjeto} setResponse={setResponse} tipo={tipo} setTipo={setTipo} />} */}
 
-        <h1 className="text-center font-medium text-xl dark:text-white mb-10">Talento Humano de Capernova</h1>
+        <h1 className="text-center font-medium text-xl dark:text-white mb-10">Estudiantes de Capernova</h1>
 
         {/* Tabla para la informacion */}
         <section className="">
@@ -150,7 +160,7 @@ export const Estudiantes = ({cursoList}) => {
                             <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
                         </svg>
                       </div>
-                      <input onChange={handleSearch} type="text" id="simple-search" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Busca por el nombre o apellido" required="" ref={refSearch} />
+                      <input onChange={handleSearch} type="text" id="simple-search" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Busca por el nombre, apellido o correo" required="" ref={refSearch} />
                     </div>
                   </form>
                 </div>
@@ -177,10 +187,10 @@ export const Estudiantes = ({cursoList}) => {
                   {currentDataDisplayed.list? (currentDataDisplayed.list.map((matricula) => (
                     <tr key={matricula.id} className="border-b dark:border-gray-700">
                       <td className="px-4 py-3">{matricula.estudiante.name}</td>
-                      <td className="px-4 py-3">{matricula.estudiante.lastName}</td>
-                      
+                      <td className="px-4 py-3">{matricula.estudiante.lastName}</td>                      
                       <td className="px-4 py-3">{matricula.estudiante.phone}</td>
                       <td className="px-4 py-3">{matricula.curso.titulo}</td>
+                      <td className="px-4 py-3">{matricula.estudiante.email}</td>
                       <td className="px-4 py-3">
                         <div className="py-1 flex justify-start">                          
                           <button onClick={() => {handleCalificarDeberes(matricula)}} className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-yellow-300 hover:bg-yellow-400 rounded-lg mr-2">
@@ -190,12 +200,13 @@ export const Estudiantes = ({cursoList}) => {
                             </svg>
                             Calificar Deberes
                           </button>                             
-                          {/* <button onClick={() => handleDelete(item)} className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-red-500 hover:bg-red-600 rounded-lg">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-trash3 w-4 h-4 mr-2" viewBox="0 0 16 16">
-                              <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+                          <button onClick={() => {handleCalificarPruebas(matricula)}} className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-green-500 hover:bg-green-600 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-pencil-square h-4 w-4 mr-2" viewBox="0 0 16 16">
+                              <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                              <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
                             </svg>
-                            Eliminar
-                          </button> */}
+                            Calificar Pruebas
+                          </button>
                         </div>
                       </td>
                     </tr>

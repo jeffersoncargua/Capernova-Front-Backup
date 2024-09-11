@@ -36,7 +36,7 @@ export const Products = () => {
         }else{
             setCurrent(current - 1);
         }
-        console.log(current);
+        //console.log(current);
     }
 
     let nextSlice = () => {
@@ -45,7 +45,7 @@ export const Products = () => {
         }else{
             setCurrent(current + 1);
         }
-        console.log(current);
+        //console.log(current);
     }
 
   

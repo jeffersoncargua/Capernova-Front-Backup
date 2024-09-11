@@ -28,7 +28,7 @@ export const ConfirmationEmail = ({children}) => {
 
           let result= await resultFetch.json();
           setResponse(result);
-          console.log(result);
+          //console.log(result);
         }
         fetchConfirm();
           

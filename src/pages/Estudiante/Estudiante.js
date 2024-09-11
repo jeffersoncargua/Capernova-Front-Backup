@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { PlayerVideo, SideBar, Logros, Courses, Informacion,Deberes,Pruebas,Comentario,DeberDetail} from './components';
+import { PlayerVideo, SideBar, Logros, Courses, Informacion,Deberes,Pruebas,Comentario,DeberDetail, PruebaDetail} from './components';
 import { useSelector } from "react-redux";
 
 
@@ -12,6 +12,8 @@ export const Estudiante = () => {
   const [showPruebas, setShowPruebas] = useState(false);
   const [showInformacion, setShowInformacion] = useState(true);
   const [showDeberDetail,setShowDeberDetail] = useState(false);
+  //showPruebaDetail
+  const [showPruebaDetail,setShowPruebaDetail] = useState(false);
   const [estudiante, setEstudiante] = useState({});
   //const [curso, setCurso] = useState({});
   const [response, setResponse] = useState({});
@@ -47,7 +49,7 @@ export const Estudiante = () => {
     <div className="relative w-[95%] mx-auto">
         {/*Barra lateral de navegacion del estudiante */}
 
-        <SideBar setShowPlayer={setShowPlayer}  setShowLogro={setShowLogro} setShowCourses={setShowCourses} setShowDeberes={setShowDeberes} setShowPruebas={setShowPruebas} setShowInformacion={setShowInformacion} setShowDeberDetail={setShowDeberDetail} /> 
+        <SideBar setShowPlayer={setShowPlayer}  setShowLogro={setShowLogro} setShowCourses={setShowCourses} setShowDeberes={setShowDeberes} setShowPruebas={setShowPruebas} setShowInformacion={setShowInformacion} setShowDeberDetail={setShowDeberDetail} setShowPruebaDetail={setShowPruebaDetail}  /> 
 
         {/*Informacion del estudiante */}
         
@@ -88,7 +90,12 @@ export const Estudiante = () => {
 
         {showPruebas && 
         <div className="p-4 sm:ml-56" >
-          <Pruebas estudiante={estudiante} />
+          <Pruebas estudiante={estudiante} setMatricula={setMatricula} setShowPruebaDetail={setShowPruebaDetail} />
+        </div>}
+
+        {showPruebaDetail && 
+        <div className="p-4 sm:ml-56" >
+          <PruebaDetail matricula={matricula} />
         </div>}
 
     </div>

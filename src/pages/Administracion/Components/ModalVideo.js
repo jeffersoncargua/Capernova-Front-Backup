@@ -12,7 +12,7 @@ export const ModalVideo = ({showModalVideo,setShowModalVideo,video,setVideo,vide
 
   const handleSubmitAdd = async(event) => {
     event.preventDefault();
-    console.log(capitulo);
+    //console.log(capitulo);
     // let object = {Codigo:refCodigo.current.value,Titulo:refTitulo.current.value,VideoUrl:refVideoUrl.current.value,OrdenReproduccion:refOrden.current.value, Visto: false}
     // console.log(object);
     // let updatedVideos = videos.concat(object);
@@ -35,12 +35,12 @@ export const ModalVideo = ({showModalVideo,setShowModalVideo,video,setVideo,vide
         })
     });
     const resultFetch = await resultFromApi.json();
-    console.log(resultFetch);
+    //console.log(resultFetch);
     setCapitulo({});
     //setVideos([]);
     setShowModalVideo(false);
     setResponse(resultFetch);
-    console.log('Se agrego el video');
+    //console.log('Se agrego el video');
   }
 
   const handleSubmitEdit = async(event) => {
@@ -70,7 +70,7 @@ export const ModalVideo = ({showModalVideo,setShowModalVideo,video,setVideo,vide
         })
     });
     const resultFetch = await resultFromApi.json();
-    console.log(resultFetch);
+    //console.log(resultFetch);
     setShowModalVideo(false);
     setResponse(resultFetch);
     setVideo({});

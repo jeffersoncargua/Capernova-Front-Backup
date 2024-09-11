@@ -39,7 +39,7 @@ useEffect(() => {
 
 
       const resultFetch = await resultFromApi.json();
-      console.log(resultFetch);
+      //console.log(resultFetch);
       if (resultFetch.isSuccess) {
         setResponse(resultFetch);
       }

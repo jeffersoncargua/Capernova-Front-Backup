@@ -25,7 +25,7 @@ export const ForgotPassword = ({children}) => {
           setShowButtonLoading(false);
           let result = await resultFetch.json();
           setResponse(result);
-          console.log(result);
+          //console.log(result);
           setShowModal(true);
           
       } catch (error) {

@@ -34,7 +34,7 @@ export const ModalProducto = ({showModal,setShowModal,producto,setResponse}) => 
                 })
             });
             const resultFetch = await result.json();
-            console.log(resultFetch);
+            //console.log(resultFetch);
             setResponse(resultFetch);
             setShowModal(false);
             setShowButtonLoading(false);
@@ -69,7 +69,7 @@ export const ModalProducto = ({showModal,setShowModal,producto,setResponse}) => 
                 })
             });
             const resultFetch = await result.json();
-            console.log(resultFetch);
+            //console.log(resultFetch);
             setResponse(resultFetch);
             setShowModal(false);
             setShowButtonLoading(false);

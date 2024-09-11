@@ -26,8 +26,8 @@ export const PaymentInfo = ({isValid,cartList,setError,setShowModal,hiddenPaypal
     
     const total = useSelector(state => state.cartState.total);
 
-    const order = useSelector(state => state.orderState.order);
-    console.log(order);
+    //const order = useSelector(state => state.orderState.order);
+    //console.log(order);
 
     
 

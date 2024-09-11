@@ -75,7 +75,7 @@ export const Cursos = ({setShowCursos, setShowVideos,cursoList ,curso, setRespon
 
 
   const handleSearch = () => {
-    console.log(refSearch.current.value);
+    //console.log(refSearch.current.value);
     if (refSearch.current.value.length > 0) {
       setCurrentPage(1);
       setSearch(refSearch.current.value);
@@ -91,7 +91,7 @@ export const Cursos = ({setShowCursos, setShowVideos,cursoList ,curso, setRespon
   }*/
 
 
-  console.log(cursoList);
+  //console.log(cursoList);
 
   return (
     <div>       

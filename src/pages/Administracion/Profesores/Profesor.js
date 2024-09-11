@@ -66,7 +66,7 @@ export const Profesor = () => {
        let resultFetch = await resultFromApi.json();
   
        if (resultFetch.isSuccess) {
-        console.log(resultFetch);
+        //console.log(resultFetch);
         setCursoList(resultFetch.result);
         setProfesor(resultFetch.result[0].teacher);
        }

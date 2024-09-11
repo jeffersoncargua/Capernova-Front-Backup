@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { CoursesCard } from '../components'
 import { clearPlaylist } from "../../../redux/playlistSlice";
 import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+//import { useSelector } from "react-redux";
 
 export const Courses = ({setShowPlayer,setShowCourses,estudiante,setMatricula}) => {
 
@@ -10,8 +10,8 @@ export const Courses = ({setShowPlayer,setShowCourses,estudiante,setMatricula}) 
   const dispatch = useDispatch();
 
   
-  const playList = useSelector(state => state.playListState.playList);
-  console.log(playList);
+  //const playList = useSelector(state => state.playListState.playList);
+  //console.log(playList);
 
   useEffect(()=>{
     const fecthCourses = async()=>{

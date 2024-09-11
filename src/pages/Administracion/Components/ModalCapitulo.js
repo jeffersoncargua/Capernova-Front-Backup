@@ -28,7 +28,7 @@ export const ModalCapitulo = ({showModalCapitulo,setShowModalCapitulo,capitulo, 
             })
         });
         const resultFetch = await resultFromApi.json();
-        console.log(resultFetch);
+        //console.log(resultFetch);
         setResponse(resultFetch);
         setCapitulo({});
         setShowModalCapitulo(false);
@@ -58,7 +58,7 @@ export const ModalCapitulo = ({showModalCapitulo,setShowModalCapitulo,capitulo, 
             })
         });
         const resultFetch = await resultFromApi.json();
-        console.log(resultFetch);
+        //console.log(resultFetch);
         setResponse(resultFetch);
         setShowModalCapitulo(false);
     }

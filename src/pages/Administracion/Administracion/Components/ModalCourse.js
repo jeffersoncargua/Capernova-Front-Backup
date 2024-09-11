@@ -38,7 +38,7 @@ export const ModalCourse = ({showModalCourse,setShowModalCourse,setResponse}) =>
                 }))
             });
             const resultFetch = await result.json();
-            console.log(resultFetch);
+            //console.log(resultFetch);
             setShowModalCourse(false);
             setShowButtonLoading(false);
             setResponse(resultFetch);

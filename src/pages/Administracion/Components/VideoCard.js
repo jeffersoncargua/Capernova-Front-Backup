@@ -17,13 +17,13 @@ export const VideoCard = ({cap,setShowModalVideo,setShowModalDelete,setVideo,set
                 },
             });
             const resultFetch = await resultFromApi.json();
-            console.log (resultFetch);
+            //console.log (resultFetch);
             setVideos(resultFetch.result);
         }
         getVideo();
     },[cap]);
 
-    console.log(cap);
+    //console.log(cap);
 
     const handleEditVideo= (video) => {
         setShowModalVideo(true);

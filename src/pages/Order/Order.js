@@ -26,7 +26,7 @@ export const Order = () => {
       console.log(onlyProductos);
       setProducList(onlyProductos);
       const onlyCursos = cartList.filter(itemCart  => itemCart.tipo === 'curso');
-      console.log(onlyCursos);
+      //console.log(onlyCursos);
       setCursoList(onlyCursos);
     }else{
       navigate('/cart');
@@ -34,8 +34,8 @@ export const Order = () => {
 
   },[cartList,navigate])
 
-  console.log(productList);
-  console.log(cursoList);
+  // console.log(productList);
+  // console.log(cursoList);
 
   return (
     <div className="w-95% flex flex-wrap justify-around mx-auto mb-10 ">

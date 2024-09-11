@@ -32,7 +32,7 @@ export const ModalDeber = ({showModalDeber,setShowModalDeber,matricula,deber,set
                 }
               });
               const resultFetch = await resultFromApi.json();
-              console.log(resultFetch);
+              //console.log(resultFetch);
               if (resultFetch.isSuccess) {
                 setNotaDeber(resultFetch.result);  
               }
@@ -47,7 +47,7 @@ export const ModalDeber = ({showModalDeber,setShowModalDeber,matricula,deber,set
     const handleSubmitAdd = async(event) =>  {         
         event.preventDefault();   
         formData.append('file',acceptedFiles[0]);
-        console.log(acceptedFiles[0]);
+        //console.log(acceptedFiles[0]);
         setShowButtonLoading(true);
         try {        
             const resultFetch = await fetch(`https://localhost:7164/api/Student/upsertNotaDeber?id=${deber.id}&studentId=${matricula.estudianteId}`,{

@@ -23,16 +23,16 @@ export const Header = () => {
     //Esta seccion permite utilizar redux con el usuario para mantener el inicio de sesion
     const user = useSelector(state => state.userState.user);
     const isAuth = useSelector(state => state.userState.isAuth);
-    console.log(user);
+    //console.log(user);
 
     //Esta seccion permite utilizar redux con el usuario para mantener el inicio de sesion
     const cartList = useSelector(state => state.cartState.cartList);
-    console.log(cartList);
+    //console.log(cartList);
 
     //Esta seccion permite verificar si las busquedas de los cursos se realizan mediante redux
     //Aqui se verifica si se actualiza la variable para realizar la busqueda de cursos
-    const searchProduct = useSelector(state => state.searchState.searchProduct);
-    console.log(searchProduct);
+    //const searchProduct = useSelector(state => state.searchState.searchProduct);
+    //console.log(searchProduct);
 
 
     useEffect(()=>{
@@ -43,7 +43,7 @@ export const Header = () => {
             document.documentElement.classList.add('dark');
         }    
         const token = sessionStorage.getItem('auth');
-        console.log(token);
+        //console.log(token);
         //Funcion para decodificar el token y acceder a su informacion para el inicio de sesion
         if (token !== null) {
             const objet = JWTDecode(token);

@@ -37,7 +37,7 @@ export const Productos = ({setShowProductos}) => {
         });
   
         const resultFetch = await resultFromApi.json();
-        console.log(resultFetch);
+        //console.log(resultFetch);
         setProductList(resultFetch.result);
         setNumberOfPages(Math.ceil(resultFetch.result.length / pageSize));
 

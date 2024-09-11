@@ -42,7 +42,7 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso,setShowDeber
         }
       });
       const resultFetch = await resultFromApi.json();
-      console.log(resultFetch);
+      //console.log(resultFetch);
       setCapitulos(resultFetch.result);
     }
     getCapitulo();
@@ -198,12 +198,12 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso,setShowDeber
               <table className="w-full text-sm text-left  dark:text-white">
                 <thead className="text-xs  uppercase bg-gray-50 dark:bg-gray-700 dark:text-white">
                   <tr>
-                  {/* <th scope="col" className="px-4 py-3">Código</th> */}
-                  <th scope="col" className="px-4 py-3">Titulo</th>
-                  <th scope="col" className="px-4 py-3">VideoURL</th>
-                  <th scope="col" className="px-4 py-3">Orden de Reproducción</th>
-                  {/* <th scope="col" className="px-4 py-3">Visto</th> */}
-                  <th scope="col" className="px-4 py-3">Editar/Eliminar</th>
+                    {/* <th scope="col" className="px-4 py-3">Código</th> */}
+                    <th scope="col" className="px-4 py-3">Titulo</th>
+                    <th scope="col" className="px-4 py-3">VideoURL</th>
+                    <th scope="col" className="px-4 py-3">Orden de Reproducción</th>
+                    {/* <th scope="col" className="px-4 py-3">Visto</th> */}
+                    <th scope="col" className="px-4 py-3">Editar/Eliminar</th>
                   </tr>
                 </thead>
                 <tbody>

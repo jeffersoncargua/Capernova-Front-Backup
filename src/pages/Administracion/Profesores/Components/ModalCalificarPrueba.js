@@ -1,16 +1,16 @@
 import { useEffect,useState } from "react";
-import {CalificarDeber} from '../Components'
+import {CalificarPrueba} from '../Components'
 
 
-export const ModalCalificarDeber = ({showModalCalificarDeber,setShowModalCalificarDeber,matricula,setResponse}) => {
+export const ModalCalificarPrueba = ({showModalCalificarPrueba,setShowModalCalificarPrueba,matricula,setResponse}) => {
 
-    const [deberList,setDeberList] = useState([]);
+    const [pruebaList,setPruebaList] = useState([]);
     const columns = ["Deber","Observación","Estado","Calificación","Acciones"];
 
 
     useEffect(() => {
-        const GetNotaDeber = async() => {
-          const resultFromApi = await fetch(`https://localhost:7164/api/Deber/getAllDeberes/${matricula.cursoId}`,{
+        const GetNotaPrueba = async() => {
+          const resultFromApi = await fetch(`https://localhost:7164/api/Prueba/getAllPruebas/${matricula.cursoId}`,{
               method: 'GET',
               credentials:'include',
               headers:{
@@ -21,16 +21,15 @@ export const ModalCalificarDeber = ({showModalCalificarDeber,setShowModalCalific
             const resultFetch = await resultFromApi.json();
             //console.log(resultFetch);
             if (resultFetch.isSuccess) {
-              setDeberList(resultFetch.result);  
+                setPruebaList(resultFetch.result);  
             }
-              
         }
 
-        GetNotaDeber();
+        GetNotaPrueba();
     },[matricula])
 
   return (
-    <div id="crud-modal" tabIndex='-1' className={`${showModalCalificarDeber? '' :'hidden'} overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] h-full bg-gray-700/[0.6]`}>
+    <div id="crud-modal" tabIndex='-1' className={`${showModalCalificarPrueba? '' :'hidden'} overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] h-full bg-gray-700/[0.6]`}>
         <div className="relative p-4 mx-auto w-full max-w-4xl max-h-full">
             {/*<!-- Modal content -->*/}
             <div className="relative bg-white my-[0.15%] rounded-lg shadow dark:bg-gray-700 mb-14">
@@ -39,7 +38,7 @@ export const ModalCalificarDeber = ({showModalCalificarDeber,setShowModalCalific
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                         {`Curso ${matricula.curso.titulo}`}
                     </h3>
-                    <button onClick={()=>setShowModalCalificarDeber(false)} type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="crud-modal">
+                    <button onClick={()=>setShowModalCalificarPrueba(false)} type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="crud-modal">
                         <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
                         </svg>
@@ -71,10 +70,10 @@ export const ModalCalificarDeber = ({showModalCalificarDeber,setShowModalCalific
                           </tr>
                         </thead>
                         <tbody>
-                          {deberList? (deberList.map((deber) => (
-                            <tr key={deber.id} className="border-b dark:border-gray-700">
-                              <td className="px-4 py-3">{deber.titulo}</td>
-                              <CalificarDeber deber={deber} matricula={matricula} />
+                          {pruebaList? (pruebaList.map((prueba) => (
+                            <tr key={prueba.id} className="border-b dark:border-gray-700">
+                              <td className="px-4 py-3">{prueba.titulo}</td>
+                              <CalificarPrueba prueba={prueba} matricula={matricula} />
                             </tr>
                           ))): (null)}
                             

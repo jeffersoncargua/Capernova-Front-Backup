@@ -26,7 +26,7 @@ export const Products = ({children}) => {
           }
         });
         const resultFetch = await result.json();
-        console.log(resultFetch);
+        //console.log(resultFetch);
         setSlices(resultFetch.result);
       }
       fetchProductos();

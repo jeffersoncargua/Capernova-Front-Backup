@@ -40,7 +40,7 @@ export const Pedidos = () => {
 
 
       const resultFetch = await resultFromApi.json();
-      console.log(resultFetch);
+      //console.log(resultFetch);
       if (resultFetch.isSuccess) {
         //let subTotal = 0;
         setPedidoList(resultFetch.result);

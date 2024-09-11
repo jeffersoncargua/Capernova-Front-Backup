@@ -32,7 +32,7 @@ export const ChangePassword = ({children}) => {
 
           let result= await resultFetch.json();
           setResponse(result);
-          console.log(result);
+          //console.log(result);
           //console.log(response.result.model.email);
         }
         fetchResetPassword();
@@ -68,9 +68,9 @@ export const ChangePassword = ({children}) => {
           if(result.errors.ConfirmPassword){
             setMessagePassword(result.errors.ConfirmPassword);
           }
-          console.log(result.errors.ConfirmPassword);
+          //console.log(result.errors.ConfirmPassword);
           setResponse(result);
-          console.log(result);        
+          //console.log(result);        
         
       } catch (error) {
         setShowButtonLoading(false);

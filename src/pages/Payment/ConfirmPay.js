@@ -15,7 +15,7 @@ export const ConfirmPay = () => {
   // const [showLoader,setShowLoader] = useState(true);
   // const [response,setResponse] = useState({});
 
-  console.log(token);
+  //console.log(token);
   //console.log(status);
 
 

@@ -36,7 +36,7 @@ export const Pruebas = ({setShowCursos,setShowVideos,curso, setCurso,setShowDebe
         }
       });
       const resultFetch = await resultFromApi.json();
-      console.log(resultFetch);
+      //console.log(resultFetch);
       setPruebas(resultFetch.result);
     }
     getDeber();
@@ -131,8 +131,8 @@ export const Pruebas = ({setShowCursos,setShowVideos,curso, setCurso,setShowDebe
                   <tr>
                     {/* <th scope="col" className="px-4 py-3">Id</th> */}
                     <th scope="col" className="px-4 py-3">Titulo</th>
-                    <th scope="col" className="px-4 py-3">Descripcion</th>
-                    <th scope="col" className="px-4 py-3">Test</th>
+                    <th scope="col" className="px-4 py-3 ">Descripcion</th>
+                    <th scope="col" className="px-4 py-3 ">Test</th>
                     <th scope="col" className="px-4 py-3">Editar/Eliminar</th>
                   </tr>
                 </thead>
@@ -141,9 +141,8 @@ export const Pruebas = ({setShowCursos,setShowVideos,curso, setCurso,setShowDebe
                   <tr key={test.id} className="border-b dark:border-gray-700">
                     {/* <td className="px-4 py-3">{test.Id}</td> */}
                     <td className="px-4 py-3">{test.titulo}</td>
-                    <td className="px-4 py-3">{test.detalle}</td>
-                    <td className="px-4 py-3">{test.test}</td>
-                    
+                    <td className="px-4 py-3 line-clamp-2">{test.detalle}</td>
+                    <td className="px-4 py-3">{(test.test).slice(0,43)}...</td>                    
                     <td className="px-4 py-3">
                       <div className="py-1 flex justify-start">                          
                         <button onClick={() => handleEditPrueba(test)} className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-yellow-300 hover:bg-yellow-400 rounded-lg mr-2">

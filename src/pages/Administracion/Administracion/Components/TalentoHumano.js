@@ -52,7 +52,7 @@ export const TalentoHumano = ({setShowTalento,setShowProfesor,setProfesor,respon
     }
     fetchTalento();
     response.isSuccess? toast.success(response.message): toast.error(response.message);
-    console.log(response);
+    //console.log(response);
   }, [currentPage,numberOfPages,showModalTalento,showModalDelete,searchRole,searchUser,response]);
 
   // [currentPage,numberOfPages,showModalTalento,showModalDeleteTalento,searchRole,searchUser,response]);

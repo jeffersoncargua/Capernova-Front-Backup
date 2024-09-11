@@ -4,21 +4,19 @@ export {Cursos} from './Cursos';
 
 export {Estudiantes} from './Estudiantes';
 export {Informacion} from './Informacion';
-export {Deberes} from './Deberes';
-export {Pruebas} from './Pruebas';
-
 
 export {ModalSuccess} from './ModalSuccess';
 
-
+export {Deberes} from './Deberes';
 export {ModalDeber} from './ModalDeber';
-
-
-export {ModalPrueba} from './ModalPrueba';
-
 export {ModalCalificarDeber} from './ModalCalificarDeber';
 export {CalificarDeber} from './CalificarDeber';
 
+
+export {Pruebas} from './Pruebas';
+export {ModalPrueba} from './ModalPrueba';
+export {ModalCalificarPrueba} from './ModalCalificarPrueba';
+export {CalificarPrueba} from './CalificarPrueba';
 
 export {Loading} from './Loading';
 

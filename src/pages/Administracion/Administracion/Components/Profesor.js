@@ -11,8 +11,8 @@ export const Profesor = ({profesor, setProfesor,cursoList,response,setResponse})
     const [showButtonLoading2,setShowButtonLoading2] = useState(false);
     //const [response,setResponse] = useState({});
 
-    console.log(cursoId);
-    console.log(cursoList);
+    // console.log(cursoId);
+    // console.log(cursoList);
 
     const handleAssigmentCourse = async() => {
         setShowButtonLoading(true);
@@ -33,7 +33,7 @@ export const Profesor = ({profesor, setProfesor,cursoList,response,setResponse})
                 });
         
                 const resultFetch = await result.json();
-                console.log(resultFetch);
+                //console.log(resultFetch);
                 setResponse(resultFetch);
                 setCursoId();//para eliminar el valor de cursoId para nuevas asignaciones
                 setShowButtonLoading(false);
@@ -75,7 +75,7 @@ export const Profesor = ({profesor, setProfesor,cursoList,response,setResponse})
             
         });
         const resultFetch = await result.json();
-        console.log(resultFetch);
+        //console.log(resultFetch);
         setResponse(resultFetch);
         setCursoId();//para eliminar el valor de cursoId para nuevas asignaciones
         setShowButtonLoading2(false);

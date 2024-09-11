@@ -5,8 +5,8 @@ export const Cart = () => {
 
   const cartList = useSelector(state => state.cartState.cartList);
   const total = useSelector(state => state.cartState.total);
-  console.log(cartList);
-  console.log(total);
+  // console.log(cartList);
+  // console.log(total);
 
   return (
     <div className="pt-8">

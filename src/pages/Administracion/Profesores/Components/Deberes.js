@@ -22,8 +22,8 @@ export const Deberes = ({setShowCursos,setShowVideos,curso, setCurso,setShowDebe
   //const refPrice = useRef();
   //const refImageUrl = useRef();
 
-  console.log(curso);
-  console.log(deberes);
+  // console.log(curso);
+  // console.log(deberes);
 
   useEffect(()=>{
     const getDeber = async()=>{
@@ -36,7 +36,7 @@ export const Deberes = ({setShowCursos,setShowVideos,curso, setCurso,setShowDebe
         }
       });
       const resultFetch = await resultFromApi.json();
-      console.log(resultFetch);
+      //console.log(resultFetch);
       setDeberes(resultFetch.result);
     }
     getDeber();

@@ -35,7 +35,7 @@ export const ProductDetail = () => {
               });
         
               const resultFetch = await resultFromApi.json();
-              console.log(resultFetch);
+              //console.log(resultFetch);
               setProducto(resultFetch.result);
             }
             const fetchProductos = async() => {
@@ -49,7 +49,7 @@ export const ProductDetail = () => {
               });
         
               const resultFetch = await resultFromApi.json();
-              console.log(resultFetch);
+              //console.log(resultFetch);
               setProductList(resultFetch.result);
             }
 
@@ -65,7 +65,7 @@ export const ProductDetail = () => {
       if (shoppingCart.length > 0) {        
         const updateCant = shoppingCart.find((item) => item.productoId === productoId);
         //console.log(typeof(updateCant.cantidad));
-        console.log(updateCant);
+        //console.log(updateCant);
         if(updateCant){
           setCant(+updateCant.cantidad);
         }else{
@@ -108,11 +108,11 @@ export const ProductDetail = () => {
       //let shoppingCart = JSON.parse(localStorage.getItem('shoppingcart'));
 
         const itemCart = shoppingCart.find((item) => item.productoId === productoId);
-        console.log(itemCart);
+        //console.log(itemCart);
         if (itemCart) {
           let updateListCart = shoppingCart;
           let cartist = updateListCart.map(itemCart => itemCart.productoId === productoId ? {...itemCart, cantidad : itemCart.cantidad = refCant.current.value}:itemCart );
-          console.log(updateListCart);
+          //console.log(updateListCart);
           setShoppingCart(updateListCart);
           localStorage.setItem('shoppingcart',JSON.stringify(cartist));
         }else{

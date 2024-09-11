@@ -17,7 +17,7 @@ export const PaymentPaypal = ({cartList,total,isValid,setError,setShowModal,hidd
     const user = useSelector(state => state.userState.user);
 
     const order = useSelector(state => state.orderState.order);
-    console.log(order);
+    //console.log(order);
 
 
     let orderId = ''; //permite almacenar la orden que se emite desde paypal para realizar las transacciones
@@ -26,7 +26,7 @@ export const PaymentPaypal = ({cartList,total,isValid,setError,setShowModal,hidd
     // const [{isPending}] = usePayPalScriptReducer(); // permite obtener el estado de paypal en la que se encuentra en ese momento de la solicitud de pedido
 
     const initialOptions ={
-        clientId: "AZiCGcfCQdlpvwPzJGoyLURcKroZ-zSI8B-HX-2Gu7LZVcoiTCADxSMY8h7-SY1EnGwaYJ3b--4kpfGP",
+        clientId: "AZiCGcfCQdlpvwPzJGoyLURcKroZ-zSI8B-HX-2Gu7LZVcoiTCADxSMY8h7-SY1EnGwaYJ3b--4kpfGP", //Esto se debe reemplazar con el clientId que se genere de Paypal
         //clientId:'test',
         //components:"buttons",
         //currency: "USD",
@@ -50,7 +50,7 @@ export const PaymentPaypal = ({cartList,total,isValid,setError,setShowModal,hidd
             });
     
             const resultFetch = await resultFromApi.json();
-            console.log(resultFetch);
+            //console.log(resultFetch);
             if (resultFetch.isSuccess) {
                 const result = JSON.parse(resultFetch.result);
             // console.log(result.id);       
@@ -61,7 +61,7 @@ export const PaymentPaypal = ({cartList,total,isValid,setError,setShowModal,hidd
             return result.id;
             }
 
-            console.log(resultFetch.message);
+            //console.log(resultFetch.message);
             setError(resultFetch.message);
             setShowModal(true);
             setHiddenPaypal(false);
@@ -71,7 +71,7 @@ export const PaymentPaypal = ({cartList,total,isValid,setError,setShowModal,hidd
     }
 
     const handleOnApprove = async() => {
-        console.log(orderId);
+        //console.log(orderId);
         const resultFromApi = await fetch(`https://localhost:7164/api/Payment/confirmPaypal?token=${orderId}`,{
             method: 'GET',
             credentials: 'include',
@@ -82,7 +82,7 @@ export const PaymentPaypal = ({cartList,total,isValid,setError,setShowModal,hidd
         });
 
         const resultFetch = await resultFromApi.json();
-        console.log(resultFetch);
+        //console.log(resultFetch);
         if(resultFetch.isSuccess){
             const resultAPI = await fetch(`https://localhost:7164/api/Payment/createOrder`,{
                 method: 'POST',
@@ -100,7 +100,7 @@ export const PaymentPaypal = ({cartList,total,isValid,setError,setShowModal,hidd
                 })
             });
             const resultFetch = await resultAPI.json();
-            console.log(resultFetch);
+            //console.log(resultFetch);
             if(resultFetch.isSuccess){
                 localStorage.removeItem('shoppingcart');
                 dispath(logout()); //permite cerrar la session
