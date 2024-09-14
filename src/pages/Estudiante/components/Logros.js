@@ -33,12 +33,12 @@ export const Logros = ({estudiante}) => {
 
       {/*Aqui van los modal */}
       
-      {showModalDownload && <ModalDownload showModalDownload={showModalDownload} setShowModalDownload={setShowModalDownload} result={result} setResult={setResult} />}
+      {showModalDownload && <ModalDownload  showModalDownload={showModalDownload} setShowModalDownload={setShowModalDownload} result={result} setResult={setResult} />}
 
       {matriculaList.length > 0 && matriculaList.map((matricula) => (
         <div key={matricula.id}>
           <CoursesCard matricula={matricula} >
-              <ProgressBar porcentaje={100} isCompleted={true} setShowModalDownload={setShowModalDownload} setResult={setResult}/>
+              <ProgressBar matricula={matricula} setShowModalDownload={setShowModalDownload} setResult={setResult}/>
           </CoursesCard>
         </div>))}
       

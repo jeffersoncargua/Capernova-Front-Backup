@@ -1,6 +1,7 @@
 import { useEffect ,useState } from 'react';
 
 import Fondo from '../../../assets/FondoGotaAzul.png';
+import { useNavigate } from 'react-router-dom';
 //import Fondo2 from '../../../assets/FondoAmarillo.png';
 
 
@@ -9,6 +10,7 @@ export const Hero = () => {
 
     const [current, setCurrent] = useState(0);
     const [slices, setSlices] = useState([]);
+    const navigate = useNavigate();
 
     /*const slices = [
         {id:1 ,imagen : 'https://i.postimg.cc/PxmnnFkD/Armonizacion-Facial.jpg' , title: 'Armonizacion Facial' , description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus, sint!'},
@@ -32,15 +34,27 @@ export const Hero = () => {
                         'Accept' : 'application/json'
                     }
                 });
+                
                 const resultFetch = await result.json();
-                setSlices(resultFetch.result);
+                setSlices(resultFetch.result); 
+
+                // await fetch('https://localhost:7164/api/Marketing/publicidadList',{
+                //     method:'GET',
+                //     headers:{
+                //         'Content-Type' : 'application/json',
+                //         'Accept' : 'application/json'
+                //     }
+                // }).then(result => result.json()).then(data => setSlices(data)).catch(navigate('error'));
+                
             }
             
             fetchPublicidad();
         } catch (error) {
+            navigate('error');
             console.error(error);
+            
         }
-    },[])
+    },[navigate])
         
     /*este useEffect se emplea para hacer el slider o carrusel dinamico y automatico */
     useEffect(()=> {

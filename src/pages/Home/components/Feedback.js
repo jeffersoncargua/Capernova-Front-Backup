@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom";
 
 export const Feedback = () => {
 
     const [feedback, setFeedback] = useState(0);
     const [users,setUsers] = useState([]);
-
+    const navigate = useNavigate();
     // const users = [
     //     {nombre: 'Bonnie Green', comentario:'If you care for your time, I hands down would go with this."',avatar: 'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/karen-nelson.png',job:'Developer at Open AI'},
     //     {nombre: 'Bonnie Green', comentario:'If you care for your time, I hands down would go with this."',avatar: 'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/karen-nelson.png',job:'Developer at Front-End'},
@@ -13,22 +14,27 @@ export const Feedback = () => {
     // ]
 
     useEffect(()=>{
-
-        const fetchComentarios = async()=>{
-            const resultFromApi = await fetch(`https://localhost:7164/api/Managment/getComentarios`,{
-                method: 'GET',
-                credentials: 'include',
-                headers:{
-                    'Content-Type' : 'application/json',
-                    'Accept' : 'application/json',
-                }
-            });
-            const resultFetch = await resultFromApi.json();
-            setUsers(resultFetch.result);
+        try {
+            const fetchComentarios = async()=>{
+                const resultFromApi = await fetch(`https://localhost:7164/api/Managment/getComentarios`,{
+                    method: 'GET',
+                    credentials: 'include',
+                    headers:{
+                        'Content-Type' : 'application/json',
+                        'Accept' : 'application/json',
+                    }
+                });
+                const resultFetch = await resultFromApi.json();
+                setUsers(resultFetch.result);
+            }
+            fetchComentarios();
+        } catch (error) {
+            console.error(error);
+            navigate('error');
         }
-        fetchComentarios();
         
-    },[])
+        
+    },[navigate])
 
 
     /* */
@@ -56,7 +62,7 @@ export const Feedback = () => {
                 </span>
             </h1>
 
-            <div className="overflow-hidden w-full dark:border-gray-700 md:mb-12 bg-white dark:bg-gray-800 my-8">
+            <div className="overflow-hidden w-full dark:border-gray-700 md:mb-12 bg-white dark:bg-gray-900 my-8">
                 {/*Para pantalla grande */}
                 <div className="md:flex hidden bg-white w-[98%] transition ease-in-out duration-400 gap-x-2 dark:bg-gray-900" style={{transform: `translateX(-${feedback * 50}%)`}}>
                     {users.map((user,index) => (
@@ -77,7 +83,7 @@ export const Feedback = () => {
                 </div>
 
                 {/*Para pantalla pequeña */}
-                <div className="flex md:hidden bg-white w-[98%] transition ease-in-out duration-400 md:gap-x-2" style={{transform: `translateX(-${feedback * 100}%)`}}>
+                <div className="flex md:hidden bg-white w-[98%] transition ease-in-out duration-400 gap-x-2 dark:bg-gray-900" style={{transform: `translateX(-${feedback * 100}%)`}}>
                     {users.map((user,index) => (
                         <figure key={index} className="flex-none flex flex-col items-center justify-center border border-gray-200 rounded-lg shadow-sm p-8 text-center bg-white dark:bg-gray-800  w-full md:w-1/2">
                             <blockquote className="max-w-2xl mx-auto mb-4 text-gray-500 lg:mb-8 dark:text-gray-400">

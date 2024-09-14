@@ -17,10 +17,10 @@ export const Footer = () => {
                     <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Beneficios</h2>
                     <ul className="text-gray-500 dark:text-gray-400 font-medium">
                         <li className="mb-4">
-                            <Link to='/' className="hover:underline">Certificado</Link>
+                            <span className="hover:underline">Aprendizaje 100% Garantizado</span>
                         </li>
                         <li>
-                            <Link to='/' className="hover:underline">Maestros 100% Capacitados</Link>
+                            <span className="hover:underline">Certificado</span>
                         </li>
                     </ul>
                 </div>
@@ -28,10 +28,10 @@ export const Footer = () => {
                     <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Siguenos en</h2>
                     <ul className="text-gray-500 dark:text-gray-400 font-medium">
                         <li className="mb-4">
-                            <Link to='https://www.facebook.com/capernovacapacitaciones?mibextid=ZbWKwL' className="hover:underline ">Facebook</Link>
+                            <Link to='https://www.facebook.com/capernovacapacitaciones?mibextid=ZbWKwL' target='blank' className="hover:underline ">Facebook</Link>
                         </li>
                         <li>
-                            <Link to='https://www.instagram.com/caper_nova?igsh=eTBuMzV0MjFwcTAz' className="hover:underline">Instagram</Link>
+                            <Link to='https://www.instagram.com/caper_nova?igsh=eTBuMzV0MjFwcTAz' target='blank' className="hover:underline">Instagram</Link>
                         </li>
                     </ul>
                 </div>
@@ -39,10 +39,10 @@ export const Footer = () => {
                     <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Legal</h2>
                     <ul className="text-gray-500 dark:text-gray-400 font-medium">
                         <li className="mb-4">
-                            <Link to='/' className="hover:underline">Privacy Policy</Link>
+                            <Link to='/' className="hover:underline">Políticas de Privacidad</Link>
                         </li>
                         <li>
-                            <Link to='/' className="hover:underline">Terms &amp; Conditions</Link>
+                            <Link to='/' className="hover:underline">Términos &amp; Condiciones</Link>
                         </li>
                     </ul>
                 </div>

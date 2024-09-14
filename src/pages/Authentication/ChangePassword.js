@@ -8,7 +8,7 @@ export const ChangePassword = ({children}) => {
   const [showPass2, setShowPass2] = useState(false);
   const [showButtonLoading, setShowButtonLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [messagePassword,setMessagePassword] = useState('');
+  //const [messagePassword,setMessagePassword] = useState('');
 
   const [response,setResponse] = useState({});
   const [searchParams] = useSearchParams();
@@ -65,9 +65,9 @@ export const ChangePassword = ({children}) => {
           setShowModal(true);
           let result = await resultFetch.json();
   
-          if(result.errors.ConfirmPassword){
-            setMessagePassword(result.errors.ConfirmPassword);
-          }
+          // if(result.errors.ConfirmPassword){
+          //   setMessagePassword(result.errors.ConfirmPassword);
+          // }
           //console.log(result.errors.ConfirmPassword);
           setResponse(result);
           //console.log(result);        
@@ -84,7 +84,7 @@ export const ChangePassword = ({children}) => {
   return (
     <div className='mx-auto my-10'>
 
-      <h1 className='font-bold text-3xl text-center text-gray-600'>¡Cambia tu contraseña!</h1>
+      <h1 className='font-bold text-3xl text-center text-black dark:text-white'>¡Cambia tu contraseña!</h1>
 
       <form onSubmit={handleSubmitChangePassword} className="max-w-md mx-auto block md:w-1/2 p-10 border border-gray-300 my-10 rounded-lg">
         <div className="relative z-0 w-full mb-5 group">
@@ -140,7 +140,7 @@ export const ChangePassword = ({children}) => {
         
       </form>
 
-      {showModal && <Modal response={response} setShowModal={setShowModal} messagePassword={messagePassword} setMessagePassword={setMessagePassword}  />}
+      {showModal && <Modal response={response} setShowModal={setShowModal} tipo={'cambiar'} /*messagePassword={messagePassword} setMessagePassword={setMessagePassword} */ />}
       {children}
 
     </div>

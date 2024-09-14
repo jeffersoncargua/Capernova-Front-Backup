@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { ProductCard } from "../../../components/ProductCard";
+import { useNavigate } from "react-router-dom";
 
 export const SliderProduct = () => {
 
   const [current, setCurrent] = useState(0);
   const [slices, setSlices] = useState([]);
+  const navigate = useNavigate();
   
 
   useEffect(() => {
@@ -27,8 +29,9 @@ export const SliderProduct = () => {
       
     } catch (error) {
       console.error(error);
+      navigate('error');
     }
-  },[])
+  },[navigate])
 
 
   let previousSlice = () => {

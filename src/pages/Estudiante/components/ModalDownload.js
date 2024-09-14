@@ -2,10 +2,10 @@ import QRCode from "react-qr-code";
 
 export const ModalDownload = ({showModalDownload,setShowModalDownload, result, setResult}) => {
 
-    console.log('Se abrio el modal para descargar');
-    console.log(result.fileContents);
-    console.log(result.contentType);
-    console.log(result.fileDownloadName);
+    // console.log('Se abrio el modal para descargar');
+    // console.log(result.fileContents);
+    // console.log(result.contentType);
+    // console.log(result.fileDownloadName);
 
   return (
     <div>
@@ -28,7 +28,7 @@ export const ModalDownload = ({showModalDownload,setShowModalDownload, result, s
                     </div>
                     {/*<!-- Boton para realizar la descarga del certificado -->*/}
                     <div className="p-4 md:p-5">
-                        <a href={`data:${result.contentType};base64,${result.fileContents}`} download={`${result.fileDownloadName}`} className="hover:underline text-blue-500 hover:text-violet-600" >Presiona este enlace para descargar</a>
+                        <a href={`data:${result.result.contentType};base64,${result.result.fileContents}`} download={`${result.result.fileDownloadName}`} className="hover:underline text-blue-500 hover:text-violet-600" >Presiona este enlace para descargar</a>
                     </div>
                     {/*<!--Codigo QR para realizar la descarga del certificado -->*/}
                     <div className="p-4 md:p-5">
@@ -36,7 +36,8 @@ export const ModalDownload = ({showModalDownload,setShowModalDownload, result, s
                             <QRCode
                             size={256}
                             style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                            value={`https://www.google.com`}
+                            //value={`https://www.google.com`}
+                            value={`https://drive.google.com/file/d/${result.message}/view`}
                             viewBox={`0 0 256 256`}
                             />
                         </div>

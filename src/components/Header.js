@@ -8,6 +8,7 @@ import { JWTDecode } from '../hooks/JWTDecode';
 import { search } from '../redux/searchProductSlice';
 
 import CaperNova2 from '../assets/Capernova2.png';
+import CapernovaOscuro from '../assets/CapernovaOscuro_preview_rev_1.png';
 
 export const Header = () => {
 
@@ -65,7 +66,7 @@ export const Header = () => {
     const handleSubmitSearch = (event) => {
         event.preventDefault();
         dispatch(search(refSearch.current.value));
-        console.log(refSearch.current.value);
+        //console.log(refSearch.current.value);
         setShowDrop(true)
         setShowDropProductos(true);
         navigate('/products');
@@ -77,7 +78,9 @@ export const Header = () => {
 
         <div className='py-[30px] flex justify-center'>
             <Link onClick={() => {setShowDrop(true);setShowDropProductos(true)}}  to="/" className="flex items-center justify-center space-x-3 rtl:space-x-reverse h-[160px] w-[429px]">
-                <img src={CaperNova2} className="" alt="Capernova Logo" />
+                {darkMode ? 
+                (<img src={CaperNova2} className="" alt="Capernova Logo" />)
+                :(<img src={CapernovaOscuro} className="" alt="Capernova Logo" />)}
             </Link>
         </div>
 

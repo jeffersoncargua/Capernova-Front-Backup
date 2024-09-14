@@ -38,10 +38,11 @@ export const ConfirmationEmail = ({children}) => {
     },[token,email]);
 
   return (
-    <div className="w-[95%] mx-auto">
-        <h1 className="text-xl">{response.message}</h1>
-        {response.isSuccess && <p className="text-sm">navega por nuestro sitio web y conoce acerca de nosotros asi como de nuestros productos</p>}
+    <div className="w-[95%] mx-auto mt-10 group text-black dark:text-white">
+        <h1 className="text-xl text-green-500 dark:text-green-400 mb-4">{response.message}!!!!!</h1>
+        {response.isSuccess && <p className="text-sm">Navega por nuestro sitio web y conoce acerca más sobre nosotros y de nuestros cursos y productos</p>}
         {children}
     </div>
   )
 }
+

@@ -41,19 +41,19 @@ export const CoursesCard = ({matricula, children}) => {
           {/*Muestra los estados del curso */}
           <div className="w-full mb-2 flex flex-wrap justify-around">
             {/*Mostrar el estado de acceso */}
-            <span className={`inline-flex items-center ${matricula.isActive ? 'bg-green-100':'bg-red-100'} ${matricula.isActive ? 'text-green-800':'text-red-800'} text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300`}>
+            <span className={`inline-flex items-center ${matricula.isActive ? 'bg-green-100 dark:bg-green-900 dark:text-green-300 text-green-800':'bg-red-100 dark:bg-red-900 dark:text-red-300 text-red-800'} text-xs font-medium px-2.5 py-0.5 rounded-full `}>
                 <span className={`w-2 h-2 me-1 ${matricula.isActive ? 'bg-green-500':'bg-red-500'} rounded-full`}></span>
                 {matricula.isActive ? 'Activado':'Deshabilitado'}
             </span>
             {/*Mostrar el estado de progreso */}
-            <span className={`inline-flex items-center ${matricula.estado === 'Completado' ? 'bg-orange-100':'bg-blue-100'} ${matricula.estado === 'Completado' ? 'text-orange-800':'text-blue-800'} text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300`}>
+            <span className={`inline-flex items-center ${matricula.estado === 'Completado' ? 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300 ':'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300'} text-xs font-medium px-2.5 py-0.5 rounded-full `}>
                 <span className={`w-2 h-2 me-1 ${matricula.estado === 'Completado'? 'bg-orange-500':'bg-blue-500'} rounded-full`}></span>
                 {matricula.estado}
             </span>
           </div>
       </div>
 
-      <div>
+      <div className="">
         {/*El children es el progressBar */}
         {children}
       </div>         

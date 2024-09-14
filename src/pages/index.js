@@ -14,12 +14,15 @@ export {Order} from './Order/Order';
 export {CancelPayment,ConfirmPay} from './Payment';
 
 export {Estudiante} from './Estudiante/Estudiante';
-export {Certificado} from './Certificado';
+//export {Certificado} from './Certificado';
 
-export {PaymentPaypal} from './PaymentPaypal';
+//export {PaymentPaypal} from './PaymentPaypal';
 
 
 //Pagina de administración
 export {Administracion} from './Administracion/Administracion/Administracion';
 export {Profesor} from './Administracion/Profesores/Profesor';
 export {Secretaria} from './Administracion/Secretaria/Secretaria';
+
+export {PageNotFound} from './PageNotFound';
+export {PageError} from './PageError';

@@ -2,7 +2,7 @@ import {  useRef, useState, useEffect} from 'react';
 import { Tooltip } from 'react-tooltip';
 import { toast } from 'react-toastify';
 import {Loading} from '../components';
-//import Photo from '../../../../assets/Capernova2.png'
+import Avatar from '../../../assets/avatar.png';
 
 export const Informacion = ({estudiante,response,setResponse}) => {
 
@@ -100,7 +100,10 @@ export const Informacion = ({estudiante,response,setResponse}) => {
       <form onSubmit={handleSubmit} encType='multipart/form-data' className={`${!showLoading ? '':'hidden'}`} >
         <div className='w-[95%] mx-auto flex items-center justify-center flex-col'>
           <div className='flex justify-center w-60 h-60 relative rounded-full outline outline-4 outline-gray-300 shadow-lg bg-slate-50 z-20'>
-            <img className="w-60 h-60 rounded-full self-center"  src={`https://drive.google.com/thumbnail?id=${estudiante.photoUrl}`} alt="Aqui va la foto" />
+            {estudiante.photoUrl ? 
+            (<img className="w-60 h-60 rounded-full self-center"  src={`https://drive.google.com/thumbnail?id=${estudiante.photoUrl}`} alt="Aqui va la foto" />)
+            :(<img className="w-44 h-44 rounded-full self-center"  src={Avatar} alt="Aqui va la foto" />)}
+            
             {/* <img className="w-60 h-60 rounded-full self-center"  src={`https://drive.google.com/file/d/${estudiante.photoUrl}/preview`} alt="Aqui va la foto" />  */}
             <button onClick={()=>setUploadFile(!uploadFile)} data-tooltip-id='tooltip-image' type='button' className='absolute bottom-4 right-0 w-10 h-10 bg-gray-100 group hover:bg-gray-300 dark:hover:bg-gray-400 flex justify-center items-center rounded-full border shadow'>
               <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-camera text-slate-300 group-hover:text-black h-7 w-7" viewBox="0 0 16 16">
@@ -108,7 +111,7 @@ export const Informacion = ({estudiante,response,setResponse}) => {
                 <path d="M8 11a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5m0 1a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M3 6.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0"/>
               </svg>
             </button>
-            <Tooltip id='tooltip-image' place='top' content={uploadFile ?'No Editar Fotografía':'Editar Fotografía'} />     
+            <Tooltip id='tooltip-image' place='top' content={uploadFile ?'No Cambiar Foto Perfil':'Cambiar Foto Perfil'} />     
           </div>
           <div className='z-10 -mt-28 w-full border-2 border-gray-300 shadow-lg rounded-xl bg-cyan-50 dark:bg-slate-800'>
             <div className='p-6 mt-24 flex flex-col gap-y-3'>

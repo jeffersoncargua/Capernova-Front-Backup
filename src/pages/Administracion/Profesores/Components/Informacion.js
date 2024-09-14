@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Tooltip } from 'react-tooltip';
 import { toast } from 'react-toastify';
 import {Loading} from '../Components';
-//import Photo from '../../../../assets/Capernova2.png'
+import Avatar from '../../../../assets/avatar.png';
 
 export const Informacion = ({profesor,response,setResponse}) => {
 
@@ -106,7 +106,9 @@ export const Informacion = ({profesor,response,setResponse}) => {
       <form onSubmit={handleSubmit} encType='multipart/form-data' className={`${!showLoading ? '':'hidden'}`} >
         <div className='w-[95%] mx-auto flex items-center justify-center flex-col'>
           <div className='flex justify-center w-60 h-60 relative rounded-full outline outline-4 outline-gray-300 shadow-lg bg-slate-50 z-20'>
-            <img className="w-60 h-60 rounded-full self-center"  src={`https://drive.google.com/thumbnail?id=${profesor.photoURL}`} alt="Aqui va la foto" />
+            {profesor.photoURL? 
+            (<img className="w-60 h-60 rounded-full self-center"  src={`https://drive.google.com/thumbnail?id=${profesor.photoURL}`} alt="Aqui va la foto" />)
+            :(<img className="w-44 h-44 rounded-full self-center"  src={Avatar} alt="Aqui va la foto" />)}            
             <button onClick={()=>setUploadFile(!uploadFile)} data-tooltip-id='tooltip-image' type='button' className='absolute bottom-4 right-0 w-10 h-10 bg-gray-100 group hover:bg-gray-300 dark:hover:bg-gray-400 flex justify-center items-center rounded-full border shadow'>
               <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-camera text-slate-300 group-hover:text-black h-7 w-7" viewBox="0 0 16 16">
                 <path d="M15 12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h1.172a3 3 0 0 0 2.12-.879l.83-.828A1 1 0 0 1 6.827 3h2.344a1 1 0 0 1 .707.293l.828.828A3 3 0 0 0 12.828 5H14a1 1 0 0 1 1 1zM2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4z"/>

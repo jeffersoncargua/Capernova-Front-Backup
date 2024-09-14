@@ -10,7 +10,7 @@ export const Register = ({children}) => {
   const [showPass2, setShowPass2] = useState(false);
   const [showButtonLoading, setShowButtonLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [messagePassword,setMessagePassword] = useState('');
+  //const [messagePassword,setMessagePassword] = useState('');
   const [response,setResponse] = useState({});
   const refName = useRef();
   const refLastName = useRef();
@@ -49,9 +49,9 @@ export const Register = ({children}) => {
         setShowModal(true);
         let result = await resultFetch.json();
 
-        if(result.errors.ConfirmPassword){
-          setMessagePassword(result.errors.ConfirmPassword);
-        }
+        // if(result.errors.ConfirmPassword){
+        //   setMessagePassword(result.errors.ConfirmPassword);
+        // }
         //console.log(result.errors.ConfirmPassword);
         setResponse(result);
         //console.log(result);        
@@ -152,7 +152,7 @@ export const Register = ({children}) => {
         </figure>
       </div>
 
-      {showModal && <Modal response={response} setShowModal={setShowModal} messagePassword={messagePassword} setMessagePassword={setMessagePassword}  />}
+      {showModal && <Modal response={response} setShowModal={setShowModal} tipo={'register'} /*messagePassword={messagePassword} setMessagePassword={setMessagePassword} */ />}
       {children}
 
     </div>
