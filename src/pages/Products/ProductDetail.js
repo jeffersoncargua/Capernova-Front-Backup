@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
@@ -21,45 +21,68 @@ export const ProductDetail = () => {
     const [productList,setProductList] = useState([]);
     const [shoppingCart, setShoppingCart] = useState(JSON.parse(localStorage.getItem('shoppingcart')) || []);
 
+    const navigate = useNavigate();
+
     useEffect(()=>{
      
-        try {          
-            const fetchProducto = async() => {
-              const resultFromApi = await fetch(`https://localhost:7164/api/Producto/getProducto/${productoId}`,{
-                method:'GET',
-                credentials : 'include',
-                headers:{
-                  'Content-Type' : 'application/json',
-                  'Accept' : 'application/json'
-                }
-              });
-        
-              const resultFetch = await resultFromApi.json();
-              //console.log(resultFetch);
-              setProducto(resultFetch.result);
-            }
-            const fetchProductos = async() => {
-              const resultFromApi = await fetch(`https://localhost:7164/api/Producto/getAllProducto?tipo=${"producto"}`,{
-                method:'GET',
-                credentials : 'include',
-                headers:{
-                  'Content-Type' : 'application/json',
-                  'Accept' : 'application/json'
-                }
-              });
-        
-              const resultFetch = await resultFromApi.json();
-              //console.log(resultFetch);
-              setProductList(resultFetch.result);
-            }
-
-            fetchProducto();
-            fetchProductos();
-            
-          } catch (error) {
-            console.error(error);
+                
+      const fetchProducto = async() => {
+        try {  
+        const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Producto/getProducto/${productoId}`,{
+          method:'GET',
+          credentials : 'include',
+          headers:{
+            'Content-Type' : 'application/json',
+            'Accept' : 'application/json'
           }
-    },[productoId])
+        });
+  
+        const resultFetch = await resultFromApi.json();
+
+        console.log(resultFromApi.status);
+        if (resultFromApi.status !==200) {
+          throw resultFetch;
+        }
+
+        setProducto(resultFetch.result);
+
+      } catch (error) {
+        console.error(error);
+        navigate('error');
+      }
+
+    }
+
+      const fetchProductos = async() => {
+        try {  
+          const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Producto/getAllProducto?tipo=${"producto"}`,{
+            method:'GET',
+            credentials : 'include',
+            headers:{
+              'Content-Type' : 'application/json',
+              'Accept' : 'application/json'
+            }
+          });
+    
+          const resultFetch = await resultFromApi.json();
+
+          console.log(resultFromApi.status);
+          if (resultFromApi.status !== 200) {
+            throw resultFetch;
+          }
+          //console.log(resultFetch);
+          setProductList(resultFetch.result);
+
+        } catch (error) {
+          console.error(error);
+          navigate('error');
+        }
+      }
+
+      fetchProducto();
+      fetchProductos();
+
+    },[productoId,navigate])
 
     useEffect(()=>{
       if (shoppingCart.length > 0) {        

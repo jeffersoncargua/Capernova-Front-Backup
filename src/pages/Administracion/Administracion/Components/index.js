@@ -23,3 +23,5 @@ export { VentaDetails} from './VentaDetails';
 
 export { Pedidos} from './Pedidos';
 export { PedidoDetails} from './PedidoDetails';
+
+export {Loading} from './Loading';

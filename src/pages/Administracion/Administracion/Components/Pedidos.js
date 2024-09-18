@@ -1,6 +1,6 @@
 import { useState, useRef,useEffect} from "react";
 import { toast } from "react-toastify";
-import { ModalDelete } from "../../Components";
+//import { ModalDelete } from "../../Components";
 import {PedidoDetails} from '../Components';
 import Datepicker from "react-tailwindcss-datepicker";
 
@@ -19,41 +19,45 @@ export const Pedidos = () => {
   }); // permite escoger las fechas de inicio y final para buscar las ventas de acuedo al rango de fecha que se solicite
   const [showModalPedidoDetail, setShowModalPedidoDetail] = useState(false);
   //const [showModal,setShowModal] = useState(false);
-  const [showModalDelete,setShowModalDelete] = useState(false);
-  const columns = ["Fecha Emisión","ID Cliente", "Nombre Cliente" ,"Apellido Cliente", "Teléfono", "Calle Principal", "Calle Secundaria" ,"Estado", "Ver Detalle/Eliminar"];
-  const [tipo,setTipo] = useState(''); //es para almacenar el tipo de objeto a eliminar que puede ser curso, capitulo, video, deber, etc
-  const [objeto, setObjeto] = useState({}); //es para almacenar el objeto a eliminar mediante el componente ModalDelete
+  //const [showModalDelete,setShowModalDelete] = useState(false);
+  const columns = ["Fecha Emisión","Transacción ID","Cliente ID", "Nombre Cliente" ,"Apellido Cliente", "Teléfono", "Calle Principal", "Calle Secundaria" ,"Estado", "Ver Detalle/Eliminar"];
+  //const [tipo,setTipo] = useState(''); //es para almacenar el tipo de objeto a eliminar que puede ser curso, capitulo, video, deber, etc
+  //const [objeto, setObjeto] = useState({}); //es para almacenar el objeto a eliminar mediante el componente ModalDelete
   const [response,setResponse] = useState({});
   const refSearch = useRef();
-  //getAllVentas
 
   useEffect(() => {
     const fetchPedidos = async() => {
-      const resultFromApi = await fetch(`https://localhost:7164/api/Venta/getAllPedidos?search=${search}&start=${JSON.stringify(value.startDate)}&end=${JSON.stringify(value.endDate)}`,{
-        method:'GET',
-        credentials : 'include',
-        headers:{
-          'Content-Type' : 'application/json',
-          'Accept' : 'application/json'
+      try {
+        const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Venta/getAllPedidos?search=${search}&start=${JSON.stringify(value.startDate)}&end=${JSON.stringify(value.endDate)}`,{
+          method:'GET',
+          credentials : 'include',
+          headers:{
+            'Content-Type' : 'application/json',
+            'Accept' : 'application/json'
+          }
+        });
+  
+        const resultFetch = await resultFromApi.json();
+  
+        //console.log(resultFromApi.status);
+        if (resultFromApi.status !== 200) {
+          throw resultFetch;
         }
-      });
-
-
-      const resultFetch = await resultFromApi.json();
-      //console.log(resultFetch);
-      if (resultFetch.isSuccess) {
-        //let subTotal = 0;
-        setPedidoList(resultFetch.result);
-        // resultFetch.result.forEach(element => {
-        //   subTotal += element.total; 
-        // });
-        //setTotal(subTotal);
+  
+        //console.log(resultFetch);
+        if (resultFetch.isSuccess) {
+          setPedidoList(resultFetch.result);
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error("Ha ocurrido un error en el servidor");
       }
-      
+     
     }
     fetchPedidos();
     response.isSuccess ? toast.success(response.message): toast.error(response.message) ;
-  }, [showModalPedidoDetail,showModalDelete,search,response,value]);
+  }, [showModalPedidoDetail,search,response,value]);
 
 
   const handleSearch = (event) => {
@@ -67,13 +71,13 @@ export const Pedidos = () => {
     setResponse({});
   }    
 
-  const handleDelete = (pedido) => {
-    //setPublicidad(publicidad);
-    setObjeto(pedido);
-    setTipo('pedido');
-    setShowModalDelete(!showModalDelete);
-    setResponse({});
-  }
+  // const handleDelete = (pedido) => {
+  //   //setPublicidad(publicidad);
+  //   setObjeto(pedido);
+  //   setTipo('pedido');
+  //   setShowModalDelete(!showModalDelete);
+  //   setResponse({});
+  // }
 
   const GetFecha = (fecha) => {
     let date = new Date(fecha);
@@ -87,7 +91,7 @@ export const Pedidos = () => {
       {/*Modal para ingresar los valores de la publicidad */}
       {showModalPedidoDetail && <PedidoDetails showModalPedidoDetail={showModalPedidoDetail} setShowModalPedidoDetail={setShowModalPedidoDetail} pedido={pedido} setPedido={setPedido} setResponse={setResponse} /> }
       {/* {showModalDelete && <ModalDelete showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete} publicidad={publicidad} setResponse={setResponse}  />} */}
-      {showModalDelete && <ModalDelete showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete} objeto={objeto} setObjeto={setObjeto} setResponse={setResponse} tipo={tipo} setTipo={setTipo} />}
+      {/* {showModalDelete && <ModalDelete showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete} objeto={objeto} setObjeto={setObjeto} setResponse={setResponse} tipo={tipo} setTipo={setTipo} />} */}
 
       {/* Tabla para la informacion */}
       <section className="">
@@ -108,7 +112,7 @@ export const Pedidos = () => {
                         <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
                     </svg>
                   </div>
-                  <input onChange={handleSearch} type="text" id="simple-search" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Buscar por Identificación o Apellido" required="" ref={refSearch} />
+                  <input onChange={handleSearch} type="text" id="simple-search" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Buscar por Transaccion ID, ID o Apellido del cliente" required="" ref={refSearch} />
                 </div>
               </form>
             </div>
@@ -136,10 +140,11 @@ export const Pedidos = () => {
                   </tr>
                 </thead>
                 <tbody>
-                {pedidoList.length > 0 && pedidoList.map((item) => (
+                {pedidoList.length > 0 ? (pedidoList.map((item) => (
                   <tr key={item.id} className="border-b dark:border-gray-700">
                     <td className="px-4 py-3">{GetFecha(item.emision)}</td>
-                    <td className="px-4 py-3">{item.venta.userId}</td>
+                    <td className="px-4 py-3">{item.venta.transaccionId}</td>
+                    <td className="px-4 py-3">{item.venta.userId}</td>                    
                     <td className="px-4 py-3">{item.venta.name}</td>
                     <td className="px-4 py-3">{item.venta.lastName}</td>
                     <td className="px-4 py-3">{item.venta.phone}</td>
@@ -155,16 +160,18 @@ export const Pedidos = () => {
                           </svg>
                           Ver Pedido 
                         </button>                              
-                        <button onClick={() => handleDelete(item)} className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-red-500 hover:bg-red-600 rounded-lg">
+                        {/* <button onClick={() => handleDelete(item)} className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-red-500 hover:bg-red-600 rounded-lg">
                           <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-trash3 w-4 h-4 mr-2" viewBox="0 0 16 16">
                             <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
                           </svg>
                           Eliminar
-                        </button>
+                        </button> */}
                       </div>
                     </td>
                   </tr>
-                ))}
+                ))):(<tr className="border-b dark:border-gray-700" >
+                  <td className="font-medium text-xl mb-10 p-5">No se ha encontrado tu busqueda...</td>                  
+                </tr>)}
                   
                 </tbody>
                 {/* <tfoot>

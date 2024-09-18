@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import {Descripcion,Contenido}  from './Components'
 
 import { useDispatch } from "react-redux";
@@ -20,13 +20,15 @@ export const CursoDetail = () => {
   const [enableDescription,setEnableDescription] = useState(true);
   const [enableContenido,setEnableContenido] = useState(false);
   //const [productList,setProductList] = useState([]);
+  const navigate = useNavigate();
 
   
 
   useEffect(()=>{
-    try {
-      const fetchProducto = async() => {
-        const resultFromApi = await fetch(`https://localhost:7164/api/Producto/getProducto/${productoId}`,{
+    
+    const fetchProducto = async() => {
+      try {
+        const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Producto/getProducto/${productoId}`,{
           method:'GET',
           credentials : 'include',
           headers:{
@@ -38,13 +40,15 @@ export const CursoDetail = () => {
         const resultFetch = await resultFromApi.json();
         console.log(resultFetch);
         setProducto(resultFetch.result);
+      } catch (error) {
+        console.error(error);
+        navigate('error');
       }
-      
-      fetchProducto();
-    } catch (error) {
-      console.error(error);
     }
-  },[productoId])
+      
+    fetchProducto();
+    
+  },[productoId,navigate])
 
 
   const handleAddToCart = (itemProd) => {

@@ -6,17 +6,12 @@ export const Feedback = () => {
     const [feedback, setFeedback] = useState(0);
     const [users,setUsers] = useState([]);
     const navigate = useNavigate();
-    // const users = [
-    //     {nombre: 'Bonnie Green', comentario:'If you care for your time, I hands down would go with this."',avatar: 'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/karen-nelson.png',job:'Developer at Open AI'},
-    //     {nombre: 'Bonnie Green', comentario:'If you care for your time, I hands down would go with this."',avatar: 'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/karen-nelson.png',job:'Developer at Front-End'},
-    //     {nombre: 'Bonnie Green', comentario:'If you care for your time, I hands down would go with this."',avatar: 'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/karen-nelson.png',job:'Developer at Back-End'},
-    //     {nombre: 'Bonnie Green', comentario:'If you care for your time, I hands down would go with this."',avatar: 'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/karen-nelson.png',job:'Developer at Api`s'},
-    // ]
 
     useEffect(()=>{
-        try {
-            const fetchComentarios = async()=>{
-                const resultFromApi = await fetch(`https://localhost:7164/api/Managment/getComentarios`,{
+        
+        const fetchComentarios = async()=>{
+            try {
+                const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Managment/getComentarios`,{
                     method: 'GET',
                     credentials: 'include',
                     headers:{
@@ -25,14 +20,19 @@ export const Feedback = () => {
                     }
                 });
                 const resultFetch = await resultFromApi.json();
+
+                //console.log(resultFromApi.status)
+                if(resultFromApi.status !== 200){
+                    throw resultFetch;
+                }
                 setUsers(resultFetch.result);
+            } catch (error) {
+                console.error(error);
+                navigate('error');
             }
-            fetchComentarios();
-        } catch (error) {
-            console.error(error);
-            navigate('error');
         }
         
+        fetchComentarios();
         
     },[navigate])
 

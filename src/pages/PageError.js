@@ -6,7 +6,7 @@ export const PageError = () => {
     const navigate= useNavigate();
 
   return (
-    <div className="w-[95%] mx-auto flex  flex-col items-align mt-10 group text-black dark:text-white space-y-8">
+    <div className="w-[95%] mx-auto flex  flex-col items-align mt-10 group text-black dark:text-white space-y-8 mb-10">
         <h1 className="self-center text-3xl md:text-5xl text-center">Se ha presentado un error en nuestros servidores!!</h1>
         <h1 className="self-center text-2xl md:text-4xl text-center">Por favor, espera mientras nuestros técnicos lo resuelven!</h1>
         <h1 className="self-center text-2xl md:text-4xl">Muchas Gracias!!!</h1>

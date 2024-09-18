@@ -1,27 +1,41 @@
 import { useEffect, useState } from "react"
 import { TeacherCard } from "./TeacherCard"
+import { useNavigate } from "react-router-dom";
 
 export const TalentoHumano = () => {
 
     const [teacherList,setTeacherList] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() =>{
+        
         const getTeacher = async() => {
-            const resultFromApi = await fetch(`https://localhost:7164/api/Teacher/getAllTeacher`,{
-                method:'GET',
-                credentials:'include',
-                headers: {
-                    'Content-Type' : 'application/json',
-                    'Accept' : 'application/json'
+            try {
+                const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Teacher/getAllTeacher`,{
+                    method:'GET',
+                    credentials:'include',
+                    headers: {
+                        'Content-Type' : 'application/json',
+                        'Accept' : 'application/json'
+                    }
+                });
+                const resultFetch = await resultFromApi.json();
+
+                //console.log(resultFromApi.status);
+                if (resultFromApi.status !== 200) {
+                    throw resultFetch;
                 }
-            });
-            const resultFetch = await resultFromApi.json();
-            setTeacherList(resultFetch.result);
+                setTeacherList(resultFetch.result);
+
+            } catch (error) {
+                console.error(error);
+                navigate('error');
+            }
             
         }
 
         getTeacher();
-    },[])
+    },[navigate])
 
     console.log(teacherList);
 

@@ -19,7 +19,7 @@ export const Profesor = ({profesor, setProfesor,cursoList,response,setResponse})
         
         try {
             if (cursoId !== '') {
-                const result = await fetch(`https://localhost:7164/api/Managment/assigmentCourse/${parseInt(cursoId)}`,{
+                const result = await fetch(`${process.env.REACT_APP_API_URL}/Managment/assigmentCourse/${parseInt(cursoId)}`,{
                     method:'PUT',
                     credentials: 'include',
                     headers:{
@@ -33,6 +33,7 @@ export const Profesor = ({profesor, setProfesor,cursoList,response,setResponse})
                 });
         
                 const resultFetch = await result.json();
+                
                 //console.log(resultFetch);
                 setResponse(resultFetch);
                 setCursoId();//para eliminar el valor de cursoId para nuevas asignaciones

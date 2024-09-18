@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { toast } from "react-toastify";
 
 
 export const ModalCourse = ({showModalCourse,setShowModalCourse,setResponse}) => {
@@ -15,7 +16,7 @@ export const ModalCourse = ({showModalCourse,setShowModalCourse,setResponse}) =>
         event.preventDefault();
         setShowButtonLoading(true);
         try {
-            const result = await fetch('https://localhost:7164/api/Course/createCourse',{
+            const result = await fetch(`${process.env.REACT_APP_API_URL}/Course/createCourse`,{
                 method: 'POST',
                 credentials : 'include',
                 headers : {
@@ -38,7 +39,11 @@ export const ModalCourse = ({showModalCourse,setShowModalCourse,setResponse}) =>
                 }))
             });
             const resultFetch = await result.json();
-            //console.log(resultFetch);
+
+            //console.log(result);
+            if (result.status !== 200) {
+                throw resultFetch;
+            }
             setShowModalCourse(false);
             setShowButtonLoading(false);
             setResponse(resultFetch);
@@ -46,6 +51,7 @@ export const ModalCourse = ({showModalCourse,setShowModalCourse,setResponse}) =>
             setShowButtonLoading(false);
             setShowModalCourse(false);
             console.error(error);
+            toast.error("Ha ocurrido un error en el servidor");
         }
     }
 

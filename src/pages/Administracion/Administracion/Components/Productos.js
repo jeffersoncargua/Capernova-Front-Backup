@@ -2,6 +2,7 @@ import { useState,useRef,useEffect } from "react";
 import { toast } from "react-toastify";
 import { ModalDelete } from "../../Components";
 import {ModalProducto} from '../Components'
+import { useNavigate } from "react-router-dom";
 
 export const Productos = ({setShowProductos}) => {
 
@@ -22,37 +23,50 @@ export const Productos = ({setShowProductos}) => {
     const [objeto, setObjeto] = useState({}); //es para almacenar el objeto a eliminar mediante el componente ModalDelete
     const [response,setResponse] = useState({});
     const refSearch = useRef();
+    const navigate = useNavigate();
     
   
 
     useEffect(() => {
       const fetchProducto = async() => {
-        const resultFromApi = await fetch(`https://localhost:7164/api/Producto/getAllProducto?search=${search}&tipo=${"producto"}`,{
-          method:'GET',
-          credentials : 'include',
-          headers:{
-            'Content-Type' : 'application/json',
-            'Accept' : 'application/json'
-          }
-        });
-  
-        const resultFetch = await resultFromApi.json();
-        //console.log(resultFetch);
-        setProductList(resultFetch.result);
-        setNumberOfPages(Math.ceil(resultFetch.result.length / pageSize));
+        try {
+          const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Producto/getAllProducto?search=${search}&tipo=${"producto"}`,{
+            method:'GET',
+            credentials : 'include',
+            headers:{
+              'Content-Type' : 'application/json',
+              'Accept' : 'application/json'
+            }
+          });
+    
+          const resultFetch = await resultFromApi.json();
 
-        //productList &&
-        setCurrentDataDisplayed(() => {
-        const page = resultFetch?.result?.slice((currentPage - 1) * pageSize, currentPage * pageSize);
-        return { list: page }; //List es una lista con la cantidad de items de publicidad que se va a mostrar en la tabla
-        });
-        setPreviousAllowed(() => currentPage > 1);
-        setNextAllowed(() => currentPage < numberOfPages);
-        
+
+          //console.log(resultFetch);
+          //console.log(resultFromApi.status);
+          if (resultFromApi.status !== 200) {
+            throw resultFetch;
+          }
+
+          setProductList(resultFetch.result);
+          setNumberOfPages(Math.ceil(resultFetch.result.length / pageSize));
+  
+          //productList &&
+          setCurrentDataDisplayed(() => {
+          const page = resultFetch?.result?.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+          return { list: page }; //List es una lista con la cantidad de items de publicidad que se va a mostrar en la tabla
+          });
+          setPreviousAllowed(() => currentPage > 1);
+          setNextAllowed(() => currentPage < numberOfPages);
+        } catch (error) {
+          console.error(error);
+          navigate('/error');
+        }
+    
       }
       fetchProducto();
       response.isSuccess ? toast.success(response.message): toast.error(response.message) ;
-    }, [currentPage,numberOfPages,showModal,showModalDelete,search,response]);
+    }, [currentPage,numberOfPages,showModal,showModalDelete,search,response,navigate]);
     
   
     /*useEffect(() => {
@@ -152,7 +166,7 @@ export const Productos = ({setShowProductos}) => {
                     </td>
                     <td className="px-4 py-3">{item.codigo}</td>
                     <td className="px-4 py-3">{item.titulo}</td>
-                    <td className="px-4 py-3">{item.detalle}</td>
+                    <td className="px-4 py-3 line-clamp-2">{item.detalle}</td>
                     <td className="px-4 py-3">{item.cantidad}</td>
                     <td className="px-4 py-3">{item.precio}</td>                      
                     <td className="px-4 py-3">

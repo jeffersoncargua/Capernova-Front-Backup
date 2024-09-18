@@ -4,35 +4,47 @@ import { Beneficios } from "../../components";
 //import { search } from "../../redux/searchProductSlice";
 import { ProductCard } from "../../components";
 import { SearchFilter } from "./Components";
+import { useNavigate } from "react-router-dom";
 
 export const Cursos = ({children}) => {
   const [slices, setSlices] = useState([]);
   const [search,setSearch] = useState('');
   const refSearch = useRef();
+  const navigate = useNavigate();
   //const dispatch = useDispatch();
 
   //const searchProduct = useSelector(state => state.searchState.searchProduct);
 
   useEffect(()=>{
-    try {
-      const fetchCourses = async() => {
-        const result = await fetch(`https://localhost:7164/api/Producto/getAllProducto?search=${search}&tipo=${"curso"}`,{
-          method: 'GET',
-          headers:{
-            'Content-Type' : 'application/json',
-            'Accept' : 'application/json'
+    
+    const fetchCourses = async() => {
+        try {
+          const result = await fetch(`${process.env.REACT_APP_API_URL}/Producto/getAllProducto?search=${search}&tipo=${"curso"}`,{
+            method: 'GET',
+            headers:{
+              'Content-Type' : 'application/json',
+              'Accept' : 'application/json'
+            }
+          });
+          const resultFetch = await result.json();
+
+          console.log(result.status);
+          if (result.status !== 200) {
+            throw resultFetch;
           }
-        });
-        const resultFetch = await result.json();
-        console.log(resultFetch);
-        setSlices(resultFetch.result);
-      }
-      fetchCourses();
-      
-    } catch (error) {
-      console.error(error);
+          //console.log(resultFetch);
+          setSlices(resultFetch.result);
+          
+        } catch (error) {
+          console.error(error);
+          navigate('error');
+        }
     }
-  },[search])
+
+    fetchCourses();
+      
+    
+  },[search,navigate])
 
   const handleSubmitSearch = (event) => {
     //event.preventDefault();

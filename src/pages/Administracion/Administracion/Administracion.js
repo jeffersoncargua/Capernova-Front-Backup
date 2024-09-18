@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Videos} from "../Components";
 //import { SideBar , Publicidad,Cursos, Videos, TalentoHumano,Profesor} from "./Components";
 import { SideBar , Publicidad,Cursos, TalentoHumano,Profesor,Productos,Ventas,Pedidos} from "./Components";
+import { useNavigate } from "react-router-dom";
 
 
 export const Administracion = () => {
@@ -26,23 +27,35 @@ export const Administracion = () => {
   const [showProductos,setShowProductos] = useState(false);
 
   const [response, setResponse] = useState({}); //Permite mostrar si la accion se realizo correctamente al llamar al api
+  const navigate = useNavigate();
   
 
   const GetCurso = useCallback(async()=>{
-     const resultFromApi = await fetch(`https://localhost:7164/api/Course/getAllCourse?search=${search}`,{
-         method:'GET',
-         credentials : 'include',
-          headers:{
-           'Content-Type' : 'application/json',
-           'Accept' : 'application/json'
-         }
-       });
+    try {
+      const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Course/getAllCourse?search=${search}`,{
+        method:'GET',
+        credentials : 'include',
+         headers:{
+          'Content-Type' : 'application/json',
+          'Accept' : 'application/json'
+        }
+      });
       let resultFetch = await resultFromApi.json();
-     //const capitulos = JSON.parse(resultFetch.result[0].capitulos);
-    setCursoList(resultFetch.result);
+    //const capitulos = JSON.parse(resultFetch.result[0].capitulos);
+
+      //console.log(resultFromApi.status);
+      if (resultFromApi.status !== 200) {
+        throw resultFetch;
+      }
+      setCursoList(resultFetch.result);
+    } catch (error) {
+      console.error(error);
+      navigate('/error');
+    }
+     
     
     //setCursoList(list);
-  },[search])
+  },[search,navigate])
   
   
     useEffect(()=>{

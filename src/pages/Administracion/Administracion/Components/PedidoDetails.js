@@ -1,4 +1,5 @@
 import { useState,useEffect, useRef} from "react";
+import { toast } from "react-toastify";
 
 
 export const PedidoDetails = ({showModalPedidoDetail,setShowModalPedidoDetail,pedido, setPedido,setResponse}) => {
@@ -14,36 +15,45 @@ const refEstado = useRef();
 useEffect(() => {
 
     setCartList(JSON.parse(pedido.productos));
-    console.log(pedido);
+    //console.log(pedido);
     
   }, [pedido]);
 
   const handlePedidoEdit = async(pedido) => {
-    const resultFromApi = await fetch(`https://localhost:7164/api/Venta/updatePedido/${pedido.id}`,{
-        method:'PUT',
-        credentials : 'include',
-        headers:{
-          'Content-Type' : 'application/json',
-          'Accept' : 'application/json'
-        },
-        body: JSON.stringify({
-            id: pedido.id,
-            emision: pedido.emision,
-            productos: pedido.productos,
-            ventaId: pedido.ventaId,
-            directionMain : refDirMain.current.value,
-            directionSec: refDirSec.current.value,
-            estado: refEstado.current.value,
-        })
-      });
+    try {
+        const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Venta/updatePedido/${pedido.id}`,{
+            method:'PUT',
+            credentials : 'include',
+            headers:{
+              'Content-Type' : 'application/json',
+              'Accept' : 'application/json'
+            },
+            body: JSON.stringify({
+                id: pedido.id,
+                emision: pedido.emision,
+                productos: pedido.productos,
+                ventaId: pedido.ventaId,
+                directionMain : refDirMain.current.value,
+                directionSec: refDirSec.current.value,
+                estado: refEstado.current.value,
+            })
+          });
+          const resultFetch = await resultFromApi.json();
 
-
-      const resultFetch = await resultFromApi.json();
-      //console.log(resultFetch);
-      if (resultFetch.isSuccess) {
-        setResponse(resultFetch);
-      }
-      setShowModalPedidoDetail(false);
+          //console.log(resultFromApi.status);
+          if (resultFromApi.status !== 200) {
+            throw resultFetch; 
+          }
+          //console.log(resultFetch);
+          if (resultFetch.isSuccess) {
+            setResponse(resultFetch);
+          }
+          setShowModalPedidoDetail(false);
+    } catch (error) {
+        console.error(error);
+        toast.error("Ha ocurrido un error en el servidor");
+        setShowModalPedidoDetail(false);
+    } 
   }
 
 

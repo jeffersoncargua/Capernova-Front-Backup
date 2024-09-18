@@ -1,7 +1,38 @@
 
 export const Certificado = () => {
   return (
-    <div className="bg-[url('https://i.postimg.cc/SK55dgbd/certificado-Capernova.jpg')] max-w-[64rem]">
+    <div>
+        <h1><b>Se ha realizado un pedido</b></h1>
+        <h2><b>Nombre:</b></h2>
+        <h2><b>Apellido:</b></h2>
+        <h2><b>Teléfono:</b></h2>
+        <h2><b>Direccion Principal:</b></h2>
+        <h2><b>Direccion Secundaria:</b></h2>
+        <h2><b>Pedido:</b></h2>
+        <br />
+        <table style={{border:'1px solid #000', tableLayout:'auto'}}>
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Lo que sea</td>
+                    <td>3</td>
+                </tr>
+            </tbody>
+        </table>
+        
+    </div>
+  )
+}
+
+
+/*
+
+<div className="bg-[url('https://i.postimg.cc/SK55dgbd/certificado-Capernova.jpg')] max-w-[64rem]">
         <div className="flex flex-col justify-center items-center ">
             <h1 className="mt-[9rem] text-[3rem] font-[600] font-['Lato']">CERTIFICADO DE CAPACITACIÓN</h1>
             <h2 className="mt-[0.125rem] text-[1.875rem] font-[400]">POR APROBACIÓN</h2>
@@ -22,5 +53,5 @@ export const Certificado = () => {
             <br /><br /><br /><br /><br /><br /><br /><br />
         </div>
     </div>
-  )
-}
+
+*/

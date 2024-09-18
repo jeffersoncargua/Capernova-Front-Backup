@@ -21,6 +21,7 @@ export const PaymentPaypal = ({cartList,total,isValid,setError,setShowModal,hidd
 
 
     let orderId = ''; //permite almacenar la orden que se emite desde paypal para realizar las transacciones
+    let TransaccionId = '';
     const navigate = useNavigate();
 
     // const [{isPending}] = usePayPalScriptReducer(); // permite obtener el estado de paypal en la que se encuentra en ese momento de la solicitud de pedido
@@ -35,7 +36,6 @@ export const PaymentPaypal = ({cartList,total,isValid,setError,setShowModal,hidd
 
     const handleCreateOrder = async() => {
 
-        
             const resultFromApi = await fetch(`https://localhost:7164/api/Payment/paypalCard`,{
                 method: 'POST',
                 credentials: 'include',
@@ -82,7 +82,9 @@ export const PaymentPaypal = ({cartList,total,isValid,setError,setShowModal,hidd
         });
 
         const resultFetch = await resultFromApi.json();
+        //console.log(orderId);
         //console.log(resultFetch);
+        TransaccionId= resultFetch.result;
         if(resultFetch.isSuccess){
             const resultAPI = await fetch(`https://localhost:7164/api/Payment/createOrder`,{
                 method: 'POST',
@@ -96,7 +98,7 @@ export const PaymentPaypal = ({cartList,total,isValid,setError,setShowModal,hidd
                     total: String(total),
                     orden: JSON.stringify(order),
                     identifierName : user.nameIdentifier,
-                    //token: orderId
+                    transaccionId : TransaccionId
                 })
             });
             const resultFetch = await resultAPI.json();
@@ -104,7 +106,7 @@ export const PaymentPaypal = ({cartList,total,isValid,setError,setShowModal,hidd
             if(resultFetch.isSuccess){
                 localStorage.removeItem('shoppingcart');
                 dispath(logout()); //permite cerrar la session
-                navigate(`/confirmPay?token=${orderId}`);
+                navigate(`/confirmPay?token=${TransaccionId}`);
                 
             }            
         }else{

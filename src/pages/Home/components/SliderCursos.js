@@ -10,10 +10,11 @@ export const SliderCursos = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        try {
-          const fetchCourses = async() => {
-            //const result = await fetch(`https://localhost:7164/api/Course/getAllCourse`,{
-            const result = await fetch(`https://localhost:7164/api/Producto/getAllProducto?tipo=${"curso"}`,{
+        
+        const fetchCourses = async() => {
+          try {
+          //const result = await fetch(`https://localhost:7164/api/Course/getAllCourse`,{
+            const result = await fetch(`${process.env.REACT_APP_API_URL}/Producto/getAllProducto?tipo=${"curso"}`,{
               method: 'GET',
               headers:{
                 'Content-Type' : 'application/json',
@@ -21,16 +22,20 @@ export const SliderCursos = () => {
               }
             });
             const resultFetch = await result.json();
-            //console.log(resultFetch);
+
+            //console.log(result.status);
+            if (result.status !== 200) {
+              throw resultFetch;
+            }
+
             setSlices(resultFetch.result);
-          }
-          fetchCourses();
           
         } catch (error) {
           console.error(error);
           navigate('error');
 
-        }
+        }}
+        fetchCourses();
       },[navigate])
     
     

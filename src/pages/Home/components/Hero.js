@@ -12,48 +12,34 @@ export const Hero = () => {
     const [slices, setSlices] = useState([]);
     const navigate = useNavigate();
 
-    /*const slices = [
-        {id:1 ,imagen : 'https://i.postimg.cc/PxmnnFkD/Armonizacion-Facial.jpg' , title: 'Armonizacion Facial' , description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus, sint!'},
-        {id:2 ,imagen : 'https://i.postimg.cc/D0PhLpjh/chocolateria-Avanzada.jpg' , title: 'Chocolateria Avanzada' , description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus, sint!'},
-        {id:3 ,imagen : 'https://i.postimg.cc/jSgsM9sd/Cocina.jpg' , title: 'Cocina' , description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus, sint!'},
-        {id:4 ,imagen : 'https://i.postimg.cc/DZV3D3RF/Cosmetologia-Online.jpg' , title: 'Cosmetología y Cosmiatría' , description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus, sint!'},
-        {id:5 ,imagen : 'https://i.postimg.cc/sgXzGcpF/MakeUp.jpg' , title: 'Make Up' , description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus, sint!'},
-        {id:6 ,imagen : 'https://i.postimg.cc/gkpkj8Sd/Peluqueria.jpg' , title: 'Peluquería' , description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus, sint!'},
-        {id:7 ,imagen : 'https://i.postimg.cc/xT9nnY81/Curso-Reposteria-Online.jpg' , title: 'Reposteria Avanzada' , description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus, sint!'},
-        {id:8 ,imagen : 'https://i.postimg.cc/3NT7yQZ9/Curso-Manicure.jpg' , title: 'Manicura' , description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus, sint!'},
-        {id:9 ,imagen : 'https://i.postimg.cc/s2M3qcXP/Curso-Veterinaria.jpg' , title: 'Veterinaria' , description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus, sint!'}, 
-    ]*/
-
     useEffect(() => {
-        try {
-            const fetchPublicidad = async() => {
-                const result = await fetch('https://localhost:7164/api/Marketing/publicidadList',{
+        
+        const fetchPublicidad = async() => {
+            try {
+                const result = await fetch(`${process.env.REACT_APP_API_URL}/Marketing/publicidadList`,{
                     method:'GET',
                     headers:{
                         'Content-Type' : 'application/json',
                         'Accept' : 'application/json'
                     }
                 });
-                
                 const resultFetch = await result.json();
-                setSlices(resultFetch.result); 
-
-                // await fetch('https://localhost:7164/api/Marketing/publicidadList',{
-                //     method:'GET',
-                //     headers:{
-                //         'Content-Type' : 'application/json',
-                //         'Accept' : 'application/json'
-                //     }
-                // }).then(result => result.json()).then(data => setSlices(data)).catch(navigate('error'));
                 
+                //console.log(result.status);
+                if(result.status !== 200){
+                    throw resultFetch;
+                }
+
+                setSlices(resultFetch.result); 
+                
+            } catch (error) {
+                console.log(error);
+                //console.error('Se ha producido un error');
+                navigate('error');
             }
-            
-            fetchPublicidad();
-        } catch (error) {
-            navigate('error');
-            console.error(error);
-            
         }
+        fetchPublicidad();
+        
     },[navigate])
         
     /*este useEffect se emplea para hacer el slider o carrusel dinamico y automatico */

@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { toast } from "react-toastify";
 
 export const ModalProducto = ({showModal,setShowModal,producto,setResponse}) => {
 
@@ -16,7 +17,7 @@ export const ModalProducto = ({showModal,setShowModal,producto,setResponse}) => 
         setShowButtonLoading(true);
         try {
             //Falta agregar la autorizacion mediante bearer --Mucho ojo!!!
-            const result = await fetch('https://localhost:7164/api/Producto/createProducto',{
+            const result = await fetch(`${process.env.REACT_APP_API_URL}/Producto/createProducto`,{
                 method:'POST',
                 credentials: 'include',
                 headers:{
@@ -34,13 +35,21 @@ export const ModalProducto = ({showModal,setShowModal,producto,setResponse}) => 
                 })
             });
             const resultFetch = await result.json();
-            //console.log(resultFetch);
+
+
+            console.log(resultFetch);
+            //console.log(result.status);
+            if (result.status !== 200) {
+                throw resultFetch;
+            }
+
             setResponse(resultFetch);
             setShowModal(false);
             setShowButtonLoading(false);
         } catch (error) {
             setShowButtonLoading(false);
             console.error(error);
+            toast.error(error.message);
         }
     }
 

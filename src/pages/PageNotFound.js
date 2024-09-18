@@ -6,7 +6,7 @@ export const PageNotFound = () => {
     const navigate = useNavigate();
 
   return (
-    <div className="w-[95%] mx-auto flex  flex-col items-align mt-10 group text-black dark:text-white space-y-8">
+    <div className="w-[95%] mx-auto flex  flex-col items-align mt-10 group text-black dark:text-white space-y-8 mb-10">
         <h1 className="self-center text-3xl md:text-5xl text-center">Opps! Página no encontrada!!!</h1>
         <h1 className="self-center text-4xl md:text-6xl">Error 404!!!</h1>
         <div className="w-full flex justify-center">

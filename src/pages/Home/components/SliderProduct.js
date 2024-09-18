@@ -10,9 +10,10 @@ export const SliderProduct = () => {
   
 
   useEffect(() => {
-    try {
-      const fetchProducto = async() => {
-        const resultFromApi = await fetch(`https://localhost:7164/api/Producto/getAllProducto?tipo=${"producto"}`,{
+    const fetchProducto = async() => {
+      try {
+      
+        const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Producto/getAllProducto?tipo=${"producto"}`,{
           method:'GET',
           credentials : 'include',
           headers:{
@@ -22,15 +23,22 @@ export const SliderProduct = () => {
         });
   
         const resultFetch = await resultFromApi.json();
-        //console.log(resultFetch);
+        
+        //console.log(resultFromApi.status);
+        if (resultFromApi.status !==200) {
+          throw resultFetch;
+        }
+
         setSlices(resultFetch.result);
+
+      } catch (error) {
+        console.error(error);
+        navigate('error');
       }
-      fetchProducto();
-      
-    } catch (error) {
-      console.error(error);
-      navigate('error');
-    }
+   }
+    
+   fetchProducto();
+
   },[navigate])
 
 
