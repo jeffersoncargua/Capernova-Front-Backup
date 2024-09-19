@@ -37,7 +37,7 @@ export const Cursos = ({children}) => {
           
         } catch (error) {
           console.error(error);
-          navigate('error');
+          navigate('/error');
         }
     }
 

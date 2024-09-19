@@ -33,6 +33,10 @@ export const Profesor = ({profesor, setProfesor,cursoList,response,setResponse})
                 });
         
                 const resultFetch = await result.json();
+
+                if (result.status !== 200) {
+                    throw resultFetch;
+                }
                 
                 //console.log(resultFetch);
                 setResponse(resultFetch);
@@ -47,7 +51,8 @@ export const Profesor = ({profesor, setProfesor,cursoList,response,setResponse})
             
         } catch (error) {
             setShowButtonLoading(false);
-            console.error(error);            
+            console.error(error);   
+            toast.error('Ha ocurrido un error en el servidor');
         }
         
     }
@@ -63,23 +68,34 @@ export const Profesor = ({profesor, setProfesor,cursoList,response,setResponse})
     }
 
     const handleDeleteAssigment = async(curso) => {
-        const result = await fetch(`https://localhost:7164/api/Managment/deleteAssigmentCourse/${curso.id}`,{
-            method:'PUT',
-            credentials: 'include',
-            headers:{
-                'Content-Type' : 'application/json',
-                'Accept' : 'application/json',
-            },
-            body: JSON.stringify(
-                profesor.id
-            )
-            
-        });
-        const resultFetch = await result.json();
-        //console.log(resultFetch);
-        setResponse(resultFetch);
-        setCursoId();//para eliminar el valor de cursoId para nuevas asignaciones
-        setShowButtonLoading2(false);
+        try {
+            const result = await fetch(`${process.env.REACT_APP_API_URL}/Managment/deleteAssigmentCourse/${curso.id}`,{
+                method:'PUT',
+                credentials: 'include',
+                headers:{
+                    'Content-Type' : 'application/json',
+                    'Accept' : 'application/json',
+                },
+                body: JSON.stringify(
+                    profesor.id
+                )
+                
+            });
+            const resultFetch = await result.json();
+            //console.log(resultFetch);
+    
+            if (result.status !== 200) {
+                throw resultFetch;
+                
+            }
+            setResponse(resultFetch);
+            setCursoId();//para eliminar el valor de cursoId para nuevas asignaciones
+            setShowButtonLoading2(false);
+        } catch (error) {
+            console.error(error);
+            toast.error('Ha ocurrido un error en el servidor');
+        }
+        
     }
 
   return (

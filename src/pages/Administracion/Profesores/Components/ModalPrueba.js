@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { toast } from "react-toastify";
 
 export const ModalPrueba = ({showModalPrueba,setShowModalPrueba,prueba,setPrueba, curso, setResponse/*pruebas,setPruebas*/}) => {
 
@@ -15,24 +16,31 @@ export const ModalPrueba = ({showModalPrueba,setShowModalPrueba,prueba,setPrueba
     // let updatedPruebas = pruebas.concat(object);
     // console.log(updatedPruebas);
     // setPruebas(updatedPruebas);
-    const resultFromApi = await fetch(`https://localhost:7164/api/Prueba/createPrueba`,{
-        method:'POST',
-        credentials:'include',
-        headers:{
-            'Content-Type' : 'application/json',
-            'Accept' : 'application/json'
-        },
-        body: JSON.stringify({
-            titulo: refTitulo.current.value,
-            detalle:refDetalle.current.value,
-            test : refTest.current.value,
-            courseId: curso.id,
-        })
-    });
-    const resultFetch = await resultFromApi.json();
-    setResponse(resultFetch);
-    setShowModalPrueba(false);
-    console.log('Se agrego la prueba');
+    try {
+        const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Prueba/createPrueba`,{
+            method:'POST',
+            credentials:'include',
+            headers:{
+                'Content-Type' : 'application/json',
+                'Accept' : 'application/json'
+            },
+            body: JSON.stringify({
+                titulo: refTitulo.current.value,
+                detalle:refDetalle.current.value,
+                test : refTest.current.value,
+                courseId: curso.id,
+            })
+        });
+        const resultFetch = await resultFromApi.json();
+        setResponse(resultFetch);
+        setShowModalPrueba(false);
+        //console.log('Se agrego la prueba');
+    } catch (error) {
+        console.error(error);
+        setShowModalPrueba(false);
+        toast.error('Ha ocurrido un error en el servidor');
+    }
+    
   }
 
   const handleSubmitEdit = async(event) => {
@@ -46,25 +54,38 @@ export const ModalPrueba = ({showModalPrueba,setShowModalPrueba,prueba,setPrueba
     // //let updateCapitulos = capitulos.map((cap) => cap.Codigo===updatedCapitulo.Codigo ? {...cap, Videos:updatedVideos}:cap)
     // console.log(updatedPruebas);
     // setPruebas(updatedPruebas);
-    const resultFromApi = await fetch(`https://localhost:7164/api/Prueba/updatePrueba/${prueba.id}`,{
-        method:'PUT',
-        credentials:'include',
-        headers:{
-            'Content-Type' : 'application/json',
-            'Accept' : 'application/json'
-        },
-        body: JSON.stringify({
-            id: prueba.id,
-            titulo: refTitulo.current.value,
-            detalle:refDetalle.current.value,
-            test : refTest.current.value,
-            courseId: curso.id,
-        })
-    });
-    const resultFetch = await resultFromApi.json();
-    setResponse(resultFetch);
-    setShowModalPrueba(false);
-    setPrueba({});
+    try {
+        const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Prueba/updatePrueba/${prueba.id}`,{
+            method:'PUT',
+            credentials:'include',
+            headers:{
+                'Content-Type' : 'application/json',
+                'Accept' : 'application/json'
+            },
+            body: JSON.stringify({
+                id: prueba.id,
+                titulo: refTitulo.current.value,
+                detalle:refDetalle.current.value,
+                test : refTest.current.value,
+                courseId: curso.id,
+            })
+        });
+        const resultFetch = await resultFromApi.json();
+
+        if (resultFromApi.status !== 200) {
+            throw resultFetch;
+        }
+
+        setResponse(resultFetch);
+        setShowModalPrueba(false);
+        setPrueba({});
+    } catch (error) {
+        console.error(error);
+        toast.error('Ha ocurrido un error en el servidor');
+        setShowModalPrueba(false);
+        setPrueba({});
+    }
+    
   }
 
   return (

@@ -1,5 +1,6 @@
 import { useEffect,useState } from "react";
 import {CalificarDeber} from '../Components'
+import { toast } from "react-toastify";
 
 
 export const ModalCalificarDeber = ({showModalCalificarDeber,setShowModalCalificarDeber,matricula,setResponse}) => {
@@ -10,7 +11,8 @@ export const ModalCalificarDeber = ({showModalCalificarDeber,setShowModalCalific
 
     useEffect(() => {
         const GetNotaDeber = async() => {
-          const resultFromApi = await fetch(`https://localhost:7164/api/Deber/getAllDeberes/${matricula.cursoId}`,{
+          try {
+            const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Deber/getAllDeberes/${matricula.cursoId}`,{
               method: 'GET',
               credentials:'include',
               headers:{
@@ -19,10 +21,20 @@ export const ModalCalificarDeber = ({showModalCalificarDeber,setShowModalCalific
               }
             });
             const resultFetch = await resultFromApi.json();
+
+
+            if (resultFromApi.status !== 200) {
+              throw resultFetch;
+            }
             //console.log(resultFetch);
             if (resultFetch.isSuccess) {
               setDeberList(resultFetch.result);  
             }
+          } catch (error) {
+            console.error(error);
+            toast.error('Ha ocurrido un error en el servidor');;
+          }
+          
               
         }
 

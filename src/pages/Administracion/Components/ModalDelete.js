@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 
 
 export const ModalDelete = ({showModalDelete,setShowModalDelete, objeto,setObjeto,setResponse, tipo ,setTipo}) => {
@@ -62,24 +63,36 @@ export const ModalDelete = ({showModalDelete,setShowModalDelete, objeto,setObjet
     }
 
     const Delete = async(ruta,objeto) =>{
-        const resultFromApi = await fetch(`https://localhost:7164/api/`+ruta+`/${objeto.id}`,{
-            method:'DELETE',
-            credentials:'include',
-            headers:{
-                'Content-Type' : 'application/json',
-                'Accept' : 'application/json'
-            },
-        });
-        const resultFetch = await resultFromApi.json();
-        setObjeto({});
-        setTipo('');
-        setShowModalDelete(false);
-        return resultFetch;
-        
-        // setPrueba({});
+
+        try {
+            const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/`+ruta+`/${objeto.id}`,{
+                method:'DELETE',
+                credentials:'include',
+                headers:{
+                    'Content-Type' : 'application/json',
+                    'Accept' : 'application/json'
+                },
+            });
+            const resultFetch = await resultFromApi.json();
+
+            if (resultFromApi.status !== 200) {
+                throw resultFetch;
+            }
+            setObjeto({});
+            setTipo('');
+            setShowModalDelete(false);
+            return resultFetch;
+            
+            // setPrueba({});
+        } catch (error) {
+            console.error(error);
+            toast.error('Ha ocurrido un error en el servidor');
+            setObjeto({});
+            setTipo('');
+            setShowModalDelete(false);
+        }
         
     }
-
 
     return (
         <div>

@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { toast } from "react-toastify";
 
 
 export const ModalCapitulo = ({showModalCapitulo,setShowModalCapitulo,capitulo, setCapitulo, curso,setResponse/*,capitulos, setCapitulos*/}) => {
@@ -15,23 +16,34 @@ export const ModalCapitulo = ({showModalCapitulo,setShowModalCapitulo,capitulo, 
         // let updatedCapitulos = capitulos.concat(object);
         // setCapitulos(updatedCapitulos);
         // setShowModalCapitulo(false);
-        const resultFromApi = await fetch(`https://localhost:7164/api/Capitulo/createCapitulo`,{
-            method: 'POST',
-            credentials:'include',
-            headers:{
-                'Content-Type' : 'application/json',
-                'Accept' : 'application/json'
-            },
-            body: JSON.stringify({
-                titulo: refTitulo.current.value,
-                courseId: curso.id,
-            })
-        });
-        const resultFetch = await resultFromApi.json();
-        //console.log(resultFetch);
-        setResponse(resultFetch);
-        setCapitulo({});
-        setShowModalCapitulo(false);
+        try {
+            const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Capitulo/createCapitulo`,{
+                method: 'POST',
+                credentials:'include',
+                headers:{
+                    'Content-Type' : 'application/json',
+                    'Accept' : 'application/json'
+                },
+                body: JSON.stringify({
+                    titulo: refTitulo.current.value,
+                    courseId: curso.id,
+                })
+            });
+            const resultFetch = await resultFromApi.json();
+    
+    
+            if (resultFromApi.status !== 200) {
+                throw resultFetch;
+            }
+            //console.log(resultFetch);
+            setResponse(resultFetch);
+            setCapitulo({});
+            setShowModalCapitulo(false);
+        } catch (error) {
+            console.error(error);
+            toast.error('Ha ocurrido un error en ser servidor');
+        }
+        
     }
 
     const handleSubmitEdit = async(event) =>  {
@@ -44,23 +56,35 @@ export const ModalCapitulo = ({showModalCapitulo,setShowModalCapitulo,capitulo, 
         // setShowModalCapitulo(false);
         // setCapitulo({});
         // //console.log('Se edito el capitulo');
-        const resultFromApi = await fetch(`https://localhost:7164/api/Capitulo/updateCapitulo/${capitulo.id}`,{
-            method: 'PUT',
-            credentials:'include',
-            headers:{
-                'Content-Type' : 'application/json',
-                'Accept' : 'application/json'
-            },
-            body: JSON.stringify({
-                id:capitulo.id,
-                titulo: refTitulo.current.value,
-                courseId: curso.id,
-            })
-        });
-        const resultFetch = await resultFromApi.json();
-        //console.log(resultFetch);
-        setResponse(resultFetch);
-        setShowModalCapitulo(false);
+        try {
+            const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Capitulo/updateCapitulo/${capitulo.id}`,{
+                method: 'PUT',
+                credentials:'include',
+                headers:{
+                    'Content-Type' : 'application/json',
+                    'Accept' : 'application/json'
+                },
+                body: JSON.stringify({
+                    id:capitulo.id,
+                    titulo: refTitulo.current.value,
+                    courseId: curso.id,
+                })
+            });
+            const resultFetch = await resultFromApi.json();
+
+            if (resultFromApi.status !== 200) {
+                throw resultFetch;
+            }
+            //console.log(resultFetch);
+            setResponse(resultFetch);
+            setShowModalCapitulo(false);
+        } catch (error) {
+            console.error(error);
+            toast.error('Ha ocurrido un error en ser servidor');
+            setResponse({});
+            setShowModalCapitulo(false);
+        }
+        
     }
 
   return (

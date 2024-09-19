@@ -1,5 +1,6 @@
 import { useState, useEffect} from "react";
 import { CoursesCard, ProgressBar , ModalDownload} from "../../Estudiante/components";
+import { toast } from "react-toastify";
 
 export const Logros = ({estudiante}) => {
 
@@ -9,23 +10,34 @@ export const Logros = ({estudiante}) => {
   const [result,setResult] = useState({});
 
   useEffect(()=>{
-    const fecthCourses = async()=>{
-      const resultFromApi = await fetch(`https://localhost:7164/api/Student/getCursos?id=${estudiante.id}`,{
-        method: 'GET',
-        credentials:'include',
-        headers:{
-          'Content-Type':'application/json',
-          'Accept':'application/json'
+    const FecthCourses = async()=>{
+      try {
+        const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Student/getCursos?id=${estudiante.id}`,{
+          method: 'GET',
+          credentials:'include',
+          headers:{
+            'Content-Type':'application/json',
+            'Accept':'application/json'
+          }
+        });
+        const resultFetch = await resultFromApi.json();
+        
+        if (resultFromApi.status !== 200) {
+          throw resultFetch;
         }
-      });
-      const resultFetch = await resultFromApi.json();
-      console.log(resultFetch);
-      if(resultFetch.isSuccess){
-        setMatriculaList(resultFetch.result);
+        
+        //console.log(resultFetch);
+        if(resultFetch.isSuccess){
+          setMatriculaList(resultFetch.result);
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error('Algo ha fallado en nuestro servidor. Inténtalo más tarde');
       }
+      
     }
 
-    fecthCourses();
+    FecthCourses();
   },[estudiante])
 
   return (

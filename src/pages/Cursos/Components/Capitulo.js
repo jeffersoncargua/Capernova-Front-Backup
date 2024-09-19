@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import {Temario} from '../Components'
+import { toast } from "react-toastify";
 
 export const Capitulo = ({curso}) => {
 
@@ -7,23 +8,34 @@ export const Capitulo = ({curso}) => {
     console.log(curso);
 
     useEffect(()=>{
-        const fetchCapitulos = async()=>{
-            const resultFromApi = await fetch(`https://localhost:7164/api/Capitulo/getAllCapitulo/${curso.id}`,{
-                method:'GET',
-                credentials : 'include',
-                headers:{
-                  'Content-Type' : 'application/json',
-                  'Accept' : 'application/json'
-                }
-              });
-  
-            const resultFetch = await resultFromApi.json();
-            console.log(resultFetch);
-            setCapitulos(resultFetch.result);
+      const FetchCapitulos = async()=>{
+        try {
+          const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Capitulo/getAllCapitulo/${curso.id}`,{
+            method:'GET',
+            credentials : 'include',
+            headers:{
+              'Content-Type' : 'application/json',
+              'Accept' : 'application/json'
+            }
+          });
+
+        const resultFetch = await resultFromApi.json();
+
+        if (resultFromApi.status !== 200) {
+          throw resultFetch;
         }
-        if(Object.keys(curso).length > 0 ){
-          fetchCapitulos();
+        //console.log(resultFetch);
+        setCapitulos(resultFetch.result);
+        } catch (error) {
+          console.error(error);
+          toast.error('Ha ocurrido un error en el servidor');
         }
+          
+      }
+      
+      if(Object.keys(curso).length > 0 ){
+        FetchCapitulos();
+      }
         
     },[curso])
 

@@ -1,7 +1,7 @@
 import { useState,useRef, useEffect } from "react";
 //import { ModalDelete } from "../../Components";
 //import { ModalTalento, ModalDeleteTalento } from '../Components';
-import { ModalCalificarDeber, ModalCalificarPrueba } from '../Components';
+import { ModalCalificarDeber, ModalCalificarNotaFinal, ModalCalificarPrueba } from '../Components';
 import { toast } from "react-toastify";
 
 export const Estudiantes = ({cursoList}) => {
@@ -17,6 +17,7 @@ export const Estudiantes = ({cursoList}) => {
   const [nextAllowed, setNextAllowed] = useState(true);
   const [showModalCalificarDeber,setShowModalCalificarDeber] = useState(false);
   const [showModalCalificarPrueba,setShowModalCalificarPrueba] = useState(false);
+  const [showModalCalificarNotaFinal,setShowModalCalificarNotaFinal] = useState(false);
 
   const [searchUser,setSearchUser] = useState('');
   
@@ -27,36 +28,49 @@ export const Estudiantes = ({cursoList}) => {
   //const [tipo,setTipo] = useState(''); //es para almacenar el tipo de objeto a eliminar que puede ser curso, capitulo, video, deber, etc
   //const [objeto, setObjeto] = useState({}); //es para almacenar el objeto a eliminar mediante el componente ModalDelete
   
-  const columns = ["Nombre", "Apellido" , "Teléfono" , "Curso" ,"Correo","Acciones"];
+  const columns = ["Nombre", "Apellido" , "Teléfono" , "Curso" , "Nota Final" ,"Correo","Acciones"];
   const refSearch = useRef();
   const refCurso = useRef();
 
   useEffect(() => {
-    const fetchEstudiantes = async() => {
-      const resultFromApi = await fetch(`https://localhost:7164/api/Teacher/getStudents?cursoId=${cursoId || 0}&search=${searchUser}`,{
-        method:'GET',
-        credentials : 'include',
-        headers:{
-          'Content-Type' : 'application/json',
-          'Accept' : 'application/json'
+    const FetchEstudiantes = async() => {
+      if (cursoId !== undefined) {
+        try {
+          const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Teacher/getStudents?cursoId=${cursoId || 0}&search=${searchUser}`,{
+            method:'GET',
+            credentials : 'include',
+            headers:{
+              'Content-Type' : 'application/json',
+              'Accept' : 'application/json'
+            }
+          });
+    
+          const resultFetch = await resultFromApi.json();
+  
+          //console.log(resultFromApi);
+          if (resultFromApi.status !== 200) {
+            throw resultFetch;
+          }
+  
+          
+          setMatriculaList(resultFetch.result);
+          //console.log(resultFetch.result);
+          setNumberOfPages(Math.ceil(resultFetch.result?.length / pageSize));
+  
+          setCurrentDataDisplayed(() => {
+          const page = resultFetch?.result?.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+          return { list: page }; //List es una lista con la cantidad de items de publicidad que se va a mostrar en la tabla
+          });
+          setPreviousAllowed(() => currentPage > 1);
+          setNextAllowed(() => currentPage < numberOfPages);
+        } catch (error) {
+          console.error(error);
+          toast.error('Ha ocurrido un error en el servidor');
         }
-      });
-
-      const resultFetch = await resultFromApi.json();
-      
-        setMatriculaList(resultFetch.result);
-        //console.log(resultFetch.result);
-        setNumberOfPages(Math.ceil(resultFetch.result?.length / pageSize));
-
-        setCurrentDataDisplayed(() => {
-        const page = resultFetch?.result?.slice((currentPage - 1) * pageSize, currentPage * pageSize);
-        return { list: page }; //List es una lista con la cantidad de items de publicidad que se va a mostrar en la tabla
-        });
-        setPreviousAllowed(() => currentPage > 1);
-        setNextAllowed(() => currentPage < numberOfPages);
+      }
       
     }
-    fetchEstudiantes();
+    FetchEstudiantes();
     response.isSuccess? toast.success(response.message): toast.error(response.message);
     //console.log(response);
   }, [currentPage,numberOfPages,searchUser,response,cursoId]);
@@ -102,6 +116,12 @@ export const Estudiantes = ({cursoList}) => {
     setResponse({});
   }   
 
+  const handleCalificarNotaFinal = (matricula) => {
+    setShowModalCalificarNotaFinal(true);
+    setMatricula(matricula);
+    setResponse({});
+  }   
+
   // const handleDelete = (talento) => {
   //   //setTalento(talento);
   //   //setShowModalDeleteTalento(!showModalDeleteTalento);
@@ -129,7 +149,7 @@ export const Estudiantes = ({cursoList}) => {
         
         {showModalCalificarDeber && <ModalCalificarDeber showModalCalificarDeber={showModalCalificarDeber} setShowModalCalificarDeber={setShowModalCalificarDeber} matricula={matricula}  setResponse={setResponse} />}
         {showModalCalificarPrueba && <ModalCalificarPrueba showModalCalificarPrueba={showModalCalificarPrueba} setShowModalCalificarPrueba={setShowModalCalificarPrueba} matricula={matricula}  setResponse={setResponse} />}
-        
+        {showModalCalificarNotaFinal && <ModalCalificarNotaFinal showModalCalificarNotaFinal={showModalCalificarNotaFinal} setShowModalCalificarNotaFinal={setShowModalCalificarNotaFinal} matricula={matricula}  setResponse={setResponse} />}
         {/* {showModalDeleteTalento && <ModalDeleteTalento showModalDeleteTalento={showModalDeleteTalento} setShowModalDeleteTalento={setShowModalDeleteTalento} talento={talento} setResponse={setResponse} />} */}
         {/* {showModalDelete && <ModalDelete showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete} objeto={objeto} setObjeto={setObjeto} setResponse={setResponse} tipo={tipo} setTipo={setTipo} />} */}
 
@@ -149,7 +169,6 @@ export const Estudiantes = ({cursoList}) => {
                         {cursoList && cursoList.map((curso)=>(
                           <option key={curso.id} value={`${curso.id}`}>{curso.titulo}</option>
                         ))}
-                        
                     </select>
                   </div>
                   <form className="flex items-center mt-2" >
@@ -190,6 +209,7 @@ export const Estudiantes = ({cursoList}) => {
                       <td className="px-4 py-3">{matricula.estudiante.lastName}</td>                      
                       <td className="px-4 py-3">{matricula.estudiante.phone}</td>
                       <td className="px-4 py-3">{matricula.curso.titulo}</td>
+                      <td className="px-4 py-3">{matricula.notaFinal || 'Sin Calificar'}</td>
                       <td className="px-4 py-3">{matricula.estudiante.email}</td>
                       <td className="px-4 py-3">
                         <div className="py-1 flex justify-start">                          
@@ -200,12 +220,19 @@ export const Estudiantes = ({cursoList}) => {
                             </svg>
                             Calificar Deberes
                           </button>                             
-                          <button onClick={() => {handleCalificarPruebas(matricula)}} className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-green-500 hover:bg-green-600 rounded-lg">
+                          <button onClick={() => {handleCalificarPruebas(matricula)}} className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-green-500 hover:bg-green-600 rounded-lg mr-2">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-pencil-square h-4 w-4 mr-2" viewBox="0 0 16 16">
                               <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                               <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
                             </svg>
                             Calificar Pruebas
+                          </button>
+                          <button onClick={() => {handleCalificarNotaFinal(matricula)}} className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-blue-500 hover:bg-blue-600 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-pencil-square h-4 w-4 mr-2" viewBox="0 0 16 16">
+                              <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                              <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                            </svg>
+                            Colocar Nota Final
                           </button>
                         </div>
                       </td>

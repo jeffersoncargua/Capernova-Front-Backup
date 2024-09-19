@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { toast } from "react-toastify";
 
 export const ModalPublicidad = ({showModal,setShowModal,publicidad,setResponse}) => {
 
@@ -11,7 +12,7 @@ export const ModalPublicidad = ({showModal,setShowModal,publicidad,setResponse})
         setShowButtonLoading(true);
         try {
             //Falta agregar la autorizacion mediante bearer --Mucho ojo!!!
-            const result = await fetch('https://localhost:7164/api/Marketing/createPublicidad',{
+            const result = await fetch(`${process.env.REACT_APP_API_URL}/Marketing/createPublicidad`,{
                 method:'POST',
                 credentials: 'include',
                 headers:{
@@ -25,12 +26,17 @@ export const ModalPublicidad = ({showModal,setShowModal,publicidad,setResponse})
             });
             const resultFetch = await result.json();
             //console.log(resultFetch);
+
+            if (result.status !== 200) {
+                throw resultFetch;
+            }
             setResponse(resultFetch);
             setShowModal(false);
             setShowButtonLoading(false);
         } catch (error) {
             setShowButtonLoading(false);
             console.error(error);
+            toast.error('Ha ocurrido un error en el servidor');
         }
     }
 
@@ -39,7 +45,7 @@ export const ModalPublicidad = ({showModal,setShowModal,publicidad,setResponse})
         setShowButtonLoading(true);
         try {
             //Falta agregar la autorizacion mediante bearer --Mucho ojo!!!
-            const result = await fetch(`https://localhost:7164/api/Marketing/updatePublicidad/${publicidad.id}`,{
+            const result = await fetch(`${process.env.REACT_APP_API_URL}/Marketing/updatePublicidad/${publicidad.id}`,{
                 method:'PUT',
                 credentials: 'include',
                 headers:{
@@ -53,13 +59,19 @@ export const ModalPublicidad = ({showModal,setShowModal,publicidad,setResponse})
                 })
             });
             const resultFetch = await result.json();
+
+            if (result.status !== 200) {
+                throw resultFetch;
+            }
             //console.log(resultFetch);
             setResponse(resultFetch);
             setShowModal(false);
             setShowButtonLoading(false);
         } catch (error) {
+            setShowModal(false);
             setShowButtonLoading(false);
             console.error(error);
+            toast.error('Ha ocurrido un error en el servidor');
         }
     }
 

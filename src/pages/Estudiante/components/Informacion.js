@@ -28,7 +28,7 @@ export const Informacion = ({estudiante,response,setResponse}) => {
     
     try {
 
-      const resultFromApi = await fetch(`https://localhost:7164/api/Student/updateStudent?id=${estudiante.id}`,{
+      const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Student/updateStudent?id=${estudiante.id}`,{
         method: 'PUT',
         credentials:'include',
         headers: {
@@ -46,8 +46,12 @@ export const Informacion = ({estudiante,response,setResponse}) => {
 
       const resultFecthInfo = await resultFromApi.json();
 
+      if (resultFromApi.status !== 200) {
+        throw resultFecthInfo;
+      }
+
       if (refImageUrl.current !== null) {
-        const result = await fetch(`https://localhost:7164/api/Student/updateImageStudent?id=${estudiante.id}`,{
+        const result = await fetch(`${process.env.REACT_APP_API_URL}/Student/updateImageStudent?id=${estudiante.id}`,{
           method: 'PUT',
           credentials:'include',
           headers: {
@@ -64,9 +68,11 @@ export const Informacion = ({estudiante,response,setResponse}) => {
       setLoading(false);
       formData.delete('file');
     } catch (error) {
-      //console.error(error);
+      console.error(error);
       setShowButtonLoading(false);
+      setLoading(false);
       formData.delete('file');
+      toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
     }
 
   }

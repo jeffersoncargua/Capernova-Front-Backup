@@ -1,5 +1,5 @@
 import {useState,useEffect, useRef} from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Modal } from './components';
 
 export const ChangePassword = ({children}) => {
@@ -9,6 +9,8 @@ export const ChangePassword = ({children}) => {
   const [showButtonLoading, setShowButtonLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   //const [messagePassword,setMessagePassword] = useState('');
+
+  const navigate = useNavigate();
 
   const [response,setResponse] = useState({});
   const [searchParams] = useSearchParams();
@@ -20,9 +22,10 @@ export const ChangePassword = ({children}) => {
 
 
     useEffect(()=>{  
-      try {
-        const fetchResetPassword = async() =>{
-          let resultFetch = await fetch(`https://localhost:7164/api/Authentication/reset-password?token=${token}&email=${email}`,{
+      
+      const fetchResetPassword = async() =>{
+        try {
+          const resultFromApi  = await fetch(`${process.env.REACT_APP_API_URL}/Authentication/reset-password?token=${token}&email=${email}`,{
                 method:'GET',
                 headers:{
                   "Content-Type" : "application/json",
@@ -30,24 +33,30 @@ export const ChangePassword = ({children}) => {
                 },
           });
 
-          let result= await resultFetch.json();
-          setResponse(result);
+          const resultFetch = await resultFromApi.json();
+
+          if (resultFromApi.status !==200) {
+            throw resultFetch;
+          }
+          setResponse(resultFetch);
           //console.log(result);
           //console.log(response.result.model.email);
-        }
-        fetchResetPassword();
-          
         } catch (error) {
           console.log(error);
+          navigate('/error');
         }
-    },[token,email]);
+      }
+        fetchResetPassword();
+          
+        
+    },[token,email,navigate]);
 
 
     const handleSubmitChangePassword = async (event) =>  {
       event.preventDefault();
       setShowButtonLoading(true);
       try {
-        const resultFetch = await fetch(`https://localhost:7164/api/Authentication/reset-password`, {
+        const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Authentication/reset-password`, {
           method:'POST',  
           headers:{
             "Content-Type" : "application/json",
@@ -61,20 +70,26 @@ export const ChangePassword = ({children}) => {
             })
           });
   
-          setShowButtonLoading(false);
-          setShowModal(true);
-          let result = await resultFetch.json();
+          
+          const resultFetch  = await resultFromApi.json();
+
+          if (resultFromApi.status !== 200) {
+            throw resultFetch;
+          }
   
           // if(result.errors.ConfirmPassword){
           //   setMessagePassword(result.errors.ConfirmPassword);
           // }
           //console.log(result.errors.ConfirmPassword);
-          setResponse(result);
+          setShowButtonLoading(false);
+          setShowModal(true);
+          setResponse(resultFetch);
           //console.log(result);        
         
       } catch (error) {
         setShowButtonLoading(false);
         console.error('Algo salio mal al crear el registro: ', error);
+        navigate('/error');
       }
       
     }

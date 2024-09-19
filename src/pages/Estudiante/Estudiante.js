@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { PlayerVideo, SideBar, Logros, Courses, Informacion,Deberes,Pruebas,Comentario,DeberDetail, PruebaDetail} from './components';
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 
 export const Estudiante = () => {
@@ -24,24 +25,35 @@ export const Estudiante = () => {
   //console.log(userStudent);
 
   useEffect(()=>{
-      const fetchEstudiante = async() => {
-        const resultFromApi = await fetch(`https://localhost:7164/api/Student/getEstudiante?id=${userStudent.nameIdentifier}`,{
-          method:'GET',
-          credentials : 'include',
-          headers:{
-            'Content-Type' : 'application/json',
-            'Accept' : 'application/json'
+      const FetchEstudiante = async() => {
+        try {
+          const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Student/getEstudiante?id=${userStudent.nameIdentifier}`,{
+            method:'GET',
+            credentials : 'include',
+            headers:{
+              'Content-Type' : 'application/json',
+              'Accept' : 'application/json'
+            }
+          });
+    
+          const resultFetch = await resultFromApi.json();
+
+          if (resultFromApi.status !== 200) {
+            throw resultFetch;
           }
-        });
-  
-        const resultFetch = await resultFromApi.json();
-        //console.log(resultFetch);
-        if (resultFetch.isSuccess) {
-          setEstudiante(resultFetch.result);
+
+          //console.log(resultFetch);
+          if (resultFetch.isSuccess) {
+            setEstudiante(resultFetch.result);
+          }
+        } catch (error) {
+          console.error(error);
+          toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
         }
+        
       };
 
-      fetchEstudiante();
+      FetchEstudiante();
 
   },[userStudent])
 

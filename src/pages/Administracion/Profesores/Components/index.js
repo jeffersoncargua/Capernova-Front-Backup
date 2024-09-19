@@ -18,5 +18,7 @@ export {ModalPrueba} from './ModalPrueba';
 export {ModalCalificarPrueba} from './ModalCalificarPrueba';
 export {CalificarPrueba} from './CalificarPrueba';
 
+export {ModalCalificarNotaFinal} from './ModalCalificarNotaFinal';
+
 export {Loading} from './Loading';
 

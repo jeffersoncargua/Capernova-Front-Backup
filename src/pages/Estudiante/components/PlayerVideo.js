@@ -2,6 +2,7 @@ import {  useEffect, useState } from 'react';
 import { Videos,ModalCompleted } from '../components';
 import { useSelector } from 'react-redux';
 import VideoPlayer from 'react-player/youtube';
+import { toast } from 'react-toastify';
 
 
 export const PlayerVideo = ({estudiante,matricula,setMatricula}) => {
@@ -32,42 +33,63 @@ export const PlayerVideo = ({estudiante,matricula,setMatricula}) => {
 
 
     useEffect(()=>{
-        const fetchCapitulos = async() => {
-            const resultFromApi = await fetch(`https://localhost:7164/api/Student/getCapitulos/${matricula.cursoId}`,{
-              method: 'GET',
-              credentials:'include',
-              headers:{
-                'Content-Type':'application/json',
-                'Accept':'application/json'
-              }
-            });
-            const resultFetch = await resultFromApi.json();
-            //console.log(resultFetch);
-            if(resultFetch.isSuccess){
-              setCapiuloList(resultFetch.result);
+        const FetchCapitulos = async() => {
+            try {
+                const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Student/getCapitulos/${matricula.cursoId}`,{
+                    method: 'GET',
+                    credentials:'include',
+                    headers:{
+                      'Content-Type':'application/json',
+                      'Accept':'application/json'
+                    }
+                  });
+                  const resultFetch = await resultFromApi.json();
+
+                  if (resultFromApi.status !== 200) {
+                    throw resultFetch;
+                  }
+                  //console.log(resultFetch);
+                  if(resultFetch.isSuccess){
+                    setCapiuloList(resultFetch.result);
+                  }
+            } catch (error) {
+                console.error(error);
+                toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
             }
+            
           }
-          fetchCapitulos();
+          FetchCapitulos();
     },[matricula,setCurrentVideo]);
 
     
     const fetchVisualizacion = async(id) => {
-        const resultFromApi = await fetch(`https://localhost:7164/api/Student/createViewVideo`,{
-            method: 'POST',
-            credentials:'include',
-            headers:{
-              'Content-Type':'application/json',
-              'Accept':'application/json'
-            },
-            body: JSON.stringify({
-                videoId: id,
-                studentId: estudiante.id,
-                cursoId: matricula.cursoId
-            })
-          });
+        try {
+            const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Student/createViewVideo`,{
+                method: 'POST',
+                credentials:'include',
+                headers:{
+                  'Content-Type':'application/json',
+                  'Accept':'application/json'
+                },
+                body: JSON.stringify({
+                    videoId: id,
+                    studentId: estudiante.id,
+                    cursoId: matricula.cursoId
+                })
+              });
+    
+            const resultFetch = await resultFromApi.json();
 
-        const resultFetch = await resultFromApi.json();
-        console.log(resultFetch);
+            if (resultFromApi.status !== 200) {
+                throw resultFetch;
+            }
+
+            //console.log(resultFetch);
+        } catch (error) {
+            console.error(error);
+            toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
+        }
+        
     }
 
     const handlePlayer = (id) => {

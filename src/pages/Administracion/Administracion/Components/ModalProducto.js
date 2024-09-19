@@ -37,7 +37,7 @@ export const ModalProducto = ({showModal,setShowModal,producto,setResponse}) => 
             const resultFetch = await result.json();
 
 
-            console.log(resultFetch);
+            //console.log(resultFetch);
             //console.log(result.status);
             if (result.status !== 200) {
                 throw resultFetch;
@@ -48,6 +48,7 @@ export const ModalProducto = ({showModal,setShowModal,producto,setResponse}) => 
             setShowButtonLoading(false);
         } catch (error) {
             setShowButtonLoading(false);
+            setShowModal(false);
             console.error(error);
             toast.error(error.message);
         }
@@ -59,7 +60,7 @@ export const ModalProducto = ({showModal,setShowModal,producto,setResponse}) => 
         setShowButtonLoading(true);
         try {
             //Falta agregar la autorizacion mediante bearer --Mucho ojo!!!
-            const result = await fetch(`https://localhost:7164/api/Producto/updateProducto/${producto.id}`,{
+            const result = await fetch(`${process.env.REACT_APP_API_URL}/Producto/updateProducto/${producto.id}`,{
                 method:'PUT',
                 credentials: 'include',
                 headers:{
@@ -78,13 +79,19 @@ export const ModalProducto = ({showModal,setShowModal,producto,setResponse}) => 
                 })
             });
             const resultFetch = await result.json();
+
+            if (result.status !== 200) {
+                throw resultFetch;
+            }
             //console.log(resultFetch);
             setResponse(resultFetch);
             setShowModal(false);
             setShowButtonLoading(false);
         } catch (error) {
+            setShowModal(false);
             setShowButtonLoading(false);
             console.error(error);
+            toast.error('Ha ocurrido un error en el servidor');
         }
     }
 

@@ -26,28 +26,37 @@ export const Publicidad = ({response,setResponse}) => {
 
     useEffect(() => {
       const fetchPublicidad = async() => {
-        const resultFromApi = await fetch(`https://localhost:7164/api/Marketing/publicidadList?search=${search}`,{
-          method:'GET',
-          credentials : 'include',
-          headers:{
-            'Content-Type' : 'application/json',
-            'Accept' : 'application/json'
-          }
-        });
-  
-        const resultFetch = await resultFromApi.json();
-        
-        setPublicidadList(resultFetch.result);
-        setNumberOfPages(Math.ceil(resultFetch.result.length / pageSize));
+        try {
+          const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Marketing/publicidadList?search=${search}`,{
+            method:'GET',
+            credentials : 'include',
+            headers:{
+              'Content-Type' : 'application/json',
+              'Accept' : 'application/json'
+            }
+          });
+    
+          const resultFetch = await resultFromApi.json();
 
-        //publicidadList &&
-        setCurrentDataDisplayed(() => {
-        const page = resultFetch?.result?.slice((currentPage - 1) * pageSize, currentPage * pageSize);
-        return { list: page }; //List es una lista con la cantidad de items de publicidad que se va a mostrar en la tabla
-        });
-        setPreviousAllowed(() => currentPage > 1);
-        setNextAllowed(() => currentPage < numberOfPages);
-        
+          if (resultFromApi.status !== 200) {
+            throw resultFetch;
+          }
+          
+          setPublicidadList(resultFetch.result);
+          setNumberOfPages(Math.ceil(resultFetch.result.length / pageSize));
+  
+          //publicidadList &&
+          setCurrentDataDisplayed(() => {
+          const page = resultFetch?.result?.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+          return { list: page }; //List es una lista con la cantidad de items de publicidad que se va a mostrar en la tabla
+          });
+          setPreviousAllowed(() => currentPage > 1);
+          setNextAllowed(() => currentPage < numberOfPages);
+        } catch (error) {
+          console.error(error);
+          toast.error('Ha ocurrido un error en el servidor');
+        }
+       
       }
       fetchPublicidad();
       response.isSuccess ? toast.success(response.message): toast.error(response.message) ;

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { toast } from "react-toastify";
 
 // export const VideoCard = ({cap,setShowModalVideo,setShowModalDeleteVideo,setVideo}) => {
 export const VideoCard = ({cap,setShowModalVideo,setShowModalDelete,setVideo,setObjeto,setTipo}) => {
@@ -7,20 +8,29 @@ export const VideoCard = ({cap,setShowModalVideo,setShowModalDelete,setVideo,set
     const [videos, setVideos] = useState([]);
 
     useEffect(()=>{
-        const getVideo = async() => {
-            const resultFromApi = await fetch(`https://localhost:7164/api/Video/getAllVideos/${cap.id}`,{
-                method : 'GET',
-                credentials:'include',
-                headers:{
-                    'Content-Type' : 'application/json',
-                    'Accept' : 'application/json'
-                },
-            });
-            const resultFetch = await resultFromApi.json();
-            //console.log (resultFetch);
-            setVideos(resultFetch.result);
+        const GetVideo = async() => {
+          try {
+            const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Video/getAllVideos/${cap.id}`,{
+              method : 'GET',
+              credentials:'include',
+              headers:{
+                  'Content-Type' : 'application/json',
+                  'Accept' : 'application/json'
+              },
+          });
+          const resultFetch = await resultFromApi.json();
+
+          if (resultFromApi.status !== 200) {
+            throw resultFetch;
+          }
+          //console.log (resultFetch);
+          setVideos(resultFetch.result);
+          } catch (error) {
+            console.error(error);
+            toast.error('Ha ocurrido un error en el servidor');
+          } 
         }
-        getVideo();
+        GetVideo();
     },[cap]);
 
     //console.log(cap);

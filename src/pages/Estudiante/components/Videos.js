@@ -14,8 +14,9 @@ export const Videos = ({capitulo,handlePlay,estudiante,matricula,setMatricula}) 
 
 
     useEffect(()=>{
-        const fetchVideos = async() => {
-            const resultFromApi = await fetch(`https://localhost:7164/api/Student/getVideos/${capitulo.id}`,{
+        const FetchVideos = async() => {
+          try {
+            const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Student/getVideos/${capitulo.id}`,{
               method: 'GET',
               credentials:'include',
               headers:{
@@ -24,6 +25,11 @@ export const Videos = ({capitulo,handlePlay,estudiante,matricula,setMatricula}) 
               }
             });
             const resultFetch = await resultFromApi.json();
+
+            if (resultFromApi.status !==200) {
+              throw resultFetch;
+            }
+
             //console.log(resultFetch);
             if(resultFetch.isSuccess){
                 setVideoList(resultFetch.result.sort((a,b)=> a.ordenReproduccion-b.ordenReproduccion));   //sort() permite ordenar la lista de videos de acuerdo al orden de reproduccion
@@ -36,15 +42,23 @@ export const Videos = ({capitulo,handlePlay,estudiante,matricula,setMatricula}) 
                 //console.log(playList);
                //setPlayList([...resultFetch.result.sort((a,b)=> a.ordenReproduccion-b.ordenReproduccion)])
             }
+
+          } catch (error) {
+            console.error(error);
+            toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
           }
-          fetchVideos();
+            
+        }
+
+        FetchVideos();
     },[capitulo,dispatch]);
 
 
 
     useEffect(()=>{
-      const fetchVisualizacion = async() => {
-        const resultFromApi = await fetch(`https://localhost:7164/api/Student/getViewVideos?studentId=${estudiante.id}&cursoId=${matricula.cursoId}`,{
+      const FetchVisualizacion = async() => {
+        try {
+          const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Student/getViewVideos?studentId=${estudiante.id}&cursoId=${matricula.cursoId}`,{
             method: 'GET',
             credentials:'include',
             headers:{
@@ -53,50 +67,71 @@ export const Videos = ({capitulo,handlePlay,estudiante,matricula,setMatricula}) 
             }
           });
           
-        const resultFetch = await resultFromApi.json();
-        if(resultFetch.isSuccess){
-            setVideoViewList(resultFetch.result);
+          const resultFetch = await resultFromApi.json();
+
+          if (resultFromApi.status !== 200) {
+            throw resultFetch;
+          }
+
+          if(resultFetch.isSuccess){
+              setVideoViewList(resultFetch.result);
+          }
+        } catch (error) {
+          console.error(error);
+          toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
         }
+        
       }
 
       const interval = setInterval(() => {
-        fetchVisualizacion();
+        FetchVisualizacion();
     }, 1500);
     return () => clearInterval(interval);   
 
     },[estudiante,matricula])
 
     useEffect(()=>{
-      const fecthUpdateEstadoMatricula = async() => {
+      const FecthUpdateEstadoMatricula = async() => {
         // console.log(playList);
         // console.log(videoViewList);
-        if(playList.length>0 && (playList.length === videoViewList.length) && matricula.estado === 'En progreso'){
-          const resultFromApi = await fetch(`https://localhost:7164/api/Student/updateMatricula/${matricula.id}`,{
-            method: 'PUT',
-            credentials:'include',
-            headers:{
-              'Content-Type':'application/json',
-              'Accept':'application/json'
-            },
-            body:JSON.stringify({
-              id: matricula.id,
-              cursoId: matricula.cursoId,
-              estudianteId: matricula.estudianteId,
-              isActive: matricula.isActive,
-            })
-          });
-        
-          const resultFetch = await resultFromApi.json();
-          if(resultFetch.isSuccess){
-            setMatricula(resultFetch.result);
-            toast.success(`Has finalizado de ver los videos tutoriales del curso ${matricula.curso.titulo}`);
-          }
+        try {
+          if(playList.length>0 && (playList.length === videoViewList.length) && matricula.estado === 'En progreso'){
+            const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Student/updateMatricula/${matricula.id}`,{
+              method: 'PUT',
+              credentials:'include',
+              headers:{
+                'Content-Type':'application/json',
+                'Accept':'application/json'
+              },
+              body:JSON.stringify({
+                id: matricula.id,
+                cursoId: matricula.cursoId,
+                estudianteId: matricula.estudianteId,
+                isActive: matricula.isActive,
+              })
+            });
+          
+            const resultFetch = await resultFromApi.json();
 
-          //console.log(resultFetch);
+            if (resultFromApi.status !== 200) {
+              throw resultFetch;
+            }
+
+            if(resultFetch.isSuccess){
+              setMatricula(resultFetch.result);
+              toast.success(`Has finalizado de ver los videos tutoriales del curso ${matricula.curso.titulo}`);
+            }
+  
+            //console.log(resultFetch);
+          }
+        } catch (error) {
+          console.error(error);
+          toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
         }
+        
       }
       
-      fecthUpdateEstadoMatricula()
+      FecthUpdateEstadoMatricula()
     },[matricula,videoViewList,playList,setMatricula])
 
 

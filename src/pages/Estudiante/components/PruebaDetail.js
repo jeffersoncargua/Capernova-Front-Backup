@@ -13,24 +13,41 @@ export const PruebaDetail = ({matricula}) => {
     const column = ["Prueba","Descripción","Estado","File","Nota","Acciones"];
 
     useEffect(()=>{
-        const fecthDeberes = async()=>{
-          const resultFromApi = await fetch(`https://localhost:7164/api/Student/getPruebas?id=${matricula.cursoId}`,{
-            method: 'GET',
-            credentials:'include',
-            headers:{
-              'Content-Type':'application/json',
-              'Accept':'application/json'
+        const FecthPrueba = async()=>{
+            try {
+                const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Student/getPruebas?id=${matricula.cursoId}`,{
+                    method: 'GET',
+                    credentials:'include',
+                    headers:{
+                    'Content-Type':'application/json',
+                    'Accept':'application/json'
+                    }
+                });
+                const resultFetch = await resultFromApi.json();
+
+
+                if (resultFromApi.status !== 200) {
+                    throw resultFetch;
+                }
+
+                //console.log(resultFetch);
+                //   if(resultFetch.isSuccess){
+                //     setDeberList(resultFetch.result);
+                //   }
+                setPruebaList(resultFetch.result);
+            } catch (error) {
+                if (error.statusCode !== 400) {
+                    console.error(error);
+                    toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
+                    setPruebaList([]);
+                }
+                toast.error('No exiten pruebas registradas para este curso');
+                setPruebaList([]);
             }
-          });
-          const resultFetch = await resultFromApi.json();
-          //console.log(resultFetch);
-        //   if(resultFetch.isSuccess){
-        //     setDeberList(resultFetch.result);
-        //   }
-        setPruebaList(resultFetch.result);
+            
         }
     
-        fecthDeberes();
+        FecthPrueba();
         //dispatch(clearPlaylist([]));
         response.isSuccess ? toast.success(response.message): toast.error(response.message)
       },[matricula,response])
@@ -61,7 +78,7 @@ export const PruebaDetail = ({matricula}) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {pruebaList && pruebaList.map((test) => (
+                    {pruebaList.length > 0 && pruebaList.map((test) => (
                         <tr key={test.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                             <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {test.titulo}
@@ -85,7 +102,7 @@ export const PruebaDetail = ({matricula}) => {
                     ) )}
                     
                 </tbody>
-                <tfoot>
+                {/* <tfoot>
                     <tr className="font-semibold text-black bg-gray-50 dark:bg-gray-700 dark:text-white">
                         <th></th>
                         <th></th>
@@ -94,7 +111,7 @@ export const PruebaDetail = ({matricula}) => {
                         <td className="px-6 py-3">{matricula.notaFinal || 'Sin calificar'}</td>
                         <th></th>
                     </tr>
-                </tfoot>
+                </tfoot> */}
             </table>
         </div>
 

@@ -60,7 +60,8 @@ export const Productos = ({setShowProductos}) => {
           setNextAllowed(() => currentPage < numberOfPages);
         } catch (error) {
           console.error(error);
-          navigate('/error');
+          //navigate('/error');
+          toast.error('Ha ocurrido un error en el servidor');
         }
     
       }

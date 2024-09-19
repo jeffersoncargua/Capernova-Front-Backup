@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { toast } from "react-toastify";
 
 
 export const ModalTalento = ({showModalTalento,setShowModalTalento,talento,setTalento,talentoList,setTalentoList,setResponse}) => {
@@ -17,7 +18,7 @@ export const ModalTalento = ({showModalTalento,setShowModalTalento,talento,setTa
         event.preventDefault();
         setShowButtonLoading(true);
         try {
-            const resultFetch = await fetch('https://localhost:7164/api/Managment/registration',{
+            const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Managment/registration`,{
                 method:'POST',
                 credentials: 'include',
                 headers: {
@@ -35,16 +36,22 @@ export const ModalTalento = ({showModalTalento,setShowModalTalento,talento,setTa
                     role: refRole.current.value,
                   }))
             });
-            const result = await resultFetch.json();
+            const resultFetch = await resultFromApi.json();
             //console.log(result.message);
+
+            if (resultFromApi.status !== 200) {
+                throw resultFetch;                
+            }
+
             setShowButtonLoading(false);
             setShowModalTalento(false);
             //console.log(result.isSuccess);
-            setResponse(result);
+            setResponse(resultFetch);
         } catch (error) {
             setShowButtonLoading(false);
             setShowModalTalento(false);
             //console.error(error);
+            toast.error('Ha ocurrido un error en el servidor');
         }
         
     }

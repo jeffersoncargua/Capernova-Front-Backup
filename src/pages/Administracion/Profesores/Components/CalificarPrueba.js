@@ -12,19 +12,33 @@ export const CalificarPrueba = ({prueba,matricula}) => {
 
     useEffect(()=>{
         const GetNotaDeber = async() => {
-            const resultFromApi = await fetch(`https://localhost:7164/api/Student/getNotaPrueba?id=${prueba.id}&studentId=${matricula.estudianteId}`,{
-                method: 'GET',
-                credentials:'include',
-                headers:{
-                  'Content-Type':'application/json',
-                  'Accept':'application/json'
-                }
-              });
-              const resultFetch = await resultFromApi.json();
-              //console.log(resultFetch);
-              if (resultFetch.isSuccess) {
-                setNotaPrueba(resultFetch.result);  
+          try {
+            const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Student/getNotaPrueba?id=${prueba.id}&studentId=${matricula.estudianteId}`,{
+              method: 'GET',
+              credentials:'include',
+              headers:{
+                'Content-Type':'application/json',
+                'Accept':'application/json'
               }
+            });
+            const resultFetch = await resultFromApi.json();
+            
+            if (resultFromApi.status !== 200) {
+              throw resultFetch;
+            }
+            
+            //console.log(resultFetch);
+            if (resultFetch.isSuccess) {
+              setNotaPrueba(resultFetch.result);  
+            }
+          } catch (error) {
+            
+            if (error.statusCode !== 400) {
+              console.error(error);
+              toast.error('Ha ocurrido un error en el servidor');
+            }
+          }
+            
               
         }
 
@@ -33,8 +47,9 @@ export const CalificarPrueba = ({prueba,matricula}) => {
     },[prueba,matricula,response])
 
     const handleCalificarPrueba = async(notaPrueba) => {
-        console.log(refCalificacionPrueba.current.value);
-        const resultFromApi = await fetch(`https://localhost:7164/api/Teacher/upsertNotaPrueba?id=${prueba.id || 0}&studentId=${matricula.estudianteId}`,{
+        //console.log(refCalificacionPrueba.current.value);
+        try {
+          const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Teacher/upsertNotaPrueba?id=${prueba.id || 0}&studentId=${matricula.estudianteId}`,{
             method: 'PUT',
             credentials:'include',
             headers:{
@@ -44,7 +59,16 @@ export const CalificarPrueba = ({prueba,matricula}) => {
             body: JSON.stringify(refCalificacionPrueba.current.value)
           });
           const resultFetch = await resultFromApi.json();
+
+          if (resultFromApi.status !== 200) {
+            throw resultFetch;
+          }
           setResponse(resultFetch);
+        } catch (error) {
+          console.error(error);
+          toast.error('Ha ocurrido un error en el servidor');
+        }
+        
           
     }
 

@@ -32,20 +32,30 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso,setShowDeber
   //console.log(capitulos);
 
   useEffect(()=>{
-    const getCapitulo = async()=>{
-      const resultFromApi = await fetch(`https://localhost:7164/api/Capitulo/getAllCapitulo/${curso.id}`,{
-        method:'GET',
-        credentials:'include',
-        headers: {
-          'Content-Type' : 'application/json',
-          'Accept' : 'application/json'
+    const GetCapitulo = async()=>{
+      try {
+        const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Capitulo/getAllCapitulo/${curso.id}`,{
+          method:'GET',
+          credentials:'include',
+          headers: {
+            'Content-Type' : 'application/json',
+            'Accept' : 'application/json'
+          }
+        });
+        const resultFetch = await resultFromApi.json();
+
+        if (resultFromApi.status !== 200) {
+          throw resultFetch;
         }
-      });
-      const resultFetch = await resultFromApi.json();
-      //console.log(resultFetch);
-      setCapitulos(resultFetch.result);
+        //console.log(resultFetch);
+        setCapitulos(resultFetch.result);
+      } catch (error) {
+        console.error(error);
+        toast.error('Ha ocurrido un error en el servidor');
+      }
+      
     }
-    getCapitulo();
+    GetCapitulo();
     response.isSuccess ? toast.success(response.message):toast.error(response.message);
   },[curso,response])
 
@@ -74,7 +84,7 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso,setShowDeber
   const handleCursoEdit = async() => {
     setShowButtonLoading(true);
     try {
-      const result = await fetch(`https://localhost:7164/api/Course/updateCourse/${curso.id}`,{
+      const result = await fetch(`${process.env.REACT_APP_API_URL}/Course/updateCourse/${curso.id}`,{
         method: 'PUT',
         credentials:'include',
         headers:{
@@ -99,14 +109,23 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso,setShowDeber
         }))
       });
       const resultFetch =await result.json();
+
+      if(result.status !== 200){
+        throw resultFetch;
+      }
       setResponse(resultFetch);
-      console.log(resultFetch);
+      //console.log(resultFetch);
       setShowButtonLoading(false);
       setShowModalSuccess(true);
 
     } catch (error) {
       setShowButtonLoading(false);
       console.error(error);
+      setResponse({});
+      //console.log(resultFetch);
+      setShowButtonLoading(false);
+      setShowModalSuccess(true);
+      toast.error('Ha ocurrido un error en el servidor');
     }
   }
 

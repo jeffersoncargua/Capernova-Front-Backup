@@ -30,7 +30,7 @@ export const Informacion = ({profesor,response,setResponse}) => {
     
     try {
 
-      const resultFromApi = await fetch(`https://localhost:7164/api/Teacher/updateTeacher?id=${profesor.id}`,{
+      const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Teacher/updateTeacher?id=${profesor.id}`,{
         method: 'PUT',
         credentials:'include',
         headers: {
@@ -50,12 +50,15 @@ export const Informacion = ({profesor,response,setResponse}) => {
 
       const resultFecthInfo = await resultFromApi.json();
       //console.log(resultFecthInfo);
+      if(resultFromApi.status !== 200){
+        throw resultFecthInfo;
+      }
       
 
       //formData.append('file',refImageUrl.current.files[0] )
 
       if (refImageUrl.current !== undefined) {
-        const result = await fetch(`https://localhost:7164/api/Teacher/updateImageTeacher?id=${profesor.id}`,{
+        const result = await fetch(`${process.env.REACT_APP_API_URL}/Teacher/updateImageTeacher?id=${profesor.id}`,{
           method: 'PUT',
           credentials:'include',
           headers: {
@@ -73,7 +76,9 @@ export const Informacion = ({profesor,response,setResponse}) => {
       formData.delete('file');
     } catch (error) {
       console.error(error);
+      toast.error('Ha ocurrido un error en el servidor');
       setShowButtonLoading(false);
+      setLoading(false);
     }
 
   }

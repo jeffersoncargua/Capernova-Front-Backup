@@ -59,23 +59,23 @@ export const ModalLogin = ({response,setShowModal}) => {
                 </button>
                 <div className="p-4 md:p-5 text-center">
                     {response.isSuccess ? (
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className={`bi bi-check-circle mx-auto mb-4 text-green-400 w-12 h-12 dark:text-gray-200`} viewBox="0 0 16 16">
+                    <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" className={`bi bi-check-circle mx-auto mb-4 text-green-500 w-12 h-12 dark:text-green-400`} viewBox="0 0 16 16">
                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
                         <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
                     </svg>)
                     :
                     (
-                    <svg className={`mx-auto mb-4 text-red-400 w-12 h-12 dark:text-gray-200`} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                    <svg className={`mx-auto mb-4 text-red-500 w-12 h-12 dark:text-red-400`} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                     </svg>)
                     }
 
-                    <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">{response.message}</h3>
+                    <h3 className="mb-5 text-lg font-normal text-black dark:text-white">{response.message}</h3>
 
                     {response.isSuccess ? 
-                    (<button onClick={()=>{navigate('/')}} data-modal-hide="popup-modal" type="button" className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Ok</button>)
+                    (<button onClick={()=>{navigate('/')}} data-modal-hide="popup-modal" type="button" className="py-2.5 px-5 ms-3 text-sm font-medium text-black focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Ok</button>)
                     :
-                    (<button onClick={()=>{setShowModal(false)}} data-modal-hide="popup-modal" type="button" className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Ok</button>)
+                    (<button onClick={()=>{setShowModal(false)}} data-modal-hide="popup-modal" type="button" className="py-2.5 px-5 ms-3 text-sm font-medium text-black  focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Ok</button>)
                     }
                 </div>
             </div>

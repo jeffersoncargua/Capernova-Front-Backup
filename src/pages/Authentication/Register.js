@@ -3,6 +3,7 @@ import {Modal} from './components';
 //import { baseURL } from '../endpoints';
 
 import Registro from '../../assets/registro.jpg';
+import { useNavigate } from 'react-router-dom';
 
 export const Register = ({children}) => {
 
@@ -12,6 +13,8 @@ export const Register = ({children}) => {
   const [showModal, setShowModal] = useState(false);
   //const [messagePassword,setMessagePassword] = useState('');
   const [response,setResponse] = useState({});
+  const navigate = useNavigate();
+
   const refName = useRef();
   const refLastName = useRef();
   const refPassword = useRef();
@@ -26,7 +29,7 @@ export const Register = ({children}) => {
     event.preventDefault();
     setShowButtonLoading(true);
     try {
-      const resultFetch = await fetch(`https://localhost:7164/api/Authentication/register`, {
+      const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Authentication/register`, {
         method:'POST',
         credentials:'include',
         headers:{
@@ -45,20 +48,26 @@ export const Register = ({children}) => {
           })
         });
 
-        setShowButtonLoading(false);
-        setShowModal(true);
-        let result = await resultFetch.json();
+        let resultFetch = await resultFromApi.json();
+
+        if (resultFromApi.status !== 200) {
+          throw resultFetch;
+        }
+
 
         // if(result.errors.ConfirmPassword){
         //   setMessagePassword(result.errors.ConfirmPassword);
         // }
         //console.log(result.errors.ConfirmPassword);
-        setResponse(result);
+        setShowButtonLoading(false);
+        setShowModal(true);
+        setResponse(resultFetch);
         //console.log(result);        
       
     } catch (error) {
       setShowButtonLoading(false);
       console.error('Algo salio mal al crear el registro: ', error);
+      navigate('/error');
     }
     
   }

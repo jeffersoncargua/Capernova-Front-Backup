@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { CoursesCard } from '../components'
 import { clearPlaylist } from "../../../redux/playlistSlice";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 //import { useSelector } from "react-redux";
 
 export const Courses = ({setShowPlayer,setShowCourses,estudiante,setMatricula}) => {
@@ -14,27 +15,37 @@ export const Courses = ({setShowPlayer,setShowCourses,estudiante,setMatricula}) 
   //console.log(playList);
 
   useEffect(()=>{
-    const fecthCourses = async()=>{
-      const resultFromApi = await fetch(`https://localhost:7164/api/Student/getCursos?id=${estudiante.id}`,{
-        method: 'GET',
-        credentials:'include',
-        headers:{
-          'Content-Type':'application/json',
-          'Accept':'application/json'
+    const FecthCourses = async()=>{
+      try {
+        const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Student/getCursos?id=${estudiante.id}`,{
+          method: 'GET',
+          credentials:'include',
+          headers:{
+            'Content-Type':'application/json',
+            'Accept':'application/json'
+          }
+        });
+        const resultFetch = await resultFromApi.json();
+
+        if (resultFromApi.status !== 200) {
+          throw resultFetch;
         }
-      });
-      const resultFetch = await resultFromApi.json();
-      //console.log(resultFetch);
-      if(resultFetch.isSuccess){
-        setMatriculaList(resultFetch.result);
+        //console.log(resultFetch);
+        if(resultFetch.isSuccess){
+          setMatriculaList(resultFetch.result);
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
       }
+      
     }
 
-    fecthCourses();
+    FecthCourses();
     dispatch(clearPlaylist([]));
   },[estudiante,dispatch,setShowCourses])
 
-  console.log(matriculaList);
+  //console.log(matriculaList);
   //const isActive = false;
 
   return (

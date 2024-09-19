@@ -26,20 +26,30 @@ export const Pruebas = ({setShowCursos,setShowVideos,curso, setCurso,setShowDebe
   console.log(pruebas);
 
   useEffect(()=>{
-    const getDeber = async()=>{
-      const resultFromApi = await fetch(`https://localhost:7164/api/Prueba/getAllPruebas/${curso.id}`,{
-        method:'GET',
-        credentials:'include',
-        headers: {
-          'Content-Type' : 'application/json',
-          'Accept' : 'application/json'
+    const GetDeber = async()=>{
+      try {
+        const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Prueba/getAllPruebas/${curso.id}`,{
+          method:'GET',
+          credentials:'include',
+          headers: {
+            'Content-Type' : 'application/json',
+            'Accept' : 'application/json'
+          }
+        });
+        const resultFetch = await resultFromApi.json();
+
+        if (resultFromApi.status !== 200) {
+          throw resultFetch;
         }
-      });
-      const resultFetch = await resultFromApi.json();
-      //console.log(resultFetch);
-      setPruebas(resultFetch.result);
+        //console.log(resultFetch);
+        setPruebas(resultFetch.result);
+      } catch (error) {
+        console.error(error);
+        toast.error('Ha ocurrido un error en el servidor');
+      }
+      
     }
-    getDeber();
+    GetDeber();
     response.isSuccess ? toast.success(response.message):toast.error(response.message);
   },[curso,response])
 

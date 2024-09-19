@@ -1,4 +1,5 @@
 import { useState,useEffect } from "react";
+import { toast } from "react-toastify";
 
 export const Temario = ({capitulo}) => {
 
@@ -7,21 +8,31 @@ export const Temario = ({capitulo}) => {
 
 
     useEffect(()=>{
-        const fetchVideos = async()=>{
-            const resultFromApi = await fetch(`https://localhost:7164/api/Video/getAllVideos/${capitulo.id}`,{
-                method:'GET',
-                credentials : 'include',
-                headers:{
-                  'Content-Type' : 'application/json',
-                  'Accept' : 'application/json'
-                }
-              });
-  
-            const resultFetch = await resultFromApi.json();
-            console.log(resultFetch);
-            setTemas(resultFetch.result);
+        const FetchVideos = async()=>{
+          try {
+            const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Video/getAllVideos/${capitulo.id}`,{
+              method:'GET',
+              credentials : 'include',
+              headers:{
+                'Content-Type' : 'application/json',
+                'Accept' : 'application/json'
+              }
+            });
+
+          const resultFetch = await resultFromApi.json();
+
+          if (resultFromApi.status !== 200) {
+            throw resultFetch;
+          }
+          //console.log(resultFetch);
+          setTemas(resultFetch.result);
+          } catch (error) {
+            console.error(error);
+            toast.error('Ha ocurrido un error en el servidor');
+          }
+            
         }
-        fetchVideos();
+        FetchVideos();
     },[capitulo])
   return (
         <ul className="max-w-md space-y-1 text-gray-500 list-inside dark:text-gray-400">

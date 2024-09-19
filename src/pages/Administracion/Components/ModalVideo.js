@@ -1,4 +1,5 @@
 import { useRef } from "react"
+import { toast } from "react-toastify";
 
 export const ModalVideo = ({showModalVideo,setShowModalVideo,video,setVideo,videos,setVideos,capitulo,setCapitulo,setResponse/*,capitulos,setCapitulos*/}) => {
 
@@ -20,27 +21,37 @@ export const ModalVideo = ({showModalVideo,setShowModalVideo,video,setVideo,vide
     // let updatedCapitulos = capitulos.map((cap) => cap.Codigo === capitulo.Codigo ? {...cap, Videos:updatedVideos } : cap);
     // console.log(updatedCapitulos);
     // setCapitulos(updatedCapitulos);
-    const resultFromApi = await fetch(`https://localhost:7164/api/Video/createVideo`,{
-        method: 'POST',
-        credentials:'include',
-        headers:{
-            'Content-Type' : 'application/json',
-            'Accept' : 'application/json'
-        },
-        body: JSON.stringify({
-            titulo: refTitulo.current.value,
-            videoUrl : refVideoUrl.current.value,
-            ordenReproduccion : refOrden.current.value,
-            capituloId: capitulo.id
-        })
-    });
-    const resultFetch = await resultFromApi.json();
-    //console.log(resultFetch);
-    setCapitulo({});
-    //setVideos([]);
-    setShowModalVideo(false);
-    setResponse(resultFetch);
-    //console.log('Se agrego el video');
+    try {
+        const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Video/createVideo`,{
+            method: 'POST',
+            credentials:'include',
+            headers:{
+                'Content-Type' : 'application/json',
+                'Accept' : 'application/json'
+            },
+            body: JSON.stringify({
+                titulo: refTitulo.current.value,
+                videoUrl : refVideoUrl.current.value,
+                ordenReproduccion : refOrden.current.value,
+                capituloId: capitulo.id
+            })
+        });
+        const resultFetch = await resultFromApi.json();
+
+        if (resultFromApi.status !== 200) {
+            throw resultFetch;
+        }
+        //console.log(resultFetch);
+        setCapitulo({});
+        //setVideos([]);
+        setShowModalVideo(false);
+        setResponse(resultFetch);
+        //console.log('Se agrego el video');
+    } catch (error) {
+        console.error(error);
+        toast.error('Ha ocurrido un error en el servidor');
+    }
+    
   }
 
   const handleSubmitEdit = async(event) => {
@@ -54,26 +65,39 @@ export const ModalVideo = ({showModalVideo,setShowModalVideo,video,setVideo,vide
     // let updateCapitulos = capitulos.map((cap) => cap.Codigo===updatedCapitulo.Codigo ? {...cap, Videos:updatedVideos}:cap)
     // console.log(updateCapitulos);
     // setCapitulos(updateCapitulos);
-    const resultFromApi = await fetch(`https://localhost:7164/api/Video/updateVideo/${video.id}`,{
-        method: 'PUT',
-        credentials:'include',
-        headers:{
-            'Content-Type' : 'application/json',
-            'Accept' : 'application/json'
-        },
-        body: JSON.stringify({
-            id: video.id,
-            titulo: refTitulo.current.value,
-            videoUrl : refVideoUrl.current.value,
-            ordenReproduccion : refOrden.current.value,
-            capituloId: video.capituloId
-        })
-    });
-    const resultFetch = await resultFromApi.json();
-    //console.log(resultFetch);
-    setShowModalVideo(false);
-    setResponse(resultFetch);
-    setVideo({});
+    try {
+        const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Video/updateVideo/${video.id}`,{
+            method: 'PUT',
+            credentials:'include',
+            headers:{
+                'Content-Type' : 'application/json',
+                'Accept' : 'application/json'
+            },
+            body: JSON.stringify({
+                id: video.id,
+                titulo: refTitulo.current.value,
+                videoUrl : refVideoUrl.current.value,
+                ordenReproduccion : refOrden.current.value,
+                capituloId: video.capituloId
+            })
+        });
+        const resultFetch = await resultFromApi.json();
+        //console.log(resultFetch);
+
+        if (resultFromApi.status !== 200) {
+            throw resultFetch;
+        }
+        setShowModalVideo(false);
+        setResponse(resultFetch);
+        setVideo({});
+    } catch (error) {
+        console.error(error);
+        toast.error('Ha ocurrido un error en el servidor');
+        setShowModalVideo(false);
+        setResponse({});
+        setVideo({});
+    }
+    
   }
 
   return (

@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { toast } from "react-toastify";
 
 export const ModalDeber = ({showModalDeber,setShowModalDeber,deber,setDeber,curso, setResponse/*deberes,setDeberes*/}) => {
 
@@ -15,22 +16,34 @@ export const ModalDeber = ({showModalDeber,setShowModalDeber,deber,setDeber,curs
     // let updatedDeberes = deberes.concat(object);
     // console.log(updatedDeberes);
     // setDeberes(updatedDeberes);
-    const resultFromApi = await fetch(`https://localhost:7164/api/Deber/createDeber`,{
-        method:'POST',
-        credentials:'include',
-        headers:{
-            'Content-Type' : 'application/json',
-            'Accept' : 'application/json'
-        },
-        body: JSON.stringify({
-            titulo: refTitulo.current.value,
-            detalle:refDetalle.current.value,
-            courseId: curso.id,
-        })
-    });
-    const resultFetch = await resultFromApi.json();
-    setShowModalDeber(false);
-    setResponse(resultFetch);
+    try {
+        const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Deber/createDeber`,{
+            method:'POST',
+            credentials:'include',
+            headers:{
+                'Content-Type' : 'application/json',
+                'Accept' : 'application/json'
+            },
+            body: JSON.stringify({
+                titulo: refTitulo.current.value,
+                detalle:refDetalle.current.value,
+                courseId: curso.id,
+            })
+        });
+        const resultFetch = await resultFromApi.json();
+
+        if (resultFromApi.status !== 200) {
+            throw resultFetch;
+        }
+
+        setShowModalDeber(false);
+        setResponse(resultFetch);
+    } catch (error) {
+        console.error(error);
+        setShowModalDeber(false);
+        toast.error('Ha ocurrido un error en el servidor');
+    }
+    
     //console.log('Se agrego el video');
   }
 
@@ -45,24 +58,37 @@ export const ModalDeber = ({showModalDeber,setShowModalDeber,deber,setDeber,curs
     // //let updateCapitulos = capitulos.map((cap) => cap.Codigo===updatedCapitulo.Codigo ? {...cap, Videos:updatedVideos}:cap)
     // console.log(updatedDeberes);
     // setDeberes(updatedDeberes);
-    const resultFromApi = await fetch(`https://localhost:7164/api/Deber/updateDeber/${deber.id}`,{
-        method:'PUT',
-        credentials:'include',
-        headers:{
-            'Content-Type' : 'application/json',
-            'Accept' : 'application/json'
-        },
-        body: JSON.stringify({
-            id: deber.id,
-            titulo: refTitulo.current.value,
-            detalle:refDetalle.current.value,
-            courseId: curso.id,
-        })
-    });
-    const resultFetch = await resultFromApi.json();
-    setResponse(resultFetch);
-    setShowModalDeber(false);    
-    setDeber({});
+    try {
+        const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Deber/updateDeber/${deber.id}`,{
+            method:'PUT',
+            credentials:'include',
+            headers:{
+                'Content-Type' : 'application/json',
+                'Accept' : 'application/json'
+            },
+            body: JSON.stringify({
+                id: deber.id,
+                titulo: refTitulo.current.value,
+                detalle:refDetalle.current.value,
+                courseId: curso.id,
+            })
+        });
+        const resultFetch = await resultFromApi.json();
+
+        if (resultFromApi.status !== 200) {
+            throw resultFetch;
+        }
+
+        setResponse(resultFetch);
+        setShowModalDeber(false);    
+        setDeber({});
+    } catch (error) {
+        console.error(error);
+        toast.error('Ha ocurrido un error en el servidor');
+        setShowModalDeber(false);    
+        setDeber({});
+    }
+    
   }
 
   return (

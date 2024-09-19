@@ -1,6 +1,7 @@
 import { useState } from "react";
 
-export const SideBar = ({setShowEstudiantes,setShowCursos,setShowVentas}) => {
+//export const SideBar = ({setShowEstudiantes,setShowCursos,setShowVentas}) => {
+export const SideBar = ({setShowCursos,setShowVentas,setShowPedidos}) => {
 
     const [showBar, setShowBar] = useState(false);
 
@@ -28,16 +29,16 @@ export const SideBar = ({setShowEstudiantes,setShowCursos,setShowVentas}) => {
                             <span className=" ms-3 whitespace-nowrap">Publicidad</span>
                         </button>
                     </li> */} 
-                    <li>
+                    {/* <li>
                         <button onClick={()=> {setShowEstudiantes(true);setShowCursos(false);setShowVentas(false)}} className="w-full flex items-center p-2 text-gray-300 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-people-fill w-5 h-5 text-gray-500 transition duration-75 group-hover:text-black dark:group-hover:text-white" viewBox="0 0 16 16">
                                 <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"/>
                             </svg>
                             <span className=" ms-3 whitespace-nowrap">Estudiantes</span>
                         </button>
-                    </li>             
+                    </li>              */}
                     <li>
-                        <button onClick={()=> {setShowEstudiantes(false);setShowCursos(true);setShowVentas(false)}} className="w-full flex items-center p-2 text-gray-300 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group">
+                        <button onClick={()=> {setShowCursos(true);setShowVentas(false);setShowPedidos(false)}} className="w-full flex items-center p-2 text-gray-300 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-journal-bookmark w-5 h-5 text-gray-500 transition duration-75 group-hover:text-black dark:group-hover:text-white" viewBox="0 0 16 16">
                                 <path fillRule="evenodd" d="M6 8V1h1v6.117L8.743 6.07a.5.5 0 0 1 .514 0L11 7.117V1h1v7a.5.5 0 0 1-.757.429L9 7.083 6.757 8.43A.5.5 0 0 1 6 8"/>
                                 <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
@@ -47,7 +48,7 @@ export const SideBar = ({setShowEstudiantes,setShowCursos,setShowVentas}) => {
                         </button>
                     </li>
                     <li>
-                        <button onClick={()=> {setShowEstudiantes(false);setShowCursos(false);setShowVentas(true)}} className="w-full flex items-center p-2 text-gray-300 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group">
+                        <button onClick={()=> {setShowCursos(false);setShowVentas(true);setShowPedidos(false)}} className="w-full flex items-center p-2 text-gray-300 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-cash-coin w-5 h-5 text-gray-500 transition duration-75 group-hover:text-black dark:group-hover:text-white" viewBox="0 0 16 16">
                                 <path fillRule="evenodd" d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8m5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0"/>
                                 <path d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.936-1.09-1.1l-.296-.07v-1.2c.376.043.614.248.671.532h.658c-.047-.575-.54-1.024-1.329-1.073V8.5h-.375v.45c-.747.073-1.255.522-1.255 1.158 0 .562.378.92 1.007 1.066l.248.061v1.272c-.384-.058-.639-.27-.696-.563h-.668zm1.36-1.354c-.369-.085-.569-.26-.569-.522 0-.294.216-.514.572-.578v1.1zm.432.746c.449.104.655.272.655.569 0 .339-.257.571-.709.614v-1.195z"/>
@@ -57,7 +58,15 @@ export const SideBar = ({setShowEstudiantes,setShowCursos,setShowVentas}) => {
                             <span className="ms-3 whitespace-nowrap">Ventas</span>
                         </button>
                     </li>
-                                   
+
+                    <li>
+                        <button onClick={()=> {setShowCursos(false);setShowVentas(false);setShowPedidos(true)}} className="w-full flex items-center text-gray-300 p-2 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group">                            
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-box-seam-fill w-5 h-5 text-gray-500 transition duration-75 group-hover:text-black dark:group-hover:text-white" viewBox="0 0 16 16">
+                                <path fillRule="evenodd" d="M15.528 2.973a.75.75 0 0 1 .472.696v8.662a.75.75 0 0 1-.472.696l-7.25 2.9a.75.75 0 0 1-.557 0l-7.25-2.9A.75.75 0 0 1 0 12.331V3.669a.75.75 0 0 1 .471-.696L7.443.184l.01-.003.268-.108a.75.75 0 0 1 .558 0l.269.108.01.003zM10.404 2 4.25 4.461 1.846 3.5 1 3.839v.4l6.5 2.6v7.922l.5.2.5-.2V6.84l6.5-2.6v-.4l-.846-.339L8 5.961 5.596 5l6.154-2.461z"/>
+                            </svg>
+                            <span className="ms-3 whitespace-nowrap">Pedidos</span>
+                        </button>
+                    </li>          
                     {/*<li>
                         <button className="w-full flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                             <span className=" ms-3 whitespace-nowrap">Sign out</span>

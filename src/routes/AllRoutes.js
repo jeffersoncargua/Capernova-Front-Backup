@@ -41,6 +41,7 @@ export const AllRoutes = () => {
           <Route path="admin" element={(userAuth && user.role === "Admin")? (<Administracion />):(<Navigate to={'/'} />)} /> {/*Pagina para Administrar la plataforma */}
           <Route path="teacher" element={(userAuth && user.role === "Teacher")? (<Profesor />):(<Navigate to={'/'} />)} /> {/*Pagina para los profes la plataforma */}
           <Route path="secretary" element={(userAuth && user.role === "Secretary")? (<Secretaria />):(<Navigate to={'/'} />) } /> {/*Pagina para la secretaria la plataforma */}
+           
           {/* <Route path="certificado" element={<Certificado />} /> Pagina para Administrar la plataforma  */}
           <Route path="*" element={<PageNotFound />} /> 
           <Route path="error" element={<PageError />} /> 

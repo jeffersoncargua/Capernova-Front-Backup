@@ -29,7 +29,7 @@ export const TalentoHumano = () => {
 
             } catch (error) {
                 console.error(error);
-                navigate('error');
+                navigate('/error');
             }
             
         }
@@ -37,7 +37,7 @@ export const TalentoHumano = () => {
         getTeacher();
     },[navigate])
 
-    console.log(teacherList);
+    //console.log(teacherList);
 
   return (
     <div className='w-[95%] flex flex-col my-[50px] leading-loose mx-auto dark:bg-gray-900'>

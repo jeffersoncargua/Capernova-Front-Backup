@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState, useRef } from 'react';
 import {ModalLogin} from './components';
 import { JWTDecode } from '../../hooks/JWTDecode';
@@ -18,6 +18,8 @@ export const Login = ({children}) => {
   const [showModal, setShowModal] = useState(false);
   //const [messagePassword,setMessagePassword] = useState('');
   const [response,setResponse] = useState({});
+  const navigate = useNavigate();
+
   const refEmail = useRef();
   const refPassword = useRef();
   //Activador del useDispatch
@@ -28,7 +30,7 @@ export const Login = ({children}) => {
     event.preventDefault();
     setShowButtonLoading(true);
     try {
-      const resultFetch = await fetch(`https://localhost:7164/api/Authentication/login`, {
+      const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Authentication/login`, {
         method:'POST',   
         credentials:'include',
         headers:{
@@ -41,12 +43,18 @@ export const Login = ({children}) => {
           })
         });
 
+        
+        const resultFetch  = await resultFromApi.json();
+
+        if (resultFromApi.status !== 200) {
+          throw resultFetch;
+        }
+
         setShowButtonLoading(false);
-        let result = await resultFetch.json();
         //console.log(result);
         setShowModal(true);
-        setResponse(result);
-        const token = result.result.token;
+        setResponse(resultFetch);
+        const token = resultFetch.result.token;
         
 
         //Funcion para decodificar el token y acceder a su informacion para el inicio de sesion
@@ -55,13 +63,14 @@ export const Login = ({children}) => {
 
         //Se guarda la seccion 
         //Permite almacenar el inicio de sesion de un usuario que se ha logeado de forma exitosa
-        sessionStorage.setItem('auth',result.result.token);
+        sessionStorage.setItem('auth',resultFetch.result.token);
         dispatch(signIn(objet));
         
 
     } catch (error) {
       setShowButtonLoading(false);
       console.error('Algo salio mal al crear el registro: ', error);
+      navigate('/error');
     }
 
   }

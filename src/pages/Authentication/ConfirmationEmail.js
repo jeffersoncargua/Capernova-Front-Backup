@@ -1,6 +1,6 @@
 //import { useEffect } from "react"
 
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 //import { baseURL } from "../endpoints";
 
@@ -13,12 +13,15 @@ export const ConfirmationEmail = ({children}) => {
     token.replace(' ','+');
     const email =searchParams.get('email');
 
+    const navigate = useNavigate();
+
 
     useEffect(()=>{  
       
-      try {
-        const fetchConfirm = async() =>{
-          let resultFetch = await fetch(`https://localhost:7164/api/Authentication/ConfirmEmail?token=${token}&email=${email}`,{
+      
+      const FetchConfirm = async() =>{
+        try {
+          const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Authentication/ConfirmEmail?token=${token}&email=${email}`,{
                 method:'GET',
                 headers:{
                   "Content-Type" : "application/json",
@@ -26,16 +29,24 @@ export const ConfirmationEmail = ({children}) => {
                 },
           });
 
-          let result= await resultFetch.json();
-          setResponse(result);
-          //console.log(result);
-        }
-        fetchConfirm();
+          const resultFetch = await resultFromApi.json();
+
+          if (resultFromApi.status !== 200) {
+            throw resultFetch;
+          }
+
+          setResponse(resultFetch);
+
+          } catch (error) {
+            console.log(error);
+            navigate('/error');
+          }
+        
+      }
+      FetchConfirm();
           
-        } catch (error) {
-          console.log(error);
-        }
-    },[token,email]);
+       
+    },[token,email,navigate]);
 
   return (
     <div className="w-[95%] mx-auto mt-10 group text-black dark:text-white">

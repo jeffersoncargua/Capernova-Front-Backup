@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { toast } from "react-toastify";
 
 
 export const NotaDeber = ({deber,matricula}) => {
@@ -10,19 +11,33 @@ export const NotaDeber = ({deber,matricula}) => {
 
     useEffect(()=>{
         const GetNotaDeber = async() => {
-            const resultFromApi = await fetch(`https://localhost:7164/api/Student/getNotaDeber?id=${deber.id}&studentId=${matricula.estudianteId}`,{
-                method: 'GET',
-                credentials:'include',
-                headers:{
-                  'Content-Type':'application/json',
-                  'Accept':'application/json'
-                }
-              });
-              const resultFetch = await resultFromApi.json();
-              //console.log(resultFetch);
-              if (resultFetch.isSuccess) {
-                setNotaDeber(resultFetch.result);  
+          try {
+            const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Student/getNotaDeber?id=${deber.id}&studentId=${matricula.estudianteId}`,{
+              method: 'GET',
+              credentials:'include',
+              headers:{
+                'Content-Type':'application/json',
+                'Accept':'application/json'
               }
+            });
+            const resultFetch = await resultFromApi.json();
+
+
+            if (resultFromApi.status !== 200) {
+              throw resultFetch;
+            }
+            //console.log(resultFetch);
+            if (resultFetch.isSuccess) {
+              setNotaDeber(resultFetch.result);  
+            }
+          } catch (error) {
+            if (error.statusCode !== 400) {
+              console.error(error);
+              toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
+            }
+           
+          }
+            
               
         }
 

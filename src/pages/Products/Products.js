@@ -38,7 +38,7 @@ export const Products = ({children}) => {
 
         } catch (error) {
           console.error(error);
-          navigate('error');
+          navigate('/error');
         }
       }
       fetchProductos();

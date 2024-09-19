@@ -48,7 +48,7 @@ export const ProductDetail = () => {
 
       } catch (error) {
         console.error(error);
-        navigate('error');
+        navigate('/error');
       }
 
     }

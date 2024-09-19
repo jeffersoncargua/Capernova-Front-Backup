@@ -1,17 +1,20 @@
 import { useState, useRef } from "react";
 import {ModalForget} from './components';
+import { useNavigate } from "react-router-dom";
 
 export const ForgotPassword = ({children}) => {
     const [showButtonLoading, setShowButtonLoading] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [response,setResponse] = useState({});
+    const navigate = useNavigate();
+
     const refEmail = useRef();
   
     const handleSubmitForget = async(event) =>{
       event.preventDefault();
       setShowButtonLoading(true);
       try {
-        const resultFetch = await fetch('https://localhost:7164/api/Authentication/forgot-Password', {
+        const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Authentication/forgot-Password`, {
           method:'POST', 
           credentials:'include',
           headers:{
@@ -22,15 +25,22 @@ export const ForgotPassword = ({children}) => {
               email: refEmail.current.value
             })
           });
-          setShowButtonLoading(false);
-          let result = await resultFetch.json();
-          setResponse(result);
+
+          const resultFetch  = await resultFromApi.json();
+
+          if (resultFromApi.status !==200) {
+            throw resultFetch;
+          }
+
+          setShowButtonLoading(false);          
+          setResponse(resultFetch);
           //console.log(result);
           setShowModal(true);
           
       } catch (error) {
         setShowButtonLoading(false);
         console.error('Algo salio mal al crear el registro: ', error);
+        navigate('/error');
       }
   
     }

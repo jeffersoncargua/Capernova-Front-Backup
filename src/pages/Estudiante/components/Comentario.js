@@ -11,7 +11,7 @@ export const Comentario = ({estudiante,matricula}) => {
         event.preventDefault();
         setShowButtonLoading(true);
         try {
-            const resultFromApi = await fetch(`https://localhost:7164/api/Student/createComentario`,{
+            const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Student/createComentario`,{
                 method: 'POST',
                 credentials: 'include',
                 headers:{
@@ -27,12 +27,18 @@ export const Comentario = ({estudiante,matricula}) => {
                 })
             });
             const resultFetch = await resultFromApi.json();
+
+            if(resultFromApi.status !== 200){
+                throw resultFetch;
+            }
+
             resultFetch.isSuccess ? toast.success(resultFetch.message) : toast.error(resultFetch.message);            
             setShowButtonLoading(false);
             refFeedBack.current.value = '';
         } catch (error) {
             setShowButtonLoading(false);
-            console.error(error)
+            console.error(error);
+            toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde.')
         }
     }
 

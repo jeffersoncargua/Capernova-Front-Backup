@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { Videos } from '../Components'
 //import { SideBar,Cursos,Videos,Estudiantes,Informacion,Deberes,Pruebas } from "./Components" //Estos contiente los componentes del Profesor pero se quiere emplear componentes en comun con Administración
 import { SideBar,Cursos,Estudiantes,Informacion,Deberes,Pruebas } from "./Components";
+import { toast } from "react-toastify";
 
 export const Profesor = () => {
 
@@ -52,7 +53,7 @@ export const Profesor = () => {
    useEffect(()=>{
     const GetCurso = async()=>{
       try {
-        const resultFromApi = await fetch(`https://localhost:7164/api/Teacher/getAllCourse?id=${userTeacher.nameIdentifier}&search=${search}`,{
+        const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Teacher/getAllCourse?id=${userTeacher.nameIdentifier}&search=${search}`,{
           method:'GET',
           credentials : 'include',
           //mode: 'no-cors',
@@ -64,6 +65,10 @@ export const Profesor = () => {
         });
   
        let resultFetch = await resultFromApi.json();
+
+       if (resultFromApi.status !== 200) {
+        throw resultFetch;
+       }
   
        if (resultFetch.isSuccess) {
         //console.log(resultFetch);
@@ -73,6 +78,7 @@ export const Profesor = () => {
       //const capitulos = JSON.parse(resultFetch.result[0].capitulos);
       } catch (error) {
         console.error(error)
+        toast.error('Ha ocurrido un error en el servidor');
       }
     }
 

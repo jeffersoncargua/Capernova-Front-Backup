@@ -11,24 +11,40 @@ export const DeberDetail = ({matricula}) => {
     const column = ["Deber","Descripción","Estado","File","Nota","Acciones"];
 
     useEffect(()=>{
-        const fecthDeberes = async()=>{
-          const resultFromApi = await fetch(`https://localhost:7164/api/Student/getDeberes?id=${matricula.cursoId}`,{
-            method: 'GET',
-            credentials:'include',
-            headers:{
-              'Content-Type':'application/json',
-              'Accept':'application/json'
+        const FecthDeberes = async()=>{
+            try {
+                const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Student/getDeberes?id=${matricula.cursoId}`,{
+                    method: 'GET',
+                    credentials:'include',
+                    headers:{
+                      'Content-Type':'application/json',
+                      'Accept':'application/json'
+                    }
+                  });
+
+                const resultFetch = await resultFromApi.json();
+
+                if (resultFromApi.status !== 200) {
+                    throw resultFetch;
+                }
+                //console.log(resultFetch);
+                //   if(resultFetch.isSuccess){
+                //     setDeberList(resultFetch.result);
+                //   }
+                setDeberList(resultFetch.result);
+            } catch (error) {
+                if (error.statusCode !== 400) {
+                    console.error(error);
+                    toast.error('Algo ha fallado en nuestro servidor. Inténtalo más tarde');
+                    setDeberList([]);
+                }
+                setDeberList([]);
+                toast.error('No existen deberes registrados para este curso');
             }
-          });
-          const resultFetch = await resultFromApi.json();
-          //console.log(resultFetch);
-        //   if(resultFetch.isSuccess){
-        //     setDeberList(resultFetch.result);
-        //   }
-        setDeberList(resultFetch.result);
+          
         }
     
-        fecthDeberes();
+        FecthDeberes();
         //dispatch(clearPlaylist([]));
         response.isSuccess ? toast.success(response.message): toast.error(response.message)
       },[matricula,response])
@@ -59,7 +75,7 @@ export const DeberDetail = ({matricula}) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {deberList && deberList.map((deber) => (
+                    {deberList.length > 0 && deberList.map((deber) => (
                         <tr key={deber.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                             <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {deber.titulo}
@@ -83,7 +99,7 @@ export const DeberDetail = ({matricula}) => {
                     ) )}
                     
                 </tbody>
-                <tfoot>
+                {/* <tfoot>
                     <tr className="font-semibold text-black bg-gray-50 dark:bg-gray-700 dark:text-white">
                         <th></th>
                         <th></th>
@@ -92,7 +108,7 @@ export const DeberDetail = ({matricula}) => {
                         <td className="px-6 py-3">{matricula.notaFinal || 'Sin calificar'}</td>
                         <th></th>
                     </tr>
-                </tfoot>
+                </tfoot> */}
             </table>
         </div>
 

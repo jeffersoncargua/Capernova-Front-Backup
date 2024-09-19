@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout } from "../../../redux/userSlice";
+//import { toast } from "react-toastify";
 //import {ModalError} from '../components'
 
 
@@ -27,7 +28,7 @@ export const PaymentPaypal = ({cartList,total,isValid,setError,setShowModal,hidd
     // const [{isPending}] = usePayPalScriptReducer(); // permite obtener el estado de paypal en la que se encuentra en ese momento de la solicitud de pedido
 
     const initialOptions ={
-        clientId: "AZiCGcfCQdlpvwPzJGoyLURcKroZ-zSI8B-HX-2Gu7LZVcoiTCADxSMY8h7-SY1EnGwaYJ3b--4kpfGP", //Esto se debe reemplazar con el clientId que se genere de Paypal
+        clientId: process.env.REACT_APP_PAYPAL, //Esto se debe reemplazar con el clientId que se genere de Paypal revisar el archivo .env
         //clientId:'test',
         //components:"buttons",
         //currency: "USD",
@@ -35,8 +36,8 @@ export const PaymentPaypal = ({cartList,total,isValid,setError,setShowModal,hidd
     }
 
     const handleCreateOrder = async() => {
-
-            const resultFromApi = await fetch(`https://localhost:7164/api/Payment/paypalCard`,{
+        try {
+            const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Payment/paypalCard`,{
                 method: 'POST',
                 credentials: 'include',
                 headers:{
@@ -50,6 +51,11 @@ export const PaymentPaypal = ({cartList,total,isValid,setError,setShowModal,hidd
             });
     
             const resultFetch = await resultFromApi.json();
+
+            if (resultFromApi.status !== 200) {
+                throw resultFetch;
+            }
+
             //console.log(resultFetch);
             if (resultFetch.isSuccess) {
                 const result = JSON.parse(resultFetch.result);
@@ -65,6 +71,13 @@ export const PaymentPaypal = ({cartList,total,isValid,setError,setShowModal,hidd
             setError(resultFetch.message);
             setShowModal(true);
             setHiddenPaypal(false);
+        } catch (error) {
+            console.error(error);
+            setShowModal(true);
+            setError('No se ha podido completar su compra. Por favor, revise su conexión a internet e inténtelo nuevamente');
+            setHiddenPaypal(false);
+        }
+
             
             //console.log("Se esta creando un metodo de pago");
         
@@ -72,53 +85,66 @@ export const PaymentPaypal = ({cartList,total,isValid,setError,setShowModal,hidd
 
     const handleOnApprove = async() => {
         //console.log(orderId);
-        const resultFromApi = await fetch(`https://localhost:7164/api/Payment/confirmPaypal?token=${orderId}`,{
-            method: 'GET',
-            credentials: 'include',
-            headers:{
-                'Content-Type' : 'application/json',
-                'Accept' : 'application/json'
-            }
-        });
-
-        const resultFetch = await resultFromApi.json();
-        //console.log(orderId);
-        //console.log(resultFetch);
-        TransaccionId= resultFetch.result;
-        if(resultFetch.isSuccess){
-            const resultAPI = await fetch(`https://localhost:7164/api/Payment/createOrder`,{
-                method: 'POST',
+        try {
+            const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Payment/confirmPaypal?token=${orderId}`,{
+                method: 'GET',
                 credentials: 'include',
                 headers:{
                     'Content-Type' : 'application/json',
                     'Accept' : 'application/json'
-                },
-                body:JSON.stringify({
-                    productos : JSON.stringify(cartList),
-                    total: String(total),
-                    orden: JSON.stringify(order),
-                    identifierName : user.nameIdentifier,
-                    transaccionId : TransaccionId
-                })
+                }
             });
-            const resultFetch = await resultAPI.json();
+    
+            const resultFetch = await resultFromApi.json();
+
+            if (resultFromApi.status !== 200) {
+                throw resultFetch;
+            }
+            //console.log(orderId);
             //console.log(resultFetch);
+            TransaccionId= resultFetch.result;
             if(resultFetch.isSuccess){
-                localStorage.removeItem('shoppingcart');
-                dispath(logout()); //permite cerrar la session
-                navigate(`/confirmPay?token=${TransaccionId}`);
-                
-            }            
-        }else{
-            navigate(`/cancelPay`);
-            
+                const resultAPI = await fetch(`${process.env.REACT_APP_API_URL}/Payment/createOrder`,{
+                    method: 'POST',
+                    credentials: 'include',
+                    headers:{
+                        'Content-Type' : 'application/json',
+                        'Accept' : 'application/json'
+                    },
+                    body:JSON.stringify({
+                        productos : JSON.stringify(cartList),
+                        total: String(total),
+                        orden: JSON.stringify(order),
+                        identifierName : user.nameIdentifier,
+                        transaccionId : TransaccionId
+                    })
+                });
+                const resultFetch = await resultAPI.json();
+                //console.log(resultFetch);
+                if(resultFetch.isSuccess){
+                    localStorage.removeItem('shoppingcart');
+                    dispath(logout()); //permite cerrar la session
+                    navigate(`/confirmPay?token=${TransaccionId}`);
+                    
+                }            
+            }else{
+                navigate(`/cancelPay`);
+            }
+        } catch (error) {
+            console.error(error);
+            setShowModal(true);
+            setError('No se ha podido completar su compra. Por favor, revise su conexión a internet e inténtelo nuevamente');  
+            setHiddenPaypal(false);
         }
+        
         
     }
 
-
     const handleOnError= async() => {
-        console.log('Ha ocurrido un error durante su transacción');
+        //console.log('Ha ocurrido un error durante su transacción');
+        setShowModal(true);
+        setError('Ha ocurrido un error durante su transacción. Inténtelo nuevamente');
+        setHiddenPaypal(false);
     }
 
     const handleOnCancel= async() => {        

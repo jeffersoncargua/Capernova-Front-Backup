@@ -2,28 +2,38 @@
 export const Certificado = () => {
   return (
     <div>
-        <h1><b>Se ha realizado un pedido</b></h1>
-        <h2><b>Nombre:</b></h2>
-        <h2><b>Apellido:</b></h2>
-        <h2><b>Teléfono:</b></h2>
-        <h2><b>Direccion Principal:</b></h2>
-        <h2><b>Direccion Secundaria:</b></h2>
-        <h2><b>Pedido:</b></h2>
+		{/* <div style='display:flex; justify-content:center;'>
+            <img src="https://drive.google.com/thumbnail?id=1Io3SAYU468d_ekK2k7_Ic7u6UXoXj9eV" alt="Aqui va una imagen" />
+        </div>
+        <h1 style='text-align:center'><b>Se ha realizado un pedido</b></h1>
+        <h4><b>Nombre:</b> <span style='font-weight: normal;'>Jeff</span></h4>
+        <h4><b>Apellido:</b></h4>
+        <h4><b>Teléfono:</b></h4>
+        <h4><b>Direccion Principal:</b></h4>
+        <h4><b>Direccion Secundaria:</b></h4>
+        <h4><b>Pedido:</b></h4>
         <br />
-        <table style={{border:'1px solid #000', tableLayout:'auto'}}>
+        <table  style='width:100%;border:1px solid #000;  border-collapse: collapse; text-align:center'>
             <thead>
                 <tr>
-                    <th>Producto</th>
-                    <th>Cantidad</th>
+                    <th style='border: 1px solid #000;border-spacing: 0;'>Producto</th>
+                    <th style='border: 1px solid #000;border-spacing: 0;'>Cantidad</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>Lo que sea</td>
-                    <td>3</td>
+                    <td style='border: 1px solid #000;border-spacing: 0;'>Lo que sea</td>
+                    <td style='border: 1px solid #000;border-spacing: 0;'>3</td>
                 </tr>
             </tbody>
         </table>
+       <br />
+       <p>La entrega de los productos se realizará a domicilio, por lo que uno de nuestros agentes se pondrá en contacto contigo al número de teléfono que nos proporcionaste.</p>
+       <p>Para mayor información no dudes en comunicarte al 0987203469, o nuestro whatsapp y te ayudaremos con todas tus inquietudes</p>
+       <br />
+       <p>Muchas Gracias por preferirnos, tenga un excelente día</p>
+       <br />
+       <p>Atentamente, Capernova</p> */}
         
     </div>
   )

@@ -38,11 +38,16 @@ export const CursoDetail = () => {
         });
   
         const resultFetch = await resultFromApi.json();
-        console.log(resultFetch);
+
+        if (resultFromApi.status !== 200) {
+          throw resultFetch;
+        }
+
+        //console.log(resultFetch);
         setProducto(resultFetch.result);
       } catch (error) {
         console.error(error);
-        navigate('error');
+        navigate('/error');
       }
     }
       

@@ -1,5 +1,6 @@
 import { useEffect,useState } from "react";
 import {CalificarPrueba} from '../Components'
+import { toast } from "react-toastify";
 
 
 export const ModalCalificarPrueba = ({showModalCalificarPrueba,setShowModalCalificarPrueba,matricula,setResponse}) => {
@@ -10,7 +11,8 @@ export const ModalCalificarPrueba = ({showModalCalificarPrueba,setShowModalCalif
 
     useEffect(() => {
         const GetNotaPrueba = async() => {
-          const resultFromApi = await fetch(`https://localhost:7164/api/Prueba/getAllPruebas/${matricula.cursoId}`,{
+          try {
+            const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Prueba/getAllPruebas/${matricula.cursoId}`,{
               method: 'GET',
               credentials:'include',
               headers:{
@@ -19,10 +21,19 @@ export const ModalCalificarPrueba = ({showModalCalificarPrueba,setShowModalCalif
               }
             });
             const resultFetch = await resultFromApi.json();
+
+            if (resultFromApi.status !== 200) {
+              throw resultFetch;
+            }
             //console.log(resultFetch);
             if (resultFetch.isSuccess) {
                 setPruebaList(resultFetch.result);  
             }
+          } catch (error) {
+            console.error(error);
+            toast.error('Ha ocurrido un error en el servidor');
+          }
+         
         }
 
         GetNotaPrueba();
