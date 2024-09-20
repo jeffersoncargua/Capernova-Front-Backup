@@ -20,6 +20,8 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso,setShowDeber
   const [showModalSuccess, setShowModalSuccess] = useState(false);
   const [showButtonLoading, setShowButtonLoading] = useState(false);
   const [response, setResponse] = useState({});
+  const [categoriaList,setCategoriaList] = useState([]);
+  const [producto,setProducto] = useState({});
 
   const refTitulo = useRef();
   const refDescripcion = useRef();
@@ -27,8 +29,9 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso,setShowDeber
   const refImageUrl = useRef();
   const refFolder = useRef();
   const refCodigo = useRef();
+  const refCategoria = useRef();
 
-  console.log(curso);
+  //console.log(curso);
   //console.log(capitulos);
 
   useEffect(()=>{
@@ -58,6 +61,77 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso,setShowDeber
     GetCapitulo();
     response.isSuccess ? toast.success(response.message):toast.error(response.message);
   },[curso,response])
+
+  useEffect(()=>{
+    const FetchCategoriaCurso = async()=>{
+        try {
+            //Falta agregar la autorizacion mediante bearer --Mucho ojo!!!
+            const result = await fetch(`${process.env.REACT_APP_API_URL}/Producto/getAllCategoria?tipo=${'curso'}`,{
+                method:'GET',
+                credentials: 'include',
+                headers:{
+                    'Content-Type' : 'application/json',
+                    'Accept' : 'application/json',
+                },
+                
+            });
+            const resultFetch = await result.json();
+
+
+            //console.log(resultFetch);
+            //console.log(result.status);
+            if (result.status !== 200) {
+                throw resultFetch;
+            }
+
+            setCategoriaList(resultFetch.result);
+            
+        } catch (error) {
+            if (error.statusCode !== 400) {
+                console.error(error);
+                toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
+            }
+            
+        }
+    }
+    FetchCategoriaCurso();
+},[])
+
+useEffect(()=>{
+  const FetchProducto = async()=>{
+      try {
+          //Falta agregar la autorizacion mediante bearer --Mucho ojo!!!
+          const result = await fetch(`${process.env.REACT_APP_API_URL}/Producto/getProductoCode?codigo=${curso.codigo}`,{
+              method:'GET',
+              credentials: 'include',
+              headers:{
+                  'Content-Type' : 'application/json',
+                  'Accept' : 'application/json',
+              },
+              
+          });
+          const resultFetch = await result.json();
+
+
+          //console.log(resultFetch);
+          //console.log(result.status);
+          if (result.status !== 200) {
+              throw resultFetch;
+          }
+
+          setProducto(resultFetch.result);
+          
+      } catch (error) {
+          if (error.statusCode !== 400) {
+              console.error(error);
+              toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
+          }
+          
+      }
+  }
+  FetchProducto();
+},[curso])
+
 
 
   const handleEditCap = (cap) => {
@@ -106,6 +180,7 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso,setShowDeber
           //isActive: curso.isActive,
           //capituloList: capitulos
           folderId: refFolder.current.value,
+          categoriaId : refCategoria.current.value 
         }))
       });
       const resultFetch =await result.json();
@@ -128,6 +203,7 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso,setShowDeber
       toast.error('Ha ocurrido un error en el servidor');
     }
   }
+
 
   return (
     <div className="w-[95%] mx-auto">
@@ -173,7 +249,17 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso,setShowDeber
           <label className="block mb-2 font-medium text-gray-900 dark:text-white" htmlFor="folderId">Carpeta: </label>
           <input type="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" name="folderId" id="folderId" defaultValue={curso.folderId} ref={refFolder} />
         </div>
-      </div>      
+      </div>
+      <div className="w-[95%] mx-auto mt-5">
+          <label htmlFor="tipo" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tipo de Categoría:</label>
+          <select id="tipo" className="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" defaultValue={producto.categoriaId} ref={refCategoria} >
+              <option value={0}>---Seleccione el tipo de Categoría---</option>
+              {categoriaList.length > 0 && categoriaList.map( (categoria,index) => (
+                  <option key={index} value={categoria.id}>{categoria.name}</option>
+              ) )}
+              
+          </select>
+      </div>       
       <div className="w-[95%] mx-auto mt-5">
         <label htmlFor="descripcion" className="block mb-2 font-medium text-gray-900 dark:text-white">Descripción:</label>
         <textarea id="descripcion" name='descripcion' rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Escribe la descripción del curso aquí" defaultValue={curso.detalle} ref={refDescripcion}></textarea>                    

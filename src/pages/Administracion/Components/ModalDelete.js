@@ -56,6 +56,11 @@ export const ModalDelete = ({showModalDelete,setShowModalDelete, objeto,setObjet
                     setResponse(resultFetch);
 
                 break;     
+            case 'categoria': //instrucciones para eliminar la prueba Course/deleteCourse
+                resultFetch = await Delete('Producto/deleteCategoria',object)
+                setResponse(resultFetch);
+
+                break;
             default:
                 break;
         

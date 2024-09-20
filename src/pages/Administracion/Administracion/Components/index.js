@@ -25,3 +25,6 @@ export { Pedidos} from './Pedidos';
 export { PedidoDetails} from './PedidoDetails';
 
 export {Loading} from './Loading';
+
+export {AreasCategorias} from './AreasCategorias';
+export {ModalAreaCategoria} from './ModalAreaCategoria';

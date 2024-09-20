@@ -1,15 +1,53 @@
-import { useRef, useState } from "react";
+import { useRef, useState ,useEffect} from "react";
 import { toast } from "react-toastify";
 
 
 export const ModalCourse = ({showModalCourse,setShowModalCourse,setResponse}) => {
 
     const [showButtonLoading, setShowButtonLoading] = useState(false);
+    const [categoriaList,setCategoriaList] = useState([]);
     const refImageUrl = useRef();
     const refTitulo = useRef();
     const refDescripcion = useRef();
     const refPrice = useRef();
     const refCodigo = useRef();
+    const refCategoria = useRef();
+
+
+    useEffect(()=>{
+        const FetchCategoriaCurso = async()=>{
+            try {
+                //Falta agregar la autorizacion mediante bearer --Mucho ojo!!!
+                const result = await fetch(`${process.env.REACT_APP_API_URL}/Producto/getAllCategoria?tipo=${'curso'}`,{
+                    method:'GET',
+                    credentials: 'include',
+                    headers:{
+                        'Content-Type' : 'application/json',
+                        'Accept' : 'application/json',
+                    },
+                    
+                });
+                const resultFetch = await result.json();
+    
+    
+                //console.log(resultFetch);
+                //console.log(result.status);
+                if (result.status !== 200) {
+                    throw resultFetch;
+                }
+    
+                setCategoriaList(resultFetch.result);
+                
+            } catch (error) {
+                if (error.statusCode !== 400) {
+                    console.error(error);
+                    toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
+                }
+                
+            }
+        }
+        FetchCategoriaCurso();
+    },[])
 
 
     const handleSubmitAdd = async(event) => {
@@ -35,6 +73,7 @@ export const ModalCourse = ({showModalCourse,setShowModalCourse,setResponse}) =>
                     precio: parseFloat(refPrice.current.value),
                     // isActive: false,
                     // capituloList: []
+                    categoriaId : refCategoria.current.value              
                     
                 }))
             });
@@ -94,6 +133,16 @@ export const ModalCourse = ({showModalCourse,setShowModalCourse,setResponse}) =>
                                 <label htmlFor="price" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Precio</label>
                                 <input type="text" pattern="[0-9]{1,}\.[0-9]{1,}" name="price" id="price" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="$100,50" required="" ref={refPrice} />
                             </div>
+                            <div className="">
+                                <label htmlFor="tipo" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tipo de Categoría:</label>
+                                <select id="tipo" className="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" defaultValue={''} ref={refCategoria} >
+                                    <option value="">---Seleccione el tipo de Categoría---</option>
+                                    {categoriaList.length > 0 && categoriaList.map( (categoria) => (
+                                        <option value={categoria.id}>{categoria.name}</option>
+                                    ) )}
+                                    
+                                </select>
+                            </div> 
                             
                             <div className="col-span-2">
                                 <label htmlFor="descripcion" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descripción</label>

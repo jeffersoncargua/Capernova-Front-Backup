@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { Videos} from "../Components";
 //import { SideBar , Publicidad,Cursos, Videos, TalentoHumano,Profesor} from "./Components";
-import { SideBar , Publicidad,Cursos, TalentoHumano,Profesor,Productos,Ventas,Pedidos} from "./Components";
+import { SideBar , Publicidad,Cursos, TalentoHumano,Profesor,Productos,Ventas,Pedidos, AreasCategorias} from "./Components";
 import { useNavigate } from "react-router-dom";
 
 
@@ -25,6 +25,7 @@ export const Administracion = () => {
   const [showVideos,setShowVideos] = useState(false);
   //const [showModalAssigment,setShowModalAssigment] = useState(false);
   const [showProductos,setShowProductos] = useState(false);
+  const [showAreaCategoria, setShowAreaCategoria] = useState(false);;
 
   const [response, setResponse] = useState({}); //Permite mostrar si la accion se realizo correctamente al llamar al api
   const navigate = useNavigate();
@@ -70,10 +71,11 @@ export const Administracion = () => {
   return (
     <div className="w-[95%] mx-auto">
         
-        <SideBar setShowPublicidad={setShowPublicidad} setShowCursos={setShowCursos} setShowVentas={setShowVentas} setShowPedidos={setShowPedidos} setShowVideos={setShowVideos} setShowTalento={setShowTalento} setShowProfesor={setShowProfesor} setShowProductos={setShowProductos} setResponse={setResponse} />
+        <SideBar setShowPublicidad={setShowPublicidad} setShowCursos={setShowCursos} setShowVentas={setShowVentas} setShowPedidos={setShowPedidos} setShowVideos={setShowVideos} setShowTalento={setShowTalento} setShowProfesor={setShowProfesor} setShowProductos={setShowProductos} setResponse={setResponse} setShowAreaCategoria={setShowAreaCategoria} />
 
         <div className="sm:ml-56">
             {showPublicidad && <Publicidad response={response} setResponse={setResponse} />}
+            {showAreaCategoria && <AreasCategorias response={response} setResponse={setResponse} />}
             {/* {showCursos && <Cursos setShowCursos={setShowCursos} setShowVideos={setShowVideos} showModalCourse={showModalCourse} setShowModalCourse={setShowModalCourse} showModalDeleteCurso={showModalDeleteCurso} setShowModalDeleteCurso={setShowModalDeleteCurso} cursoList={cursoList} curso={curso} setCurso={setCurso} setSearch={setSearch} response={response} setResponse={setResponse} />} */}
             {showCursos && <Cursos setShowCursos={setShowCursos} setShowVideos={setShowVideos} showModalCourse={showModalCourse} setShowModalCourse={setShowModalCourse} showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete} cursoList={cursoList} curso={curso} setCurso={setCurso} setSearch={setSearch} response={response} setResponse={setResponse} />}
             {showVideos && <Videos setShowCursos={setShowCursos} setShowVideos={setShowVideos}  curso={curso} setCurso={setCurso}  />}
