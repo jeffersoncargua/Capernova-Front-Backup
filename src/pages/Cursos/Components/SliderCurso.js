@@ -137,7 +137,7 @@ export const SliderCurso = ({producto}) => {
                         modules={[Pagination]} 
                         >
                             {slices.map((itemProd,index) => (
-                            <SwiperSlide>
+                            <SwiperSlide key={index}>
                                 <div className= 'shrink-0 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 hover:scale-100 mb-10' key={index}>
                                 {/*ProductCard */}
                                     <ProductCard itemProd={itemProd} />

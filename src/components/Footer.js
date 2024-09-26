@@ -1,5 +1,5 @@
 import {Link} from 'react-router-dom';
-import CaperNova from '../assets/Capernova.png';
+//import CaperNova from '../assets/Capernova.png';
 
 
 export const Footer = () => {
@@ -7,9 +7,10 @@ export const Footer = () => {
     <footer className="bg-white dark:bg-gray-900 border-t-[1px] border-slate-400 rounded-lg">
       <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
           <div className="md:flex md:justify-between">
-            <div className="mb-6 md:mb-0 flex">
-                <Link to='/' className="flex items-center">
-                    <img src={CaperNova} className="h-12 me-3" alt="FlowBite Logo" />
+            <div className="mb-6 md:mb-0 flex flex-col justify-center">
+                <h1 className='text-center text-black dark:text-white font-semibold mb-4'>Nuestros Auspiciantes:</h1>
+                <Link to='/' className="flex items-center justify-center">
+                    <img src={`https://drive.google.com/thumbnail?id=1nooBcp7BXs1EIbpCcPOdrrbCQqT5kmhp`} className="h-[130px] w-[200px] me-3" alt="FlowBite Logo" />
                 </Link>
             </div>
             <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
