@@ -77,8 +77,14 @@ export const Profesor = () => {
        }
       //const capitulos = JSON.parse(resultFetch.result[0].capitulos);
       } catch (error) {
-        console.error(error)
-        toast.error('Ha ocurrido un error en el servidor');
+        if (error.statusCode !== 400) {
+          console.error(error)
+          //toast.error('Ha ocurrido un error en el servidor');
+        }else{
+          console.error(error)
+          toast.error('Ha ocurrido un error en el servidor');
+        }
+        
       }
     }
 

@@ -3,7 +3,7 @@ import {Modal} from './components';
 //import { baseURL } from '../endpoints';
 
 import Registro from '../../assets/registro.jpg';
-import { useNavigate } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 
 export const Register = ({children}) => {
 
@@ -13,7 +13,7 @@ export const Register = ({children}) => {
   const [showModal, setShowModal] = useState(false);
   //const [messagePassword,setMessagePassword] = useState('');
   const [response,setResponse] = useState({});
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   const refName = useRef();
   const refLastName = useRef();
@@ -50,9 +50,11 @@ export const Register = ({children}) => {
 
         let resultFetch = await resultFromApi.json();
 
-        if (resultFromApi.status !== 200) {
-          throw resultFetch;
-        }
+        console.log(resultFromApi);
+        // if (resultFromApi.status !== 200 || resultFetch.statusCode !== 400) {
+        //   throw resultFetch;
+        // }
+
 
 
         // if(result.errors.ConfirmPassword){
@@ -67,7 +69,7 @@ export const Register = ({children}) => {
     } catch (error) {
       setShowButtonLoading(false);
       console.error('Algo salio mal al crear el registro: ', error);
-      navigate('/error');
+      //navigate('/error');
     }
     
   }

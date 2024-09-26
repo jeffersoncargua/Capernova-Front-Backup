@@ -23,6 +23,8 @@ import { toast } from "react-toastify";
   const [objeto, setObjeto] = useState({}); //es para almacenar el objeto a eliminar mediante el componente ModalDelete
   const refSearch = useRef();
 
+  //const [showLoading,setShowLoading] =useState(false);
+
   useEffect(() => {
     /*const fetchCurso = async() => {
       const resultFromApi = await fetch(`https://localhost:7164/api/Course/getAllCourse?search=${search}`,{
@@ -51,17 +53,23 @@ import { toast } from "react-toastify";
       
     }*/
 
-    setNumberOfPages(Math.ceil(cursoList.length / pageSize));
 
-    //publicidadList &&
-    setCurrentDataDisplayed(() => {
-    const page = cursoList?.slice((currentPage - 1) * pageSize, currentPage * pageSize);
-    return { list: page }; //List es una lista con la cantidad de items de publicidad que se va a mostrar en la tabla
-    });
-    setPreviousAllowed(() => currentPage > 1);
-    setNextAllowed(() => currentPage < numberOfPages);
-    //fetchCurso();
 
+      //setShowLoading(true);
+
+      setNumberOfPages(Math.ceil(cursoList.length / pageSize));
+
+      //publicidadList &&
+      setCurrentDataDisplayed(() => {
+      const page = cursoList?.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+      //return { list: page }; //List es una lista con la cantidad de items de publicidad que se va a mostrar en la tabla
+      return page ;
+      });
+      setPreviousAllowed(() => currentPage > 1);
+      setNextAllowed(() => currentPage < numberOfPages);
+      //fetchCurso();
+      //setShowLoading(false);
+      
     response.isSuccess? toast.success(response.message): toast.error(response.message);
     
   }, [currentPage,numberOfPages,cursoList,response]);
@@ -105,12 +113,14 @@ import { toast } from "react-toastify";
   }
 
   //console.log(cursoList);
+  //console.log(currentDataDisplayed);
 
   return (
     <div>
 
         <h1 className="text-center font-medium text-xl dark:text-white mb-10">Cursos Capernova</h1>
         {/*Aqui van los modales */}
+        {/* {showLoading && <Loading /> } */}
         
         {showModalCourse && <ModalCourse showModalCourse={showModalCourse} setShowModalCourse={setShowModalCourse} setSearch={setSearch} setResponse={setResponse} />}
         {/* {showModalDeleteCurso && <ModalDeleteCurso showModalDeleteCurso={showModalDeleteCurso} setShowModalDeleteCurso={setShowModalDeleteCurso} curso={curso} setSearch={setSearch} setResponse={setResponse} />} */}
@@ -154,7 +164,7 @@ import { toast } from "react-toastify";
                     </tr>
                   </thead>
                   <tbody>
-                  {currentDataDisplayed.list? (currentDataDisplayed.list.map((item) => (
+                  {currentDataDisplayed.length > 0 ? (currentDataDisplayed.map((item) => (
                     <tr key={item.id} className="border-b dark:border-gray-700">
                       <td className="px-4 py-3">
                         <img src={item.imagenUrl} className="w-16 md:w-44 max-w-full max-h-full" alt={item.titulo} />
@@ -177,7 +187,9 @@ import { toast } from "react-toastify";
                         </div>
                       </td>
                     </tr>
-                  ))): (null)}
+                  ))): (<tr className="border-b dark:border-gray-700" >
+                    <td className="font-medium text-xl mb-10 p-5">No se han encontrado registros...</td>                  
+                  </tr>)}
                     
                   </tbody>
                 </table>

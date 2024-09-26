@@ -60,6 +60,7 @@ export const DeberDetail = ({matricula}) => {
 
   return (
     <div className="w-[95%] mx-auto">
+        <h1 className="text-center font-medium text-xl dark:text-white mb-10">Deberes Curso {matricula.curso.titulo}</h1>
 
         {showModalDeber &&  <ModalDeber showModalDeber={showModalDeber} setShowModalDeber={setShowModalDeber} matricula={matricula} deber={deber} setResponse={setResponse} />}
         <div className="overflow-x-auto">

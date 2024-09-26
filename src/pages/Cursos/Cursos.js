@@ -4,11 +4,16 @@ import { Beneficios } from "../../components";
 //import { search } from "../../redux/searchProductSlice";
 import { ProductCard } from "../../components";
 import { SearchFilter } from "./Components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useSearchParams } from "react-router-dom";
+//import { useSelector } from "react-redux";
 
 export const Cursos = ({children}) => {
   const [slices, setSlices] = useState([]);
   const [search,setSearch] = useState('');
+
+  const [searchParams] = useSearchParams();
+  const categoriaId = searchParams.get('categoriaId');
+  //console.log(categoriaId);
   const refSearch = useRef();
   const navigate = useNavigate();
   //const dispatch = useDispatch();
@@ -19,7 +24,7 @@ export const Cursos = ({children}) => {
     
     const fetchCourses = async() => {
         try {
-          const result = await fetch(`${process.env.REACT_APP_API_URL}/Producto/getAllProducto?search=${search}&tipo=${"curso"}`,{
+          const result = await fetch(`${process.env.REACT_APP_API_URL}/Producto/getAllProducto?search=${search}&tipo=${"curso"}&categoriaId=${categoriaId || 0}`,{
             method: 'GET',
             headers:{
               'Content-Type' : 'application/json',
@@ -28,7 +33,7 @@ export const Cursos = ({children}) => {
           });
           const resultFetch = await result.json();
 
-          console.log(result.status);
+          //console.log(result.status);
           if (result.status !== 200) {
             throw resultFetch;
           }
@@ -36,15 +41,20 @@ export const Cursos = ({children}) => {
           setSlices(resultFetch.result);
           
         } catch (error) {
-          console.error(error);
-          navigate('/error');
+          if(error.statusCode !== 404){
+            console.error(error);
+          }else{
+            console.error(error);
+            navigate('/error');
+          }
+          
         }
     }
 
     fetchCourses();
       
     
-  },[search,navigate])
+  },[search,navigate,categoriaId])
 
   const handleSubmitSearch = (event) => {
     //event.preventDefault();
@@ -73,7 +83,7 @@ export const Cursos = ({children}) => {
         <div className="w-[75%] flex flex-wrap md:justify-center">
 
           <div className='w-full'>
-            <div className="relative md:hidden block mb-6 flex-1 w-[95%]">   
+            <div className="relative block mb-6 flex-1 w-[95%]">   
               {/* <form onSubmit={handleSubmitSearch}> */}
               <form>
                 <div type='submit' className="absolute inset-y-0 end-2 flex items-center ps-3 ">
@@ -82,17 +92,21 @@ export const Cursos = ({children}) => {
                   </svg>
                   <span className="sr-only">Search icon</span>   
                 </div> 
-                <input onChange={() => handleSubmitSearch()} type="text" id="search-navbar" className="w-full p-2 ps-2 text-sm text-gray-900 rounded-lg bg-gray-50 hover:border-blue-300 focus:outline-none focus:ring-inset focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Buscar Productos..." ref={refSearch} />                        
+                <input onChange={() => handleSubmitSearch()} type="text" id="search-navbar" className="w-full p-2 ps-2 text-sm text-gray-900 rounded-lg bg-gray-50 hover:border-blue-300 focus:outline-none focus:ring-inset focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Buscar Cursos..." ref={refSearch} />                        
               </form>                     
                 
             </div>
           </div>          
-            {slices.map((itemProd,index) => (
+            {slices.length > 0 ? (slices.map((itemProd,index) => (
                 <div className= 'shrink-0 w-full sm:w-1/2 md:w-1/2 lg:w-1/3 mb-10' key={index}>
                   {/*ProductCard */}
                     <ProductCard itemProd={itemProd} />
                 </div> 
-            ))}
+            ))):(
+              <div className="group tex-black dark:text-white w-full h-80">                  
+                <label className=" text-5xl py-4 ms-2 text-center ">No existen registros de tu búsqueda ... </label>
+            </div>
+            )}
         </div>
       </div>      
       {children}

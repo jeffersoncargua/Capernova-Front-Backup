@@ -1,6 +1,6 @@
 //import { useEffect } from "react"
 
-import { useNavigate, useSearchParams } from "react-router-dom";
+import {  useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 //import { baseURL } from "../endpoints";
 
@@ -13,7 +13,7 @@ export const ConfirmationEmail = ({children}) => {
     token.replace(' ','+');
     const email =searchParams.get('email');
 
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
 
 
     useEffect(()=>{  
@@ -31,22 +31,22 @@ export const ConfirmationEmail = ({children}) => {
 
           const resultFetch = await resultFromApi.json();
 
-          if (resultFromApi.status !== 200) {
-            throw resultFetch;
-          }
+          // if (resultFromApi.status !== 200) {
+          //   throw resultFetch;
+          // }
 
           setResponse(resultFetch);
 
           } catch (error) {
             console.log(error);
-            navigate('/error');
+            //navigate('/error');
           }
         
       }
       FetchConfirm();
           
        
-    },[token,email,navigate]);
+    },[token,email]);
 
   return (
     <div className="w-[95%] mx-auto mt-10 group text-black dark:text-white">

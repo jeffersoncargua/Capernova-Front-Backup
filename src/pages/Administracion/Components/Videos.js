@@ -34,69 +34,6 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso,setShowDeber
   //console.log(curso);
   //console.log(capitulos);
 
-  useEffect(()=>{
-    const GetCapitulo = async()=>{
-      try {
-        const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Capitulo/getAllCapitulo/${curso.id}`,{
-          method:'GET',
-          credentials:'include',
-          headers: {
-            'Content-Type' : 'application/json',
-            'Accept' : 'application/json'
-          }
-        });
-        const resultFetch = await resultFromApi.json();
-
-        if (resultFromApi.status !== 200) {
-          throw resultFetch;
-        }
-        //console.log(resultFetch);
-        setCapitulos(resultFetch.result);
-      } catch (error) {
-        console.error(error);
-        toast.error('Ha ocurrido un error en el servidor');
-      }
-      
-    }
-    GetCapitulo();
-    response.isSuccess ? toast.success(response.message):toast.error(response.message);
-  },[curso,response])
-
-  useEffect(()=>{
-    const FetchCategoriaCurso = async()=>{
-        try {
-            //Falta agregar la autorizacion mediante bearer --Mucho ojo!!!
-            const result = await fetch(`${process.env.REACT_APP_API_URL}/Producto/getAllCategoria?tipo=${'curso'}`,{
-                method:'GET',
-                credentials: 'include',
-                headers:{
-                    'Content-Type' : 'application/json',
-                    'Accept' : 'application/json',
-                },
-                
-            });
-            const resultFetch = await result.json();
-
-
-            //console.log(resultFetch);
-            //console.log(result.status);
-            if (result.status !== 200) {
-                throw resultFetch;
-            }
-
-            setCategoriaList(resultFetch.result);
-            
-        } catch (error) {
-            if (error.statusCode !== 400) {
-                console.error(error);
-                toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
-            }
-            
-        }
-    }
-    FetchCategoriaCurso();
-},[])
-
 useEffect(()=>{
   const FetchProducto = async()=>{
       try {
@@ -108,7 +45,7 @@ useEffect(()=>{
                   'Content-Type' : 'application/json',
                   'Accept' : 'application/json',
               },
-              
+
           });
           const resultFetch = await result.json();
 
@@ -120,23 +57,96 @@ useEffect(()=>{
           }
 
           setProducto(resultFetch.result);
-          
+
       } catch (error) {
           if (error.statusCode !== 400) {
               console.error(error);
               toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
           }
-          
+
       }
   }
+
   FetchProducto();
+
 },[curso])
 
+
+useEffect(()=>{
+  const FetchCategoriaCurso = async()=>{
+    try {
+        //Falta agregar la autorizacion mediante bearer --Mucho ojo!!!
+        const result = await fetch(`${process.env.REACT_APP_API_URL}/Producto/getAllCategoria?tipo=${'curso'}`,{
+            method:'GET',
+            credentials: 'include',
+            headers:{
+                'Content-Type' : 'application/json',
+                'Accept' : 'application/json',
+            },
+
+        });
+        const resultFetch = await result.json();
+
+
+        //console.log(resultFetch);
+        //console.log(result.status);
+        if (result.status !== 200) {
+            throw resultFetch;
+        }
+
+        setCategoriaList(resultFetch.result);
+
+    } catch (error) {
+        if (error.statusCode !== 400) {
+            console.error(error);
+            toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
+        }
+
+    }
+  }
+  FetchCategoriaCurso();
+},[producto])
+
+useEffect(()=>{
+  const GetCapitulo = async()=>{
+    try {
+      const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Capitulo/getAllCapitulo/${curso.id}`,{
+        method:'GET',
+        credentials:'include',
+        headers: {
+          'Content-Type' : 'application/json',
+          'Accept' : 'application/json'
+        }
+      });
+      const resultFetch = await resultFromApi.json();
+
+      if (resultFromApi.status !== 200) {
+        throw resultFetch;
+      }
+      //console.log(resultFetch);
+      setCapitulos(resultFetch.result);
+    } catch (error) {
+      if (error.statusCode !==400) {
+        console.error(error);
+        toast.error('Ha ocurrido un error en el servidor');
+        setCapitulos([]);
+      }else{
+        console.error(error);
+        setCapitulos([]);
+        //toast.error('Ha ocurrido un error en el servidor');
+      }
+
+    }
+
+  }
+  GetCapitulo();
+  response.isSuccess ? toast.success(response.message):toast.error(response.message);
+},[curso,response])
 
 
   const handleEditCap = (cap) => {
     setShowModalCapitulo(true);
-    setCapitulo(cap);    
+    setCapitulo(cap);
   }
 
   const handleDeleteCap = (cap) => {
@@ -151,7 +161,7 @@ useEffect(()=>{
     setCapitulo(cap);
     setVideo({});
     //setVideos(cap.Videos);
-    
+
   }
 
   //Esta funcion permite enviar la informacion para editar el curso en la base de datos
@@ -180,7 +190,7 @@ useEffect(()=>{
           //isActive: curso.isActive,
           //capituloList: capitulos
           folderId: refFolder.current.value,
-          categoriaId : refCategoria.current.value 
+          categoriaId : refCategoria.current.value
         }))
       });
       const resultFetch =await result.json();
@@ -204,16 +214,27 @@ useEffect(()=>{
     }
   }
 
+  //console.log(producto);
+  // console.log(producto.id);
+  // console.log(typeof(producto.categoriaId));
+  // console.log(String(producto.categoriaId));
+  // console.log(typeof(String(producto.categoriaId)));
+
+  // const handleChange = ()  => {
+  //   console.log(refCategoria.current.value);
+  //   console.log(typeof(refCategoria.current.value));
+  // }
+
 
   return (
     <div className="w-[95%] mx-auto">
 
       {/*Se muestran los modales para la generacion, edicion y eliminacion de los capitulos y videos del curso */}
       {showModalCapitulo && <ModalCapitulo showModalCapitulo={showModalCapitulo} setShowModalCapitulo={setShowModalCapitulo} capitulo={capitulo} setCapitulo={setCapitulo} curso={curso} setResponse={setResponse} /*capitulos={capitulos} setCapitulos={setCapitulos}*/ />}
-      
-      
+
+
       {showModalVideo && <ModalVideo showModalVideo={showModalVideo} setShowModalVideo={setShowModalVideo} video={video} setVideo={setVideo} videos={videos} setVideos={setVideos} capitulo={capitulo} setCapitulo={setCapitulo} setResponse={setResponse} /*capitulos={capitulos} setCapitulos={setCapitulos}*/ />}
-      
+
       {showModalDelete && <ModalDelete showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete} objeto={objeto} setObjeto={setObjeto} setResponse={setResponse} tipo={tipo} setTipo={setTipo}  />}
       {showModalSuccess && <ModalSuccess showModalSuccess={showModalSuccess} setShowModalSuccess={setShowModalSuccess} response={response} setResponse={setResponse} setShowCursos={setShowCursos} setShowVideos={setShowVideos} />}
 
@@ -252,23 +273,25 @@ useEffect(()=>{
       </div>
       <div className="w-[95%] mx-auto mt-5">
           <label htmlFor="tipo" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tipo de Categoría:</label>
-          <select id="tipo" className="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" defaultValue={producto.categoriaId} ref={refCategoria} >
+          {producto.id && (
+            <select id="tipo" className="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" defaultValue={producto.categoriaId || 0} ref={refCategoria} >
               <option value={0}>---Seleccione el tipo de Categoría---</option>
               {categoriaList.length > 0 && categoriaList.map( (categoria,index) => (
                   <option key={index} value={categoria.id}>{categoria.name}</option>
               ) )}
-              
           </select>
-      </div>       
+          )}
+
+      </div>
       <div className="w-[95%] mx-auto mt-5">
         <label htmlFor="descripcion" className="block mb-2 font-medium text-gray-900 dark:text-white">Descripción:</label>
-        <textarea id="descripcion" name='descripcion' rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Escribe la descripción del curso aquí" defaultValue={curso.detalle} ref={refDescripcion}></textarea>                    
+        <textarea id="descripcion" name='descripcion' rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Escribe la descripción del curso aquí" defaultValue={curso.detalle} ref={refDescripcion}></textarea>
       </div>
-      
+
       {/*Aqui va la tabla con el contenido del capitulo */}
       <div className="w-[95%] mx-auto border-2 border-gray-400 my-10 rounded-lg">
         {/*curso.capituloList*/}
-        {capitulos && capitulos.map((cap)=> (
+        {capitulos.length ? capitulos.map((cap)=> (
           <div key={cap.id}>
             <div  className="flex justify-around items-center my-4">
               <div className="group dark:text-white">
@@ -289,7 +312,7 @@ useEffect(()=>{
                     <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
                   </svg>
                   Editar Capitulo
-                </button> 
+                </button>
                 <button onClick={() => handleDeleteCap(cap)} className="flex items-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-red-400 hover:bg-red-600 rounded-lg">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-trash3 w-4 h-4 mr-2" viewBox="0 0 16 16">
                     <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
@@ -322,14 +345,14 @@ useEffect(()=>{
                     <td className="px-4 py-3">{video.ordenReproduccion}</td>
                     {/* <td className="px-4 py-3">{String(video.Visto)}</td> */}
                     {/*<td className="px-4 py-3">
-                      <div className="py-1 flex justify-start">                          
+                      <div className="py-1 flex justify-start">
                         <button onClick={() => handleEditVideo(video)} className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-yellow-300 hover:bg-yellow-400 rounded-lg mr-2">
                           <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-pencil-square h-4 w-4 mr-2" viewBox="0 0 16 16">
                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                             <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
                           </svg>
                           Editar
-                        </button>                              
+                        </button>
                         <button onClick={() => handleDeleteVideo(video)} className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-red-500 hover:bg-red-600 rounded-lg">
                           <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-trash3 w-4 h-4 mr-2" viewBox="0 0 16 16">
                             <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
@@ -340,16 +363,18 @@ useEffect(()=>{
                     </td>
                   </tr>
                 ))): (null)} */}
-                  
+
                 </tbody>
               </table>
             </div>
           </div>
-        ))}
+        )):(<div className="border-b dark:border-gray-700 group text-black dark:text-white" >
+          <span className="font-medium text-xl mb-10 p-5">No existen capitulos registrados para este curso...</span>
+        </div>)}
       </div>
-      
+
       <div className="flex justify-end my-10">
-        {showButtonLoading ? 
+        {showButtonLoading ?
         (<button disabled className="flex items-center px-4 py-2 bg-blue-400 hover:bg-blue-600 text-gray 900 hover:text-white text-sm rounded-lg hover:scale-125">
           <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-floppy w-5 h-5 mr-2" viewBox="0 0 16 16">
             <path d="M11 2H9v3h2z"/>
@@ -366,7 +391,7 @@ useEffect(()=>{
           Guardar
         </button>)
         }
-        
+
       </div>
 
     </div>

@@ -140,7 +140,7 @@ export const PlayerVideo = ({estudiante,matricula,setMatricula}) => {
 
         {showModalCompleted &&  <ModalCompleted showModalCompleted={showModalCompleted} setShowModalCompleted={setShowModalCompleted} /> }
         
-        <div className='flex-initial w-full md:w-2/3'>
+        <div className='flex-initial w-full md:w-2/3 mb-10'>
             <VideoPlayer 
                 playing={true}
                 url={currentVideo.videoUrl || 'https://www.youtube.com/watch?v=pJjjzarKotI'}
@@ -154,7 +154,7 @@ export const PlayerVideo = ({estudiante,matricula,setMatricula}) => {
         
         <div className='flex-initial w-full md:w-[30%]'>
             {capituloList.length > 0 && capituloList.map((capitulo)=>(
-                <ul key={capitulo.id} className="text-sm text-center text-black bg-white border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white mt-8 md:m-0">
+                <ul key={capitulo.id} className="text-sm text-center text-black bg-white border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white md:m-0">
                     <li className="w-full px-4 py-2 font-bold text-lg border-b border-gray-200 bg-blue-100 dark:bg-gray-500 dark:border-gray-600">
                         {capitulo.titulo}
                     </li>

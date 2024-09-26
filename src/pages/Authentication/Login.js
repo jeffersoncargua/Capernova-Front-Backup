@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useState, useRef } from 'react';
 import {ModalLogin} from './components';
 import { JWTDecode } from '../../hooks/JWTDecode';
@@ -18,7 +18,7 @@ export const Login = ({children}) => {
   const [showModal, setShowModal] = useState(false);
   //const [messagePassword,setMessagePassword] = useState('');
   const [response,setResponse] = useState({});
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   const refEmail = useRef();
   const refPassword = useRef();
@@ -46,9 +46,9 @@ export const Login = ({children}) => {
         
         const resultFetch  = await resultFromApi.json();
 
-        if (resultFromApi.status !== 200) {
-          throw resultFetch;
-        }
+        // if (resultFromApi.status !== 200) {
+        //   throw resultFetch;
+        // }
 
         setShowButtonLoading(false);
         //console.log(result);
@@ -56,8 +56,8 @@ export const Login = ({children}) => {
         setResponse(resultFetch);
         const token = resultFetch.result.token;
         
-
-        //Funcion para decodificar el token y acceder a su informacion para el inicio de sesion
+        if(resultFetch.isSuccess){
+          //Funcion para decodificar el token y acceder a su informacion para el inicio de sesion
         const objet = JWTDecode(token);
         //console.log(objet);
 
@@ -65,12 +65,15 @@ export const Login = ({children}) => {
         //Permite almacenar el inicio de sesion de un usuario que se ha logeado de forma exitosa
         sessionStorage.setItem('auth',resultFetch.result.token);
         dispatch(signIn(objet));
+        }
+
+        
         
 
     } catch (error) {
       setShowButtonLoading(false);
       console.error('Algo salio mal al crear el registro: ', error);
-      navigate('/error');
+      //navigate('/error');
     }
 
   }

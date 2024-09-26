@@ -2,6 +2,15 @@ import { useState,useEffect } from "react";
 import { CoursesCard } from '../components'
 import { toast } from "react-toastify";
 
+import { Swiper, SwiperSlide } from "swiper/react";
+
+import { Pagination, Navigation } from 'swiper/modules';
+
+//Styles Swiper
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+
 
 export const Deberes = ({estudiante,setMatricula,setShowDeberDetail}) => {
 
@@ -46,15 +55,36 @@ export const Deberes = ({estudiante,setMatricula,setShowDeberDetail}) => {
 
 
   return (
-    <div className="w-[95%] mx-auto flex flex-wrap space-x-8">
-      {matriculaList.length > 0 && matriculaList.map((matricula) => (
+    //<div className="w-[95%] mx-auto flex flex-wrap space-x-8">
+    <div className="w-[95%] mx-auto flex space-x-8">
+      {/* {matriculaList.length > 0 && matriculaList.map((matricula) => (
         <div key={matricula.id}>
           <button disabled={!matricula.isActive} onClick={()=>{setMatricula(matricula);setShowDeberDetail(true)}} className={`${matricula.isActive ? `hover:cursor-pointer`: 'hover:cursor-not-allowed'}`}>
             <CoursesCard matricula={matricula}  />
           </button>
         </div>
         
-      ))}
+      ))} */}
+
+      <Swiper 
+         pagination={{
+          type: 'fraction',
+        }}
+        navigation={true}
+        modules={[Pagination, Navigation]}
+        className="text-black dark:text-white">
+        {matriculaList.length > 0 && matriculaList.map((matricula,index) => (        
+          <div key={index || Math.random()}>
+            <SwiperSlide className="" style={{width:''}} >
+              <button disabled={!matricula.isActive} onClick={()=>{setMatricula(matricula);setShowDeberDetail(true)}} className={`${matricula.isActive ? `hover:cursor-pointer`: 'hover:cursor-not-allowed'} contents `}>
+                <CoursesCard matricula={matricula}  />
+              </button>
+            </SwiperSlide>
+          </div>
+          
+        ))}
+      </Swiper>
+
     </div>
   )
 }

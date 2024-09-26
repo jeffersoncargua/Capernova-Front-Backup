@@ -2,6 +2,16 @@ import { useState, useEffect} from "react";
 import { CoursesCard, ProgressBar , ModalDownload} from "../../Estudiante/components";
 import { toast } from "react-toastify";
 
+import { Swiper, SwiperSlide } from "swiper/react";
+
+import { Pagination, Navigation } from 'swiper/modules';
+
+//Styles Swiper
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+
+
 export const Logros = ({estudiante}) => {
 
   
@@ -41,18 +51,40 @@ export const Logros = ({estudiante}) => {
   },[estudiante])
 
   return (
-    <div className="w-[95%] mx-auto flex flex-wrap space-x-8  ">
+    //<div className="w-[95%] mx-auto flex flex-wrap space-x-8  ">
+    <div className="w-[95%] mx-auto flex space-x-8  ">
 
       {/*Aqui van los modal */}
       
       {showModalDownload && <ModalDownload  showModalDownload={showModalDownload} setShowModalDownload={setShowModalDownload} result={result} setResult={setResult} />}
 
-      {matriculaList.length > 0 && matriculaList.map((matricula) => (
+      {/* {matriculaList.length > 0 && matriculaList.map((matricula) => (
         <div key={matricula.id}>
           <CoursesCard matricula={matricula} >
               <ProgressBar matricula={matricula} setShowModalDownload={setShowModalDownload} setResult={setResult}/>
           </CoursesCard>
-        </div>))}
+        </div>))} */}
+
+      <Swiper 
+         pagination={{
+          type: 'fraction',
+        }}
+        navigation={true}
+        modules={[Pagination, Navigation]}
+        className="text-black dark:text-white">
+        {matriculaList.length > 0 && matriculaList.map((matricula,index) => (        
+          <div key={index || Math.random()}>
+            <SwiperSlide className="" style={{width:''}} >
+              <div className="contents">
+                <CoursesCard matricula={matricula} >
+                  <ProgressBar matricula={matricula} setShowModalDownload={setShowModalDownload} setResult={setResult}/>
+                </CoursesCard>
+              </div>
+            </SwiperSlide>
+          </div>
+          
+        ))}
+      </Swiper>
       
     </div>
   )

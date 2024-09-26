@@ -152,7 +152,7 @@ export const AreasCategorias = ({response,setResponse}) => {
                                         </td>
                                     </tr>
                                 )): (<tr className="border-b dark:border-gray-700" >
-                                    <td className="font-medium text-xl mb-10 p-5">No se ha encontrado tu busqueda...</td>                  
+                                    <td className="font-medium text-xl mb-10 p-5">No se han encontrado registros...</td>                  
                                 </tr>)}
                                     
                                 </tbody>

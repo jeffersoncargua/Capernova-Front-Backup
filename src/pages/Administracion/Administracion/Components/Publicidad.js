@@ -48,7 +48,8 @@ export const Publicidad = ({response,setResponse}) => {
           //publicidadList &&
           setCurrentDataDisplayed(() => {
           const page = resultFetch?.result?.slice((currentPage - 1) * pageSize, currentPage * pageSize);
-          return { list: page }; //List es una lista con la cantidad de items de publicidad que se va a mostrar en la tabla
+          //return { list: page }; //List es una lista con la cantidad de items de publicidad que se va a mostrar en la tabla
+          return page;
           });
           setPreviousAllowed(() => currentPage > 1);
           setNextAllowed(() => currentPage < numberOfPages);
@@ -153,7 +154,7 @@ export const Publicidad = ({response,setResponse}) => {
                     </tr>
                   </thead>
                   <tbody>
-                  {currentDataDisplayed.list? (currentDataDisplayed.list.map((item) => (
+                  {currentDataDisplayed.length > 0 ? (currentDataDisplayed.map((item) => (
                     <tr key={item.id} className="border-b dark:border-gray-700">
                       <td className="px-4 py-3">
                         <img src={item.imageUrl} className="w-16 md:w-32 max-w-full max-h-full" alt="Apple Watch" />
@@ -177,7 +178,9 @@ export const Publicidad = ({response,setResponse}) => {
                         </div>
                       </td>
                     </tr>
-                  ))): (null)}
+                  ))): (<tr className="border-b dark:border-gray-700" >
+                    <td className="font-medium text-xl mb-10 p-5">No se han encontrado registros...</td>                  
+                  </tr>)}
                     
                   </tbody>
                 </table>

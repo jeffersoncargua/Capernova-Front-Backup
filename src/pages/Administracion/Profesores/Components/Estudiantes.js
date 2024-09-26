@@ -9,7 +9,7 @@ export const Estudiantes = ({cursoList}) => {
   const pageSize = 10;
   const [matriculaList, setMatriculaList] = useState([]);
   const [matricula, setMatricula] = useState({});
-  const [cursoId,setCursoId] = useState();
+  const [cursoId,setCursoId] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [numberOfPages, setNumberOfPages] = useState(0);
   const [currentDataDisplayed, setCurrentDataDisplayed] = useState([]);
@@ -34,7 +34,8 @@ export const Estudiantes = ({cursoList}) => {
 
   useEffect(() => {
     const FetchEstudiantes = async() => {
-      if (cursoId !== undefined) {
+      //console.log(cursoId);
+      if (cursoId !== '') {
         try {
           const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Teacher/getStudents?cursoId=${cursoId || 0}&search=${searchUser}`,{
             method:'GET',
@@ -59,7 +60,8 @@ export const Estudiantes = ({cursoList}) => {
   
           setCurrentDataDisplayed(() => {
           const page = resultFetch?.result?.slice((currentPage - 1) * pageSize, currentPage * pageSize);
-          return { list: page }; //List es una lista con la cantidad de items de publicidad que se va a mostrar en la tabla
+          //return { list: page }; //List es una lista con la cantidad de items de publicidad que se va a mostrar en la tabla
+          return page;
           });
           setPreviousAllowed(() => currentPage > 1);
           setNextAllowed(() => currentPage < numberOfPages);
@@ -67,6 +69,9 @@ export const Estudiantes = ({cursoList}) => {
           console.error(error);
           toast.error('Ha ocurrido un error en el servidor');
         }
+      }else{
+        toast.info('Selecciona un curso');
+        setCurrentDataDisplayed([]);
       }
       
     }
@@ -203,7 +208,7 @@ export const Estudiantes = ({cursoList}) => {
                     </tr>
                   </thead>
                   <tbody>
-                  {currentDataDisplayed.list? (currentDataDisplayed.list.map((matricula) => (
+                  {currentDataDisplayed.length > 0 ? (currentDataDisplayed.map((matricula) => (
                     <tr key={matricula.id} className="border-b dark:border-gray-700">
                       <td className="px-4 py-3">{matricula.estudiante.name}</td>
                       <td className="px-4 py-3">{matricula.estudiante.lastName}</td>                      
@@ -237,7 +242,9 @@ export const Estudiantes = ({cursoList}) => {
                         </div>
                       </td>
                     </tr>
-                  ))): (null)}
+                  ))): (<tr className="border-b dark:border-gray-700" >
+                    <td className="font-medium text-xl mb-10 p-5">No se han encontrado registros...</td>                  
+                  </tr>)}
                     
                   </tbody>
                 </table>

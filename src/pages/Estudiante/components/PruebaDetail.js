@@ -64,6 +64,8 @@ export const PruebaDetail = ({matricula}) => {
   return (
     <div className="w-[95%] mx-auto">
 
+        <h1 className="text-center font-medium text-xl dark:text-white mb-10">Pruebas Curso {matricula.curso.titulo}</h1>
+
         {showModalPruebaDetail &&  <ModalPruebaDetail showModalPruebaDetail={showModalPruebaDetail} setShowModalPruebaDetail={setShowModalPruebaDetail} matricula={matricula} prueba={prueba} setResponse={setResponse} />}
         <div className="overflow-x-auto">
             <table className="w-full text-sm text-left rtl:text-right text-black dark:text-white">

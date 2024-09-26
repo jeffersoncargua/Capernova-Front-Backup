@@ -163,7 +163,7 @@ export const ModalProducto = ({showModal,setShowModal,producto,setResponse}) => 
                         <div className="grid gap-4 mb-4 grid-cols-2">
                             <div className="">
                                 <label htmlFor="codigo" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Codigo</label>
-                                <input type="text" name="codigo" id="codigo" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Escribe el titulo" ref={refCodigo} defaultValue={producto.codigo|| ''} />
+                                <input type="text" name="codigo" id="codigo" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Escribe el código" ref={refCodigo} defaultValue={producto.codigo|| ''} />
                             </div> 
                             <div className="">
                                 <label htmlFor="titulo" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Titulo</label>
@@ -184,13 +184,15 @@ export const ModalProducto = ({showModal,setShowModal,producto,setResponse}) => 
                             </div>  
                             <div className="">
                                 <label htmlFor="tipo" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tipo de Categoría:</label>
-                                <select id="tipo" className="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" defaultValue={producto.categoriaId} ref={refCategoria} >
-                                    <option value="">---Seleccione el tipo de Categoría---</option>
+                                {categoriaList.length > 0 && (
+                                    <select id="tipo" className="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" defaultValue={producto.id ? producto.categoriaId: 0} ref={refCategoria} >
+                                    <option value={0}>---Seleccione el tipo de Categoría---</option>
                                     {categoriaList.length > 0 && categoriaList.map( (categoria,index) => (
                                         <option key={index} value={categoria.id}>{categoria.name}</option>
                                     ) )}
                                     
                                 </select>
+                                )}                                
                             </div>                             
                             <div className="col-span-2">
                                 <label htmlFor="descripcion" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descripción</label>

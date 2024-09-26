@@ -12,4 +12,7 @@ export {WhatsappComponent} from './WhatsappComponent';
 export {Beneficios} from './Beneficios';
 
 
+export {DropDownCursos} from './DropDownCursos';
+export {DropDownProductos} from './DropDownProductos';
+
 

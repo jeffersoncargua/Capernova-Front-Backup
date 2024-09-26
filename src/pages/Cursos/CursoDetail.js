@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import {Descripcion,Contenido}  from './Components'
+import {Descripcion,Contenido, SliderCurso}  from './Components'
 
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
@@ -54,6 +54,8 @@ export const CursoDetail = () => {
     fetchProducto();
     
   },[productoId,navigate])
+
+  console.log(producto);
 
 
   const handleAddToCart = (itemProd) => {
@@ -117,6 +119,8 @@ export const CursoDetail = () => {
           </div>
         </div>
       </div>
+      {/*Aqui va el slider de los cursos similares */}
+      <SliderCurso producto={producto} />
     </div>
   )
 }

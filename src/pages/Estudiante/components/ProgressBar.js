@@ -52,7 +52,7 @@ export const ProgressBar = ({matricula,setShowModalDownload, setResult }) => {
           </div>
         )}
           
-        {!(matricula.estado === 'Completado') ? 
+        {!(matricula.estado === 'Completado' && matricula.notaFinal !== null) ? 
         (<div data-tooltip-id='tooltip-progreso' className=' mb-1' >
           <h1 className="text-sm text-black dark:text-white">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;En Progreso&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1>
           <Tooltip id='tooltip-progreso' className='z-50' place='top' content={'Para completar tu curso realiza las pruebas y deberes'} />     

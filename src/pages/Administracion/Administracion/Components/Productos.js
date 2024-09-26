@@ -22,6 +22,7 @@ export const Productos = ({setShowProductos}) => {
     const [tipo,setTipo] = useState(''); //es para almacenar el tipo de objeto a eliminar que puede ser curso, capitulo, video, deber, etc
     const [objeto, setObjeto] = useState({}); //es para almacenar el objeto a eliminar mediante el componente ModalDelete
     const [response,setResponse] = useState({});
+
     const refSearch = useRef();
     const navigate = useNavigate();
     
@@ -54,7 +55,8 @@ export const Productos = ({setShowProductos}) => {
           //productList &&
           setCurrentDataDisplayed(() => {
           const page = resultFetch?.result?.slice((currentPage - 1) * pageSize, currentPage * pageSize);
-          return { list: page }; //List es una lista con la cantidad de items de publicidad que se va a mostrar en la tabla
+          //return { list: page }; //List es una lista con la cantidad de items de publicidad que se va a mostrar en la tabla
+          return page;
           });
           setPreviousAllowed(() => currentPage > 1);
           setNextAllowed(() => currentPage < numberOfPages);
@@ -136,7 +138,7 @@ export const Productos = ({setShowProductos}) => {
                           <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
                       </svg>
                     </div>
-                    <input onChange={handleSearch} type="text" id="simple-search" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Search" required="" ref={refSearch} />
+                    <input onChange={handleSearch} type="text" id="simple-search" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Busca por el titulo del producto" required="" ref={refSearch} />
                   </div>
                 </form>
               </div>
@@ -160,7 +162,7 @@ export const Productos = ({setShowProductos}) => {
                   </tr>
                 </thead>
                 <tbody>
-                {currentDataDisplayed.list? (currentDataDisplayed.list.map((item) => (
+                {currentDataDisplayed.length > 0 ? (currentDataDisplayed.map((item) => (
                   <tr key={item.id} className="border-b dark:border-gray-700">
                     <td className="px-4 py-3">
                       <img src={item.imagenUrl} className="w-16 md:w-32 max-w-full max-h-full" alt="imagen producto" />
@@ -188,7 +190,9 @@ export const Productos = ({setShowProductos}) => {
                       </div>
                     </td>
                   </tr>
-                ))): (null)}
+                ))): (<tr className="border-b dark:border-gray-700" >
+                  <td className="font-medium text-xl mb-10 p-5">No se han encontrado registros...</td>                  
+                </tr>)}
                   
                 </tbody>
               </table>

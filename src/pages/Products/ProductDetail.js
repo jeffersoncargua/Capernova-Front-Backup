@@ -5,7 +5,8 @@ import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { addToCart } from "../../redux/cartSlice";
 
-import { ProductCard } from "../../components";
+//import { ProductCard } from "../../components";
+import {SliderProduct} from './components'
 
 export const ProductDetail = () => {
 
@@ -18,13 +19,12 @@ export const ProductDetail = () => {
     const refCant = useRef();
 
     const [producto, setProducto] = useState({});
-    const [productList,setProductList] = useState([]);
+    //const [productList,setProductList] = useState([]);
     const [shoppingCart, setShoppingCart] = useState(JSON.parse(localStorage.getItem('shoppingcart')) || []);
-
+    
     const navigate = useNavigate();
 
     useEffect(()=>{
-     
                 
       const fetchProducto = async() => {
         try {  
@@ -39,48 +39,56 @@ export const ProductDetail = () => {
   
         const resultFetch = await resultFromApi.json();
 
-        console.log(resultFromApi.status);
+        //console.log(resultFromApi.status);
         if (resultFromApi.status !==200) {
           throw resultFetch;
         }
 
         setProducto(resultFetch.result);
 
+
       } catch (error) {
-        console.error(error);
-        navigate('/error');
+        if (error.statusCode !== 400) {
+          console.error(error);
+          navigate('/error');
+        }else{
+          console.error(error);
+        }
       }
 
     }
 
-      const fetchProductos = async() => {
-        try {  
-          const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Producto/getAllProducto?tipo=${"producto"}`,{
-            method:'GET',
-            credentials : 'include',
-            headers:{
-              'Content-Type' : 'application/json',
-              'Accept' : 'application/json'
-            }
-          });
+      // const fetchProductos = async() => {
+        // try {  
+        //   const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Producto/getAllProducto?tipo=${"producto"}&categoriaId=${resultFetch.result.categoriaId}`,{
+        //     method:'GET',
+        //     credentials : 'include',
+        //     headers:{
+        //       'Content-Type' : 'application/json',
+        //       'Accept' : 'application/json'
+        //     }
+        //   });
     
-          const resultFetch = await resultFromApi.json();
+        //   const resultFetch2 = await resultFromApi.json();
 
-          console.log(resultFromApi.status);
-          if (resultFromApi.status !== 200) {
-            throw resultFetch;
-          }
-          //console.log(resultFetch);
-          setProductList(resultFetch.result);
+        //   //console.log(resultFromApi.status);
+        //   if (resultFromApi.status !== 200) {
+        //     throw resultFetch2;
+        //   }
+        //   //console.log(resultFetch);
+        //   setProductList(resultFetch2.result);
 
-        } catch (error) {
-          console.error(error);
-          navigate('error');
-        }
-      }
+        // } catch (error) {
+        //   if (error.statusCode !== 400) {
+        //     console.error(error);
+        //   }else{
+        //     console.error(error);
+        //   }
+        // }
+      // }
 
       fetchProducto();
-      fetchProductos();
+      //fetchProductos();
 
     },[productoId,navigate])
 
@@ -206,20 +214,18 @@ export const ProductDetail = () => {
               </div>       
             </div>
         </div>
-        <h1 className="self-center text-3xl font-medium text-center my-10 dark:text-white">
-          <span>
-              Productos Similares
-              <hr className="mx-auto w-[100px] border border-blue-400 drop-shadow-md" />
-          </span>
-        </h1>
-        <div className="flex flex-wrap">
+
+        {/*Aqui va el slider de los productos similares */}
+        <SliderProduct producto={producto} />
+        
+        {/* <div className="flex flex-wrap">
           {productList.map((itemProd,index) => (
                 <div className= 'shrink-0 w-full sm:w-1/2 md:w-1/2 lg:w-1/3 mb-10' key={index}>
-                  {/*ProductCard */}
+                  {/*ProductCard 
                     <ProductCard itemProd={itemProd} />
                 </div> 
             ))}
-        </div> 
+        </div> */}
     </div>
   )
 }

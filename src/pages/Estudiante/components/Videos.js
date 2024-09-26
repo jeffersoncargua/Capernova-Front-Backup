@@ -146,7 +146,7 @@ export const Videos = ({capitulo,handlePlay,estudiante,matricula,setMatricula}) 
 
 
   return (
-    <ul className="text-sm text-center text-black bg-white border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white mt-8 md:m-0">
+    <ul className="text-sm text-center text-black bg-white border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white md:m-0">
         {videoList.length > 0 && videoList.map((video)=>(
             <li key={video.id} className="w-full px-4 py-2 border-b border-gray-200 dark:border-gray-600 hover:bg-gray-50 group">
                 <button className='w-[80%] flex justify-between' onClick={()=>handlePlay(video)}>

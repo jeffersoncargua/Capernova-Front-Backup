@@ -5,7 +5,7 @@ import {Beneficios} from '../../components'
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { search } from "../../redux/searchProductSlice";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useSearchParams } from "react-router-dom";
 
 
 export const Products = ({children}) => {
@@ -14,6 +14,8 @@ export const Products = ({children}) => {
   const refSearch = useRef();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [searchParams] = useSearchParams();
+  const categoriaId = searchParams.get('categoriaId');
 
   const searchProduct = useSelector(state => state.searchState.searchProduct);
 
@@ -21,7 +23,7 @@ export const Products = ({children}) => {
     
       const fetchProductos = async() => {
         try {
-        const result = await fetch(`${process.env.REACT_APP_API_URL}/Producto/getAllProducto?search=${searchProduct}&tipo=${"producto"}`,{
+        const result = await fetch(`${process.env.REACT_APP_API_URL}/Producto/getAllProducto?search=${searchProduct}&tipo=${"producto"}&categoriaId=${categoriaId || 0}`,{
           method: 'GET',
           headers:{
             'Content-Type' : 'application/json',
@@ -44,12 +46,12 @@ export const Products = ({children}) => {
       fetchProductos();
       
     
-  },[searchProduct,navigate])
+  },[searchProduct,navigate,categoriaId])
 
   const handleSubmitSearch = (event) => {
     //event.preventDefault();
     dispatch(search(refSearch.current.value));
-}
+  }
 
 
   return (
@@ -86,12 +88,15 @@ export const Products = ({children}) => {
                 
             </div>
           </div>          
-            {slices.map((itemProd,index) => (
-                <div className= 'shrink-0 w-full sm:w-1/2 md:w-1/2 lg:w-1/3 mb-10' key={index}>
-                  {/*ProductCard */}
+          {slices.length > 0 ? (slices.map((itemProd,index) => (
+                <div className= 'shrink-0 w-full sm:w-1/2 md:w-1/2 lg:w-1/3 mb-10' key={index}>                  
                     <ProductCard itemProd={itemProd} />
                 </div> 
-            ))}
+            ))):(
+              <div className="group tex-black dark:text-white w-full h-80">                  
+                <label className=" text-5xl py-4 ms-2 text-center ">No existen registros de tu búsqueda ... </label>
+              </div>
+            )}
         </div>
       </div>      
       {children}
