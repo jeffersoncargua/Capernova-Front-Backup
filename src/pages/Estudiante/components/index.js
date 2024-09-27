@@ -22,6 +22,9 @@ export {PruebaDetail} from './PruebaDetail';
 export {NotaPrueba} from './NotaPrueba';
 export {ModalPruebaDetail} from './ModalPruebaDetail';
 
+export {CursoLive} from './CursoLive';
+export {Biblioteca} from './Biblioteca';
+
 export {ModalDownload} from './ModalDownload';
 
 

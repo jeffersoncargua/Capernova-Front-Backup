@@ -12,6 +12,8 @@ export const ModalCourse = ({showModalCourse,setShowModalCourse,setResponse}) =>
     const refPrice = useRef();
     const refCodigo = useRef();
     const refCategoria = useRef();
+    const refBiblioteca = useRef();
+    const refClasesUrl = useRef();
 
 
     useEffect(()=>{
@@ -73,7 +75,9 @@ export const ModalCourse = ({showModalCourse,setShowModalCourse,setResponse}) =>
                     precio: parseFloat(refPrice.current.value),
                     // isActive: false,
                     // capituloList: []
-                    categoriaId : refCategoria.current.value              
+                    categoriaId : refCategoria.current.value,
+                    bibliotecaUrl: refBiblioteca.current.value,
+                    claseUrl : refClasesUrl.current.value
                     
                 }))
             });
@@ -132,6 +136,14 @@ export const ModalCourse = ({showModalCourse,setShowModalCourse,setResponse}) =>
                             <div className="">
                                 <label htmlFor="price" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Precio</label>
                                 <input type="text" pattern="[0-9]{1,}\.[0-9]{1,}" name="price" id="price" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="$100,50" required="" ref={refPrice} />
+                            </div>
+                            <div className="">
+                                <label htmlFor="biblioteca" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Biblioteca</label>
+                                <input type="text" name="biblioteca" id="biblioteca" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Inserta la url de la biblioteca aquí" ref={refBiblioteca} />
+                            </div>
+                            <div className="">
+                                <label htmlFor="clasesEnVivo" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Clases en vivo</label>
+                                <input type="text" name="clasesEnVivo" id="clasesEnVivo" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Inserta la url de las clases en vivo aquí" ref={refClasesUrl} />
                             </div>
                             <div className="">
                                 <label htmlFor="tipo" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tipo de Categoría:</label>

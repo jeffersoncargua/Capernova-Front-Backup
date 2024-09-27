@@ -3,6 +3,7 @@ import { Videos} from "../Components";
 //import { SideBar , Publicidad,Cursos, Videos, TalentoHumano,Profesor} from "./Components";
 import { SideBar , Publicidad,Cursos, TalentoHumano,Profesor,Productos,Ventas,Pedidos, AreasCategorias} from "./Components";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 
 export const Administracion = () => {
@@ -63,6 +64,8 @@ export const Administracion = () => {
       
     
     GetCurso();
+    
+    response.isSuccess ? toast.success(response.message): toast.error(response.message);
 
     },[GetCurso,showModalCourse,showModalDelete,showTalento,showVideos,response])
 
@@ -79,7 +82,7 @@ export const Administracion = () => {
             {/* {showCursos && <Cursos setShowCursos={setShowCursos} setShowVideos={setShowVideos} showModalCourse={showModalCourse} setShowModalCourse={setShowModalCourse} showModalDeleteCurso={showModalDeleteCurso} setShowModalDeleteCurso={setShowModalDeleteCurso} cursoList={cursoList} curso={curso} setCurso={setCurso} setSearch={setSearch} response={response} setResponse={setResponse} />} */}
             {showCursos && <Cursos setShowCursos={setShowCursos} setShowVideos={setShowVideos} showModalCourse={showModalCourse} setShowModalCourse={setShowModalCourse} showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete} cursoList={cursoList} curso={curso} setCurso={setCurso} setSearch={setSearch} response={response} setResponse={setResponse} />}
             {showVideos && <Videos setShowCursos={setShowCursos} setShowVideos={setShowVideos}  curso={curso} setCurso={setCurso}  />}
-            {showTalento && <TalentoHumano setShowTalento={setShowTalento} setShowProfesor={setShowProfesor} setProfesor={setProfesor} response={response} setResponse={setResponse} />}
+            {showTalento && <TalentoHumano setShowTalento={setShowTalento} setShowProfesor={setShowProfesor} setProfesor={setProfesor} response={response} setResponse={setResponse}  />}
             {showProfesor && <Profesor profesor={profesor} setProfesor={setProfesor} cursoList={cursoList} setSearch={setSearch} response={response} setResponse={setResponse} />} {/* Permite asignar el/los curso/s a un profesor */}
             {showProductos && <Productos  />}
             {showVentas && <Ventas  />}

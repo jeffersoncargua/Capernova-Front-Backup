@@ -30,6 +30,8 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso,setShowDeber
   const refFolder = useRef();
   const refCodigo = useRef();
   const refCategoria = useRef();
+  const refBiblioteca = useRef();
+  const refClasesUrl = useRef();
 
   //console.log(curso);
   //console.log(capitulos);
@@ -190,7 +192,9 @@ useEffect(()=>{
           //isActive: curso.isActive,
           //capituloList: capitulos
           folderId: refFolder.current.value,
-          categoriaId : refCategoria.current.value
+          categoriaId : refCategoria.current.value,
+          bibliotecaUrl: refBiblioteca.current.value,
+          claseUrl : refClasesUrl.current.value
         }))
       });
       const resultFetch =await result.json();
@@ -198,6 +202,7 @@ useEffect(()=>{
       if(result.status !== 200){
         throw resultFetch;
       }
+      
       setResponse(resultFetch);
       //console.log(resultFetch);
       setShowButtonLoading(false);
@@ -230,7 +235,7 @@ useEffect(()=>{
     <div className="w-[95%] mx-auto">
 
       {/*Se muestran los modales para la generacion, edicion y eliminacion de los capitulos y videos del curso */}
-      {showModalCapitulo && <ModalCapitulo showModalCapitulo={showModalCapitulo} setShowModalCapitulo={setShowModalCapitulo} capitulo={capitulo} setCapitulo={setCapitulo} curso={curso} setResponse={setResponse} /*capitulos={capitulos} setCapitulos={setCapitulos}*/ />}
+      {showModalCapitulo && <ModalCapitulo showModalCapitulo={showModalCapitulo} setShowModalCapitulo={setShowModalCapitulo} capitulo={capitulo} setCapitulo={setCapitulo} curso={curso} setResponse2={setResponse} /*capitulos={capitulos} setCapitulos={setCapitulos}*/ />}
 
 
       {showModalVideo && <ModalVideo showModalVideo={showModalVideo} setShowModalVideo={setShowModalVideo} video={video} setVideo={setVideo} videos={videos} setVideos={setVideos} capitulo={capitulo} setCapitulo={setCapitulo} setResponse={setResponse} /*capitulos={capitulos} setCapitulos={setCapitulos}*/ />}
@@ -269,6 +274,16 @@ useEffect(()=>{
         <div className="w-[95%] mx-auto mt-5">
           <label className="block mb-2 font-medium text-gray-900 dark:text-white" htmlFor="folderId">Carpeta: </label>
           <input type="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" name="folderId" id="folderId" defaultValue={curso.folderId} ref={refFolder} />
+        </div>
+      </div>
+      <div className="w-[95%] mx-auto mt-5 flex justify-between space-x-4">
+        <div className="w-[95%] mx-auto my-5">
+          <label htmlFor="biblioteca" className="block mb-2 font-medium text-gray-900 dark:text-white">Biblioteca:</label>
+          <input type="text"  name="biblioteca" id="biblioteca" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" defaultValue={curso.bibliotecaUrl} ref={refBiblioteca} />
+        </div>
+        <div className="w-[95%] mx-auto mt-5">
+          <label className="block mb-2 font-medium text-gray-900 dark:text-white" htmlFor="clasesEnVivo">Clases en vivo: </label>
+          <input type="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" name="clasesEnVivo" id="clasesEnVivo" defaultValue={curso.claseUrl} ref={refClasesUrl} />
         </div>
       </div>
       <div className="w-[95%] mx-auto mt-5">

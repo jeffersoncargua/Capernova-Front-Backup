@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { PlayerVideo, SideBar, Logros, Courses, Informacion,Deberes,Pruebas,Comentario,DeberDetail, PruebaDetail} from './components';
+import { PlayerVideo, SideBar, Logros, Courses, Informacion,Deberes,Pruebas,Comentario,DeberDetail, PruebaDetail,Biblioteca,CursoLive} from './components';
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
@@ -11,6 +11,8 @@ export const Estudiante = () => {
   const [showCourses, setShowCourses] = useState(false);
   const [showDeberes, setShowDeberes] = useState(false);
   const [showPruebas, setShowPruebas] = useState(false);
+  const [showLibrary, setShowLibrary] = useState(false);
+  const [showCursoLive, setShowCursoLive] = useState(false);
   const [showInformacion, setShowInformacion] = useState(true);
   const [showDeberDetail,setShowDeberDetail] = useState(false);
   //showPruebaDetail
@@ -61,7 +63,7 @@ export const Estudiante = () => {
     <div className="relative w-[95%] mx-auto">
         {/*Barra lateral de navegacion del estudiante */}
 
-        <SideBar setShowPlayer={setShowPlayer}  setShowLogro={setShowLogro} setShowCourses={setShowCourses} setShowDeberes={setShowDeberes} setShowPruebas={setShowPruebas} setShowInformacion={setShowInformacion} setShowDeberDetail={setShowDeberDetail} setShowPruebaDetail={setShowPruebaDetail}  /> 
+        <SideBar setShowPlayer={setShowPlayer}  setShowLogro={setShowLogro} setShowCourses={setShowCourses} setShowDeberes={setShowDeberes} setShowPruebas={setShowPruebas} setShowInformacion={setShowInformacion} setShowDeberDetail={setShowDeberDetail} setShowPruebaDetail={setShowPruebaDetail} setShowLibrary={setShowLibrary} setShowCursoLive={setShowCursoLive}  /> 
 
         {/*Informacion del estudiante */}
         
@@ -108,6 +110,16 @@ export const Estudiante = () => {
         {showPruebaDetail && 
         <div className="p-4 sm:ml-56" >
           <PruebaDetail matricula={matricula} />
+        </div>}
+
+        {showLibrary && 
+        <div className="p-4 sm:ml-56" >
+          <Biblioteca estudiante={estudiante} />
+        </div>}
+
+        {showCursoLive && 
+        <div className="p-4 sm:ml-56" >
+          <CursoLive estudiante={estudiante} />
         </div>}
 
     </div>

@@ -62,8 +62,8 @@ export const Hero = () => {
     },[current,slices,changeStyle])
 
     //console.log(currentPhoto === slices[current]);
-    console.log(slices);
-    console.log(currentPhoto);
+    // console.log(slices);
+    // console.log(currentPhoto);
 
   return (
     //<div className='w-full flex flex-col md:flex-row bg-gray-900 mb-10 relative'>

@@ -28,7 +28,7 @@ export const Estudiantes = ({cursoList}) => {
   //const [tipo,setTipo] = useState(''); //es para almacenar el tipo de objeto a eliminar que puede ser curso, capitulo, video, deber, etc
   //const [objeto, setObjeto] = useState({}); //es para almacenar el objeto a eliminar mediante el componente ModalDelete
   
-  const columns = ["Nombre", "Apellido" , "Teléfono" , "Curso" , "Nota Final" ,"Correo","Acciones"];
+  const columns = ["Fecha Inscripcion","Nombre", "Apellido" , "Teléfono" , "Curso" , "Nota Final" ,"Correo","Acciones"];
   const refSearch = useRef();
   const refCurso = useRef();
 
@@ -147,6 +147,12 @@ export const Estudiantes = ({cursoList}) => {
     }
   }
 
+  const GetFecha = (fecha) => {
+    let date = new Date(fecha);
+    return date.toLocaleDateString();
+  }
+
+  console.log(matriculaList);
   
 
   return (
@@ -210,6 +216,7 @@ export const Estudiantes = ({cursoList}) => {
                   <tbody>
                   {currentDataDisplayed.length > 0 ? (currentDataDisplayed.map((matricula) => (
                     <tr key={matricula.id} className="border-b dark:border-gray-700">
+                      <td className="px-4 py-3">{GetFecha(matricula.fechaInscripcion)}</td>
                       <td className="px-4 py-3">{matricula.estudiante.name}</td>
                       <td className="px-4 py-3">{matricula.estudiante.lastName}</td>                      
                       <td className="px-4 py-3">{matricula.estudiante.phone}</td>
