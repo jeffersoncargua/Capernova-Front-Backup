@@ -22,21 +22,24 @@ export const SliderCurso = ({producto}) => {
         const fetchCourses = async() => {
           try {
           //const result = await fetch(`https://localhost:7164/api/Course/getAllCourse`,{
-            const result = await fetch(`${process.env.REACT_APP_API_URL}/Producto/getAllProducto?tipo=${"curso"}&categoriaId=${producto.categoriaId || 0}`,{
-              method: 'GET',
-              headers:{
-                'Content-Type' : 'application/json',
-                'Accept' : 'application/json'
-              }
-            });
-            const resultFetch = await result.json();
-
-            //console.log(result.status);
-            if (result.status !== 200) {
-              throw resultFetch;
+            if (producto.categoriaId !== null && producto.categoriaId !== undefined) {
+                const result = await fetch(`${process.env.REACT_APP_API_URL}/Producto/getAllProducto?tipo=${"curso"}&categoriaId=${producto.categoriaId || 0}`,{
+                    method: 'GET',
+                    headers:{
+                      'Content-Type' : 'application/json',
+                      'Accept' : 'application/json'
+                    }
+                  });
+                  const resultFetch = await result.json();
+      
+                  //console.log(result.status);
+                  if (result.status !== 200) {
+                    throw resultFetch;
+                  }
+      
+                  setSlices(resultFetch.result);
             }
-
-            setSlices(resultFetch.result);
+            
           
         } catch (error) {
           console.error(error);
@@ -50,6 +53,8 @@ export const SliderCurso = ({producto}) => {
 
         
       },[navigate,producto])
+
+      
     
     
       let previousSlice = () => {

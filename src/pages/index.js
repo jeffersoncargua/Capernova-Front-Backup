@@ -26,3 +26,6 @@ export {Secretaria} from './Administracion/Secretaria/Secretaria';
 
 export {PageNotFound} from './PageNotFound';
 export {PageError} from './PageError';
+
+export {TerminosCondiciones} from './TerminosCondiciones';
+export {Privacidad} from './Privacidad';

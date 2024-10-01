@@ -40,10 +40,10 @@ export const Footer = () => {
                     <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Legal</h2>
                     <ul className="text-gray-500 dark:text-gray-400 font-medium">
                         <li className="mb-4">
-                            <Link to='/' className="hover:underline">Políticas de Privacidad</Link>
+                            <Link to='/privacy' className="hover:underline">Políticas de Privacidad</Link>
                         </li>
                         <li>
-                            <Link to='/' className="hover:underline">Términos &amp; Condiciones</Link>
+                            <Link to='/termsAndConditions' className="hover:underline">Términos &amp; Condiciones</Link>
                         </li>
                     </ul>
                 </div>

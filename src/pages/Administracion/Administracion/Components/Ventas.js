@@ -4,6 +4,8 @@ import { toast } from "react-toastify";
 import {VentaDetails,Loading} from '../Components';
 import Datepicker from "react-tailwindcss-datepicker";
 
+import { DownloadTableExcel } from "react-export-table-to-excel";
+
 
 export const Ventas = () => {
 
@@ -20,12 +22,16 @@ export const Ventas = () => {
   //const [showModal,setShowModal] = useState(false);
   //const [showModalDelete,setShowModalDelete] = useState(false);
   const columns = ["Fecha Emisión", "ID Trasacción","ID Cliente", "Nombre Cliente" ,"Apellido Cliente", "Correo", "Teléfono", "Total" , "Estado", "Ver Detalle/Eliminar"];
+  const columns2 = ["Fecha Emisión", "ID Trasacción","ID Cliente", "Nombre Cliente" ,"Apellido Cliente", "Correo", "Teléfono", "Total" , "Estado"];
   //const [tipo,setTipo] = useState(''); //es para almacenar el tipo de objeto a eliminar que puede ser curso, capitulo, video, deber, etc
   //const [objeto, setObjeto] = useState({}); //es para almacenar el objeto a eliminar mediante el componente ModalDelete
   const [response,setResponse] = useState({});
   const refSearch = useRef();
   const [loading, setLoading] = useState(false);
-  //getAllVentas
+  
+  const tableRef = useRef(null);
+
+
 
   useEffect(() => {
     const fetchVentas = async() => {
@@ -117,6 +123,9 @@ export const Ventas = () => {
     return date.toLocaleDateString();
   }
 
+
+  //console.log(new Date().toLocaleDateString());
+
   return (
     <div>
 
@@ -129,6 +138,17 @@ export const Ventas = () => {
       {/* Tabla para la informacion */}
       <section className="">
         <div className="mx-auto max-w-screen-xl px-4 lg:px-12">
+          {/*Boton para descargar el deocumento excel */}
+          <div className="group text-black dark:text-white">
+          <DownloadTableExcel filename={`Reporte-Capernova-${new Date().toLocaleDateString()}`} sheet="reporte" currentTableRef={tableRef.current} >
+            <button className="bg-green-500 hover:bg-green-600 flex items-center rounded-lg px-3 py-2 ">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-table w-5 h-5 me-2.5" viewBox="0 0 16 16">
+                <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm15 2h-4v3h4zm0 4h-4v3h4zm0 4h-4v3h3a1 1 0 0 0 1-1zm-5 3v-3H6v3zm-5 0v-3H1v2a1 1 0 0 0 1 1zm-4-4h4V8H1zm0-4h4V4H1zm5-3v3h4V4zm4 4H6v3h4z"/>
+              </svg>
+              Descargar Reporte
+            </button>
+          </DownloadTableExcel>
+          </div>
 
           <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
 
@@ -218,6 +238,43 @@ export const Ventas = () => {
                         </button> */}
                       </div>
                     </td>
+                  </tr>
+                ))):(<tr className="border-b dark:border-gray-700" >
+                    <td className="font-medium text-xl mb-10 p-5">No se han encontrado regitros...</td>                  
+                  </tr>)} 
+                </tbody>
+                <tfoot>
+                        <tr className="font-semibold text-black bg-gray-50 dark:bg-gray-700 dark:text-white">
+                            <th></th><th></th><th></th><th></th><th></th><th></th>
+                            <th scope="row" className="px-6 py-3 text-base">Total</th>
+                            <td className="px-6 py-3">${total}</td>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+              </table>
+              {/*La tabla que se va a imprimir */}
+              <table id="imprimir" ref={tableRef} className="w-full text-sm text-left dark:text-white hidden">
+                <thead className="text-xs uppercase bg-gray-50 dark:bg-gray-700 dark:text-white">
+                  <tr>
+                  {columns2.map((column) => (
+                    <th key={column} scope="col" className="px-4 py-3">{column}</th>
+                  ))}
+                  </tr>
+                </thead>
+                <tbody>
+                {ventaList.length > 0 ? (ventaList.map((item) => (
+                  <tr key={item.id} className="border-b dark:border-gray-700">
+                    <td className="px-4 py-3">{GetFecha(item.emision)}</td>
+                    <td className="px-4 py-3">{item.transaccionId}</td>
+                    <td className="px-4 py-3">{item.userId}</td>
+                    <td className="px-4 py-3">{item.name}</td>
+                    <td className="px-4 py-3">{item.lastName}</td>
+                    <td className="px-4 py-3">{item.email}</td>                      
+                    <td className="px-4 py-3">{item.phone}</td>
+                    {item.estado === 'Pagado' ? 
+                    (<td className="px-4 py-3">{item.total}</td>):
+                    (<td className="px-4 py-3 text-red-500"><del>{item.total}</del></td>)}                    
+                    <td className="px-4 py-3">{item.estado}</td>
                   </tr>
                 ))):(<tr className="border-b dark:border-gray-700" >
                     <td className="font-medium text-xl mb-10 p-5">No se han encontrado regitros...</td>                  

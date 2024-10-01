@@ -16,29 +16,33 @@ export const SliderProduct = ({producto}) => {
   const [slices, setSlices] = useState([]);
   const navigate = useNavigate();
   console.log(producto);
+  console.log(producto.categoriaId);
   
 
   useEffect(() => {
     const fetchProducto = async() => {
       try {
       
-        const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Producto/getAllProducto?tipo=${"producto"}&categoriaId=${producto.categoriaId || 0}`,{
-          method:'GET',
-          credentials : 'include',
-          headers:{
-            'Content-Type' : 'application/json',
-            'Accept' : 'application/json'
-          }
-        });
-  
-        const resultFetch = await resultFromApi.json();
+        if (producto.categoriaId !== null && producto.categoriaId !== undefined) {
+            const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Producto/getAllProducto?tipo=${"producto"}&categoriaId=${producto.categoriaId || 0}`,{
+                method:'GET',
+                credentials : 'include',
+                headers:{
+                  'Content-Type' : 'application/json',
+                  'Accept' : 'application/json'
+                }
+              });
         
-        //console.log(resultFromApi.status);
-        if (resultFromApi.status !==200) {
-          throw resultFetch;
+              const resultFetch = await resultFromApi.json();
+              
+              //console.log(resultFromApi.status);
+              if (resultFromApi.status !==200) {
+                throw resultFetch;
+              }
+      
+              setSlices(resultFetch.result);
         }
-
-        setSlices(resultFetch.result);
+        
 
       } catch (error) {
         console.error(error);
@@ -49,6 +53,8 @@ export const SliderProduct = ({producto}) => {
    fetchProducto();
 
   },[navigate,producto])
+
+  console.log(producto.categoriaId === null);
 
 
   let previousSlice = () => {

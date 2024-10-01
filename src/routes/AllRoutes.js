@@ -1,5 +1,5 @@
 import { Routes,Route, Navigate } from "react-router-dom";
-import { Home, Login, Register,Products,ProductDetail,Cursos,CursoDetail,Estudiante, Cart, ForgotPassword, ChangePassword,ConfirmationEmail,Order,CancelPayment,ConfirmPay,Administracion, Profesor,Secretaria ,Nosotros, PageNotFound,PageError} from "../pages/index";
+import { Home, Login, Register,Products,ProductDetail,Cursos,CursoDetail,Estudiante, Cart, ForgotPassword, ChangePassword,ConfirmationEmail,Order,CancelPayment,ConfirmPay,Administracion, Profesor,Secretaria ,Nosotros, PageNotFound,PageError,TerminosCondiciones,Privacidad} from "../pages/index";
 import {WhatsappComponent} from '../components'
 import { useSelector } from "react-redux";
 
@@ -45,6 +45,9 @@ export const AllRoutes = () => {
           {/* <Route path="certificado" element={<Certificado />} /> Pagina para Administrar la plataforma  */}
           <Route path="*" element={<PageNotFound />} /> 
           <Route path="error" element={<PageError />} /> 
+
+          <Route path="termsAndConditions" element={<TerminosCondiciones />} /> 
+          <Route path="privacy" element={<Privacidad />} /> 
         </Routes>
     </main>    
   )
