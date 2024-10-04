@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export const ModalProducto = ({showModal,setShowModal,producto,setResponse}) => {
@@ -6,6 +7,7 @@ export const ModalProducto = ({showModal,setShowModal,producto,setResponse}) => 
 
     const [showButtonLoading, setShowButtonLoading] = useState(false);
     const [categoriaList,setCategoriaList] = useState([]);
+    const navigate = useNavigate();
     const refTitulo = useRef();
     const refImageUrl = useRef();
     const refCodigo = useRef();
@@ -29,26 +31,27 @@ export const ModalProducto = ({showModal,setShowModal,producto,setResponse}) => 
                     
                 });
                 const resultFetch = await result.json();
-    
-    
+
                 //console.log(resultFetch);
                 //console.log(result.status);
-                if (result.status !== 200) {
+                if (result.status !== 200 && result.status !== 400) {
                     throw resultFetch;
                 }
-    
-                setCategoriaList(resultFetch.result);
-                
-            } catch (error) {
-                if (error.statusCode !== 400) {
-                    console.error(error);
-                    toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
+
+                if(resultFetch.isSuccess){
+                    setCategoriaList(resultFetch.result);
+                }else{
+                    setCategoriaList([]);
                 }
                 
+            } catch (error) {
+                console.error(error);
+                //toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
+                navigate('/error');
             }
         }
         FetchCategoriaProducto();
-    },[])
+    },[navigate])
 
     const handleSubmitAdd = async (event) => {
         event.preventDefault();
@@ -78,7 +81,7 @@ export const ModalProducto = ({showModal,setShowModal,producto,setResponse}) => 
 
             //console.log(resultFetch);
             //console.log(result.status);
-            if (result.status !== 200) {
+            if ( result.status !== 200 && result.status !== 400) {
                 throw resultFetch;
             }
 
@@ -89,7 +92,7 @@ export const ModalProducto = ({showModal,setShowModal,producto,setResponse}) => 
             setShowButtonLoading(false);
             setShowModal(false);
             console.error(error);
-            toast.error(error.message);
+            toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
         }
     }
 
@@ -120,7 +123,7 @@ export const ModalProducto = ({showModal,setShowModal,producto,setResponse}) => 
             });
             const resultFetch = await result.json();
 
-            if (result.status !== 200) {
+            if (result.status !== 200 && result.status !== 400) {
                 throw resultFetch;
             }
             //console.log(resultFetch);
@@ -131,7 +134,7 @@ export const ModalProducto = ({showModal,setShowModal,producto,setResponse}) => 
             setShowModal(false);
             setShowButtonLoading(false);
             console.error(error);
-            toast.error('Ha ocurrido un error en el servidor');
+            toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
         }
     }
 

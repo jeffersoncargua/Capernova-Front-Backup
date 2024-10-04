@@ -46,10 +46,17 @@ export const Administracion = () => {
     //const capitulos = JSON.parse(resultFetch.result[0].capitulos);
 
       //console.log(resultFromApi.status);
-      if (resultFromApi.status !== 200) {
+      if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
         throw resultFetch;
       }
-      setCursoList(resultFetch.result);
+
+      if (resultFetch.isSuccess) {
+        setCursoList(resultFetch.result);
+      }else{
+        setCursoList([]);
+      }
+      
+
     } catch (error) {
       console.error(error);
       navigate('/error');
@@ -77,7 +84,7 @@ export const Administracion = () => {
         <SideBar setShowPublicidad={setShowPublicidad} setShowCursos={setShowCursos} setShowVentas={setShowVentas} setShowPedidos={setShowPedidos} setShowVideos={setShowVideos} setShowTalento={setShowTalento} setShowProfesor={setShowProfesor} setShowProductos={setShowProductos} setResponse={setResponse} setShowAreaCategoria={setShowAreaCategoria} />
 
         <div className="sm:ml-56">
-            {showPublicidad && <Publicidad response={response} setResponse={setResponse} />}
+            {showPublicidad && <Publicidad />}
             {showAreaCategoria && <AreasCategorias response={response} setResponse={setResponse} />}
             {/* {showCursos && <Cursos setShowCursos={setShowCursos} setShowVideos={setShowVideos} showModalCourse={showModalCourse} setShowModalCourse={setShowModalCourse} showModalDeleteCurso={showModalDeleteCurso} setShowModalDeleteCurso={setShowModalDeleteCurso} cursoList={cursoList} curso={curso} setCurso={setCurso} setSearch={setSearch} response={response} setResponse={setResponse} />} */}
             {showCursos && <Cursos setShowCursos={setShowCursos} setShowVideos={setShowVideos} showModalCourse={showModalCourse} setShowModalCourse={setShowModalCourse} showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete} cursoList={cursoList} curso={curso} setCurso={setCurso} setSearch={setSearch} response={response} setResponse={setResponse} />}

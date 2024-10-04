@@ -45,7 +45,7 @@ export const Productos = ({setShowProductos}) => {
 
           //console.log(resultFetch);
           //console.log(resultFromApi.status);
-          if (resultFromApi.status !== 200) {
+          if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
             throw resultFetch;
           }
 
@@ -62,8 +62,8 @@ export const Productos = ({setShowProductos}) => {
           setNextAllowed(() => currentPage < numberOfPages);
         } catch (error) {
           console.error(error);
-          //navigate('/error');
-          toast.error('Ha ocurrido un error en el servidor');
+          navigate('/error');
+          //toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');                
         }
     
       }

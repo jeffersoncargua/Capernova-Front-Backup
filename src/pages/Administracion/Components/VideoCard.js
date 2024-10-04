@@ -20,14 +20,21 @@ export const VideoCard = ({cap,setShowModalVideo,setShowModalDelete,setVideo,set
           });
           const resultFetch = await resultFromApi.json();
 
-          if (resultFromApi.status !== 200) {
+          if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
             throw resultFetch;
           }
+          
           //console.log (resultFetch);
-          setVideos(resultFetch.result);
+          if (resultFetch.isSuccess) {
+            setVideos(resultFetch.result);
+          }else{
+            setVideos([]);
+          }
+
+          
           } catch (error) {
             console.error(error);
-            toast.error('Ha ocurrido un error en el servidor');
+            toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
           } 
         }
         GetVideo();
@@ -50,7 +57,7 @@ export const VideoCard = ({cap,setShowModalVideo,setShowModalDelete,setVideo,set
 
   return (
     <>
-        {videos.map((video) => (
+        {videos.length > 0 ?  (videos.map((video) => (
             <tr key={video.id} className="border-b dark:border-gray-700">
             {/* <td className="px-4 py-3">{video.Codigo}</td> */}
             <td className="px-4 py-3">{video.titulo}</td>
@@ -75,7 +82,11 @@ export const VideoCard = ({cap,setShowModalVideo,setShowModalDelete,setVideo,set
               </div>
             </td>
           </tr>
-        ))}
+        ))):(
+          <tr className="border-b dark:border-gray-700" >
+            <td className="font-medium text-xl mb-10 p-5">No se han encontrado registros...</td>                  
+          </tr>
+        )}
     </>
   )
 }

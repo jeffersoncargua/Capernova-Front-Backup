@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import {ModalCapitulo,ModalDelete,ModalVideo,VideoCard} from '../Components';
 //import { ModalCapitulo,ModalVideo,ModalDeleteCapitulo,ModalDeleteVideo,ModalSuccess ,VideoCard} from "../Components"; //son componentes de la carpeta administracion/profesor/components
 import { ModalSuccess} from "../Profesores/Components"; //son componentes de la carpeta administarcion/components
+import { useNavigate } from "react-router-dom";
 
 export const Videos = ({setShowCursos,setShowVideos,curso, setCurso,setShowDeberes,setShowPruebas}) => {
 
@@ -23,6 +24,8 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso,setShowDeber
   const [categoriaList,setCategoriaList] = useState([]);
   const [producto,setProducto] = useState({});
 
+  const navigate = useNavigate();
+
   const refTitulo = useRef();
   const refDescripcion = useRef();
   const refPrice = useRef();
@@ -32,6 +35,7 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso,setShowDeber
   const refCategoria = useRef();
   const refBiblioteca = useRef();
   const refClasesUrl = useRef();
+  
 
   //console.log(curso);
   //console.log(capitulos);
@@ -54,24 +58,29 @@ useEffect(()=>{
 
           //console.log(resultFetch);
           //console.log(result.status);
-          if (result.status !== 200) {
+          if (result.status !== 200 && result.status !== 400) {
               throw resultFetch;
           }
 
-          setProducto(resultFetch.result);
+          if (resultFetch.isSuccess) {
+            setProducto(resultFetch.result);
+          }else{
+            setProducto({});
+          }
+
+          
 
       } catch (error) {
-          if (error.statusCode !== 400) {
-              console.error(error);
-              toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
-          }
+        console.error(error);
+        //toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
+        navigate('/error');
 
       }
   }
 
   FetchProducto();
 
-},[curso])
+},[curso,navigate])
 
 
 useEffect(()=>{
@@ -92,22 +101,26 @@ useEffect(()=>{
 
         //console.log(resultFetch);
         //console.log(result.status);
-        if (result.status !== 200) {
+        if (result.status !== 200 && result.status !== 400) {
             throw resultFetch;
         }
 
-        setCategoriaList(resultFetch.result);
-
-    } catch (error) {
-        if (error.statusCode !== 400) {
-            console.error(error);
-            toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
+        if (resultFetch.isSuccess) {
+          setCategoriaList(resultFetch.result);
+        }else{
+          setCategoriaList([]);
         }
 
+        
+
+    } catch (error) {
+      console.error(error);
+      //toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
+      navigate('/error');
     }
   }
   FetchCategoriaCurso();
-},[producto])
+},[producto,navigate])
 
 useEffect(()=>{
   const GetCapitulo = async()=>{
@@ -121,29 +134,28 @@ useEffect(()=>{
         }
       });
       const resultFetch = await resultFromApi.json();
-
-      if (resultFromApi.status !== 200) {
+      
+      if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
         throw resultFetch;
       }
-      //console.log(resultFetch);
-      setCapitulos(resultFetch.result);
-    } catch (error) {
-      if (error.statusCode !==400) {
-        console.error(error);
-        toast.error('Ha ocurrido un error en el servidor');
-        setCapitulos([]);
+      if (resultFetch.isSuccess) {
+        //console.log(resultFetch);
+        setCapitulos(resultFetch.result);
       }else{
-        console.error(error);
         setCapitulos([]);
-        //toast.error('Ha ocurrido un error en el servidor');
       }
-
+      
+    } catch (error) {
+        console.error(error);
+        //toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
+        setCapitulos([]);
+        navigate('/error');
     }
 
   }
   GetCapitulo();
   response.isSuccess ? toast.success(response.message):toast.error(response.message);
-},[curso,response])
+},[curso,response,navigate])
 
 
   const handleEditCap = (cap) => {
@@ -199,7 +211,7 @@ useEffect(()=>{
       });
       const resultFetch =await result.json();
 
-      if(result.status !== 200){
+      if(result.status !== 200 && result.status !== 400){
         throw resultFetch;
       }
       
@@ -215,7 +227,7 @@ useEffect(()=>{
       //console.log(resultFetch);
       setShowButtonLoading(false);
       setShowModalSuccess(true);
-      toast.error('Ha ocurrido un error en el servidor');
+      toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
     }
   }
 
@@ -235,7 +247,7 @@ useEffect(()=>{
     <div className="w-[95%] mx-auto">
 
       {/*Se muestran los modales para la generacion, edicion y eliminacion de los capitulos y videos del curso */}
-      {showModalCapitulo && <ModalCapitulo showModalCapitulo={showModalCapitulo} setShowModalCapitulo={setShowModalCapitulo} capitulo={capitulo} setCapitulo={setCapitulo} curso={curso} setResponse2={setResponse} /*capitulos={capitulos} setCapitulos={setCapitulos}*/ />}
+      {showModalCapitulo && <ModalCapitulo showModalCapitulo={showModalCapitulo} setShowModalCapitulo={setShowModalCapitulo} capitulo={capitulo} setCapitulo={setCapitulo} curso={curso} setResponse={setResponse} /*capitulos={capitulos} setCapitulos={setCapitulos}*/ />}
 
 
       {showModalVideo && <ModalVideo showModalVideo={showModalVideo} setShowModalVideo={setShowModalVideo} video={video} setVideo={setVideo} videos={videos} setVideos={setVideos} capitulo={capitulo} setCapitulo={setCapitulo} setResponse={setResponse} /*capitulos={capitulos} setCapitulos={setCapitulos}*/ />}
@@ -306,7 +318,7 @@ useEffect(()=>{
       {/*Aqui va la tabla con el contenido del capitulo */}
       <div className="w-[95%] mx-auto border-2 border-gray-400 my-10 rounded-lg">
         {/*curso.capituloList*/}
-        {capitulos.length ? capitulos.map((cap)=> (
+        {capitulos.length > 0 ? capitulos.map((cap)=> (
           <div key={cap.id}>
             <div  className="flex justify-around items-center my-4">
               <div className="group dark:text-white">

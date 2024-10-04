@@ -34,18 +34,20 @@ export const ModalCourse = ({showModalCourse,setShowModalCourse,setResponse}) =>
     
                 //console.log(resultFetch);
                 //console.log(result.status);
-                if (result.status !== 200) {
+                if (result.status !== 200 && result.status !== 400) {
                     throw resultFetch;
                 }
     
-                setCategoriaList(resultFetch.result);
-                
-            } catch (error) {
-                if (error.statusCode !== 400) {
-                    console.error(error);
-                    toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
+                if (resultFetch.isSuccess) {
+                    setCategoriaList(resultFetch.result);
+                }else{
+                    setCategoriaList([]);
                 }
                 
+                
+            } catch (error) {
+                console.error(error);
+                toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');                
             }
         }
         FetchCategoriaCurso();
@@ -75,18 +77,20 @@ export const ModalCourse = ({showModalCourse,setShowModalCourse,setResponse}) =>
                     precio: parseFloat(refPrice.current.value),
                     // isActive: false,
                     // capituloList: []
-                    categoriaId : refCategoria.current.value,
-                    bibliotecaUrl: refBiblioteca.current.value,
-                    claseUrl : refClasesUrl.current.value
+                    categoriaId : (refCategoria.current.value || null),
+                    bibliotecaUrl: (refBiblioteca.current.value || null),
+                    claseUrl : (refClasesUrl.current.value || null)
                     
                 }))
             });
             const resultFetch = await result.json();
 
-            //console.log(result);
-            if (result.status !== 200) {
+            // console.log(result);
+            // console.log(resultFetch);
+            if (result.status !== 200 && result.status !== 400) {
                 throw resultFetch;
             }
+
             setShowModalCourse(false);
             setShowButtonLoading(false);
             setResponse(resultFetch);
@@ -150,7 +154,7 @@ export const ModalCourse = ({showModalCourse,setShowModalCourse,setResponse}) =>
                                 <select id="tipo" className="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" defaultValue={''} ref={refCategoria} >
                                     <option value="">---Seleccione el tipo de Categoría---</option>
                                     {categoriaList.length > 0 && categoriaList.map( (categoria) => (
-                                        <option value={categoria.id}>{categoria.name}</option>
+                                        <option key={categoria.id} value={categoria.id}>{categoria.name}</option>
                                     ) )}
                                     
                                 </select>

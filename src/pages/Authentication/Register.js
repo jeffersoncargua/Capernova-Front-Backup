@@ -3,7 +3,8 @@ import {Modal} from './components';
 //import { baseURL } from '../endpoints';
 
 import Registro from '../../assets/registro.jpg';
-//import { useNavigate } from 'react-router-dom';
+//import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 export const Register = ({children}) => {
 
@@ -13,7 +14,7 @@ export const Register = ({children}) => {
   const [showModal, setShowModal] = useState(false);
   //const [messagePassword,setMessagePassword] = useState('');
   const [response,setResponse] = useState({});
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const refName = useRef();
   const refLastName = useRef();
@@ -50,10 +51,10 @@ export const Register = ({children}) => {
 
         let resultFetch = await resultFromApi.json();
 
-        console.log(resultFromApi);
-        // if (resultFromApi.status !== 200 || resultFetch.statusCode !== 400) {
-        //   throw resultFetch;
-        // }
+        //console.log(resultFromApi);
+        if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+          throw resultFetch;
+        }
 
 
 
@@ -68,8 +69,15 @@ export const Register = ({children}) => {
       
     } catch (error) {
       setShowButtonLoading(false);
-      console.error('Algo salio mal al crear el registro: ', error);
-      //navigate('/error');
+      //console.error(error);
+      // if(error.statusCode !== 400){
+      //   toast.error('Ha ocurrido un error en nuestro servidor. Inténtelo más tarde');
+      // }else{
+        
+      // }
+      console.error('Algo salió mal al crear el registro: ', error);
+      navigate('/error');
+      
     }
     
   }

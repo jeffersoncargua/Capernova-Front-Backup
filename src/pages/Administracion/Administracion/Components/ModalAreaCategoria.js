@@ -25,7 +25,7 @@ export const ModalAreaCategoria = ({showModalAreaCategoria,setShowModalAreaCateg
             const resultFetch = await resultFromApi.json();
     
     
-            if (resultFromApi.status !== 200) {
+            if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
                 throw resultFetch;
             }
             //console.log(resultFetch);
@@ -34,7 +34,7 @@ export const ModalAreaCategoria = ({showModalAreaCategoria,setShowModalAreaCateg
             setShowModalAreaCategoria(false);
         } catch (error) {
             console.error(error);
-            toast.error('Ha ocurrido un error en ser servidor');
+            toast.error('Ha ocurrido un error en el servidor');
         }
         
     }
@@ -58,7 +58,7 @@ export const ModalAreaCategoria = ({showModalAreaCategoria,setShowModalAreaCateg
             });
             const resultFetch = await resultFromApi.json();
 
-            if (resultFromApi.status !== 200) {
+            if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
                 throw resultFetch;
             }
             //console.log(resultFetch);

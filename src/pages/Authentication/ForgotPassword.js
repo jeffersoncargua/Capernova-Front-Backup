@@ -1,12 +1,12 @@
 import { useState, useRef } from "react";
 import {ModalForget} from './components';
-//import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const ForgotPassword = ({children}) => {
     const [showButtonLoading, setShowButtonLoading] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [response,setResponse] = useState({});
-    //const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const refEmail = useRef();
   
@@ -28,9 +28,9 @@ export const ForgotPassword = ({children}) => {
 
           const resultFetch  = await resultFromApi.json();
 
-          // if (resultFromApi.status !==200) {
-          //   throw resultFetch;
-          // }
+          if (resultFromApi.status !==200 && resultFromApi.status !==400 ) {
+            throw resultFetch;
+          }
 
           setShowButtonLoading(false);          
           setResponse(resultFetch);
@@ -40,7 +40,7 @@ export const ForgotPassword = ({children}) => {
       } catch (error) {
         setShowButtonLoading(false);
         console.error('Algo salio mal al crear el registro: ', error);
-        //navigate('/error');
+        navigate('/error');
       }
   
     }

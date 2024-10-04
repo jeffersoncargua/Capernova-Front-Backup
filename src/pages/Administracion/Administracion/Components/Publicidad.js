@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 
 
 
-export const Publicidad = ({response,setResponse}) => {
+export const Publicidad = () => {
     const pageSize = 5;
     const [publicidadList, setPublicidadList] = useState([]);
     const [publicidad, setPublicidad] = useState({});
@@ -18,6 +18,7 @@ export const Publicidad = ({response,setResponse}) => {
     const [search , setSearch] = useState('');
     const [showModal,setShowModal] = useState(false);
     const [showModalDelete,setShowModalDelete] = useState(false);
+    const [response,setResponse] = useState({});
     const columns = ["Imagen", "Titulo", "Editar/Eliminar"];
     const [tipo,setTipo] = useState(''); //es para almacenar el tipo de objeto a eliminar que puede ser curso, capitulo, video, deber, etc
     const [objeto, setObjeto] = useState({}); //es para almacenar el objeto a eliminar mediante el componente ModalDelete
@@ -41,7 +42,7 @@ export const Publicidad = ({response,setResponse}) => {
           if (resultFromApi.status !== 200) {
             throw resultFetch;
           }
-          
+
           setPublicidadList(resultFetch.result);
           setNumberOfPages(Math.ceil(resultFetch.result.length / pageSize));
   
@@ -60,6 +61,7 @@ export const Publicidad = ({response,setResponse}) => {
        
       }
       fetchPublicidad();
+      //console.log(response);
       response.isSuccess ? toast.success(response.message): toast.error(response.message) ;
     }, [currentPage,numberOfPages,showModal,showModalDelete,search,response]);
     
@@ -157,7 +159,7 @@ export const Publicidad = ({response,setResponse}) => {
                   {currentDataDisplayed.length > 0 ? (currentDataDisplayed.map((item) => (
                     <tr key={item.id} className="border-b dark:border-gray-700">
                       <td className="px-4 py-3">
-                        <img src={item.imageUrl} className="w-16 md:w-32 max-w-full max-h-full" alt="Apple Watch" />
+                        <img src={item.imageUrl} className="w-16 md:w-32 max-w-full max-h-full" alt="Publicidad Capernova" />
                       </td>
                       <td className="px-4 py-3">{item.titulo}</td>
                       <td className="px-4 py-3">

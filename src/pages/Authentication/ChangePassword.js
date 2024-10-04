@@ -1,5 +1,5 @@
 import {useState,useEffect, useRef} from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams,useNavigate } from 'react-router-dom';
 import { Modal } from './components';
 
 export const ChangePassword = ({children}) => {
@@ -10,7 +10,7 @@ export const ChangePassword = ({children}) => {
   const [showModal, setShowModal] = useState(false);
   //const [messagePassword,setMessagePassword] = useState('');
 
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [response,setResponse] = useState({});
   const [searchParams] = useSearchParams();
@@ -38,18 +38,19 @@ export const ChangePassword = ({children}) => {
           if (resultFromApi.status !==200) {
             throw resultFetch;
           }
+
           setResponse(resultFetch);
           //console.log(result);
           //console.log(response.result.model.email);
         } catch (error) {
           console.log(error);
-          //navigate('/error');
+          navigate('/error');
         }
       }
         fetchResetPassword();
           
         
-    },[token,email]);
+    },[token,email,navigate]);
 
 
     const handleSubmitChangePassword = async (event) =>  {
@@ -73,9 +74,9 @@ export const ChangePassword = ({children}) => {
           
           const resultFetch  = await resultFromApi.json();
 
-          // if (resultFromApi.status !== 200) {
-          //   throw resultFetch;
-          // }
+          if (resultFromApi.status !== 200 && resultFromApi.status !==400) {
+            throw resultFetch;
+          }
   
           // if(result.errors.ConfirmPassword){
           //   setMessagePassword(result.errors.ConfirmPassword);
@@ -89,7 +90,7 @@ export const ChangePassword = ({children}) => {
       } catch (error) {
         setShowButtonLoading(false);
         console.error('Algo salio mal al crear el registro: ', error);
-        //navigate('/error');
+        navigate('/error');
       }
       
     }

@@ -27,9 +27,10 @@ export const ModalPublicidad = ({showModal,setShowModal,publicidad,setResponse})
             const resultFetch = await result.json();
             //console.log(resultFetch);
 
-            if (result.status !== 200) {
+            if (result.status !== 200 && result.status !== 400 ) {
                 throw resultFetch;
             }
+            
             setResponse(resultFetch);
             setShowModal(false);
             setShowButtonLoading(false);

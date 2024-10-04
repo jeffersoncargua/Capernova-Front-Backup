@@ -31,7 +31,7 @@ export const ConfirmationEmail = ({children}) => {
 
           const resultFetch = await resultFromApi.json();
 
-          // if (resultFromApi.status !== 200) {
+          // if (resultFromApi.status === 404) {
           //   throw resultFetch;
           // }
 
@@ -50,7 +50,7 @@ export const ConfirmationEmail = ({children}) => {
 
   return (
     <div className="w-[95%] mx-auto mt-10 group text-black dark:text-white">
-        <h1 className="text-xl text-green-500 dark:text-green-400 mb-4">{response.message}!!!!!</h1>
+        <h1 className={`text-xl ${response.isSuccess ? 'text-green-500 dark:text-green-400':'text-red-500 dark:text-red-400'}  mb-4`}>{response.message}!!!!!</h1>
         {response.isSuccess && <p className="text-sm">Navega por nuestro sitio web y conoce acerca más sobre nosotros y de nuestros cursos y productos</p>}
         {children}
     </div>

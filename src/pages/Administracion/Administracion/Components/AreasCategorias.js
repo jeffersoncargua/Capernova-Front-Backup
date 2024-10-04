@@ -20,64 +20,65 @@ export const AreasCategorias = ({response,setResponse}) => {
     const [objeto, setObjeto] = useState({}); //es para almacenar el objeto a eliminar mediante el componente ModalDelete
     const refSearchCategory = useRef();
 
-
-   
-      
-    
-      useEffect(() => {
-        const FetchCategory = async() => {
-          try {
-            const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Producto/getAllCategoria?search=${searchCategory}`,{
-              method:'GET',
-              credentials : 'include',
-              headers:{
-                'Content-Type' : 'application/json',
-                'Accept' : 'application/json'
-              }
-            });
-      
-            const resultFetch = await resultFromApi.json();
-  
-            if (resultFromApi.status !== 200) {
-              throw resultFetch;
+    useEffect(() => {
+      const FetchCategory = async() => {
+        try {
+          const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Producto/getAllCategoria?search=${searchCategory}`,{
+            method:'GET',
+            credentials : 'include',
+            headers:{
+              'Content-Type' : 'application/json',
+              'Accept' : 'application/json'
             }
-            
-            setCategoryList(resultFetch.result);
-           
-          } catch (error) {
-            console.error(error);
-            toast.error('Ha ocurrido un error en el servidor');
+          });
+    
+          const resultFetch = await resultFromApi.json();
+
+          if (resultFromApi.status !== 200 && resultFromApi.status !== 400 ) {
+            throw resultFetch;
           }
-         
+          
+          if (resultFetch.isSuccess) {
+            setCategoryList(resultFetch.result);
+          }else{
+            setCategoryList([]);
+          }
+          
+          
+        } catch (error) {
+          console.error(error);
+          toast.error('Ha ocurrido un error en el servidor');
         }
-        FetchCategory();
-        response.isSuccess ? toast.success(response.message): toast.error(response.message) ;
-      }, [showModalAreaCategoria,showModalDelete,searchCategory,response]);
+        
+      }
+      FetchCategory();
+      response.isSuccess ? toast.success(response.message): toast.error(response.message) ;
+    }, [showModalAreaCategoria,showModalDelete,searchCategory,response]);
 
 
       
-      const handleSearchCategory = () => {
-        if (refSearchCategory.current.value.length > 0) {
-          
-          setSearchCategory(refSearchCategory.current.value)
-        }else{
-            setSearchCategory('');
-        }
-        setResponse({});
+    const handleSearchCategory = () => {
+      if (refSearchCategory.current.value.length > 0) {
+        
+        setSearchCategory(refSearchCategory.current.value)
+      }else{
+          setSearchCategory('');
       }
-  
-      const handleEdit = (item) => {
-        setCategoria(item);
-        setShowModalAreaCategoria(true);
-        setResponse({});
-      }    
-  
-      const handleDelete = (itemDelete) => {
-        setObjeto(itemDelete);
-        setTipo('categoria');
-        setShowModalDelete(!showModalDelete);
-        setResponse({});
-      }
+      setResponse({});
+    }
+
+    const handleEdit = (item) => {
+      setCategoria(item);
+      setShowModalAreaCategoria(true);
+      setResponse({});
+    }    
+
+    const handleDelete = (itemDelete) => {
+      setObjeto(itemDelete);
+      setTipo('categoria');
+      setShowModalDelete(!showModalDelete);
+      setResponse({});
+    }
   
 
   return (
@@ -129,7 +130,7 @@ export const AreasCategorias = ({response,setResponse}) => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                {categoryList.length >0 ? categoryList.map((category) => (
+                                {categoryList.length > 0 ? categoryList.map((category) => (
                                     <tr key={category.id} className="border-b dark:border-gray-700">
                                         <td className="px-4 py-3">{category.name}</td>
                                         <td className="px-4 py-3">{category.tipo}</td>

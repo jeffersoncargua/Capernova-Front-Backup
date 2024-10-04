@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import { useState, useRef } from 'react';
 import {ModalLogin} from './components';
 import { JWTDecode } from '../../hooks/JWTDecode';
@@ -18,7 +18,7 @@ export const Login = ({children}) => {
   const [showModal, setShowModal] = useState(false);
   //const [messagePassword,setMessagePassword] = useState('');
   const [response,setResponse] = useState({});
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const refEmail = useRef();
   const refPassword = useRef();
@@ -46,34 +46,34 @@ export const Login = ({children}) => {
         
         const resultFetch  = await resultFromApi.json();
 
-        // if (resultFromApi.status !== 200) {
-        //   throw resultFetch;
-        // }
+        //console.log(resultFromApi);
+        if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+          throw resultFetch;
+        }
+        
+        //console.log(resultFetch);
+
+        if(resultFetch.isSuccess){
+          const token = resultFetch.result.token;
+            //Funcion para decodificar el token y acceder a su informacion para el inicio de sesion
+          const objet = JWTDecode(token);
+          //console.log(objet);
+
+          //Se guarda la seccion 
+          //Permite almacenar el inicio de sesion de un usuario que se ha logeado de forma exitosa
+          sessionStorage.setItem('auth',resultFetch.result.token);
+          dispatch(signIn(objet));
+        }
 
         setShowButtonLoading(false);
         //console.log(result);
         setShowModal(true);
         setResponse(resultFetch);
-        const token = resultFetch.result.token;
-        
-        if(resultFetch.isSuccess){
-          //Funcion para decodificar el token y acceder a su informacion para el inicio de sesion
-        const objet = JWTDecode(token);
-        //console.log(objet);
-
-        //Se guarda la seccion 
-        //Permite almacenar el inicio de sesion de un usuario que se ha logeado de forma exitosa
-        sessionStorage.setItem('auth',resultFetch.result.token);
-        dispatch(signIn(objet));
-        }
-
-        
-        
 
     } catch (error) {
       setShowButtonLoading(false);
       console.error('Algo salio mal al crear el registro: ', error);
-      //navigate('/error');
+      navigate('/error');
     }
 
   }
@@ -116,7 +116,7 @@ export const Login = ({children}) => {
               Procesando...
             </button>)
             :
-            (<button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Log In</button>)
+            (<button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Iniciar Sesión</button>)
             }
           
         </form>
