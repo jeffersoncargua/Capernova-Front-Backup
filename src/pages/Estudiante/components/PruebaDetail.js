@@ -26,22 +26,20 @@ export const PruebaDetail = ({matricula}) => {
                 const resultFetch = await resultFromApi.json();
 
 
-                if (resultFromApi.status !== 200) {
+                if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
                     throw resultFetch;
                 }
 
                 //console.log(resultFetch);
-                //   if(resultFetch.isSuccess){
-                //     setDeberList(resultFetch.result);
-                //   }
-                setPruebaList(resultFetch.result);
-            } catch (error) {
-                if (error.statusCode !== 400) {
-                    console.error(error);
-                    toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
+                  if(resultFetch.isSuccess){
+                    setPruebaList(resultFetch.result);
+                  }else{
                     setPruebaList([]);
-                }
-                toast.error('No exiten pruebas registradas para este curso');
+                  }
+                
+            } catch (error) {
+                console.error(error);
+                toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
                 setPruebaList([]);
             }
             
@@ -80,7 +78,7 @@ export const PruebaDetail = ({matricula}) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {pruebaList.length > 0 && pruebaList.map((test) => (
+                    {pruebaList.length > 0 ? (pruebaList.map((test) => (
                         <tr key={test.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                             <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {test.titulo}
@@ -101,7 +99,9 @@ export const PruebaDetail = ({matricula}) => {
                                 </div>
                             </td>
                         </tr>
-                    ) )}
+                    ) )):(<tr className="border-b dark:border-gray-700" >
+                        <td className="font-medium text-md mb-10 p-5">No se han encontrado pruebas registradas...</td>                  
+                      </tr>)}
                     
                 </tbody>
                 {/* <tfoot>

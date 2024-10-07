@@ -18,7 +18,7 @@ export const Profesor = ({profesor, setProfesor,cursoList,response,setResponse})
         setShowButtonLoading(true);
         
         try {
-            if (cursoId !== '') {
+            if (cursoId !== '' && cursoId !== undefined) {
                 const result = await fetch(`${process.env.REACT_APP_API_URL}/Managment/assigmentCourse/${parseInt(cursoId)}`,{
                     method:'PUT',
                     credentials: 'include',
@@ -34,7 +34,7 @@ export const Profesor = ({profesor, setProfesor,cursoList,response,setResponse})
         
                 const resultFetch = await result.json();
 
-                if (result.status !== 200) {
+                if (result.status !== 200 && result.status !== 400) {
                     throw resultFetch;
                 }
                 
@@ -45,7 +45,7 @@ export const Profesor = ({profesor, setProfesor,cursoList,response,setResponse})
                 //setShowModalAssigment(true);
             }else{
                 setShowButtonLoading(false);
-                toast.error('Selecciona un curso');
+                toast.warning('Selecciona un curso');
             }
             
             
@@ -84,7 +84,7 @@ export const Profesor = ({profesor, setProfesor,cursoList,response,setResponse})
             const resultFetch = await result.json();
             //console.log(resultFetch);
     
-            if (result.status !== 200) {
+            if (result.status !== 200 && result.status !== 400) {
                 throw resultFetch;
                 
             }

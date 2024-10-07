@@ -35,7 +35,7 @@ export const ModalDeber = ({showModalDeber,setShowModalDeber,matricula,deber,set
                   });
                   const resultFetch = await resultFromApi.json();
 
-                  if (resultFromApi.status !== 200) {
+                  if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
                     throw resultFetch;
                   }
                   //console.log(resultFetch);
@@ -59,7 +59,7 @@ export const ModalDeber = ({showModalDeber,setShowModalDeber,matricula,deber,set
         //console.log(acceptedFiles[0]);
         setShowButtonLoading(true);
         try {        
-            const resultFetch = await fetch(`${process.env.REACT_APP_API_URL}/Student/upsertNotaDeber?id=${deber.id}&studentId=${matricula.estudianteId}`,{
+            const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Student/upsertNotaDeber?id=${deber.id}&studentId=${matricula.estudianteId}`,{
                 method:'PUT',
                 credentials: 'include',
                 headers: {
@@ -68,13 +68,17 @@ export const ModalDeber = ({showModalDeber,setShowModalDeber,matricula,deber,set
                 },
                 body: formData
             });
-            const result = await resultFetch.json();
+            const resultFetch = await resultFromApi.json();
+
+            
+            if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+                throw resultFetch;
+              }
             //console.log(result.message);
-            setResponse(result);
+            setResponse(resultFetch);
             setShowButtonLoading(false);
             setShowModalDeber(false);
             formData.delete('file');
-            
             
         } catch (error) {
             setShowButtonLoading(false);

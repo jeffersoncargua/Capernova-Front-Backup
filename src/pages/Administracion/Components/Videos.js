@@ -210,6 +210,7 @@ useEffect(()=>{
         }))
       });
       const resultFetch =await result.json();
+      console.log(result);
 
       if(result.status !== 200 && result.status !== 400){
         throw resultFetch;
@@ -258,11 +259,11 @@ useEffect(()=>{
       <div className="w-[95%] mx-auto mt-5 flex justify-between">
         <div className="group dark:text-white">
           <label className="mr-2 font-medium" htmlFor="titulo">Curso: </label>
-          <input type="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" name="titulo" id="titulo" defaultValue={curso.titulo} ref={refTitulo} />
+          <input type="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Escribe el titulo del curso aquí" name="titulo" id="titulo" defaultValue={curso.titulo} ref={refTitulo} />
         </div>
         <div className="group dark:text-white">
           <label className="mr-2 font-medium" htmlFor="titulo">Codigo: </label>
-          <input type="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" name="codigo" id="codigo" defaultValue={curso.codigo} ref={refCodigo} />
+          <input type="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Escribe el código del curso aquí" name="codigo" id="codigo" defaultValue={curso.codigo} ref={refCodigo} />
         </div>
         <div>
           <button onClick={()=>{setShowModalCapitulo(true);setCapitulo({})}} className="bg-green-500 hover:bg-green-700 hover:text-white hover:cursor-pointer flex items-center px-4 py-2 rounded-lg">
@@ -276,26 +277,26 @@ useEffect(()=>{
       </div>
       <div className="w-[95%] mx-auto mt-5">
         <label className="block mb-2 font-medium text-gray-900 dark:text-white" htmlFor="imageUrl">Imagen: </label>
-        <input type="text" className="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" name="imageUrl" id="imageUrl" defaultValue={curso.imagenUrl} ref={refImageUrl} />
+        <input type="text" className="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Coloca la URL de la imagen aquí" name="imageUrl" id="imageUrl" defaultValue={curso.imagenUrl} ref={refImageUrl} />
       </div>
       <div className="w-[95%] mx-auto mt-5 flex justify-between space-x-4">
         <div className="w-[95%] mx-auto my-5">
           <label htmlFor="price" className="block mb-2 font-medium text-gray-900 dark:text-white">Precio:</label>
-          <input type="text" pattern="[0-9]{1,}\.[0-9]{1,}" name="price" id="price" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="$100,50" required="" defaultValue={curso.precio} ref={refPrice} />
+          <input type="text" pattern="[0-9]{1,}\.[0-9]{1,}" name="price" id="price" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Coloca el precio del producto. Ejemplo: $100,50" required="" defaultValue={curso.precio} ref={refPrice} />
         </div>
         <div className="w-[95%] mx-auto mt-5">
           <label className="block mb-2 font-medium text-gray-900 dark:text-white" htmlFor="folderId">Carpeta: </label>
-          <input type="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" name="folderId" id="folderId" defaultValue={curso.folderId} ref={refFolder} />
+          <input type="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Coloca el ID de la carpeta de deberes del curso aquí" name="folderId" id="folderId" defaultValue={curso.folderId} ref={refFolder} />
         </div>
       </div>
       <div className="w-[95%] mx-auto mt-5 flex justify-between space-x-4">
         <div className="w-[95%] mx-auto my-5">
           <label htmlFor="biblioteca" className="block mb-2 font-medium text-gray-900 dark:text-white">Biblioteca:</label>
-          <input type="text"  name="biblioteca" id="biblioteca" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" defaultValue={curso.bibliotecaUrl} ref={refBiblioteca} />
+          <input type="text"  name="biblioteca" id="biblioteca" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Coloca la URL de la biblioteca del curso aquí" defaultValue={curso.bibliotecaUrl} ref={refBiblioteca} />
         </div>
         <div className="w-[95%] mx-auto mt-5">
           <label className="block mb-2 font-medium text-gray-900 dark:text-white" htmlFor="clasesEnVivo">Clases en vivo: </label>
-          <input type="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" name="clasesEnVivo" id="clasesEnVivo" defaultValue={curso.claseUrl} ref={refClasesUrl} />
+          <input type="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Coloca la URL de las clases en vivo del curso aquí" name="clasesEnVivo" id="clasesEnVivo" defaultValue={curso.claseUrl} ref={refClasesUrl} />
         </div>
       </div>
       <div className="w-[95%] mx-auto mt-5">

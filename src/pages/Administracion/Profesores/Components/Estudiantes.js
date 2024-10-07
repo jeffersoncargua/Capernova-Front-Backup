@@ -50,7 +50,7 @@ export const Estudiantes = ({cursoList}) => {
           const resultFetch = await resultFromApi.json();
   
           //console.log(resultFromApi);
-          if (resultFromApi.status !== 200) {
+          if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
             throw resultFetch;
           }
   
@@ -68,7 +68,7 @@ export const Estudiantes = ({cursoList}) => {
           setNextAllowed(() => currentPage < numberOfPages);
         } catch (error) {
           console.error(error);
-          toast.error('Ha ocurrido un error en el servidor');
+          toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
         }
       }else{
         toast.info('Selecciona un curso');
@@ -171,7 +171,7 @@ export const Estudiantes = ({cursoList}) => {
       
         const resultFetch = await resultFromApi.json();
 
-        if (resultFromApi.status !== 200) {
+        if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
           throw resultFetch;
         }
 

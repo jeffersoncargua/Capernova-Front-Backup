@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { addVideo } from "../../../redux/playlistSlice";
 import { useSelector } from 'react-redux';
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 //export const Videos = ({capitulo,handlePlay,playList,estudiante,matricula}) => {
 export const Videos = ({capitulo,handlePlay,estudiante,matricula,setMatricula}) => {
@@ -10,7 +11,9 @@ export const Videos = ({capitulo,handlePlay,estudiante,matricula,setMatricula}) 
     const [videoList,setVideoList] = useState([]);
     const [videoViewList,setVideoViewList] = useState([]);
     const dispatch = useDispatch();
-    const playList = useSelector(state => state.playListState.playList)
+    const navigate = useNavigate();
+
+    const playList = useSelector(state => state.playListState.playList);
 
 
     useEffect(()=>{
@@ -26,7 +29,7 @@ export const Videos = ({capitulo,handlePlay,estudiante,matricula,setMatricula}) 
             });
             const resultFetch = await resultFromApi.json();
 
-            if (resultFromApi.status !==200) {
+            if (resultFromApi.status !==200 && resultFromApi.status !==400) {
               throw resultFetch;
             }
 
@@ -45,13 +48,14 @@ export const Videos = ({capitulo,handlePlay,estudiante,matricula,setMatricula}) 
 
           } catch (error) {
             console.error(error);
-            toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
+            //toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
+            navigate('/error');
           }
             
         }
 
         FetchVideos();
-    },[capitulo,dispatch]);
+    },[capitulo,dispatch,navigate]);
 
 
 
@@ -69,7 +73,7 @@ export const Videos = ({capitulo,handlePlay,estudiante,matricula,setMatricula}) 
           
           const resultFetch = await resultFromApi.json();
 
-          if (resultFromApi.status !== 200) {
+          if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
             throw resultFetch;
           }
 
@@ -113,7 +117,7 @@ export const Videos = ({capitulo,handlePlay,estudiante,matricula,setMatricula}) 
           
             const resultFetch = await resultFromApi.json();
 
-            if (resultFromApi.status !== 200) {
+            if ( resultFromApi.status !== 200 && resultFromApi.status !== 400) {
               throw resultFetch;
             }
 

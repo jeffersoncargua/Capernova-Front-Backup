@@ -18,7 +18,7 @@ export const Productos = ({setShowProductos}) => {
     //const [ , setTipo] = useState();
     const [showModal,setShowModal] = useState(false);
     const [showModalDelete,setShowModalDelete] = useState(false);
-    const columns = ["Imagen", "Codigo" , "Titulo", "Descripcion", "Cantidad" ,"Precio", "Editar/Eliminar"];
+    const columns = ["Imagen", "Código" , "Titulo", "Descripción", "Cantidad" ,"Precio", "Editar/Eliminar"];
     const [tipo,setTipo] = useState(''); //es para almacenar el tipo de objeto a eliminar que puede ser curso, capitulo, video, deber, etc
     const [objeto, setObjeto] = useState({}); //es para almacenar el objeto a eliminar mediante el componente ModalDelete
     const [response,setResponse] = useState({});

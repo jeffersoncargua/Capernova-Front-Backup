@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { PlayerVideo, SideBar, Logros, Courses, Informacion,Deberes,Pruebas,Comentario,DeberDetail, PruebaDetail,Biblioteca,CursoLive} from './components';
 import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
+//import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 
 export const Estudiante = () => {
@@ -22,6 +23,7 @@ export const Estudiante = () => {
   const [response, setResponse] = useState({});
   const [matricula,setMatricula] = useState({});
 
+  const navigate = useNavigate();
 
   const userStudent = useSelector(state => state.userState.user);
   //console.log(userStudent);
@@ -50,14 +52,15 @@ export const Estudiante = () => {
           }
         } catch (error) {
           console.error(error);
-          toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
+          //toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
+          navigate('/error');
         }
         
       };
 
       FetchEstudiante();
 
-  },[userStudent])
+  },[userStudent,navigate])
 
   return (
     <div className="relative w-[95%] mx-auto">

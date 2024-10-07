@@ -3,6 +3,7 @@ import { Tooltip } from 'react-tooltip';
 import { toast } from 'react-toastify';
 import {Loading} from '../components';
 import Avatar from '../../../assets/avatar.png';
+import { useNavigate } from 'react-router-dom';
 
 export const Informacion = ({estudiante,response,setResponse}) => {
 
@@ -19,6 +20,8 @@ export const Informacion = ({estudiante,response,setResponse}) => {
   const [enablePhone,setEnablePhone] = useState(false);
   const [showButtonLoading,setShowButtonLoading] = useState(false);
   const [showLoading , setLoading] = useState(false);
+
+  const navigate = useNavigate();
 
 
   const handleSubmit = async(event) => {
@@ -46,7 +49,7 @@ export const Informacion = ({estudiante,response,setResponse}) => {
 
       const resultFecthInfo = await resultFromApi.json();
 
-      if (resultFromApi.status !== 200) {
+      if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
         throw resultFecthInfo;
       }
 
@@ -61,7 +64,10 @@ export const Informacion = ({estudiante,response,setResponse}) => {
           body: formData
         });
         const resultFetchPhoto = await result.json();
-        console.log(resultFetchPhoto);
+        //console.log(resultFetchPhoto);
+        if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+          throw resultFetchPhoto;
+        }
       }
       setResponse(resultFecthInfo);      
       setShowButtonLoading(false);
@@ -72,7 +78,8 @@ export const Informacion = ({estudiante,response,setResponse}) => {
       setShowButtonLoading(false);
       setLoading(false);
       formData.delete('file');
-      toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
+      //toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
+      navigate('/error');
     }
 
   }
@@ -81,7 +88,7 @@ export const Informacion = ({estudiante,response,setResponse}) => {
   useEffect(()=>{
 
     //console.log(response);
-    if(response.isSuccess === true){
+    if(response.isSuccess){
       setUploadFile(false);
       setEnableName(false);
       setEnableLastName(false);
@@ -123,7 +130,7 @@ export const Informacion = ({estudiante,response,setResponse}) => {
             <div className='p-6 mt-24 flex flex-col gap-y-3'>
               <div className='relative group dark:text-white'>
                 <label htmlFor="nombre" className='font-semibold'>Nombre: </label>
-                <input className={`rounded-lg ${!enableName ? 'border-0 bg-transparent':'border border-blue-300 bg-blue-200 dark:bg-slate-900'}`} disabled={!enableName} type="text" id='nombre' name='nombre' defaultValue={estudiante.name || ''} ref={refName} />
+                <input className={`rounded-lg ${!enableName ? 'border-0 bg-transparent':'border border-blue-300 bg-blue-200 dark:bg-slate-900'}`} disabled={!enableName} type="text" id='nombre' required name='nombre' defaultValue={estudiante.name || ''} ref={refName} />
                 <button onClick={()=>setEnableName(!enableName)} data-tooltip-id='tooltip-name' type='button' className='absolute bottom-2 right-2 w-8 h-8 bg-gray-100 group-hover:bg-gray-300 dark:group-hover:bg-gray-400 flex justify-center items-center rounded-lg border shadow'>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-pencil-fill text-slate-300 group-hover:text-black  h-4 w-4" viewBox="0 0 16 16">
                     <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z"/>
@@ -133,7 +140,7 @@ export const Informacion = ({estudiante,response,setResponse}) => {
               </div>
               <div className='relative group dark:text-white'>
                 <label htmlFor="apellido" className='font-semibold'>Apellido: </label>
-                <input className={`rounded-lg ${!enableLastName ? 'border-0 bg-transparent':'border border-blue-300 bg-blue-200 dark:bg-slate-900'}`} disabled={!enableLastName} type="text" id='apellido' name='apellido' defaultValue={estudiante.lastName ||''} ref={refLastName} />
+                <input className={`rounded-lg ${!enableLastName ? 'border-0 bg-transparent':'border border-blue-300 bg-blue-200 dark:bg-slate-900'}`} disabled={!enableLastName} type="text" id='apellido' required name='apellido' defaultValue={estudiante.lastName ||''} ref={refLastName} />
                 <button onClick={()=>setEnableLastName(!enableLastName)} data-tooltip-id='tooltip-lastName' type='button' className='absolute bottom-2 right-2 w-8 h-8 bg-gray-100 group-hover:bg-gray-300 dark:group-hover:bg-gray-400 flex justify-center items-center rounded-lg border shadow'>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-pencil-fill text-slate-300 group-hover:text-black h-4 w-4" viewBox="0 0 16 16">
                     <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z"/>
@@ -143,7 +150,7 @@ export const Informacion = ({estudiante,response,setResponse}) => {
               </div>
               <div className='relative group dark:text-white'>
                 <label htmlFor="telefono" className='font-semibold'>Teléfono: </label>
-                <input type="tel" pattern="[0-9]{10}" className={`rounded-lg ${!enablePhone ? 'border-0 bg-transparent':'border border-blue-300 bg-blue-200 dark:bg-slate-900'}`} disabled={!enablePhone} id='telefono' name='telefono' defaultValue={estudiante.phone || ''} ref={refPhone} />
+                <input type="tel" pattern="[0-9]{10}" className={`rounded-lg ${!enablePhone ? 'border-0 bg-transparent':'border border-blue-300 bg-blue-200 dark:bg-slate-900'}`} disabled={!enablePhone} id='telefono' required name='telefono' defaultValue={estudiante.phone || ''} ref={refPhone} />
                 <button onClick={()=>setEnablePhone(!enablePhone)} data-tooltip-id='tooltip-phone' type='button' className='absolute bottom-2 right-2 w-8 h-8 bg-gray-100 group-hover:bg-gray-300 dark:group-hover:bg-gray-400 flex justify-center items-center rounded-lg border shadow'>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-pencil-fill text-slate-300 group-hover:text-black h-4 w-4" viewBox="0 0 16 16">
                     <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z"/>

@@ -27,7 +27,7 @@ export const ModalSuccess = ({showModalSuccess, setShowModalSuccess, response, s
                       </svg>)
                       }
   
-                      {response.message && <h3 className="mb-5 text-lg font-normal text-black dark:text-white">{response.message}</h3>}
+                      {response.message ? (<h3 className="mb-5 text-lg font-normal text-black dark:text-white">{response.message}</h3>) : (<h3 className="mb-5 text-lg font-normal text-black dark:text-white">Ha ocurrido un error. Por favor revisa que los campos esten completos.</h3>) }
   
                       {response.isSuccess ? (<button onClick={()=> {setShowCursos(true);setShowVideos(false)}} data-modal-hide="popup-modal" type="button" className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Ok</button>)
                       :

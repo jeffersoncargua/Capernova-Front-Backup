@@ -8,6 +8,7 @@ export const ModalAreaCategoria = ({showModalAreaCategoria,setShowModalAreaCateg
     const [showButtonLoading, setShowButtonLoading] = useState(false);
 
     const handleSubmitAdd = async(event) =>  {
+        setShowButtonLoading(true);
         event.preventDefault();
         try {
             const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Producto/createCategoria`,{
@@ -32,9 +33,11 @@ export const ModalAreaCategoria = ({showModalAreaCategoria,setShowModalAreaCateg
             setResponse(resultFetch);
             setCategoria({});
             setShowModalAreaCategoria(false);
+            setShowButtonLoading(false);
         } catch (error) {
             console.error(error);
             toast.error('Ha ocurrido un error en el servidor');
+            setShowButtonLoading(false);
         }
         
     }
@@ -108,7 +111,7 @@ export const ModalAreaCategoria = ({showModalAreaCategoria,setShowModalAreaCateg
                             </div>                             */}
                             <div className="col-span-2">
                                 <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre de la Categoría</label>
-                                <input type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Escribe el nombre de la categoría" required="" ref={refName} defaultValue={categoria.name || ''} />
+                                <input type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Escribe el nombre de la categoría" required="" ref={refName} defaultValue={categoria.name} />
                             </div>
                         </div>
                         <div className="mb-10">

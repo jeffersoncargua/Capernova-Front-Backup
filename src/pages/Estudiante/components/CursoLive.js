@@ -1,9 +1,11 @@
 import { useEffect,useState} from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const CursoLive = ({estudiante}) => {
+
     const column = ["Curso","Descripción","Acciones"];
     const [matriculaList,setMatriculaList] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(()=>{
         const FecthCourses = async()=>{
@@ -18,7 +20,7 @@ export const CursoLive = ({estudiante}) => {
             });
             const resultFetch = await resultFromApi.json();
     
-            if (resultFromApi.status !== 200) {
+            if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
               throw resultFetch;
             }
             //console.log(resultFetch);
@@ -28,12 +30,13 @@ export const CursoLive = ({estudiante}) => {
           } catch (error) {
             console.error(error);
             //toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
+            navigate('/error');
           }
           
         }
     
         FecthCourses();
-      },[estudiante])
+      },[estudiante,navigate])
 
     
   return (
@@ -73,8 +76,7 @@ export const CursoLive = ({estudiante}) => {
                                     </Link>
                                 </div>)
                                 :
-                                (null)}
-                                
+                                (null)} 
                             </td>
                         </tr>
                     ) )}

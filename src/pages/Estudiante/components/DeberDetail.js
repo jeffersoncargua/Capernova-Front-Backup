@@ -24,22 +24,20 @@ export const DeberDetail = ({matricula}) => {
 
                 const resultFetch = await resultFromApi.json();
 
-                if (resultFromApi.status !== 200) {
+                if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
                     throw resultFetch;
                 }
                 //console.log(resultFetch);
-                //   if(resultFetch.isSuccess){
-                //     setDeberList(resultFetch.result);
-                //   }
-                setDeberList(resultFetch.result);
-            } catch (error) {
-                if (error.statusCode !== 400) {
-                    console.error(error);
-                    toast.error('Algo ha fallado en nuestro servidor. Inténtalo más tarde');
+                if(resultFetch.isSuccess){
+                    setDeberList(resultFetch.result);
+                }else{
                     setDeberList([]);
                 }
+                
+            } catch (error) {
+                console.error(error);
+                toast.error('Algo ha fallado en nuestro servidor. Inténtalo más tarde');
                 setDeberList([]);
-                toast.error('No existen deberes registrados para este curso');
             }
           
         }
@@ -76,7 +74,7 @@ export const DeberDetail = ({matricula}) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {deberList.length > 0 && deberList.map((deber) => (
+                    {deberList.length > 0 ? (deberList.map((deber) => (
                         <tr key={deber.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                             <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {deber.titulo}
@@ -97,7 +95,9 @@ export const DeberDetail = ({matricula}) => {
                                 </div>
                             </td>
                         </tr>
-                    ) )}
+                    ) )):(<tr className="border-b dark:border-gray-700" >
+                        <td className="font-medium text-md mb-10 p-5">No se han encontrado deberes registrados...</td>                  
+                      </tr>)}
                     
                 </tbody>
                 {/* <tfoot>

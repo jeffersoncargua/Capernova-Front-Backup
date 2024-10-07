@@ -22,8 +22,8 @@ export const Pruebas = ({setShowCursos,setShowVideos,curso, setCurso,setShowDebe
   //const refPrice = useRef();
   //const refImageUrl = useRef();
 
-  console.log(curso);
-  console.log(pruebas);
+  // console.log(curso);
+  // console.log(pruebas);
 
   useEffect(()=>{
     const GetDeber = async()=>{
@@ -38,14 +38,19 @@ export const Pruebas = ({setShowCursos,setShowVideos,curso, setCurso,setShowDebe
         });
         const resultFetch = await resultFromApi.json();
 
-        if (resultFromApi.status !== 200) {
+        if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
           throw resultFetch;
         }
         //console.log(resultFetch);
-        setPruebas(resultFetch.result);
+        if (resultFetch.isSuccess) {
+          setPruebas(resultFetch.result);
+        }else{
+          setPruebas([]);
+        }
+        
       } catch (error) {
         console.error(error);
-        toast.error('Ha ocurrido un error en el servidor');
+        toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
       }
       
     }
@@ -147,7 +152,7 @@ export const Pruebas = ({setShowCursos,setShowVideos,curso, setCurso,setShowDebe
                   </tr>
                 </thead>
                 <tbody>
-                {pruebas.map((test) => (
+                { pruebas.length > 0 ? (pruebas.map((test) => (
                   <tr key={test.id} className="border-b dark:border-gray-700">
                     {/* <td className="px-4 py-3">{test.Id}</td> */}
                     <td className="px-4 py-3">{test.titulo}</td>
@@ -171,7 +176,9 @@ export const Pruebas = ({setShowCursos,setShowVideos,curso, setCurso,setShowDebe
                       </div>
                     </td>
                   </tr>
-                ))}
+                ))):(<tr className="border-b dark:border-gray-700" >
+                  <td className="font-medium text-xl mb-10 p-5">No se han encontrado registros...</td>                  
+                </tr>)}
                   
                 </tbody>
               </table>

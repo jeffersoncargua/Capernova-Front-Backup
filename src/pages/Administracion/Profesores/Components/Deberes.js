@@ -38,14 +38,18 @@ export const Deberes = ({setShowCursos,setShowVideos,curso, setCurso,setShowDebe
         });
         const resultFetch = await resultFromApi.json();
 
-        if (resultFromApi.status !== 200) {
+        if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
           throw resultFetch;
         }
         //console.log(resultFetch);
-        setDeberes(resultFetch.result);
+        if (resultFetch.isSuccess) {
+          setDeberes(resultFetch.result);
+        }else{
+          setDeberes([]);
+        }
       } catch (error) {
         console.error(error);
-        toast.error('Ha ocurrido un error en el servidor');
+        toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
       }
       
     }
@@ -150,7 +154,7 @@ export const Deberes = ({setShowCursos,setShowVideos,curso, setCurso,setShowDebe
                   </tr>
                 </thead>
                 <tbody>
-                {deberes.map((task) => (
+                { deberes.length > 0 ? (deberes.map((task) => (
                   <tr key={task.id} className="border-b dark:border-gray-700">
                     {/* <td className="px-4 py-3">{task.Id}</td> */}
                     <td className="px-4 py-3">{task.titulo}</td>
@@ -175,7 +179,9 @@ export const Deberes = ({setShowCursos,setShowVideos,curso, setCurso,setShowDebe
                       </div>
                     </td>
                   </tr>
-                ))}
+                ))):(<tr className="border-b dark:border-gray-700" >
+                  <td className="font-medium text-xl mb-10 p-5">No se han encontrado registros...</td>                  
+                </tr>)}
                   
                 </tbody>
               </table>

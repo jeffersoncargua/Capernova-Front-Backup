@@ -23,12 +23,12 @@ export const ModalCompleted = ({setShowModalCompleted}) => {
                         <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Importante!!!</h3>
                     
                         <h2 className="mb-2 text-lg font-semibold text-black dark:text-white">Para obtener tu certificado debes:</h2>
-                        <ul className="max-w-md space-y-1 text-black list-disc list-inside dark:text-white">
+                        <ul className="max-w-md space-y-1 text-start text-justify text-black list-disc list-inside dark:text-white">
                             <li>
-                                Completar las tareas, las mismas que estan en el apartado izquierdo de tu pantalla.
+                                Completar las tareas, las mismas que están en el apartado izquierdo de tu pantalla.
                             </li>
                             <li>
-                                Completar las pruebas, las mismas que estan en el apartado izquierdo de tu pantalla.
+                                Completar las pruebas, las mismas que están en el apartado izquierdo de tu pantalla.
                             </li>
                             <li>
                                 Dirigirte a la pestaña de <b>"Tu Progreso"</b> y presiona la copa para obtener tu certificado.

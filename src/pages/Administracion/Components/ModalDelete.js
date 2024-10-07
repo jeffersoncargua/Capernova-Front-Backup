@@ -120,7 +120,7 @@ export const ModalDelete = ({showModalDelete,setShowModalDelete, objeto,setObjet
                             <svg className="mx-auto mb-4 w-12 h-12 text-red-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                             </svg>
-                            <h3 className="mb-5 text-lg font-normal dark:text-white">Estas seguro de eliminar este/esta {tipo}?</h3>
+                            <h3 className="mb-5 text-lg font-normal dark:text-white">Estas seguro de eliminar este/esta {tipo === 'talento'? 'usuario':tipo}?</h3>
                             {showButtonLoading ? 
                             (<button disabled className="text-white inline-flex items-center bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-blue-800">
                                 <svg aria-hidden="true" role="status" className="inline w-4 h-4 me-3 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -23,7 +23,7 @@ export const NotaDeber = ({deber,matricula}) => {
             const resultFetch = await resultFromApi.json();
 
 
-            if (resultFromApi.status !== 200) {
+            if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
               throw resultFetch;
             }
             //console.log(resultFetch);
@@ -31,11 +31,8 @@ export const NotaDeber = ({deber,matricula}) => {
               setNotaDeber(resultFetch.result);  
             }
           } catch (error) {
-            if (error.statusCode !== 400) {
-              console.error(error);
-              toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
-            }
-           
+            console.error(error);
+            toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
           }
             
               

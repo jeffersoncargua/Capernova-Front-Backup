@@ -1,6 +1,6 @@
 import { useState,useEffect } from "react";
 import { CoursesCard } from '../components'
-import { toast } from "react-toastify";
+//import { toast } from "react-toastify";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -10,11 +10,14 @@ import { Pagination, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import { useNavigate } from "react-router-dom";
 
 
 export const Deberes = ({estudiante,setMatricula,setShowDeberDetail}) => {
 
   const [matriculaList,setMatriculaList] = useState([]);
+
+  const navigate = useNavigate();
   
   //const dispatch = useDispatch();
 
@@ -32,26 +35,28 @@ export const Deberes = ({estudiante,setMatricula,setShowDeberDetail}) => {
         });
         const resultFetch = await resultFromApi.json();
 
-        if (resultFromApi.status !== 200) {
+        if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
           throw resultFetch;
         }
 
         //console.log(resultFetch);
         if(resultFetch.isSuccess){
           setMatriculaList(resultFetch.result);
+        }else{
+          setMatriculaList([]);
         }
       } catch (error) {
         console.error(error);
-          toast.error('Algo ha fallado en nuestro servidor. Inténtalo más tarde');
-        
-        
+        //toast.error('Algo ha fallado en nuestro servidor. Inténtalo más tarde');
+        navigate('/error');
+      
       }
       
     }
 
     FecthCourses();
     //dispatch(clearPlaylist([]));
-  },[estudiante])
+  },[estudiante,navigate])
 
 
   return (

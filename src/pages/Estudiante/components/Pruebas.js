@@ -29,13 +29,15 @@ export const Pruebas = ({estudiante,setMatricula,setShowPruebaDetail}) => {
         });
         const resultFetch = await resultFromApi.json();
 
-        if (resultFromApi.status !== 200) {
+        if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
           throw resultFetch;
         }
 
         //console.log(resultFetch);
         if(resultFetch.isSuccess){
           setMatriculaList(resultFetch.result);
+        }else{
+          setMatriculaList([]);
         }
         
       } catch (error) {

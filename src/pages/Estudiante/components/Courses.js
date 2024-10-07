@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { CoursesCard } from '../components'
 import { clearPlaylist } from "../../../redux/playlistSlice";
 import { useDispatch } from "react-redux";
-import { toast } from "react-toastify";
+//import { toast } from "react-toastify";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import { Pagination, Navigation } from 'swiper/modules';
@@ -11,6 +11,7 @@ import { Pagination, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import { useNavigate } from "react-router-dom";
 
 //import { useSelector } from "react-redux";
 
@@ -18,12 +19,14 @@ export const Courses = ({setShowPlayer,setShowCourses,estudiante,setMatricula}) 
 
   const [matriculaList,setMatriculaList] = useState([]);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   
   //const playList = useSelector(state => state.playListState.playList);
   //console.log(playList);
 
   useEffect(()=>{
+    
     const FecthCourses = async()=>{
       try {
         const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Student/getCursos?id=${estudiante.id}`,{
@@ -36,7 +39,7 @@ export const Courses = ({setShowPlayer,setShowCourses,estudiante,setMatricula}) 
         });
         const resultFetch = await resultFromApi.json();
 
-        if (resultFromApi.status !== 200) {
+        if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
           throw resultFetch;
         }
         //console.log(resultFetch);
@@ -45,16 +48,18 @@ export const Courses = ({setShowPlayer,setShowCourses,estudiante,setMatricula}) 
         }
       } catch (error) {
         console.error(error);
-        toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
+        //toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
+        navigate('/error');
       }
       
     }
 
     FecthCourses();
-    dispatch(clearPlaylist([]));
-  },[estudiante,dispatch,setShowCourses])
 
-  console.log(matriculaList.length > 0 );
+    dispatch(clearPlaylist([]));
+  },[estudiante,dispatch,setShowCourses,navigate])
+
+  //console.log(matriculaList.length > 0 );
   //const isActive = false;
 
   return (

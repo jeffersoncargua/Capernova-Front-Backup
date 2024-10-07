@@ -3,6 +3,7 @@ import { Videos,ModalCompleted } from '../components';
 import { useSelector } from 'react-redux';
 import VideoPlayer from 'react-player/youtube';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 
 export const PlayerVideo = ({estudiante,matricula,setMatricula}) => {
@@ -22,6 +23,8 @@ export const PlayerVideo = ({estudiante,matricula,setMatricula}) => {
     // const [playList, setPlayList] = useState(urls);
     const playList = useSelector(state => state.playListState.playList)
     const [currentVideo, setCurrentVideo] = useState({});
+
+    const navigate = useNavigate();
     
     //let [playList, setPlayList] = useState([]);
     //const [total, setTotal] = useState(0);
@@ -45,7 +48,7 @@ export const PlayerVideo = ({estudiante,matricula,setMatricula}) => {
                   });
                   const resultFetch = await resultFromApi.json();
 
-                  if (resultFromApi.status !== 200) {
+                  if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
                     throw resultFetch;
                   }
                   //console.log(resultFetch);
@@ -54,12 +57,13 @@ export const PlayerVideo = ({estudiante,matricula,setMatricula}) => {
                   }
             } catch (error) {
                 console.error(error);
-                toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
+                toast.error('Algo ha fallado en nuestro servidor. Inténte retornar a sus cursos');
+                navigate('/error');
             }
             
           }
           FetchCapitulos();
-    },[matricula,setCurrentVideo]);
+    },[matricula,setCurrentVideo,navigate]);
 
     
     const fetchVisualizacion = async(id) => {
@@ -80,14 +84,15 @@ export const PlayerVideo = ({estudiante,matricula,setMatricula}) => {
     
             const resultFetch = await resultFromApi.json();
 
-            if (resultFromApi.status !== 200) {
+            if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
                 throw resultFetch;
             }
 
             //console.log(resultFetch);
         } catch (error) {
             console.error(error);
-            toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
+            toast.error('Algo ha fallado en nuestro servidor. Inténte retornar a sus cursos');
+            navigate('/error');
         }
         
     }

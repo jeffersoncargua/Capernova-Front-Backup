@@ -66,7 +66,7 @@ export const Profesor = () => {
   
        let resultFetch = await resultFromApi.json();
 
-       if (resultFromApi.status !== 200) {
+       if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
         throw resultFetch;
        }
   
@@ -77,14 +77,8 @@ export const Profesor = () => {
        }
       //const capitulos = JSON.parse(resultFetch.result[0].capitulos);
       } catch (error) {
-        if (error.statusCode !== 400) {
-          console.error(error)
-          //toast.error('Ha ocurrido un error en el servidor');
-        }else{
-          console.error(error)
-          toast.error('Ha ocurrido un error en el servidor');
-        }
-        
+        console.error(error)
+        toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
       }
     }
 

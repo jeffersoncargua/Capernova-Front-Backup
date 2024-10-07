@@ -40,7 +40,7 @@ export const TalentoHumano = ({setShowTalento,setShowProfesor,setProfesor,respon
   
         const resultFetch = await resultFromApi.json();
 
-        if (resultFromApi.status !== 200) {
+        if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
           throw resultFetch;
         }
         
@@ -56,7 +56,7 @@ export const TalentoHumano = ({setShowTalento,setShowProfesor,setProfesor,respon
         setNextAllowed(() => currentPage < numberOfPages);
       } catch (error) {
         console.error(error);
-        toast.error('Ha ocurrido un error en el servidor');
+        toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
       }
       
       
@@ -83,7 +83,7 @@ export const TalentoHumano = ({setShowTalento,setShowProfesor,setProfesor,respon
     if (refRole.current.value !== '') {
       setCurrentPage(1);
       setSearchRole(refRole.current.value);
-      console.log(refRole.current.value);
+      //console.log(refRole.current.value);
     }else{
       setSearchRole('');
     }
@@ -139,7 +139,7 @@ export const TalentoHumano = ({setShowTalento,setShowProfesor,setProfesor,respon
                   <div>
                     <label htmlFor="role" className="me-2 mb-2 text-sm font-medium  dark:text-white" >Tipo de Usuario:</label>
                     <select onChange={() =>handleSelectedRole()} id="role" className=" w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" defaultValue={''} ref={refRole}>
-                        <option value="" >---- Seleccion el Rol de Usuario ----</option>
+                        <option value="" >---- Selecciona el Rol de Usuario ----</option>
                         <option value="">Todos</option>
                         <option value="Admin">Administrador</option>
                         <option value="Teacher">Profesor</option>
