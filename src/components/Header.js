@@ -46,9 +46,12 @@ export const Header = () => {
             document.documentElement.classList.add('dark');
         }    
         const token = sessionStorage.getItem('auth');
-        //console.log(token);
+        // console.log(token);
+        // console.log(token !== null);
+        // console.log(token !== undefined);
+        // console.log(token !== '');
         //Funcion para decodificar el token y acceder a su informacion para el inicio de sesion
-        if (token !== null) {
+        if (token !== null && token !== '' && token !== undefined ) {
             const objet = JWTDecode(token);
         //Se guarda la seccion 
         //Permite almacenar el inicio de sesion de un usuario que se ha logeado de forma exitosa

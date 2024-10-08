@@ -47,23 +47,29 @@ export const CalificarDeber = ({deber,matricula}) => {
         //console.log(refCalificacionDeber.current.value);
         setShowButtonLoading(true);
         try {
-          const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Teacher/updateNotaDeber?id=${notaDeber.id}&studentId=${matricula.estudianteId}`,{
-            method: 'PUT',
-            credentials:'include',
-            headers:{
-              'Content-Type':'application/json',
-              'Accept':'application/json'
-            },
-            body: JSON.stringify(refCalificacionDeber.current.value)
-          });
-          const resultFetch = await resultFromApi.json();
-          
-          if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
-            throw resultFetch;
+          if (notaDeber.id) {
+            const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Teacher/updateNotaDeber?id=${notaDeber.id}&studentId=${matricula.estudianteId}`,{
+              method: 'PUT',
+              credentials:'include',
+              headers:{
+                'Content-Type':'application/json',
+                'Accept':'application/json'
+              },
+              body: JSON.stringify(refCalificacionDeber.current.value)
+            });
+            const resultFetch = await resultFromApi.json();
+            
+            if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+              throw resultFetch;
+            }
+  
+            setResponse(resultFetch);
+            setShowButtonLoading(false);
+          }else{
+            setShowButtonLoading(false);
+            toast.error('Aún no se ha entregado el deber. Inténtelo mas tarde');
           }
-
-          setResponse(resultFetch);
-          setShowButtonLoading(false);
+          
         } catch (error) {
           console.error(error);
           toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');

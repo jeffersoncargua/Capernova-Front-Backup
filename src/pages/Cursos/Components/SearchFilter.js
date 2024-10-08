@@ -29,18 +29,20 @@ export const SearchFilter = () => {
       
               //console.log(resultFetch);
               //console.log(result.status);
-              if (result.status !== 200) {
+              if (result.status !== 200 && result.status !== 400) {
                   throw resultFetch;
               }
       
-              setCategoriaList(resultFetch.result);
+              if (resultFetch.isSuccess) {
+                setCategoriaList(resultFetch.result);
+              }else{
+                setCategoriaList([]);
+              }
+              
       
           } catch (error) {
-              if (error.statusCode !== 400) {
-                  console.error(error);
-                  toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
-              }
-      
+            console.error(error);
+            toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');      
           }
         }
         FetchCategoriaCurso();

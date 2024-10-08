@@ -63,8 +63,8 @@ export const PaymentPaypal = ({cartList,total,isValid,setError,setShowModal,hidd
             // console.log(result.status);
             // console.log(result.links);
             //setToken(result.id);
-            orderId = result.id;
-            return result.id;
+                orderId = result.id;
+                return result.id;
             }
 
             //console.log(resultFetch.message);
@@ -74,7 +74,7 @@ export const PaymentPaypal = ({cartList,total,isValid,setError,setShowModal,hidd
         } catch (error) {
             console.error(error);
             setShowModal(true);
-            setError('No se ha podido completar su compra. Por favor, revise su conexión a internet e inténtelo nuevamente');
+            setError('No se ha podido completar tu compra. Por favor, revise su conexión a internet e inténtelo nuevamente');
             setHiddenPaypal(false);
         }
 
@@ -133,7 +133,7 @@ export const PaymentPaypal = ({cartList,total,isValid,setError,setShowModal,hidd
         } catch (error) {
             console.error(error);
             setShowModal(true);
-            setError('No se ha podido completar su compra. Por favor, revise su conexión a internet e inténtelo nuevamente');  
+            setError('No se ha podido completar tu compra. Por favor, revise su conexión a internet e inténtelo nuevamente');  
             setHiddenPaypal(false);
         }
         
@@ -143,7 +143,7 @@ export const PaymentPaypal = ({cartList,total,isValid,setError,setShowModal,hidd
     const handleOnError= async() => {
         //console.log('Ha ocurrido un error durante su transacción');
         setShowModal(true);
-        setError('Ha ocurrido un error durante su transacción. Inténtelo nuevamente');
+        setError('Ha ocurrido un error durante la transacción. Inténtelo nuevamente');
         setHiddenPaypal(false);
     }
 

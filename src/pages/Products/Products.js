@@ -33,10 +33,16 @@ export const Products = ({children}) => {
         const resultFetch = await result.json();
 
         //console.log(resul.status);
-        if (result.status !== 200) {
+        if (result.status !== 200 && result.status !== 400) {
           throw resultFetch;
         }
-        setSlices(resultFetch.result);
+
+        if (resultFetch.isSuccess) {
+          setSlices(resultFetch.result);
+        }else{
+          setSlices([]);
+        }
+        
 
         } catch (error) {
           console.error(error);

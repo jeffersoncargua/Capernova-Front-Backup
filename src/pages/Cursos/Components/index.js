@@ -5,3 +5,5 @@ export {Capitulo} from './Capitulo';
 export {Temario} from './Temario';
 
 export {SliderCurso} from './SliderCurso'
+
+export {Loading} from './Loading';

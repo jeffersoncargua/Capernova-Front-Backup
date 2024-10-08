@@ -53,7 +53,11 @@ export const Informacion = ({estudiante,response,setResponse}) => {
         throw resultFecthInfo;
       }
 
-      if (refImageUrl.current !== null) {
+      console.log(refImageUrl.current);
+      console.log(refImageUrl.current !== null);
+      console.log(refImageUrl.current !== undefined);
+
+      if (refImageUrl.current !== null && refImageUrl.current !== undefined) {
         const result = await fetch(`${process.env.REACT_APP_API_URL}/Student/updateImageStudent?id=${estudiante.id}`,{
           method: 'PUT',
           credentials:'include',

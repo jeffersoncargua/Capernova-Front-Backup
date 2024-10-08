@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
+import { Link,useNavigate } from "react-router-dom";
+//import { toast } from "react-toastify";
 import { remove } from "../../../redux/searchProductSlice";
 
 export const SearchFilter = () => {
@@ -9,6 +9,7 @@ export const SearchFilter = () => {
     const [showSearch, setShowSearch] = useState(true);
     const [categoriaList,setCategoriaList] = useState([]);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(()=>{
         const FetchCategoriaProducto = async()=>{
@@ -28,22 +29,25 @@ export const SearchFilter = () => {
       
               //console.log(resultFetch);
               //console.log(result.status);
-              if (result.status !== 200) {
+              if (result.status !== 200 && result.status !== 400) {
                   throw resultFetch;
               }
       
-              setCategoriaList(resultFetch.result);
+              if (resultFetch.isSuccess) {
+                setCategoriaList(resultFetch.result);
+              }else{
+                setCategoriaList([]);
+              }
+              
       
           } catch (error) {
-              if (error.statusCode !== 400) {
-                  console.error(error);
-                  toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
-              }
-      
+            console.error(error);
+            //toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');      
+            navigate('error');
           }
         }
         FetchCategoriaProducto();
-      },[])
+      },[navigate])
 
   return (
     <div className='w-[20%] relative md:mr-16'>

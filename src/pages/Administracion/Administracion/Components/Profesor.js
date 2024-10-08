@@ -52,7 +52,7 @@ export const Profesor = ({profesor, setProfesor,cursoList,response,setResponse})
         } catch (error) {
             setShowButtonLoading(false);
             console.error(error);   
-            toast.error('Ha ocurrido un error en el servidor');
+            toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
         }
         
     }
@@ -93,7 +93,7 @@ export const Profesor = ({profesor, setProfesor,cursoList,response,setResponse})
             setShowButtonLoading2(false);
         } catch (error) {
             console.error(error);
-            toast.error('Ha ocurrido un error en el servidor');
+            toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
         }
         
     }

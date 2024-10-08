@@ -37,7 +37,7 @@ export const ModalPublicidad = ({showModal,setShowModal,publicidad,setResponse})
         } catch (error) {
             setShowButtonLoading(false);
             console.error(error);
-            toast.error('Ha ocurrido un error en el servidor');
+            toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
         }
     }
 
@@ -61,7 +61,7 @@ export const ModalPublicidad = ({showModal,setShowModal,publicidad,setResponse})
             });
             const resultFetch = await result.json();
 
-            if (result.status !== 200) {
+            if (result.status !== 200 && result.status !== 400) {
                 throw resultFetch;
             }
             //console.log(resultFetch);
@@ -72,7 +72,7 @@ export const ModalPublicidad = ({showModal,setShowModal,publicidad,setResponse})
             setShowModal(false);
             setShowButtonLoading(false);
             console.error(error);
-            toast.error('Ha ocurrido un error en el servidor');
+            toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
         }
     }
 

@@ -46,7 +46,7 @@ export const Ventas = () => {
   
         const resultFetch = await resultFromApi.json();
 
-        if (resultFromApi.status !==200) {
+        if (resultFromApi.status !==200 && resultFromApi.status !==400) {
           throw resultFetch;
         }
         //console.log(resultFetch);
@@ -63,7 +63,7 @@ export const Ventas = () => {
         }
       } catch (error) {
         console.error(error);
-        toast.error("Ha ocurrido un error en el servidor");
+        toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
       }
       
     }

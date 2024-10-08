@@ -139,7 +139,7 @@ export const ConfirmPay = () => {
       :
       ( /*Respuesta fallida */
         <div className="flex flex-col gap-y-4 my-8">
-          <h1 className="font-medium text-lg sm:text-2xl text-red-500 text-center">¡Lo sentimos, no se pudo completar tu transaccion!</h1>
+          <h1 className="font-medium text-lg sm:text-2xl text-red-500 text-center">¡Lo sentimos, no se pudo completar tu transacción!</h1>
           <h3 className="font-medium text-sm sm:text-lg text-red-500 text-center">La solicitud de pago no se ha generado. Por favor revise sus movimientos bancarios.</h3>
           <h3 className="font-medium text-sm sm:text-lg text-red-500 text-center">Si el error persiste comuniquese con nuestros operadores a través de whatsapp</h3>
           

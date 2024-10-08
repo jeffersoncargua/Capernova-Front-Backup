@@ -66,7 +66,7 @@ export const Estudiante = () => {
     <div className="relative w-[95%] mx-auto">
         {/*Barra lateral de navegacion del estudiante */}
 
-        <SideBar setShowPlayer={setShowPlayer}  setShowLogro={setShowLogro} setShowCourses={setShowCourses} setShowDeberes={setShowDeberes} setShowPruebas={setShowPruebas} setShowInformacion={setShowInformacion} setShowDeberDetail={setShowDeberDetail} setShowPruebaDetail={setShowPruebaDetail} setShowLibrary={setShowLibrary} setShowCursoLive={setShowCursoLive}  /> 
+        <SideBar setShowPlayer={setShowPlayer}  setShowLogro={setShowLogro} setShowCourses={setShowCourses} setShowDeberes={setShowDeberes} setShowPruebas={setShowPruebas} setShowInformacion={setShowInformacion} setShowDeberDetail={setShowDeberDetail} setShowPruebaDetail={setShowPruebaDetail} setShowLibrary={setShowLibrary} setShowCursoLive={setShowCursoLive} setResponse={setResponse} /> 
 
         {/*Informacion del estudiante */}
         

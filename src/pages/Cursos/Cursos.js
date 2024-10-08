@@ -34,20 +34,20 @@ export const Cursos = ({children}) => {
           const resultFetch = await result.json();
 
           //console.log(result.status);
-          if (result.status !== 200) {
+          if (result.status !== 200 && result.status !== 400) {
             throw resultFetch;
           }
           //console.log(resultFetch);
-          setSlices(resultFetch.result);
-          
-        } catch (error) {
-          if(error.statusCode !== 404){
-            console.error(error);
+          if (resultFetch.isSuccess) {
+            setSlices(resultFetch.result);
           }else{
-            console.error(error);
-            navigate('/error');
+            setSlices([]);
           }
           
+          
+        } catch (error) {
+          console.error(error);
+          navigate('/error');
         }
     }
 

@@ -27,8 +27,9 @@ export const ModalDownload = ({showModalDownload,setShowModalDownload, result, s
                         </button>
                     </div>
                     {/*<!-- Boton para realizar la descarga del certificado -->*/}
-                    <div className="p-4 md:p-5">
-                        <a href={`data:${result.result.contentType};base64,${result.result.fileContents}`} download={`${result.result.fileDownloadName}`} className="hover:underline text-blue-500 hover:text-violet-600" >Presiona este enlace para descargar</a>
+                    <div className="px-4 md:px-5">
+                        <span className="text-black dark:text-white"><a href={`data:${result.result.contentType};base64,${result.result.fileContents}`} download={`${result.result.fileDownloadName}`} className="hover:underline text-blue-500 hover:text-violet-600" >Presiona este enlace para descargar</a> o escanea el código QR para obtener tu certificado</span>
+                        
                     </div>
                     {/*<!--Codigo QR para realizar la descarga del certificado -->*/}
                     <div className="p-4 md:p-5">

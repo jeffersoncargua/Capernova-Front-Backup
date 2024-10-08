@@ -33,11 +33,15 @@ export const SliderProduct = () => {
         const resultFetch = await resultFromApi.json();
         
         //console.log(resultFromApi.status);
-        if (resultFromApi.status !==200) {
+        if (resultFromApi.status !==200 && resultFromApi.status !==400) {
           throw resultFetch;
         }
 
-        setSlices(resultFetch.result);
+        if (resultFetch.isSuccess) {
+          setSlices(resultFetch.result);
+        }else{
+          setSlices([]);
+        }
 
       } catch (error) {
         console.error(error);

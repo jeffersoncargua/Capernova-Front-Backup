@@ -98,7 +98,7 @@ export const ModalCourse = ({showModalCourse,setShowModalCourse,setResponse}) =>
             setShowButtonLoading(false);
             setShowModalCourse(false);
             console.error(error);
-            toast.error("Ha ocurrido un error en el servidor");
+            toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
         }
     }
 

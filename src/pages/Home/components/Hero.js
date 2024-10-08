@@ -29,11 +29,19 @@ export const Hero = () => {
                 const resultFetch = await result.json();
                 
                 //console.log(result.status);
-                if(result.status !== 200){
+                if(result.status !== 200 && result.status !== 400){
                     throw resultFetch;
                 }
 
-                setSlices(resultFetch.result); 
+                console.log(resultFetch);
+                if (resultFetch.isSuccess) {
+                    setSlices(resultFetch.result);
+                    setCurrentPhoto(resultFetch.result[0]);
+
+                }else{
+                    setSlices([]);
+                }
+
                 
             } catch (error) {
                 console.log(error);
@@ -63,7 +71,9 @@ export const Hero = () => {
 
     //console.log(currentPhoto === slices[current]);
     // console.log(slices);
-    // console.log(currentPhoto);
+
+
+    
 
   return (
     //<div className='w-full flex flex-col md:flex-row bg-gray-900 mb-10 relative'>
@@ -105,7 +115,7 @@ export const Hero = () => {
 
         <div className='overflow-x-hidden w-full order-1 md:order-2 md:w-1/2 z-10 '  >
             <div className='flex transition ease-in-out duration-1000' >
-                {slices.length > 0 && currentPhoto? 
+                {slices.length > 0 ? 
                 (<div className='shrink-0 w-full items-center ' >
                     <img src={currentPhoto.imageUrl} alt='slice' className={`opacity-100 rounded-lg md:rounded-l-[150px] md:rounded-r-[75px] shadow-md shadow-slate-100 shadow-inner`} />
                 </div>)

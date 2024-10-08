@@ -1,12 +1,14 @@
 import { Tooltip } from 'react-tooltip';
 import { useState } from 'react';
 import {Loading} from '../components';
-import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+//import { toast } from 'react-toastify';
 
 
 export const ProgressBar = ({matricula,setShowModalDownload, setResult }) => {
 
   const [showLoading , setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleGetCertificate = async() => {
     setLoading(true);
@@ -21,7 +23,7 @@ export const ProgressBar = ({matricula,setShowModalDownload, setResult }) => {
   
       const resultFetch = await result.json();
 
-      if (result.status !== 200) {
+      if (result.status !== 200 && result.status !== 400) {
         throw resultFetch;
       }
 
@@ -32,7 +34,8 @@ export const ProgressBar = ({matricula,setShowModalDownload, setResult }) => {
     } catch (error) {
       console.error(error);
       setLoading(false);
-      toast.error('Algo ha fallado en nuestro servidor. Inténtlo más tarde');
+      //toast.error('Algo ha fallado en nuestro servidor. Inténtlo más tarde');
+      navigate('/error');
     }
     
   }

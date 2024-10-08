@@ -21,14 +21,19 @@ export const Capitulo = ({curso}) => {
 
         const resultFetch = await resultFromApi.json();
 
-        if (resultFromApi.status !== 200) {
+        if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
           throw resultFetch;
         }
         //console.log(resultFetch);
-        setCapitulos(resultFetch.result);
+        if (resultFetch.isSuccess) {
+          setCapitulos(resultFetch.result);
+        }else{
+          setCapitulos([]);
+        }
+        
         } catch (error) {
           console.error(error);
-          toast.error('Ha ocurrido un error en el servidor');
+          toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
         }
           
       }
@@ -42,7 +47,7 @@ export const Capitulo = ({curso}) => {
 
   return (
     <div className="mt-5">
-        {capitulos && capitulos.map((capitulo)=>(
+        {capitulos.length > 0 && capitulos.map((capitulo)=>(
             <>
               <h2 key={capitulo.id} className="text-start mb-2 text-lg font-semibold text-gray-900 dark:text-white">{capitulo.titulo}</h2>
               <Temario  capitulo={capitulo}  />

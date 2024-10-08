@@ -22,10 +22,16 @@ export const TalentoHumano = () => {
                 const resultFetch = await resultFromApi.json();
 
                 //console.log(resultFromApi.status);
-                if (resultFromApi.status !== 200) {
+                if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
                     throw resultFetch;
                 }
-                setTeacherList(resultFetch.result);
+
+                if (resultFetch.isSuccess) {
+                    setTeacherList(resultFetch.result);
+                }else{
+                    setTeacherList([]);
+                }
+                
 
             } catch (error) {
                 console.error(error);
@@ -48,7 +54,7 @@ export const TalentoHumano = () => {
                 <hr className="mx-auto w-[250px] border border-blue-400 drop-shadow-md" />
           </span>
       </h1>
-        {teacherList.map((teacher,index)=>(
+        {teacherList.length > 0 && teacherList.map((teacher,index)=>(
             <TeacherCard key={index} teacher={teacher} index={index} />
         ))}
         

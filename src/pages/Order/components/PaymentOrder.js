@@ -100,11 +100,18 @@ export const PaymentOrder = ({setIsValid}) => {
                     Una vez que llenes el formulario debes activar el recuadro que aparece en la parte inferior del formulario.
                 </li>
                 <li>
-                    Una vez que actives el recuadro podras elegir la forma de pago.
+                    Una vez que actives el recuadro podrás elegir la forma de pago.
+                </li>
+                
+                <li>
+                    Luego de que realices el pago se te notificará con un mensaje de Whatsapp y se procederá a realizar el envío de tu pedido
                 </li>
                 <li>
-                    Luego de que realices el pago se te notificará con un mensaje de Whatsapp y se procederá a realizar el envío
-                </li>            
+                    Todos los pedidos son a domicilio y el pago del envío es contra entrega
+                </li> 
+                <li>
+                    Muchas Gracias por preferirnos!!!!
+                </li>             
             </ul>
         </div>
 

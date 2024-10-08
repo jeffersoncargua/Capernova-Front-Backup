@@ -91,7 +91,7 @@ export const Profesor = () => {
 
   return (
     <div className="w-[95%] mx-auto">
-      <SideBar setShowInformacion={setShowInformacion} setShowCursos={setShowCursos} setShowVideos={setShowVideos} setShowEstudiantes={setShowEstudiantes} setShowDeberes={setShowDeberes} setShowPruebas={setShowPruebas} />
+      <SideBar setShowInformacion={setShowInformacion} setShowCursos={setShowCursos} setShowVideos={setShowVideos} setShowEstudiantes={setShowEstudiantes} setShowDeberes={setShowDeberes} setShowPruebas={setShowPruebas} setResponse={setResponse} />
       
       <div className="md:ml-64">
         

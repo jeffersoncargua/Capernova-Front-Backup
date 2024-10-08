@@ -24,10 +24,16 @@ export const Feedback = () => {
                 const resultFetch = await resultFromApi.json();
 
                 //console.log(resultFromApi.status)
-                if(resultFromApi.status !== 200){
+                if(resultFromApi.status !== 200 && resultFromApi.status !== 400){
                     throw resultFetch;
                 }
-                setUsers(resultFetch.result);
+
+                if (resultFetch.isSuccess) {
+                    setUsers(resultFetch.result); 
+                }else{
+                    setUsers([]);
+                }
+                
             } catch (error) {
                 console.error(error);
                 navigate('error');

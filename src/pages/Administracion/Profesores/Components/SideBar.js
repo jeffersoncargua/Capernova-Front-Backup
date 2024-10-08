@@ -1,7 +1,7 @@
 import { useState } from "react";
 //import { useSelector } from "react-redux";
 
-export const SideBar = ({setShowInformacion,setShowCursos,setShowVideos,setShowEstudiantes,setShowDeberes,setShowPruebas}) => {
+export const SideBar = ({setShowInformacion,setShowCursos,setShowVideos,setShowEstudiantes,setShowDeberes,setShowPruebas,setResponse}) => {
 
     //const userTeacher = useSelector(state=>state.userState.user); //permite obtener el id del profesor cuando se loguea
 
@@ -28,7 +28,7 @@ export const SideBar = ({setShowInformacion,setShowCursos,setShowVideos,setShowE
                 <ul className="space-y-2 text-sm font-small ">
                                             
                     <li>
-                        <button onClick={()=> {setShowInformacion(true);setShowCursos(false);setShowVideos(false);setShowEstudiantes(false);setShowDeberes(false);setShowPruebas(false)}} className="w-full flex items-center text-gray-300 p-2 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group">
+                        <button onClick={()=> {setResponse({});setShowInformacion(true);setShowCursos(false);setShowVideos(false);setShowEstudiantes(false);setShowDeberes(false);setShowPruebas(false)}} className="w-full flex items-center text-gray-300 p-2 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-person w-5 h-5 text-gray-500 transition duration-75 group-hover:text-black dark:group-hover:text-white" viewBox="0 0 16 16">
                                 <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
                             </svg>
@@ -36,7 +36,7 @@ export const SideBar = ({setShowInformacion,setShowCursos,setShowVideos,setShowE
                         </button>
                     </li>           
                     <li>
-                        <button onClick={()=> {setShowInformacion(false);setShowCursos(true);setShowVideos(false);setShowEstudiantes(false);setShowDeberes(false);setShowPruebas(false)}} className="w-full flex items-center text-gray-300 p-2 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group ">
+                        <button onClick={()=> {setResponse({});setShowInformacion(false);setShowCursos(true);setShowVideos(false);setShowEstudiantes(false);setShowDeberes(false);setShowPruebas(false)}} className="w-full flex items-center text-gray-300 p-2 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group ">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-journal-bookmark w-5 h-5 text-gray-500 transition duration-75 group-hover:text-black dark:group-hover:text-white" viewBox="0 0 16 16">
                                 <path fillRule="evenodd" d="M6 8V1h1v6.117L8.743 6.07a.5.5 0 0 1 .514 0L11 7.117V1h1v7a.5.5 0 0 1-.757.429L9 7.083 6.757 8.43A.5.5 0 0 1 6 8"/>
                                 <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
@@ -46,7 +46,7 @@ export const SideBar = ({setShowInformacion,setShowCursos,setShowVideos,setShowE
                         </button>
                     </li>
                     <li>
-                        <button onClick={()=> {setShowInformacion(false);setShowCursos(false);setShowVideos(false);setShowEstudiantes(true);setShowDeberes(false);setShowPruebas(false)}} className="w-full flex items-center text-gray-300 p-2 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group ">
+                        <button onClick={()=> {setResponse({});setShowInformacion(false);setShowCursos(false);setShowVideos(false);setShowEstudiantes(true);setShowDeberes(false);setShowPruebas(false)}} className="w-full flex items-center text-gray-300 p-2 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group ">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-people-fill w-5 h-5 text-gray-500 transition duration-75 group-hover:text-black dark:group-hover:text-white" viewBox="0 0 16 16">
                                 <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"/>
                             </svg>

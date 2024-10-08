@@ -1,6 +1,6 @@
 import { useState, useEffect} from "react";
 import { CoursesCard, ProgressBar , ModalDownload} from "../../Estudiante/components";
-import { toast } from "react-toastify";
+//import { toast } from "react-toastify";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -10,6 +10,7 @@ import { Pagination, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import { useNavigate } from "react-router-dom";
 
 
 export const Logros = ({estudiante}) => {
@@ -18,6 +19,8 @@ export const Logros = ({estudiante}) => {
   const [matriculaList,setMatriculaList] = useState([]);
   const [showModalDownload, setShowModalDownload] = useState(false);
   const [result,setResult] = useState({});
+
+  const navigate = useNavigate();
 
   useEffect(()=>{
     const FecthCourses = async()=>{
@@ -32,23 +35,26 @@ export const Logros = ({estudiante}) => {
         });
         const resultFetch = await resultFromApi.json();
         
-        if (resultFromApi.status !== 200) {
+        if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
           throw resultFetch;
         }
         
         //console.log(resultFetch);
         if(resultFetch.isSuccess){
           setMatriculaList(resultFetch.result);
+        }else{
+          setMatriculaList([]);
         }
       } catch (error) {
         console.error(error);
-        toast.error('Algo ha fallado en nuestro servidor. Inténtalo más tarde');
+        //toast.error('Algo ha fallado en nuestro servidor. Inténtalo más tarde');
+        navigate('/error');
       }
       
     }
 
     FecthCourses();
-  },[estudiante])
+  },[estudiante,navigate])
 
   return (
     //<div className="w-[95%] mx-auto flex flex-wrap space-x-8  ">

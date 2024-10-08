@@ -47,7 +47,7 @@ export const AreasCategorias = ({response,setResponse}) => {
           
         } catch (error) {
           console.error(error);
-          toast.error('Ha ocurrido un error en el servidor');
+          toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
         }
         
       }

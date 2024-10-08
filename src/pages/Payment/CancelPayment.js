@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export const CancelPayment = () => {
   return (
     <div className="flex flex-col mt-[10%] gap-y-4 my-8">
-          <h1 className="font-medium text-lg sm:text-2xl text-red-500 text-center">¡Lo sentimos, no se pudo completar tu transaccion!</h1>
+          <h1 className="font-medium text-lg sm:text-2xl text-red-500 text-center">¡Lo sentimos, no se pudo completar tu transacción!</h1>
           <h3 className="font-medium text-sm sm:text-lg text-red-500 text-center">La solicitud de pago no se ha generado.</h3>          
           
           <div className="mx-auto w-full flex justify-center">

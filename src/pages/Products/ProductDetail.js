@@ -6,11 +6,12 @@ import { toast } from "react-toastify";
 import { addToCart } from "../../redux/cartSlice";
 
 //import { ProductCard } from "../../components";
-import {SliderProduct} from './components'
+import {SliderProduct, Loading} from './components'
 
 export const ProductDetail = () => {
 
 
+    const [loading, setLoading] = useState(true);
     const dispath = useDispatch();
     const [searchParams] = useSearchParams();
     const productoId = searchParams.get('productoId');
@@ -24,9 +25,9 @@ export const ProductDetail = () => {
     
     const navigate = useNavigate();
 
-    useEffect(()=>{
-                
+    useEffect(()=>{             
       const fetchProducto = async() => {
+        setLoading(true);
         try {  
         const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Producto/getProducto/${productoId}`,{
           method:'GET',
@@ -46,14 +47,12 @@ export const ProductDetail = () => {
 
         setProducto(resultFetch.result);
 
-
+        setLoading(false);
       } catch (error) {
-        if (error.statusCode !== 400) {
-          console.error(error);
-          navigate('/error');
-        }else{
-          console.error(error);
-        }
+        console.error(error);
+        setLoading(false);
+        navigate('/error');
+        
       }
 
     }
@@ -160,6 +159,10 @@ export const ProductDetail = () => {
 
   return (
     <div className="w-[95%] mx-auto group text-black dark:text-white ">
+      
+      {loading ? 
+      (<Loading />)
+      :(<div>
         <div className="flex flex-wrap mt-10 ">
             <div className="w-full md:w-[50%] relative">
                 <img className={`mx-auto w-full sm:max-w-lg md:max-w-md rounded-lg shadow shadow-gray-500 shadow-lg dark:shadow-white ${!producto.cantidad>0 ? 'grayscale':''}`} src={producto.imagenUrl} alt="Aqui va la imagen" />
@@ -226,6 +229,9 @@ export const ProductDetail = () => {
                 </div> 
             ))}
         </div> */}
+      </div>)}
+      
+        
     </div>
   )
 }

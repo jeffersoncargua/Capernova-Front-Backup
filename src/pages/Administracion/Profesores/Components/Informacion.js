@@ -55,8 +55,6 @@ export const Informacion = ({profesor,response,setResponse}) => {
       }
       
 
-      //formData.append('file',refImageUrl.current.files[0] )
-
       if (refImageUrl.current !== undefined) {
         const result = await fetch(`${process.env.REACT_APP_API_URL}/Teacher/updateImageTeacher?id=${profesor.id}`,{
           method: 'PUT',

@@ -51,7 +51,7 @@ export const ModalTalento = ({showModalTalento,setShowModalTalento,talento,setTa
             setShowButtonLoading(false);
             setShowModalTalento(false);
             //console.error(error);
-            toast.error('Ha ocurrido un error en el servidor');
+            toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
         }
         
     }

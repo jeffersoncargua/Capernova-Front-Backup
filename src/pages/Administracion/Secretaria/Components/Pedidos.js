@@ -41,7 +41,7 @@ export const Pedidos = () => {
         const resultFetch = await resultFromApi.json();
   
         //console.log(resultFromApi.status);
-        if (resultFromApi.status !== 200) {
+        if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
           throw resultFetch;
         }
   
@@ -51,7 +51,7 @@ export const Pedidos = () => {
         }
       } catch (error) {
         console.error(error);
-        toast.error("Ha ocurrido un error en el servidor");
+        toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
       }
      
     }
