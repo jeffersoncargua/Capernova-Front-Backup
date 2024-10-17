@@ -24,6 +24,7 @@ export const SliderCursos = () => {
           //const result = await fetch(`https://localhost:7164/api/Course/getAllCourse`,{
             const result = await fetch(`${process.env.REACT_APP_API_URL}/Producto/getAllProducto?tipo=${"curso"}`,{
               method: 'GET',
+              credentials : 'include',
               headers:{
                 'Content-Type' : 'application/json',
                 'Accept' : 'application/json'

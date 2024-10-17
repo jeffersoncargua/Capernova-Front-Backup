@@ -21,6 +21,7 @@ export const Hero = () => {
             try {
                 const result = await fetch(`${process.env.REACT_APP_API_URL}/Marketing/publicidadList`,{
                     method:'GET',
+                    credentials : 'include',
                     headers:{
                         'Content-Type' : 'application/json',
                         'Accept' : 'application/json'

@@ -163,11 +163,11 @@ export const Register = ({children}) => {
 
       <div className='flex items-center justify-center md:w-1/2 relative rounded-lg'>
         <figure className="relative">                        
-            <img  src={Registro} alt='slice' className='opacity-75' />
-            <figcaption className="absolute flex flex-col text-lg text-black top-1 w-full">
+            <img  src={Registro} alt='slice' className='opacity-100' />
+            {/* <figcaption className="absolute flex flex-col text-lg text-black top-1 w-full">
                 <h1 className='font-extrabold text-lg self-center'>¡Registrate!</h1>
                 <h5 className='text-sm self-center text-justify font-bold' >No te pierdas de nuestros cursos y obten beneficios</h5>
-            </figcaption>
+            </figcaption> */}
         </figure>
       </div>
 
