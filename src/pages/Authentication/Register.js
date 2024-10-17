@@ -161,7 +161,7 @@ export const Register = ({children}) => {
         
       </form>
 
-      <div className='flex items-center justify-center md:w-1/2 relative rounded-lg'>
+      <div className='flex items-center justify-center mb-10 md:mb-0 md:w-1/2 relative rounded-lg'>
         <figure className="relative">                        
             <img  src={Registro} alt='slice' className='opacity-100' />
             {/* <figcaption className="absolute flex flex-col text-lg text-black top-1 w-full">
