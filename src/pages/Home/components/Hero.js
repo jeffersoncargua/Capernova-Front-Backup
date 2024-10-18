@@ -34,7 +34,7 @@ export const Hero = () => {
                     throw resultFetch;
                 }
 
-                console.log(resultFetch);
+                //console.log(resultFetch);
                 if (resultFetch.isSuccess) {
                     setSlices(resultFetch.result);
                     setCurrentPhoto(resultFetch.result[0]);
@@ -85,10 +85,10 @@ export const Hero = () => {
                 <img className='absolute top-0 left-0 h-full'  src={Fondo2} alt="fondo2" />
             </div>*/}
             <div className='w-[90%] mx-auto group text-black dark:text-white space-y-6 my-[10%] flex flex-col italic '>
-                <h1 className='font-semibold text-center text-2xl'>Bienvenidos a la página oficial de Capernova</h1>
-                <p className='text-lg text-justify'>En este sitio encontrarás todo lo que tu necesitas para tu ampliar tus concocimientos, así como, adquirir productos para tu emprendimiento. </p>
-                <p className='text-lg text-justify'>Contamos con cursos y productos que te ayudarán a expandir tus ideas y alcanzar tus sueños.</p>
-                <p className='text-lg text-justify'>Recuerda que tu potencial es infinito, atrévete a explorarlo junto a nosotros.</p>
+                <h1 className='font-semibold text-center text-xl md:text-2xl'>Bienvenidos a la página oficial de Capernova</h1>
+                <p className='text-sm md:text-lg text-justify'>En este sitio encontrarás todo lo que tu necesitas para tu ampliar tus concocimientos, así como, adquirir productos para tu emprendimiento. </p>
+                <p className='text-sm md:text-lg text-justify'>Contamos con cursos y productos que te ayudarán a expandir tus ideas y alcanzar tus sueños.</p>
+                <p className='text-sm md:text-lg text-justify'>Recuerda que tu potencial es infinito, atrévete a explorarlo junto a nosotros.</p>
                 <Link to={'/register'} className='px-3 py-2.5 self-center rounded-lg bg-gradient-to-r from-teal-400 to-blue-500 hover:from-pink-500 hover:to-orange-500'>Registrarse</Link>
             </div>
             {/* <div className='flex transition ease-in-out duration-1000 z-40' style={{transform: `translateX(-${current * 100}%)`}} >

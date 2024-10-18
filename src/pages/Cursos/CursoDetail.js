@@ -108,7 +108,7 @@ export const CursoDetail = () => {
             )}
 
           </div>
-          <div className="w-full md:w-[30%] order-1 md:order-2">
+          <div className="w-full md:w-[30%] order-1 md:order-2 md:mt-[3rem]">
             <img className={`mx-auto w-full sm:max-w-md md:max-w-sm  rounded-lg shadow shadow-gray-500 shadow-lg dark:shadow-white`} src={producto.imagenUrl} alt="Aqui va la imagen" />
             <div className="mt-10 gap-y-3 flex justify-around items-center">
               

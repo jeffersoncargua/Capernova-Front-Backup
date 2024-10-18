@@ -81,7 +81,7 @@ export const Header = () => {
   return (
     <header className='border-b-[1px] border-slate-400 rounded-lg dark:bg-gray-900'>
 
-        <div className='py-[30px] flex justify-center'>
+        <div className='w-[90%] mx-auto py-[30px] flex justify-center'>
             <Link onClick={() => {setShowDrop(true);setShowDropProductos(true)}}  to="/" className="flex items-center justify-center space-x-3 rtl:space-x-reverse h-[160px] w-[429px]">
                 {darkMode ? 
                 (<img src={CaperNova2} className="" alt="Capernova Logo" />)

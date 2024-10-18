@@ -73,7 +73,7 @@ export const ShoppingCart = ({cartList,total}) => {
       
     {showModal && <ModalCart setShowModal={setShowModal} />} {/*//permite saber si el cartList contiene cursos para poder indicar que debe iniciar session */}
 
-    <h1 className="font-medium text-xl text-center dark:text-white">Tu carrito contine: <span className="text-pink-400 text-2xl dark:text-pink-500">{cartList.length}</span>  items</h1>
+    <h1 className="font-medium text-xl text-center dark:text-white">Tu carrito contine: <span className="text-pink-400 text-2xl dark:text-pink-500">{cartList.length}</span>  {cartList.length > 1 ? 'productos':'producto'}</h1>
     {/*Nuevo modelo del carrito de compras */} 
     <div className=" overflow-x-auto shadow-md sm:rounded-lg w-[80%] mx-auto">
       <table className="w-full text-sm text-left rtl:text-right dark:text-white">
@@ -91,7 +91,7 @@ export const ShoppingCart = ({cartList,total}) => {
                   <th scope="col" className="px-6 py-3">
                       Precio
                   </th>
-                  <th scope="col" className="px-6 py-3 text-center">Acción</th>
+                  <th scope="col" className="px-6 py-3 text-center">Eliminar</th>
               </tr>
           </thead>
           <tbody>
@@ -123,7 +123,7 @@ export const ShoppingCart = ({cartList,total}) => {
                     ${item.precio*item.cantidad}
                   </td>
                   <td className="px-6 py-4 text-center">
-                    <button onClick={() => handleRemoveToCart(item)} className=" transition duration-300 ease-in-out rounded-lg hover:scale-90 hover:text-white text-black bg-blue-600 hover:bg-red-600 py-2 px-6 mx-8 mb-2">Remove</button>
+                    <button onClick={() => handleRemoveToCart(item)} className=" transition duration-300 ease-in-out rounded-lg hover:scale-90 hover:text-white text-black bg-blue-600 hover:bg-red-600 py-2 px-6 mx-8 mb-2">Quitar del Carrito</button>
                   </td>
               </tr>
             ))}

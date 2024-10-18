@@ -20,7 +20,7 @@ export const Administracion = () => {
   const [showModalDelete,setShowModalDelete] = useState(false);
   const [showTalento,setShowTalento] = useState(false); //Permite visualizar el talento humano de la empresa
   const [showProfesor,setShowProfesor] = useState(false); //Permite visualizar los cursos que tiene y se le puede asignar a un profesor
-  const [showVentas,setShowVentas] = useState(false);
+  const [showVentas,setShowVentas] = useState(true);
   const [showPedidos,setShowPedidos] = useState(false);
   //const [showUsuarios,setShowUsuarios] = useState(false);
   const [showVideos,setShowVideos] = useState(false);

@@ -10,11 +10,10 @@ export const Home = ({children}) => {
 
   setTimeout(()=>{
     setLoading(false);
-  },[5000]);
+  },[6000]);
 
   return (
     <div className='dark:bg-gray-900' >
-      
       
       {loading ? (<Loading />)
       :(<>     

@@ -38,7 +38,9 @@ export const SliderCurso = ({producto}) => {
                   }
       
                   if (resultFetch.isSuccess) {
-                    setSlices(resultFetch.result);
+                    let updateProductList = resultFetch.result.filter(item => item.codigo !== producto.codigo)
+                    //setSlices(resultFetch.result);
+                    setSlices(updateProductList);
                   }else{
                     setSlices([]);
                   }

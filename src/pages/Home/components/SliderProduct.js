@@ -78,7 +78,7 @@ let nextSlice = () => {
       <h1 className="self-center text-5xl font-extrabold before:block before:absolute before:-inset-1 before:-skew-y-[1.7deg] before:bg-black dark:before:bg-slate-50 relative my-1" ><span className="before:block before:absolute before:-inset-1 before:skew-y-[1.8deg] before:bg-amber-300 "><span className=" text-white relative ">Cursos </span></span></h1> */}
       
       {/* <h1 className="self-end text-4xl font-bold before:block before:absolute before:-inset-1 before:-skew-y-[1.7deg] before:bg-black dark:before:bg-slate-50 relative my-8 " ><span className="before:block before:absolute before:-inset-1 before:skew-y-[1.7deg] before:bg-amber-300 "><span className=" text-white relative ">Nuestros Productos ...</span></span></h1>  */}
-      <h1 className="self-center md:self-end text-3xl font-medium text-center my-10 dark:text-white">
+      <h1 className="self-center md:self-end text-2xl md:text-3xl font-medium text-center mb-10 md:my-10 dark:text-white">
         <span>
             Productos
             <hr className="mx-auto w-[100px] border border-blue-400 drop-shadow-md" />

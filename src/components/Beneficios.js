@@ -2,7 +2,7 @@
 export const Beneficios = () => {
     return (
       <div className="w-[95%] mx-auto">
-          <h1 className=" text-3xl font-medium text-center my-10 dark:text-white">
+          <h1 className="text-2xl md:text-3xl font-medium text-center my-10 dark:text-white">
               <span>
                   Beneficios
                   <hr className="mx-auto w-[100px] border border-blue-400 drop-shadow-md" />

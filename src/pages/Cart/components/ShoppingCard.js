@@ -8,7 +8,7 @@ export const ShoppingCard = ({item}) => {
           <span className="text-red-500 text-3xl text-pink-600 ">${item.precio}</span> 
         </div>
         <div className="flex justify-center">
-          <button className="transition duration-300 ease-in-out rounded-lg hover:scale-90 hover:text-white text-black bg-blue-600 hover:bg-red-600 py-2 px-6 mx-8 mb-2">Remove</button>
+          <button className="transition duration-300 ease-in-out rounded-lg hover:scale-90 hover:text-white text-black bg-blue-600 hover:bg-red-600 py-2 px-6 mx-8 mb-2">Quitar del Carrito</button>
         </div>
     </div>
   )

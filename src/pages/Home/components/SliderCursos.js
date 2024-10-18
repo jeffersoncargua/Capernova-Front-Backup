@@ -10,12 +10,23 @@ import { Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
+// Import AOS para el fade
+//import AOS from 'aos';
+// import 'aos/dist/aos.css'; // You can also use <link> for styles
+// ..
+
+
+
 export const SliderCursos = () => {
 
 
     const [current, setCurrent] = useState(0);
     const [slices, setSlices] = useState([]);
     const navigate = useNavigate();
+
+    // useEffect(()=>{
+    //   AOS.init();
+    // },[])
 
     useEffect(() => {
         
@@ -72,10 +83,10 @@ export const SliderCursos = () => {
 
 
   return (
-    <div className="w-[95%] mx-auto flex flex-col dark:bg-gray-900">
+    <div  className="w-[95%] mx-auto flex flex-col dark:bg-gray-900"  >
       {/* <h1 className="self-center text-5xl font-extrabold before:block before:absolute before:-inset-1 before:-skew-y-[1.7deg] before:bg-black dark:before:bg-slate-50 relative my-1" ><span className="before:block before:absolute before:-inset-1 before:skew-y-[1.8deg] before:bg-amber-300 "><span className=" text-white relative ">Adquiere uno </span></span></h1>
       <h1 className="self-center text-5xl font-extrabold before:block before:absolute before:-inset-1 before:-skew-y-[1.7deg] before:bg-black dark:before:bg-slate-50 relative my-1" ><span className="before:block before:absolute before:-inset-1 before:skew-y-[1.8deg] before:bg-amber-300 "><span className=" text-white relative "> de</span></span></h1> */}
-      <h1 className="self-center text-4xl font-medium text-center mt-10 dark:text-white">
+      <h1 className="self-center text-3xl md:text-4xl font-medium text-center md:mt-10 dark:text-white">
         <span>
             Te ofrecemos
             <hr className="mx-auto w-[100px] border border-blue-400 drop-shadow-md" />
@@ -83,7 +94,7 @@ export const SliderCursos = () => {
       </h1>
       
       {/* <h1 className="self-start text-4xl font-bold before:block before:absolute before:-inset-1 before:-skew-y-[1.7deg] before:bg-black dark:before:bg-slate-50 relative my-8 " ><span className="before:block before:absolute before:-inset-1 before:skew-y-[1.7deg] before:bg-amber-300 "><span className=" text-white relative ">Nuestros Cursos ...</span></span></h1>  */}
-      <h1 className="self-center md:self-start text-3xl font-medium text-center my-10 dark:text-white">
+      <h1 className="self-center md:self-start text-2xl md:text-3xl font-medium text-center my-10 dark:text-white">
         <span>
             Principales Cursos
             <hr className="mx-auto w-[150px] border border-blue-400 drop-shadow-md" />
