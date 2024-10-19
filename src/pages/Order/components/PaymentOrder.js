@@ -1,10 +1,16 @@
 
-import { useRef, useState } from 'react';
+import { useRef, useState,useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import {Link} from 'react-router-dom';
 import { createOrder,cancelOrder } from '../../../redux/orderSlice';
 import { useDispatch } from 'react-redux';
 //import PagandoCuenta from '../../../assets/MujerPagando.png';
+
+// Import AOS para el fade
+import AOS from 'aos';
+import 'aos/dist/aos.css'; // You can also use <link> for styles
+// ..
+
 
 
 //export const PaymentMethod = ({checkCard,setCheckCard,checkPaypal,setCheckPayPal}) => {
@@ -27,6 +33,18 @@ export const PaymentOrder = ({setIsValid}) => {
 
     //const order = useSelector(state => state.orderState.order);
     //console.log(order);
+
+    useEffect(()=>{
+        AOS.init({
+          offset: 120, // offset (in px) from the original trigger point
+          delay: 0, // values from 0 to 3000, with step 50ms
+          duration: 2000, // values from 0 to 3000, with step 50ms
+          easing: 'ease', // default easing for AOS animations
+          once: false, // whether animation should happen only once - while scrolling down
+          mirror: false, // whether elements should animate out while scrolling past them
+          anchorPlacement: 'top-bottom', // defines which position of the element regarding to window should trigger the animation
+        });
+      },[])
 
 
     const handleSubmit = (event)=> {
@@ -84,9 +102,9 @@ export const PaymentOrder = ({setIsValid}) => {
   return (
     <div className="flex flex-col h-full w-[95%] md:max-w-xl mt-12 md:mx-2">
 
-        <div className=' bg-gray-200 border border-slate-900 rounded-lg p-3 dark:bg-slate-800'>
-            <h1 className='text-center text-lg text-red-500 dark:text-red-400 underline underline-red-500'>Para finalizar con tu compra!!</h1>
-            <ul className='text-start text-black list-disc list-inside leading-loose dark:text-white'>
+        <div className=' bg-gray-200 border border-slate-900 rounded-lg p-3 dark:bg-slate-800' data-aos="fade-up" >
+            <h1 className='text-center text-sm md:text-lg text-red-500 dark:text-red-400 underline underline-red-500'>Para finalizar con tu compra!!</h1>
+            <ul className='text-sm md:text-base text-start text-black list-disc list-inside leading-loose dark:text-white'>
                 <li>
                     Rellena el formulario con tus datos para el envío.
                 </li>
@@ -107,7 +125,7 @@ export const PaymentOrder = ({setIsValid}) => {
                     Luego de que realices el pago se te notificará con un mensaje de Whatsapp y se procederá a realizar el envío de tu pedido
                 </li>
                 <li>
-                    Todos los pedidos son a domicilio y el pago del envío es contra entrega
+                    Todos los pedidos son a domicilio y el pago del envío es contra entrega.
                 </li> 
                 <li>
                     Muchas Gracias por preferirnos!!!!
@@ -117,7 +135,7 @@ export const PaymentOrder = ({setIsValid}) => {
 
         
 
-        <div className='w-full mt-5'>
+        <div className='w-full mt-5' data-aos="fade-up">
             <form onSubmit={handleSubmit} className="p-4 md:p-5 "  >
                 <div className="grid gap-4 mb-4 grid-cols-2 border border-gray-500 p-5 rounded-lg">
                     <div className="">

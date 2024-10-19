@@ -3,11 +3,28 @@ import { useNavigate } from "react-router-dom";
 
 import Avatar from '../../../assets/avatar.png';
 
+// Import AOS para el fade
+import AOS from 'aos';
+import 'aos/dist/aos.css'; // You can also use <link> for styles
+// ..
+
 export const Feedback = () => {
 
     const [feedback, setFeedback] = useState(0);
     const [users,setUsers] = useState([]);
     const navigate = useNavigate();
+
+    useEffect(()=>{
+        AOS.init({
+          offset: 120, // offset (in px) from the original trigger point
+          delay: 0, // values from 0 to 3000, with step 50ms
+          duration: 2000, // values from 0 to 3000, with step 50ms
+          easing: 'ease', // default easing for AOS animations
+          once: false, // whether animation should happen only once - while scrolling down
+          mirror: false, // whether elements should animate out while scrolling past them
+          anchorPlacement: 'top-bottom', // defines which position of the element regarding to window should trigger the animation
+        });
+      },[])
 
     useEffect(()=>{
         
@@ -59,7 +76,7 @@ export const Feedback = () => {
     
   return (
     
-        <div className="w-[95%] flex flex-col my-[50px] mx-auto dark:bg-gray-900">
+        <div className="w-[95%] flex flex-col my-[50px] mx-auto dark:bg-gray-900" data-aos="fade-up">
 
             {/* <h1 className="self-center text-5xl font-extrabold before:block before:absolute before:-inset-1 before:-skew-y-[1.7deg] before:bg-black dark:before:bg-slate-50 relative my-1" ><span className="before:block before:absolute before:-inset-1 before:skew-y-[1.7deg] before:bg-amber-300"><span className=" text-white relative ">Nuestros</span></span></h1>
             <h1 className="self-center text-5xl font-extrabold before:block before:absolute before:-inset-1 before:-skew-y-[1.7deg] before:bg-black dark:before:bg-slate-50 relative my-1" ><span className="before:block before:absolute before:-inset-1 before:skew-y-[1.7deg] before:bg-amber-300"><span className=" text-white relative ">Estudiantes</span></span></h1> */}

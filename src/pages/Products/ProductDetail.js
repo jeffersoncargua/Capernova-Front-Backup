@@ -6,7 +6,12 @@ import { toast } from "react-toastify";
 import { addToCart } from "../../redux/cartSlice";
 
 //import { ProductCard } from "../../components";
-import {SliderProduct, Loading} from './components'
+import {SliderProduct, Loading} from './components';
+
+// Import AOS para el fade
+import AOS from 'aos';
+import 'aos/dist/aos.css'; // You can also use <link> for styles
+// ..
 
 export const ProductDetail = () => {
 
@@ -24,6 +29,18 @@ export const ProductDetail = () => {
     const [shoppingCart, setShoppingCart] = useState(JSON.parse(localStorage.getItem('shoppingcart')) || []);
     
     const navigate = useNavigate();
+
+    useEffect(()=>{
+      AOS.init({
+        offset: 120, // offset (in px) from the original trigger point
+        delay: 0, // values from 0 to 3000, with step 50ms
+        duration: 2000, // values from 0 to 3000, with step 50ms
+        easing: 'ease', // default easing for AOS animations
+        once: false, // whether animation should happen only once - while scrolling down
+        mirror: false, // whether elements should animate out while scrolling past them
+        anchorPlacement: 'top-bottom', // defines which position of the element regarding to window should trigger the animation
+      });
+    },[])
 
     useEffect(()=>{             
       const fetchProducto = async() => {
@@ -163,7 +180,7 @@ export const ProductDetail = () => {
       {loading ? 
       (<Loading />)
       :(<div>
-        <div className="flex flex-wrap mt-10 ">
+        <div className="flex flex-wrap mt-10" data-aos="fade-up">
             <div className="w-full md:w-[50%] relative">
                 <img className={`mx-auto w-full sm:max-w-lg md:max-w-md rounded-lg shadow shadow-gray-500 shadow-lg dark:shadow-white ${!producto.cantidad>0 ? 'grayscale':''}`} src={producto.imagenUrl} alt="Aqui va la imagen" />
                 {!(producto.cantidad>0) && <h1 className="absolute inset-y-1/2 inset-x-1/3 text-5xl text-red-500 font-bold ">Agotado</h1> }

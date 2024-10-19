@@ -5,6 +5,11 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 //import Fondo2 from '../../../assets/FondoAmarillo.png';
 
+// Import AOS para el fade
+import AOS from 'aos';
+import 'aos/dist/aos.css'; // You can also use <link> for styles
+// ..
+
 
 
 export const Hero = () => {
@@ -14,6 +19,18 @@ export const Hero = () => {
     const [changeStyle,setChangeStyle] = useState(false);
     const [slices, setSlices] = useState([]);
     const navigate = useNavigate();
+
+    useEffect(()=>{
+        AOS.init({
+          offset: 120, // offset (in px) from the original trigger point
+          delay: 0, // values from 0 to 3000, with step 50ms
+          duration: 2000, // values from 0 to 3000, with step 50ms
+          easing: 'ease', // default easing for AOS animations
+          once: false, // whether animation should happen only once - while scrolling down
+          mirror: false, // whether elements should animate out while scrolling past them
+          anchorPlacement: 'top-bottom', // defines which position of the element regarding to window should trigger the animation
+        });
+      },[])
 
     useEffect(() => {
         
@@ -78,7 +95,7 @@ export const Hero = () => {
 
   return (
     //<div className='w-full flex flex-col md:flex-row bg-gray-900 mb-10 relative'>
-    <div className='w-full flex flex-col md:flex-row mb-10 relative md:shadow-2xl md:shadow-slate-50 md:border-b md:border-slate-50 bg-gradient-to-r from-amber-400/[0.6] from-20% via-blue-200/[0.6] via-40% to-slate-200/[0.6] to-60%'>
+    <div className='w-full flex flex-col md:flex-row mb-10 relative md:shadow-2xl md:shadow-slate-50 md:border-b md:border-slate-50 bg-gradient-to-r from-amber-400/[0.6] from-20% via-blue-200/[0.6] via-40% to-slate-200/[0.6] to-60%' data-aos="fade-up">
         {/* <img className='absolute top-0 left-0 h-full' src={Fondo} alt="fondo" /> */}
         <div className='w-full order-2 md:order-1 md:w-1/2 overflow-x-hidden relative z-20 ' >
             {/*<div className='z-30' >

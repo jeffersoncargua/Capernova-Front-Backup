@@ -4,6 +4,11 @@ import { Link, useSearchParams,  } from "react-router-dom";
 import { clearToCart } from "../../redux/cartSlice";
 import { useDispatch } from "react-redux";
 
+// Import AOS para el fade
+import AOS from 'aos';
+import 'aos/dist/aos.css'; // You can also use <link> for styles
+// ..
+
 export const ConfirmPay = () => {
 
   const [searchParams] = useSearchParams();
@@ -11,6 +16,18 @@ export const ConfirmPay = () => {
   const token = searchParams.get('token');
 
   const dispath = useDispatch();
+
+  useEffect(()=>{
+    AOS.init({
+      offset: 120, // offset (in px) from the original trigger point
+      delay: 0, // values from 0 to 3000, with step 50ms
+      duration: 2000, // values from 0 to 3000, with step 50ms
+      easing: 'ease', // default easing for AOS animations
+      once: false, // whether animation should happen only once - while scrolling down
+      mirror: false, // whether elements should animate out while scrolling past them
+      anchorPlacement: 'top-bottom', // defines which position of the element regarding to window should trigger the animation
+    });
+  },[])
   //const status = searchParams.get('status');
   // const [showLoader,setShowLoader] = useState(true);
   // const [response,setResponse] = useState({});
@@ -98,7 +115,7 @@ export const ConfirmPay = () => {
       } */}
 
       {/* <div className={`${showLoader===false? '':'hidden'}`}> */}
-      <div >
+      <div data-aos="fade-up">
       {/* {response.isSuccess ?  */}
       {(token !== null && token !== '')? 
       ( /*Respuesta exitosa */

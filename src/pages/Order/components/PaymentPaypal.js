@@ -1,11 +1,18 @@
 import { PayPalScriptProvider,PayPalButtons } from "@paypal/react-paypal-js"
 //import { useState } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout } from "../../../redux/userSlice";
 //import { toast } from "react-toastify";
 //import {ModalError} from '../components'
+
+// Import AOS para el fade
+import AOS from 'aos';
+import 'aos/dist/aos.css'; // You can also use <link> for styles
+// ..
+
 
 
 export const PaymentPaypal = ({cartList,total,isValid,setError,setShowModal,hiddenPaypal,setHiddenPaypal}) => {
@@ -24,6 +31,18 @@ export const PaymentPaypal = ({cartList,total,isValid,setError,setShowModal,hidd
     let orderId = ''; //permite almacenar la orden que se emite desde paypal para realizar las transacciones
     let TransaccionId = '';
     const navigate = useNavigate();
+
+    useEffect(()=>{
+        AOS.init({
+          offset: 120, // offset (in px) from the original trigger point
+          delay: 0, // values from 0 to 3000, with step 50ms
+          duration: 2000, // values from 0 to 3000, with step 50ms
+          easing: 'ease', // default easing for AOS animations
+          once: false, // whether animation should happen only once - while scrolling down
+          mirror: false, // whether elements should animate out while scrolling past them
+          anchorPlacement: 'top-bottom', // defines which position of the element regarding to window should trigger the animation
+        });
+      },[])
 
     // const [{isPending}] = usePayPalScriptReducer(); // permite obtener el estado de paypal en la que se encuentra en ese momento de la solicitud de pedido
 
@@ -163,7 +182,7 @@ export const PaymentPaypal = ({cartList,total,isValid,setError,setShowModal,hidd
     <div className={``}>
 
         {isValid && (
-            <div className={`${!hiddenPaypal ? 'relative -z-10':''}`}>
+            <div className={`${!hiddenPaypal ? 'relative -z-10':''}`} data-aos="fade-up" >
                 <h1 className="font-medium text-center text-xl my-10 dark:text-white">Escoge la forma de pago:</h1>
                 <PayPalScriptProvider options={initialOptions}>
                     <PayPalButtons 

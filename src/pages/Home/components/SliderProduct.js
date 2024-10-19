@@ -10,12 +10,28 @@ import { Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
+// Import AOS para el fade
+import AOS from 'aos';
+import 'aos/dist/aos.css'; // You can also use <link> for styles
+// ..
+
 export const SliderProduct = () => {
 
   const [current, setCurrent] = useState(0);
   const [slices, setSlices] = useState([]);
   const navigate = useNavigate();
   
+  useEffect(()=>{
+    AOS.init({
+      offset: 120, // offset (in px) from the original trigger point
+      delay: 0, // values from 0 to 3000, with step 50ms
+      duration: 2000, // values from 0 to 3000, with step 50ms
+      easing: 'ease', // default easing for AOS animations
+      once: false, // whether animation should happen only once - while scrolling down
+      mirror: false, // whether elements should animate out while scrolling past them
+      anchorPlacement: 'top-bottom', // defines which position of the element regarding to window should trigger the animation
+    });
+  },[])
 
   useEffect(() => {
     const fetchProducto = async() => {
@@ -73,7 +89,7 @@ let nextSlice = () => {
 }
 
   return (
-    <div className="w-[95%] mx-auto flex flex-col dark:bg-gray-900 mt-10">
+    <div className="w-[95%] mx-auto flex flex-col dark:bg-gray-900 mt-10" data-aos="fade-up">
       {/* <h1 className="self-center text-5xl font-extrabold before:block before:absolute before:-inset-1 before:-skew-y-[1.7deg] before:bg-black dark:before:bg-slate-50 relative my-1" ><span className="before:block before:absolute before:-inset-1 before:skew-y-[1.8deg] before:bg-amber-300 "><span className=" text-white relative ">Nuestros </span></span></h1> 
       <h1 className="self-center text-5xl font-extrabold before:block before:absolute before:-inset-1 before:-skew-y-[1.7deg] before:bg-black dark:before:bg-slate-50 relative my-1" ><span className="before:block before:absolute before:-inset-1 before:skew-y-[1.8deg] before:bg-amber-300 "><span className=" text-white relative ">Cursos </span></span></h1> */}
       

@@ -7,6 +7,11 @@ import { SearchFilter } from "./Components";
 import { useNavigate,useSearchParams } from "react-router-dom";
 //import { useSelector } from "react-redux";
 
+// Import AOS para el fade
+import AOS from 'aos';
+import 'aos/dist/aos.css'; // You can also use <link> for styles
+// ..
+
 export const Cursos = ({children}) => {
   const [slices, setSlices] = useState([]);
   const [search,setSearch] = useState('');
@@ -19,6 +24,18 @@ export const Cursos = ({children}) => {
   //const dispatch = useDispatch();
 
   //const searchProduct = useSelector(state => state.searchState.searchProduct);
+
+  useEffect(()=>{
+    AOS.init({
+      offset: 120, // offset (in px) from the original trigger point
+      delay: 0, // values from 0 to 3000, with step 50ms
+      duration: 2000, // values from 0 to 3000, with step 50ms
+      easing: 'ease', // default easing for AOS animations
+      once: false, // whether animation should happen only once - while scrolling down
+      mirror: false, // whether elements should animate out while scrolling past them
+      anchorPlacement: 'top-bottom', // defines which position of the element regarding to window should trigger the animation
+    });
+  },[])
 
   useEffect(()=>{
     
@@ -66,10 +83,10 @@ export const Cursos = ({children}) => {
   return (
     <div className=" mt-4">
       {/*Esta seccion es para mostrar los beneficios y el tutilo para los cursos  */}
-      <div className="mb-4">
+      <div className="mb-4" data-aos="fade-up">
         <Beneficios />
         <h1 className="text-2xl md:text-3xl font-medium text-center my-10 dark:text-white">
-              <span>
+              <span data-aos="fade-up">
                   Nuestros Cursos
                   <hr className="mx-auto w-[100px] border border-blue-400 drop-shadow-md" />
               </span>
@@ -77,7 +94,7 @@ export const Cursos = ({children}) => {
       </div>
       
       {/*Esta seccion contiene el slidebar y los productos/cursos que se van buscar */}
-      <div className="w-[95%] flex mx-auto">
+      <div className="w-[95%] flex mx-auto" data-aos="fade-up">
         
         <SearchFilter />      
 
@@ -100,7 +117,7 @@ export const Cursos = ({children}) => {
               </div>
             </div>          
             {slices.length > 0 ? (slices.map((itemProd,index) => (
-                <div className= 'shrink-0 w-full sm:w-1/2 md:w-1/2 lg:w-1/3 mb-10' key={index}>
+                <div className= 'shrink-0 w-full sm:w-1/2 md:w-1/2 lg:w-1/3 mb-10' data-aos="fade-up" key={index}>
                   {/*ProductCard */}
                     <ProductCard itemProd={itemProd} />
                 </div> 

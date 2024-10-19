@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { cancelOrder } from "../../../redux/orderSlice";
 import { useDispatch } from "react-redux";
 
+
 //import { SkeletonPayment } from "../components";
 
 //import PaypalLogo from '../../../assets/pagospaypal.png';
@@ -25,6 +26,8 @@ export const PaymentInfo = ({isValid,cartList,setError,setShowModal,hiddenPaypal
     
     
     const total = useSelector(state => state.cartState.total);
+
+    
 
     //const order = useSelector(state => state.orderState.order);
     //console.log(order);

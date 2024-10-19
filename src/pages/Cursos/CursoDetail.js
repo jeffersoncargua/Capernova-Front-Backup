@@ -6,6 +6,11 @@ import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { addToCart } from "../../redux/cartSlice";
 
+// Import AOS para el fade
+import AOS from 'aos';
+import 'aos/dist/aos.css'; // You can also use <link> for styles
+// ..
+
 //import { ProductCard } from "../../components";
 
 export const CursoDetail = () => {
@@ -24,6 +29,17 @@ export const CursoDetail = () => {
   //const [productList,setProductList] = useState([]);
   const navigate = useNavigate();
 
+  useEffect(()=>{
+    AOS.init({
+      offset: 120, // offset (in px) from the original trigger point
+      delay: 0, // values from 0 to 3000, with step 50ms
+      duration: 2000, // values from 0 to 3000, with step 50ms
+      easing: 'ease', // default easing for AOS animations
+      once: false, // whether animation should happen only once - while scrolling down
+      mirror: false, // whether elements should animate out while scrolling past them
+      anchorPlacement: 'top-bottom', // defines which position of the element regarding to window should trigger the animation
+    });
+  },[])
   
 
   useEffect(()=>{
@@ -86,7 +102,7 @@ export const CursoDetail = () => {
       
       {loading ? 
       (<Loading />)
-      :(<div className={``}>
+      :(<div className={``} data-aos="fade-up" >
         <div className="flex flex-wrap mt-10">
           <div className="w-full text-center md:mx-10 md:w-[60%] mt-10 md:mt-0 group order-2 md:order-1 ">
             <h1 className="font-semibold text-3xl dark:text-white">{producto.titulo}</h1>
@@ -108,7 +124,7 @@ export const CursoDetail = () => {
             )}
 
           </div>
-          <div className="w-full md:w-[30%] order-1 md:order-2 md:mt-[3rem]">
+          <div className="w-full md:w-[30%] order-1 md:order-2 md:mt-[3rem]" data-aos="fade-up">
             <img className={`mx-auto w-full sm:max-w-md md:max-w-sm  rounded-lg shadow shadow-gray-500 shadow-lg dark:shadow-white`} src={producto.imagenUrl} alt="Aqui va la imagen" />
             <div className="mt-10 gap-y-3 flex justify-around items-center">
               

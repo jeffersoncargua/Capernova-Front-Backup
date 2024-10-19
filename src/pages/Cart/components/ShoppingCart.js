@@ -1,4 +1,4 @@
-import {  useState } from "react"
+import {  useState,useEffect } from "react"
 //import { ShoppingCard } from "../components"
 import { removeToCart } from "../../../redux/cartSlice";
 import { useSelector } from "react-redux";
@@ -6,7 +6,12 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Tooltip } from "react-tooltip";
-import {ModalCart} from '../components'
+import {ModalCart} from '../components';
+
+// Import AOS para el fade
+import AOS from 'aos';
+import 'aos/dist/aos.css'; // You can also use <link> for styles
+// ..
 
 export const ShoppingCart = ({cartList,total}) => {
 
@@ -18,6 +23,18 @@ export const ShoppingCart = ({cartList,total}) => {
 
 
   const userIsAuth = useSelector(state => state.userState.isAuth); // permite saber si el usuario se ha autenticado
+
+  useEffect(()=>{
+    AOS.init({
+      offset: 120, // offset (in px) from the original trigger point
+      delay: 0, // values from 0 to 3000, with step 50ms
+      duration: 2000, // values from 0 to 3000, with step 50ms
+      easing: 'ease', // default easing for AOS animations
+      once: false, // whether animation should happen only once - while scrolling down
+      mirror: false, // whether elements should animate out while scrolling past them
+      anchorPlacement: 'top-bottom', // defines which position of the element regarding to window should trigger the animation
+    });
+  },[])
 
   const handleRemoveToCart = (item) => {
 
@@ -69,7 +86,7 @@ export const ShoppingCart = ({cartList,total}) => {
   // },[cartList])
 
   return (
-    <div className="w-[95%] mx-auto flex flex-col gap-y-8">
+    <div className="w-[95%] mx-auto flex flex-col gap-y-8" data-aos="fade-up">
       
     {showModal && <ModalCart setShowModal={setShowModal} />} {/*//permite saber si el cartList contiene cursos para poder indicar que debe iniciar session */}
 
@@ -131,7 +148,7 @@ export const ShoppingCart = ({cartList,total}) => {
       </table>
     </div>
     {/*Boton para realizar las compras */}
-    <div className="grid justify-items-end justify-end items-center mb-8 w-[80%] mx-auto dark:text-white">
+    <div className="grid justify-items-end justify-end items-center mb-8 w-[80%] mx-auto dark:text-white" data-aos="fade-up" >
       <div className="flex items-center">
         <h1 className="text-3xl">Total a pagar: &nbsp; </h1>
         <span className="text-3xl text-pink-600">${total}</span>

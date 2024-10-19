@@ -1,9 +1,27 @@
-
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
+// Import AOS para el fade
+import AOS from 'aos';
+import 'aos/dist/aos.css'; // You can also use <link> for styles
+// ..
+
 export const CancelPayment = () => {
+
+  useEffect(()=>{
+    AOS.init({
+      offset: 120, // offset (in px) from the original trigger point
+      delay: 0, // values from 0 to 3000, with step 50ms
+      duration: 2000, // values from 0 to 3000, with step 50ms
+      easing: 'ease', // default easing for AOS animations
+      once: false, // whether animation should happen only once - while scrolling down
+      mirror: false, // whether elements should animate out while scrolling past them
+      anchorPlacement: 'top-bottom', // defines which position of the element regarding to window should trigger the animation
+    });
+  },[])
+
   return (
-    <div className="flex flex-col mt-[10%] gap-y-4 my-8">
+    <div className="flex flex-col mt-[10%] gap-y-4 my-8" data-aos="fade-up">
           <h1 className="font-medium text-lg sm:text-2xl text-red-500 text-center">¡Lo sentimos, no se pudo completar tu transacción!</h1>
           <h3 className="font-medium text-sm sm:text-lg text-red-500 text-center">La solicitud de pago no se ha generado.</h3>          
           
