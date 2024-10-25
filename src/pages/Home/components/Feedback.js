@@ -82,8 +82,8 @@ export const Feedback = () => {
             <h1 className="self-center text-5xl font-extrabold before:block before:absolute before:-inset-1 before:-skew-y-[1.7deg] before:bg-black dark:before:bg-slate-50 relative my-1" ><span className="before:block before:absolute before:-inset-1 before:skew-y-[1.7deg] before:bg-amber-300"><span className=" text-white relative ">Estudiantes</span></span></h1> */}
             <h1 className="self-center text-2xl md:text-3xl font-medium text-center md:mt-10 dark:text-white">
                 <span>
-                    Nuestros Estudiantes
-                    <hr className="mx-auto w-[150px] border border-blue-400 drop-shadow-md" />
+                    Comentarios De Nuestros Estudiantes
+                    <hr className="mx-auto w-[250px] border border-blue-400 drop-shadow-md" />
                 </span>
             </h1>
 

@@ -94,15 +94,15 @@ export const SliderCursos = () => {
     <div  className="w-[95%] mx-auto flex flex-col dark:bg-gray-900" data-aos="fade-up"  >
       {/* <h1 className="self-center text-5xl font-extrabold before:block before:absolute before:-inset-1 before:-skew-y-[1.7deg] before:bg-black dark:before:bg-slate-50 relative my-1" ><span className="before:block before:absolute before:-inset-1 before:skew-y-[1.8deg] before:bg-amber-300 "><span className=" text-white relative ">Adquiere uno </span></span></h1>
       <h1 className="self-center text-5xl font-extrabold before:block before:absolute before:-inset-1 before:-skew-y-[1.7deg] before:bg-black dark:before:bg-slate-50 relative my-1" ><span className="before:block before:absolute before:-inset-1 before:skew-y-[1.8deg] before:bg-amber-300 "><span className=" text-white relative "> de</span></span></h1> */}
-      <h1 className="self-center text-3xl md:text-4xl font-medium text-center md:mt-10 dark:text-white">
+      <h1 className="self-center text-3xl md:text-4xl font-medium text-center  md:mt-10 dark:text-white">
         <span>
-            Te ofrecemos
+            Te Ofrecemos
             <hr className="mx-auto w-[100px] border border-blue-400 drop-shadow-md" />
         </span>
       </h1>
       
       {/* <h1 className="self-start text-4xl font-bold before:block before:absolute before:-inset-1 before:-skew-y-[1.7deg] before:bg-black dark:before:bg-slate-50 relative my-8 " ><span className="before:block before:absolute before:-inset-1 before:skew-y-[1.7deg] before:bg-amber-300 "><span className=" text-white relative ">Nuestros Cursos ...</span></span></h1>  */}
-      <h1 className="self-center md:self-start text-2xl md:text-3xl font-medium text-center my-10 dark:text-white">
+      <h1 className="self-center md:self-start text-2xl md:text-3xl font-medium text-center md:ml-14 my-10 dark:text-white">
         <span>
             Principales Cursos
             <hr className="mx-auto w-[150px] border border-blue-400 drop-shadow-md" />
