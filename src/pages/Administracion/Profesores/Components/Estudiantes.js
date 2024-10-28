@@ -4,6 +4,9 @@ import { useState,useRef, useEffect } from "react";
 import { ModalCalificarDeber, ModalCalificarNotaFinal, ModalCalificarPrueba,Loading } from '../Components';
 import { toast } from "react-toastify";
 
+//import para escoger la fecha de busqueda de registros de las ventas
+import Datepicker from "react-tailwindcss-datepicker";
+
 export const Estudiantes = ({cursoList}) => {
 
   const pageSize = 10;
@@ -28,6 +31,11 @@ export const Estudiantes = ({cursoList}) => {
   //const [showModalDelete,setShowModalDelete] = useState(false);
   //const [tipo,setTipo] = useState(''); //es para almacenar el tipo de objeto a eliminar que puede ser curso, capitulo, video, deber, etc
   //const [objeto, setObjeto] = useState({}); //es para almacenar el objeto a eliminar mediante el componente ModalDelete
+  const [value,setValue] = useState({
+    startDate:null,
+    endDate:null
+  }); // permite escoger las fechas de inicio y final para buscar las ventas de acuedo al rango de fecha que se solicite
+
   
   const columns = ["Fecha Inscripcion", "Nombre", "Apellido" , "Teléfono" , "Curso","Estado" , "Nota Final" ,"Correo","Acciones"];
   const refSearch = useRef();
@@ -38,7 +46,7 @@ export const Estudiantes = ({cursoList}) => {
       //console.log(cursoId);
       if (cursoId !== '') {
         try {
-          const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Teacher/getStudents?cursoId=${cursoId || 0}&search=${searchUser}`,{
+          const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Teacher/getStudents?cursoId=${cursoId || 0}&search=${searchUser}&start=${JSON.stringify(value.startDate)}&end=${JSON.stringify(value.endDate)}`,{
             method:'GET',
             credentials : 'include',
             headers:{
@@ -79,7 +87,7 @@ export const Estudiantes = ({cursoList}) => {
     FetchEstudiantes();
     response.isSuccess? toast.success(response.message): toast.error(response.message);
     //console.log(response);
-  }, [currentPage,numberOfPages,searchUser,response,cursoId]);
+  }, [currentPage,numberOfPages,searchUser,response,cursoId,value]);
 
   // [currentPage,numberOfPages,showModalTalento,showModalDeleteTalento,searchRole,searchUser,response]);
   
@@ -239,8 +247,13 @@ export const Estudiantes = ({cursoList}) => {
                           <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
                       </svg>
                         Añadir
-                    </button>
+                    </button> 
                 </div> */}
+                {/*Permite escoger la fecha de los periodos en las que se registren los estudiantes para poder realizar las calificaciones */}
+                <div className="w-full md:w-1/2 self-start">
+                  <label  className="me-2 mb-2 text-sm font-medium  dark:text-white" >Escoge la fecha:</label>
+                  <Datepicker value={value} onChange={newValue => setValue(newValue)} showShortcuts={true} />
+                </div>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-sm text-left dark:text-white">

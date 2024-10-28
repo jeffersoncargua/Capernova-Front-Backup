@@ -2,6 +2,7 @@ import { useState, useRef,useEffect} from "react";
 import { toast } from "react-toastify";
 //import { ModalDelete } from "../../Components";
 import {VentaDetails,Loading} from '../Components';
+//import para escoger la fecha de busqueda de registros de las ventas
 import Datepicker from "react-tailwindcss-datepicker";
 
 import { DownloadTableExcel } from "react-export-table-to-excel";

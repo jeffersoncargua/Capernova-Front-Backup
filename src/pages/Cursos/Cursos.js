@@ -98,7 +98,7 @@ export const Cursos = ({children}) => {
         
         <SearchFilter />      
 
-        <div className="md:ml-56">
+        <div className="md:ml-64">
           <div className="flex flex-wrap md:justify-center">
 
             <div className='w-[95%] mx-auto'>

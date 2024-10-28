@@ -94,7 +94,7 @@ export const Products = ({children}) => {
       <div className="w-[95%] flex mx-auto">
         <SearchFilter />
 
-        <div className="md:ml-56">
+        <div className="md:ml-64">
           <div className="flex flex-wrap md:justify-center">
 
             <div className='w-[95%] mx-auto'>
