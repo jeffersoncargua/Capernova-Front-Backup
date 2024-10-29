@@ -9,9 +9,21 @@ export const Footer = () => {
           <div className="md:flex md:justify-between">
             <div className="mb-6 md:mb-0 flex flex-col justify-center">
                 <h1 className='text-center text-black dark:text-white font-semibold mb-4'>Nuestros Auspiciantes:</h1>
-                <Link to='/' className="flex items-center justify-center">
-                    <img src={`https://drive.google.com/thumbnail?id=1nooBcp7BXs1EIbpCcPOdrrbCQqT5kmhp`} className="h-[130px] w-[200px] me-3" alt="FlowBite Logo" />
-                </Link>
+                <div className='w-[95%] mx-auto flex flew-row space-x-8'>
+                    <Link to='/' className="flex items-center justify-center">
+                        <img src={`https://drive.google.com/thumbnail?id=1nooBcp7BXs1EIbpCcPOdrrbCQqT5kmhp`} className="h-[65px] w-[100px] me-3" alt="Line Natural" />
+                    </Link>
+                    <Link to='/' className="flex items-center justify-center rounded-full h-[65px] w-[100px]">
+                        <img src={`https://drive.google.com/thumbnail?id=152OOgI8-xK2GUcdKa2VhmZhsRpAXcNN5`} className="rounded-full me-3" alt="Gustav" />
+                    </Link>
+                    <Link to='/' className="flex items-center justify-center">
+                        <img src={`https://drive.google.com/thumbnail?id=1rwbG7uqe16e6ywQLAZ3mOcJk2I_oN6Sy`} className=" me-3" alt="MySpace" />
+                    </Link>
+                    <Link to='/' className="flex items-center justify-center ">
+                        <img src={`https://drive.google.com/thumbnail?id=19pl2KP48Cos-diKQWWLQFhE9l7t_eY3z`} className=" me-3" alt="Cesar" />
+                    </Link>
+                </div>
+                
             </div>
             <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
                 <div>

@@ -11,7 +11,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css'; // You can also use <link> for styles
 
 //import Video
-import video from '../../../assets/1023.mp4';
+import video from '../../../assets/IntroCapernova.mp4';
 
 
 export const Hero = () => {
