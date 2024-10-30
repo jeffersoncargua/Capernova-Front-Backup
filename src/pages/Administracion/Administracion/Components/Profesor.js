@@ -179,7 +179,7 @@ export const Profesor = ({profesor, setProfesor,cursoList,response,setResponse})
                             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {curso.codigo}
                             </td>
-                            <td className="px-6 py-4">
+                            <td translate="no" className="px-6 py-4">
                                 {curso.titulo}
                             </td>
                             <td className="px-6 py-4">

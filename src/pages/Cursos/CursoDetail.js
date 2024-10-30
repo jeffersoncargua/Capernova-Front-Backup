@@ -105,7 +105,7 @@ export const CursoDetail = () => {
       :(<div className={``} data-aos="fade-up" >
         <div className="flex flex-wrap mt-10">
           <div className="w-full text-center md:mx-10 md:w-[60%] mt-10 md:mt-0 group order-2 md:order-1 ">
-            <h1 className="font-semibold text-3xl dark:text-white">{producto.titulo}</h1>
+            <h1 translate="no" className="font-semibold text-3xl dark:text-white">{producto.titulo}</h1>
             <hr className="mx-auto w-[100px] border border-blue-400 drop-shadow-md" />
             <ul className="text-sm font-medium text-center text-gray-500 rounded-lg shadow flex dark:divide-gray-700 dark:text-gray-400 mt-5">
               <li className="w-full focus-within:z-10">

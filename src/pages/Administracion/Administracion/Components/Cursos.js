@@ -165,11 +165,11 @@ import { toast } from "react-toastify";
                   </thead>
                   <tbody>
                   {currentDataDisplayed.length > 0 ? (currentDataDisplayed.map((item) => (
-                    <tr key={item.id} className="border-b dark:border-gray-700">
+                    <tr  key={item.id} className="border-b dark:border-gray-700">
                       <td className="px-4 py-3">
                         <img src={item.imagenUrl} className="w-16 md:w-44 max-w-full max-h-full" alt={item.titulo} />
                       </td>
-                      <td className="px-4 py-3">{item.titulo}</td>
+                      <td translate="no" className="px-4 py-3">{item.titulo}</td>
                       <td className="px-4 py-3 line-clamp-2 ">{item.detalle}</td>
                       <td className="px-4 py-3 text-blue-500 text-lg">${item.precio}</td>
                       <td className="px-4 py-3">

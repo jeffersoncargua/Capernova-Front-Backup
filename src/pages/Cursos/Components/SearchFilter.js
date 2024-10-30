@@ -64,7 +64,7 @@ export const SearchFilter = () => {
             </button>
             {categoriaList.length > 0 ? (categoriaList.map((categoria) =>( 
             <div key={categoria.id} className="mb-2">  
-                <Link to={`/cursos?categoriaId=${categoria.id}`} className="text-sm md:text-base bg-gray-300 dark:bg-gray-700 px-2.5 py-2" >{categoria.name}</Link>
+                <Link to={`/cursos?categoriaId=${categoria.id}`} className="text-sm md:text-base text-center bg-gray-300 dark:bg-gray-700 px-2.5 py-2" >{categoria.name}</Link>
             </div>)))
             :
             (<div className="">                  

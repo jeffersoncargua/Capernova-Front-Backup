@@ -163,12 +163,12 @@ export const Productos = ({setShowProductos}) => {
                 </thead>
                 <tbody>
                 {currentDataDisplayed.length > 0 ? (currentDataDisplayed.map((item) => (
-                  <tr key={item.id} className="border-b dark:border-gray-700">
+                  <tr  key={item.id} className="border-b dark:border-gray-700">
                     <td className="px-4 py-3">
                       <img src={item.imagenUrl} className="w-16 md:w-32 max-w-full max-h-full" alt="imagen producto" />
                     </td>
                     <td className="px-4 py-3">{item.codigo}</td>
-                    <td className="px-4 py-3">{item.titulo}</td>
+                    <td translate="no" className="px-4 py-3">{item.titulo}</td>
                     <td className="px-4 py-3 line-clamp-2">{item.detalle}</td>
                     <td className="px-4 py-3">{item.cantidad}</td>
                     <td className="px-4 py-3">{item.precio}</td>                      

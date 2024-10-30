@@ -131,7 +131,7 @@ export const AreasCategorias = ({response,setResponse}) => {
                                 </thead>
                                 <tbody>
                                 {categoryList.length > 0 ? categoryList.map((category) => (
-                                    <tr key={category.id} className="border-b dark:border-gray-700">
+                                    <tr translate="no" key={category.id} className="border-b dark:border-gray-700">
                                         <td className="px-4 py-3">{category.name}</td>
                                         <td className="px-4 py-3">{category.tipo}</td>
                                         <td className="px-4 py-3">

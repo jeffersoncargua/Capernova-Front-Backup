@@ -130,7 +130,7 @@ export const ShoppingCart = ({cartList,total}) => {
                     )}
                                          
                   </td>
-                  <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                  <td translate="no" className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
                       {item.titulo}
                   </td>  
                   <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">

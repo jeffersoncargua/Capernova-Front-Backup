@@ -192,7 +192,7 @@ useEffect(()=>{
         body:(JSON.stringify({
           id: curso.id,
           codigo : refCodigo.current.value,
-          imagenUrl: curso.imagenUrl,
+          imagenUrl: refImageUrl.current.value,
           titulo: refTitulo.current.value,
           detalle: refDescripcion.current.value,
           // state: curso.state,

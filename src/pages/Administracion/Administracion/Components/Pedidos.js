@@ -141,7 +141,7 @@ export const Pedidos = () => {
                 </thead>
                 <tbody>
                 {pedidoList.length > 0 ? (pedidoList.map((item) => (
-                  <tr key={item.id} className="border-b dark:border-gray-700">
+                  <tr translate="no" key={item.id} className="border-b dark:border-gray-700">
                     <td className="px-4 py-3">{GetFecha(item.emision)}</td>
                     <td className="px-4 py-3">{item.venta.transaccionId}</td>
                     <td className="px-4 py-3">{item.venta.userId}</td>                    

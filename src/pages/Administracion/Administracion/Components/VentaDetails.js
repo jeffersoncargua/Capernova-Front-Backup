@@ -118,7 +118,7 @@ useEffect(() => {
                                             <img src={item.productoImagen} className="w-16 max-h-full" alt={item.titulo} />
                                         </td>
                                         <td className="px-4 py-3">{item.productoCode}</td>
-                                        <td className="px-4 py-3">{item.productoName}</td>                                                         
+                                        <td translate="no" className="px-4 py-3">{item.productoName}</td>                                                         
                                         <td className="px-4 py-3">{item.cantidad}</td>
                                         <td className="px-4 py-3">{item.total}</td>
                                         

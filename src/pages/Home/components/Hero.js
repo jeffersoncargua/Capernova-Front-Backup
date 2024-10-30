@@ -117,7 +117,7 @@ export const Hero = ({video}) => {
         <div className='w-full flex bg-gradient-to-r from-blue-500/[0.8] from-20% via-sky-50/[0.8] via-40% to-cyan-200/[0.8] to-60%' data-aos="fade-up" >
             <div className='w-[90%] mx-auto group text-black dark:text-white space-y-6 my-[2.5%] flex flex-col italic ' >
                 <h1 className='font-semibold text-center text-xl md:text-2xl'>Bienvenidos a la página oficial de Capernova</h1>
-                <p className='text-sm md:text-lg text-center'>En este sitio encontrarás todo lo que tu necesitas para tu ampliar tus concocimientos, así como, adquirir productos para tu emprendimiento. </p>
+                <p className='text-sm md:text-lg text-center'>En este sitio encontrarás todo lo que tu necesitas para ampliar tus concocimientos, así como, adquirir productos para tu emprendimiento. </p>
                 <p className='text-sm md:text-lg text-center'>Contamos con cursos y productos que te ayudarán a expandir tus ideas y alcanzar tus sueños.</p>
                 <p className='text-sm md:text-lg text-center'>Recuerda que tu potencial es infinito, atrévete a explorarlo junto a nosotros.</p>
                 <Link to={'/register'} className='text-sm md:text-lg px-3 py-2.5 self-center rounded-lg bg-gradient-to-r from-teal-400 to-blue-500 hover:from-pink-500 hover:to-orange-500'>Registrarse</Link>
@@ -131,7 +131,7 @@ export const Hero = ({video}) => {
                     {slices.map((s,index) => (
                         <div className='shrink-0 w-full' key={s.id}>
                             <div className='' > 
-                                <h1 className={`relative my-[5%] md:mt-[30%] font-extrabold text-3xl md:text-5xl text-center ${current===index ? 'animate-in zoom-in-50 duration-4000 ':''}`} >{s.titulo}</h1>
+                                <h1 translate="no" className={`relative my-[5%] md:mt-[30%] font-extrabold text-3xl md:text-5xl text-center ${current===index ? 'animate-in zoom-in-50 duration-4000 ':''}`} >{s.titulo}</h1>
                             </div>
                             
                         </div> 

@@ -44,7 +44,7 @@ export const ProductCard = ({itemProd}) => {
       </div>
         
         <div className="p-5 flex flex-col justify-center">
-            <h5 className="mb-2 text-center block text-md font-medium tracking-tight text-gray-900 dark:text-white">{itemProd.titulo}</h5>
+            <h5 translate="no" className="mb-2 text-center block text-md font-medium tracking-tight text-gray-900 dark:text-white">{itemProd.titulo}</h5>
             {/*<p className="block mb-3 font-normal text-gray-700 dark:text-gray-400">{itemProd.description}</p>*/}
             {/* <button onClick={()=>handleAddToCart(itemProd)} className="capitalize inline-flex justify-center items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 transition delay-300 duration-300 hover:scale-90 ease-in-out ">
                 Ver {itemProd.tipo}

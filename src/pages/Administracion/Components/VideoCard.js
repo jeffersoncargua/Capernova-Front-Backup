@@ -58,7 +58,7 @@ export const VideoCard = ({cap,setShowModalVideo,setShowModalDelete,setVideo,set
   return (
     <>
         {videos.length > 0 ?  (videos.map((video) => (
-            <tr key={video.id} className="border-b dark:border-gray-700">
+            <tr translate="no" key={video.id} className="border-b dark:border-gray-700">
             {/* <td className="px-4 py-3">{video.Codigo}</td> */}
             <td className="px-4 py-3">{video.titulo}</td>
             <td className="px-4 py-3">{video.videoUrl}</td>

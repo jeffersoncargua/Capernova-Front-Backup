@@ -60,7 +60,7 @@ useEffect(() => {
   return (
     <div>
         {/*<!-- Main modal -->*/}
-        <div id="crud-modal" tabIndex='-1' className={`${showModalPedidoDetail? '' :'hidden'} overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] h-full bg-gray-700/[0.6]`}>
+        <div translate="no" id="crud-modal" tabIndex='-1' className={`${showModalPedidoDetail? '' :'hidden'} overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] h-full bg-gray-700/[0.6]`}>
             <div className="relative p-4 mx-auto w-full max-w-2xl max-h-full dark:border-gray-600 mb-14">
                 {/*<!-- Modal content -->*/}
                 <div className="relative bg-white my-[4%] rounded-lg shadow dark:bg-gray-700">
@@ -119,7 +119,7 @@ useEffect(() => {
                         </div>
 
                     </div>
-                     <div className="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden mb-10">
+                     <div translate="no" className="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden mb-10">
                             
                             <div className="overflow-x-auto">
                                 <table className="w-full text-sm text-left dark:text-white">
