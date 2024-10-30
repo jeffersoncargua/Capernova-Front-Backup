@@ -3,6 +3,9 @@
 import { useState } from 'react';
 import { Hero,Feedback, SliderProduct, SliderCursos, Loading } from '../Home/components';
 
+//import Video
+import video from '../../assets/IntroCapernova.mp4';
+
 export const Home = ({children}) => {
 
 
@@ -17,7 +20,7 @@ export const Home = ({children}) => {
       
       {loading ? (<Loading />)
       :(<>     
-        <Hero />   
+        <Hero video={video} />   
         <SliderCursos />
         <SliderProduct />
         {/* <Nosotros /> */}

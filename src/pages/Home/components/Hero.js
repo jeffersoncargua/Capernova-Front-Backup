@@ -10,11 +10,10 @@ import { useNavigate } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css'; // You can also use <link> for styles
 
-//import Video
-import video from '../../../assets/IntroCapernova.mp4';
 
 
-export const Hero = () => {
+
+export const Hero = ({video}) => {
 
     const [current, setCurrent] = useState(0);
     //const [currentPhoto,setCurrentPhoto] = useState({});
