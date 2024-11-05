@@ -159,7 +159,7 @@ export const Publicidad = () => {
                   {currentDataDisplayed.length > 0 ? (currentDataDisplayed.map((item) => (
                     <tr translate="no" key={item.id} className="border-b dark:border-gray-700">
                       <td className="px-4 py-3">
-                        <img src={item.imageUrl} className="w-16 md:w-32 max-w-full max-h-full" alt="Publicidad Capernova" />
+                        <img src={`https://lh3.googleusercontent.com/d/${item.imageUrl}`} className="w-16 md:w-32 max-w-full max-h-full" alt="Publicidad Capernova" />
                       </td>
                       <td className="px-4 py-3">{item.titulo}</td>
                       <td className="px-4 py-3">

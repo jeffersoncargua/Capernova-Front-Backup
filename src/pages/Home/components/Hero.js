@@ -129,11 +129,8 @@ export const Hero = ({video}) => {
                 
                 <div className='flex transition ease-in-out duration-1000 z-40' style={{transform: `translateX(-${current * 100}%)`}} >
                     {slices.map((s,index) => (
-                        <div className='shrink-0 w-full' key={s.id}>
-                            <div className='' > 
-                                <h1 translate="no" className={`relative my-[5%] md:mt-[30%] font-extrabold text-3xl md:text-5xl text-center ${current===index ? 'animate-in zoom-in-50 duration-4000 ':''}`} >{s.titulo}</h1>
-                            </div>
-                            
+                        <div className='shrink-0 w-full ' key={s.id}>
+                            <h1 translate="no" className={`my-[5%] md:mt-[40%] font-extrabold text-3xl md:text-5xl text-center ${current===index ? 'animate-in zoom-in-50 duration-4000 ':''}`} >{s.titulo}</h1>                            
                         </div> 
                     ))} 
                 </div>          
@@ -142,8 +139,8 @@ export const Hero = ({video}) => {
             <div className='bg-slate-50 overflow-x-hidden w-full order-1 md:order-2 md:w-1/2 z-10 md:shadow-2xl md:shadow-slate-50 md:border-slate-50' data-aos="fade-up" >
                 <div className='flex transition ease-in-out duration-1000 ' style={{transform: `translateX(-${current * 100}%)`}} >
                     {slices.map((s,index) => (
-                        <div className='shrink-0 w-full ' key={index}>
-                            <img src={s.imageUrl} alt='slice' className={`opacity-100 ${current===index ? 'animate-in zoom-in-90 duration-4000 ':'animate-out zoom-out duration-1000 '} `} />
+                        <div className='shrink-0 w-full' key={index}>
+                            <img src={`https://lh3.googleusercontent.com/d/${s.imageUrl}`} alt='slice' className={`w-full opacity-100 ${current===index ? 'animate-in zoom-in-90 duration-4000 ':'animate-out zoom-out duration-1000 '} `} />
                         </div> 
                     ))}
                 </div>

@@ -182,7 +182,7 @@ export const ProductDetail = () => {
       :(<div>
         <div className="flex flex-wrap mt-10" data-aos="fade-up">
             <div className="w-full md:w-[50%] relative">
-                <img className={`mx-auto w-full sm:max-w-lg md:max-w-md rounded-lg shadow shadow-gray-500 shadow-lg dark:shadow-white ${!producto.cantidad>0 ? 'grayscale':''}`} src={producto.imagenUrl} alt="Aqui va la imagen" />
+                <img className={`mx-auto w-full sm:max-w-lg md:max-w-md rounded-lg shadow shadow-gray-500 shadow-lg dark:shadow-white ${!producto.cantidad>0 ? 'grayscale':''}`} src={`https://lh3.googleusercontent.com/d/${producto.imagenUrl}`} alt="Aqui va la imagen" />
                 {!(producto.cantidad>0) && <h1 className="absolute inset-y-1/2 inset-x-1/3 text-5xl text-red-500 font-bold ">Agotado</h1> }
                 
             </div>

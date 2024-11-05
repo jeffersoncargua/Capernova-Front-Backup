@@ -39,7 +39,7 @@ export const ProductCard = ({itemProd}) => {
   return (
     <div className=" w-[300px] sm:w-[260px] md:w-[220px] lg:w-[230px] mx-auto bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
       <div className="relative">
-        <img className={`rounded-t-lg h-[230px] sm:h-[190px] md:h-[150px] lg:h-[160px] ${!(itemProd.cantidad>0)&& 'grayscale'}`} src={itemProd.imagenUrl} alt="lo que sea" />
+        <img className={` w-full rounded-t-lg h-[230px] sm:h-[190px] md:h-[150px] lg:h-[160px] ${!(itemProd.cantidad>0)&& 'grayscale'}`} src={`https://lh3.googleusercontent.com/d/${itemProd.imagenUrl}`} alt="lo que sea" />
         {!(itemProd.cantidad>0) && <h1 className="absolute inset-y-1/2 inset-x-1/3 text-xl text-red-500 font-bold ">Agotado</h1> }
       </div>
         
