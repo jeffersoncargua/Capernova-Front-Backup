@@ -103,14 +103,12 @@ export const Hero = ({video}) => {
         {/* <img className='absolute top-0 left-0 h-full' src={Fondo} alt="fondo" /> */}
 
         <div className='flex-1 ' data-aos="fade-up">
-            <video className='flex object-cover w-full h-auto md:h-[30rem]'  autoPlay loop muted controls={false} disablePictureInPicture={true} preload='auto' >
+            <video className='flex object-cover w-full h-auto md:h-[30rem]' autoPlay loop muted controls={false} disablePictureInPicture={true} >
                 <source src={video} type='video/mp4' />
             </video>
             {/* <div className='shrink-0'>
                 
-            </div> */} 
- 
-
+            </div> */}
         </div>
 
 
