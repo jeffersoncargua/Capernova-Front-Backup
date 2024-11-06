@@ -13,7 +13,7 @@ export const Home = ({children}) => {
 
   setTimeout(()=>{
     setLoading(false);
-  },[4500]);
+  },[6000]);
 
   return (
     <div className='dark:bg-gray-900' >
