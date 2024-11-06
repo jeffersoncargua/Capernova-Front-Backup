@@ -13,22 +13,39 @@ export const Home = ({children}) => {
 
   setTimeout(()=>{
     setLoading(false);
-  },[6000]);
+  },[4500]);
 
   return (
     <div className='dark:bg-gray-900' >
       
-      {loading ? (<Loading />)
-      :(<>     
+      
+
+      <div className={`${loading ? 'visible':'hidden'}`}>
+        <Loading />
+      </div>
+      <div className={`${loading ? 'invisible':'visible'}`}>
         <Hero video={video} />   
         <SliderCursos />
         <SliderProduct />
-        {/* <Nosotros /> */}
         <Feedback />
         {children}
-      </>)}
+      </div>
       
       
     </div>
   )
 }
+
+
+/*
+
+{loading ? (<Loading />)
+      :(<>     
+        <Hero video={video} />   
+        <SliderCursos />
+        <SliderProduct /> 
+        <Feedback />
+        {children}
+      </>)}
+
+*/
