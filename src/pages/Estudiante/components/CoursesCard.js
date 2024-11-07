@@ -32,7 +32,7 @@ export const CoursesCard = ({matricula, children}) => {
     <div className="w-full md:max-w-xs mx-auto bg-white mb-8 flex flex-col items-center border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
       {/*Muestra la imagen del curso */}
       <div className="w-full md:max-w-xs">
-        <img className="rounded-t-lg " src={matricula.curso.imagenUrl} alt="Aqui va la imagen del curso" />
+        <img className="rounded-t-lg " src={`https://lh3.googleusercontent.com/d/${matricula.curso.imagenUrl}`} alt="Aqui va la imagen del curso" />
       </div>        
       
       <div className="w-[95%] mx-auto flex flex-col justify-center items-center ">
