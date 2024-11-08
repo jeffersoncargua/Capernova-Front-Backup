@@ -21,8 +21,8 @@ export const Ventas = () => {
   const [showModalVentaDetail, setShowModalVentaDetail] = useState(false);
   //const [showModal,setShowModal] = useState(false);
   //const [showModalDelete,setShowModalDelete] = useState(false);
-  const columns = ["Fecha Emisión", "ID Trasacción","ID Cliente", "Nombre Cliente" ,"Apellido Cliente", "Correo", "Teléfono", "Total" , "Estado", "Ver Detalle/Eliminar"];
-  const columns2 = ["Fecha Emisión", "ID Trasacción","ID Cliente", "Nombre Cliente" ,"Apellido Cliente", "Correo", "Teléfono", "Total" , "Estado"];
+  const columns = ["Fecha Emisión", "ID Transacción","ID Cliente", "Nombre Cliente" ,"Apellido Cliente", "Correo", "Teléfono", "Total" , "Estado", "Ver Detalle/Eliminar"];
+  const columns2 = ["Fecha Emisión", "ID Transacción","ID Cliente", "Nombre Cliente" ,"Apellido Cliente", "Correo", "Teléfono", "Total" , "Estado"];
   //const [tipo,setTipo] = useState(''); //es para almacenar el tipo de objeto a eliminar que puede ser curso, capitulo, video, deber, etc
   //const [objeto, setObjeto] = useState({}); //es para almacenar el objeto a eliminar mediante el componente ModalDelete
   const [response,setResponse] = useState({});
