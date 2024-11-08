@@ -64,11 +64,15 @@ export const ModalCalificarDeber = ({showModalCalificarDeber,setShowModalCalific
                     <div className="grid gap-4 mb-4 grid-cols-2 group text-black dark:text-white">                        
                         <div className="col-span-2 flex items-center">
                             <label htmlFor="name" className="block mb-2 text-sm font-medium mr-3 ">Nombre:</label>
-                            <input type="text" disabled name="name" id="name" className="bg-gray-50 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Escribe el Titulo" required="" defaultValue={matricula.estudiante.name || ''} />
+                            <input type="text" disabled name="name" id="name" className="bg-gray-50 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"  defaultValue={matricula.estudiante.name || ''} />
                         </div>
                         <div className="col-span-2 flex items-center">
                             <label htmlFor="lastName" className="block mb-2 text-sm font-medium mr-3 ">Apellido:</label>                                
-                            <input type="text" disabled name="name" id="name" className=" bg-gray-50 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Escribe el Titulo" required="" defaultValue={matricula.estudiante.lastName || ''} />
+                            <input type="text" disabled name="name" id="name" className=" bg-gray-50 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"  defaultValue={matricula.estudiante.lastName || ''} />
+                        </div>
+                        <div className="col-span-2 flex items-center">
+                            <label htmlFor="email" className="block mb-2 text-sm font-medium mr-3 ">Correo:</label>
+                            <input type="text" disabled name="email" id="email" className="bg-gray-50 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500" defaultValue={matricula.estudiante.email || ''} />
                         </div>
                     </div>
 
