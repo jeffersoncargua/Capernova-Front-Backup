@@ -17,6 +17,9 @@ module.exports = {
           '6000':'6000ms',
           '7000':'7000ms',
           '8000':'8000ms',
+        },
+        fontFamily:{
+          kaushanScript : ['Kaushan Script', 'sans-serif']
         }
       },
     },

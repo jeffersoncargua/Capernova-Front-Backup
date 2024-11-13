@@ -126,13 +126,13 @@ export const Hero = ({video}) => {
             </div>
         </div>
 
-        <div className='w-full flex flex-col md:flex-row bg-gradient-to-r from-teal-400 to-blue-500 hover:from-pink-500 hover:to-orange-500'>
+        <div className='w-full flex flex-col items-center md:flex-row bg-gradient-to-r from-teal-400 to-blue-500 hover:from-pink-500 hover:to-orange-500'>
             <div className='w-full order-2 md:order-1 md:w-1/2 overflow-x-hidden relative z-20 ' data-aos="fade-up" >
                 
                 <div className='flex transition ease-in-out duration-1000 z-40' style={{transform: `translateX(-${current * 100}%)`}} >
                     {slices.map((s,index) => (
-                        <div className='shrink-0 w-full ' key={s.id}>
-                            <h1 translate="no" className={`my-[5%] md:mt-[40%] font-extrabold text-3xl md:text-5xl text-center ${current===index ? 'animate-in zoom-in-50 duration-4000 ':''}`} >{s.titulo}</h1>                            
+                        <div className='shrink-0 w-full flex items-center justify-center ' key={s.id}>
+                            <h1 translate="no" className={` font-kaushanScript text-white font-extrabold text-6xl my-[5%] sm:max-md:text-6xl md:my-0 md:max-lg:text-6xl ld:my-0 lg:text-8xl text-center ${current===index ? 'animate-in zoom-in-50 duration-4000 ':''}`} style={{textShadow:'5px 5px 15px black,1px 1px 2px black,15px 15px 30px black'}} >{s.titulo}</h1>                            
                         </div> 
                     ))} 
                 </div>          
