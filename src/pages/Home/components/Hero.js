@@ -132,7 +132,7 @@ export const Hero = ({video}) => {
                 <div className='flex transition ease-in-out duration-1000 z-40' style={{transform: `translateX(-${current * 100}%)`}} >
                     {slices.map((s,index) => (
                         <div className='shrink-0 w-full flex items-center justify-center ' key={s.id}>
-                            <h1 translate="no" className={` font-kaushanScript text-white font-extrabold text-6xl m-[5%] sm:text-7xl md:text-[5rem] min-[807px]:text-[6rem] lg:text-[7rem] min-[1250px]:text-[9rem] text-center ${current===index ? 'animate-in zoom-in-50 duration-4000 ':''}`} style={{textShadow:'5px 5px 15px black,1px 1px 2px black,15px 15px 30px black'}} >{s.titulo}</h1>                            
+                            <h1 translate="no" className={` font-kaushanScript text-white font-extrabold text-6xl m-[5%] sm:text-7xl md:text-[5rem] min-[807px]:text-[5.5rem] lg:text-[6.5rem] min-[1250px]:text-[8.5rem] text-center ${current===index ? 'animate-in zoom-in-50 duration-4000 ':''}`} style={{textShadow:'5px 5px 15px black,1px 1px 2px black,15px 15px 30px black'}} >{s.titulo}</h1>                            
                         </div> 
                     ))} 
                 </div>          
