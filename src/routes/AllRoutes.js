@@ -29,6 +29,7 @@ export const AllRoutes = () => {
           <Route path="confirmEmail" element={<ConfirmationEmail><WhatsappComponent /></ConfirmationEmail>} /> {/*Para confirmar el Email */}
           {/*Pagina para el estudiante */}
           <Route path="student" element={(userAuth && user.role === "Student")? (<Estudiante />):(<Navigate to={'/'} />)} />
+          
           {/*Paginas para agregar los cursos al carrito de compras, pagar y confirmar o no el pago */}
           <Route path="cart" element={<Cart />} />
           <Route path="order" element={<Order />} /> {/*Pagina para realizar el pago */}
@@ -38,7 +39,8 @@ export const AllRoutes = () => {
           {/* <Route path="paymentPaypal" element={<PaymentPaypal />} /> */}
 
           {/*Pagina para realizar la administracion de la plataforma Capernova */}
-          <Route path="admin" element={(userAuth && user.role === "Admin")? (<Administracion />):(<Navigate to={'/'} />)} /> {/*Pagina para Administrar la plataforma */}
+          <Route path="admin" element={(userAuth && user.role === "Admin")? (<Administracion />):(<Navigate to={'/'} />)} /> {/*  Pagina para Administrar la plataforma */}
+          
           <Route path="teacher" element={(userAuth && user.role === "Teacher")? (<Profesor />):(<Navigate to={'/'} />)} /> {/*Pagina para los profes la plataforma */}
           <Route path="secretary" element={(userAuth && user.role === "Secretary")? (<Secretaria />):(<Navigate to={'/'} />) } /> {/*Pagina para la secretaria la plataforma */}
            

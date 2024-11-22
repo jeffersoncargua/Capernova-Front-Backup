@@ -1,7 +1,7 @@
 import {  useEffect, useState } from 'react';
 import { Videos,ModalCompleted } from '../components';
 import { useSelector } from 'react-redux';
-import VideoPlayer from 'react-player/youtube';
+import VideoPlayer from 'react-player/vimeo';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
@@ -129,6 +129,8 @@ export const PlayerVideo = ({estudiante,matricula,setMatricula}) => {
     //     setDuration(duration);
     // }
 
+   
+
     const handlePlay = (video) => {
         setCurrentVideo(video);
     }
@@ -148,13 +150,16 @@ export const PlayerVideo = ({estudiante,matricula,setMatricula}) => {
         <div className='flex-initial w-full md:w-2/3 mb-10'>
             <VideoPlayer 
                 playing={true}
-                url={currentVideo.videoUrl || 'https://www.youtube.com/watch?v=pJjjzarKotI'}
-                //url={''}
-                controls
+                url={currentVideo.videoUrl}
+                
+                controls={true}
                 onEnded={()=>handlePlayer(currentVideo.id || null)}
                 //onDuration={(duration)=>handleDuration(duration)}
                 width='100%'
+                
             />
+
+
         </div>
         
         <div className='flex-initial w-full md:w-[30%]'>
