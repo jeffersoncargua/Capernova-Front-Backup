@@ -183,7 +183,7 @@ export const ModalProducto = ({showModal,setShowModal,producto,setResponse}) => 
                             </div>
                             <div className="">
                                 <label htmlFor="cantidad" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cantidad</label>
-                                <input type="number" name="cantidad" id="cantidad" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="0" required max={producto.cantidad} min={0} defaultValue={producto.cantidad || ''} ref={refCantidad} />
+                                <input type="number" name="cantidad" id="cantidad" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="0" required max={1000} min={0} defaultValue={producto.cantidad || ''} ref={refCantidad} />
                             </div>  
                             <div className="">
                                 <label htmlFor="tipo" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tipo de Categoría:</label>

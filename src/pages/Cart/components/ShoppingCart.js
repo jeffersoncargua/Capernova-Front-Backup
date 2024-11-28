@@ -117,13 +117,13 @@ export const ShoppingCart = ({cartList,total}) => {
                   <td className="p-4">
                     {item.tipo === 'producto'? (
                       <button onClick={()=>navigate(`/productDetail?productoId=${item.id}`)} data-tooltip-id='tooltip-producto' >
-                        <img src={item.imagen} className="w-16 md:w-32 max-w-full max-h-full" alt="Aqui va la imagen"/>
+                        <img src={`https://lh3.googleusercontent.com/d/${item.imagen}`} className="w-16 md:w-32 max-w-full max-h-full" alt="Aqui va la imagen"/>
                         <Tooltip id='tooltip-producto' place='top' content={`Editar pedido`} />
                       </button> 
                     
                     ):(
                       <button onClick={()=>navigate(`/cursoDetail?productoId=${item.id}`)} data-tooltip-id='tooltip-curso'>
-                        <img src={item.imagen} className="w-16 md:w-32 max-w-full max-h-full" alt="Aqui va la imagen"/>
+                        <img src={`https://lh3.googleusercontent.com/d/${item.imagen}`} className="w-16 md:w-32 max-w-full max-h-full" alt="Aqui va la imagen"/>
                         <Tooltip id='tooltip-curso' place='top' content={`Ver Curso`} />
                       </button>
                       
@@ -137,7 +137,7 @@ export const ShoppingCart = ({cartList,total}) => {
                       {item.cantidad}
                   </td>                    
                   <td className="px-6 py-4 text-pink-400 font-semibold text-gray-900 dark:text-white">
-                    ${item.precio*item.cantidad}
+                    ${(item.precio*item.cantidad).toFixed(2)}
                   </td>
                   <td className="px-6 py-4 text-center">
                     <button onClick={() => handleRemoveToCart(item)} className=" transition duration-300 ease-in-out rounded-lg hover:scale-90 hover:text-white text-black bg-blue-600 hover:bg-red-600 py-2 px-6 mx-8 mb-2">Quitar del Carrito</button>

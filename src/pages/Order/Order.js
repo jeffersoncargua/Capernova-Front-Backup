@@ -40,7 +40,7 @@ export const Order = () => {
 
     if (cartList.length > 0) {
       const onlyProductos = cartList.filter(itemCart  => itemCart.tipo === 'producto');
-      console.log(onlyProductos);
+      //console.log(onlyProductos);
       setProducList(onlyProductos);
       const onlyCursos = cartList.filter(itemCart  => itemCart.tipo === 'curso');
       //console.log(onlyCursos);

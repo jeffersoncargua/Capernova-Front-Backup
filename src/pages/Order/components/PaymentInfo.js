@@ -207,7 +207,7 @@ export const PaymentInfo = ({isValid,cartList,setError,setShowModal,hiddenPaypal
                                     {item.cantidad}
                                 </td>
                                 <td className="px-6 py-4">
-                                    ${item.precio}
+                                    ${(item.precio*item.cantidad).toFixed(2)}
                                 </td>
                             </tr>
                         ) )}

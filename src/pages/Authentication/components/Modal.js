@@ -38,13 +38,13 @@ export const Modal = ({response,setShowModal,tipo/*,messagePassword,setMessagePa
                             :(<h2 className="mb-2 text-lg font-semibold text-black dark:text-white">Para cambiar tu constraseña debes:</h2>)}
                             <ul className="max-w-md space-y-1 text-start text-justify text-black list-disc list-inside dark:text-white">
                                 <li>
-                                    Ingresar una contraseña con al menos 8 caracteres
+                                    Ingresar una contraseña con al menos 8 caracteres.
                                 </li>
                                 <li>
-                                    Ingresar tu contraseña con al menos un caracter especial (!@#) un número y letra mayúscula
+                                    Ingresar tu contraseña con al menos un caracter especial (!@#) un número y letra mayúscula.
                                 </li>
                                 <li>
-                                    Ingresar contraseñas iguales para su verificación
+                                    Ingresar contraseñas iguales para su verificación.
                                 </li>                                
                             </ul>
                         </>

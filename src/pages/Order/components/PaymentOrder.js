@@ -122,13 +122,13 @@ export const PaymentOrder = ({setIsValid}) => {
                 </li>
                 
                 <li>
-                    Luego de que realices el pago se te notificará con un mensaje de Whatsapp y se procederá a realizar el envío de tu pedido
+                    Luego de que realices el pago se te notificará con un mensaje de Whatsapp y se procederá a realizar el envío de tu pedido.
                 </li>
                 <li>
                     Todos los pedidos son a domicilio y el pago del envío es contra entrega.
                 </li> 
-                <li>
-                    Muchas Gracias por preferirnos!!!!
+                <li className='list-none mt-3 text-green-500 text-center'>
+                    Gracias por preferirnos!!!!
                 </li>             
             </ul>
         </div>
@@ -158,7 +158,7 @@ export const PaymentOrder = ({setIsValid}) => {
                     
                     <div className="">
                         <label htmlFor="phone" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Teléfono:</label>
-                        <input onChange={(e) => handleInputs(e)} type="tel" pattern="[0-9]{10}" name="phone" id="phone" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Escribe tu número de teléfono" required ref={refPhone}  />                            
+                        <input onChange={(e) => handleInputs(e)} type="tel" pattern="[0-9]{10}" name="phone" id="phone" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Escribe tu número de teléfono" required defaultValue={user.phone || ''} ref={refPhone}  />                            
                     </div>
                     <div className="">
                         <label htmlFor="direccionPrincipal" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Dirección Principal:</label>

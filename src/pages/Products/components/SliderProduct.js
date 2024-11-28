@@ -20,8 +20,8 @@ export const SliderProduct = ({producto}) => {
   const [current, setCurrent] = useState(0);
   const [slices, setSlices] = useState([]);
   const navigate = useNavigate();
-  console.log(producto);
-  console.log(producto.categoriaId);
+  //console.log(producto);
+  //console.log(producto.categoriaId);
 
   useEffect(()=>{
     AOS.init({
@@ -76,7 +76,7 @@ export const SliderProduct = ({producto}) => {
 
   },[navigate,producto])
 
-  console.log(producto.categoriaId === null);
+  //console.log(producto.categoriaId === null);
 
 
   let previousSlice = () => {

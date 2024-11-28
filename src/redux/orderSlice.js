@@ -25,7 +25,7 @@ const orderSlice = createSlice({
                 directionMain : action.payload.directionMain,
                 directionSec : action.payload.directionSec,
             }
-            console.log(newOrder);
+            //console.log(newOrder);
 
             return {...state, order:newOrder}
                 
