@@ -31,8 +31,9 @@ export const Modal = ({response,setShowModal,tipo/*,messagePassword,setMessagePa
                     {response.isSuccess? (
                         <h3 className="mb-5 text-lg font-normal text-black dark:text-white">{response.message}</h3>
                     )
-                    :(
-                        <>
+                    :(response.message === "El usuario ya está registrado" ? 
+                        (<h3 className="mb-5 text-lg font-normal text-black dark:text-white">{response.message}</h3>):
+                        (<>
                             {tipo ==='register'? 
                             (<h2 className="mb-2 text-lg font-semibold text-black dark:text-white">Para registrarte debes:</h2>)
                             :(<h2 className="mb-2 text-lg font-semibold text-black dark:text-white">Para cambiar tu constraseña debes:</h2>)}
@@ -47,7 +48,8 @@ export const Modal = ({response,setShowModal,tipo/*,messagePassword,setMessagePa
                                     Ingresar contraseñas iguales para su verificación.
                                 </li>                                
                             </ul>
-                        </>
+                        </>)
+                        
                     )}
                     
                     

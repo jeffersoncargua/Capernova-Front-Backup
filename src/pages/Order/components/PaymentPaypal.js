@@ -52,6 +52,7 @@ export const PaymentPaypal = ({cartList,total,isValid,setError,setShowModal,hidd
         //components:"buttons",
         //currency: "USD",
         //intent: "capture",
+        //buyerCountry : "EC"
     }
 
     const handleCreateOrder = async() => {
@@ -171,6 +172,12 @@ export const PaymentPaypal = ({cartList,total,isValid,setError,setShowModal,hidd
         navigate('/cancelPay');
     }
 
+    // const onShippingAddressChange = (data, actions) =>{
+    //    return actions.reject();
+    // }
+
+    
+
     const styles ={
         shape: 'rect',
         layout: "vertical",
@@ -184,13 +191,15 @@ export const PaymentPaypal = ({cartList,total,isValid,setError,setShowModal,hidd
         {isValid && (
             <div className={`${!hiddenPaypal ? 'relative -z-10':''}`} data-aos="fade-up" >
                 <h1 className="font-medium text-center text-xl my-10 dark:text-white">Escoge la forma de pago:</h1>
-                <PayPalScriptProvider options={initialOptions}>
+                <PayPalScriptProvider options={initialOptions}  >
                     <PayPalButtons 
                         style={styles}
                         createOrder={handleCreateOrder}
                         onApprove={handleOnApprove}
                         onError={handleOnError}
                         onCancel={handleOnCancel}
+                        
+                        //displayOnly={"vaultable"}
                         />
                 </PayPalScriptProvider>
                 

@@ -110,7 +110,7 @@ export const Hero = ({video}) => {
                 
             </div> */}
 
-            <video src={video} className='flex object-cover w-full h-auto md:h-[30rem]' autoPlay loop muted controls={false} disablePictureInPicture={true} />
+            <video poster='https://lh3.googleusercontent.com/d/1YILduy_vDlm3Q2Rf3_JsD81uV2JblTkC' src={video} className='flex object-cover w-full h-auto md:h-[30rem]' autoPlay loop muted controls={false} disablePictureInPicture={true} />
                 
             
         </div>
