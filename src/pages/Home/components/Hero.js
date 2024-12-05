@@ -38,6 +38,7 @@ export const Hero = ({video}) => {
         
         const fetchPublicidad = async() => {
             try {
+                console.log(process.env.REACT_APP_API_URL);
                 const result = await fetch(`${process.env.REACT_APP_API_URL}/Marketing/publicidadList`,{
                     method:'GET',
                     credentials : 'include',
