@@ -40,7 +40,47 @@ export const Videos = ({setShowCursos,setShowVideos,curso, setCurso,setShowDeber
   //console.log(curso);
   //console.log(capitulos);
 
+// useEffect(()=>{
+//   const FetchCategoriaCurso = async()=>{
+//     try {
+//         //Falta agregar la autorizacion mediante bearer --Mucho ojo!!!
+//         const result = await fetch(`${process.env.REACT_APP_API_URL}/Producto/getAllCategoria?tipo=${'curso'}`,{
+//             method:'GET',
+//             credentials: 'include',
+//             headers:{
+//                 'Content-Type' : 'application/json',
+//                 'Accept' : 'application/json',
+//             },
+
+//         });
+//         const resultFetch = await result.json();
+
+
+//         //console.log(resultFetch);
+//         //console.log(result.status);
+//         if (result.status !== 200 && result.status !== 400) {
+//             throw resultFetch;
+//         }
+
+//         if (resultFetch.isSuccess) {
+//           setCategoriaList(resultFetch.result);
+//         }else{
+//           setCategoriaList([]);
+//         }
+
+        
+
+//     } catch (error) {
+//       console.error(error);
+//       //toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
+//       navigate('/error');
+//     }
+//   }
+//   FetchCategoriaCurso();
+// },[producto,navigate])
+
 useEffect(()=>{
+
   const FetchProducto = async()=>{
       try {
           //Falta agregar la autorizacion mediante bearer --Mucho ojo!!!
@@ -78,12 +118,6 @@ useEffect(()=>{
       }
   }
 
-  FetchProducto();
-
-},[curso,navigate])
-
-
-useEffect(()=>{
   const FetchCategoriaCurso = async()=>{
     try {
         //Falta agregar la autorizacion mediante bearer --Mucho ojo!!!
@@ -119,8 +153,15 @@ useEffect(()=>{
       navigate('/error');
     }
   }
+
+
+  FetchProducto();
   FetchCategoriaCurso();
-},[producto,navigate])
+
+},[curso,navigate])
+
+
+
 
 useEffect(()=>{
   const GetCapitulo = async()=>{

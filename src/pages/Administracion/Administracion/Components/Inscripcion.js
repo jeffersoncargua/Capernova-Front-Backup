@@ -118,11 +118,11 @@ export const Inscripcion = () => {
             <form onSubmit={handleSearchUser} className="flex justify-center" >
                 <label htmlFor="user"></label>
                 <input onChange={handleChange} id="user" name="user" type="text" placeholder="Buscar usuario por correo, nombre o apellido" className="w-96 rounded-lg right-2 focus:ring-blue-400 dark:bg-slate-800 dark:text-white" required ref={refUser} />
-                <button type="submit" className="bg-blue-500 hover:bg-blue-600 px-2.5 py-3 flex items-center rounded-lg ms-3">
-                    <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" className="bi bi-search w-5 h-5 text-black dark:text-white" viewBox="0 0 16 16">
+                <button type="submit" className="bg-blue-700 hover:bg-green-700 px-2 py-2 flex items-center rounded-lg ms-3 group ">
+                    <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" className="bi bi-search w-5 h-5 text-black group-hover:text-white" viewBox="0 0 16 16">
                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
                     </svg>
-                    <span className="ms-3 text-black dark:text-white">Buscar</span>
+                    <span className="ms-3 text-black group-hover:text-white">Buscar</span>
                 </button>
             </form>
 
@@ -133,12 +133,12 @@ export const Inscripcion = () => {
                 <div class="relative overflow-x-auto mt-6">
                     <div className="flex justify-between items-center my-5">
                         <h1 className="text-center font-medium text-xl dark:text-white ">Registros del Estudiante</h1>
-                        <button onClick={()=>setShowModalInscripcion(true)} className="bg-green-500 hover:bg-green-600 px-2.5 py-3 flex items-center rounded-lg ms-3 text-black dark:text-white">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-plus-circle h-4 w-4 mr-2" viewBox="0 0 16 16">
+                        <button onClick={()=>setShowModalInscripcion(true)} className="bg-green-700 hover:bg-green-500 px-2 py-2 flex items-center rounded-lg ms-3 text-black group ">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-plus-circle h-4 w-4 mr-2 group-hover:text-white" viewBox="0 0 16 16">
                                 <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
                                 <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
                             </svg>
-                            <span >Agregar</span>
+                            <span className="group-hover:text-white" >Agregar</span>
                         </button>
                     </div>
                 
