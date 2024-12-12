@@ -113,7 +113,7 @@ export const Products = ({children}) => {
               </div>
             </div>          
             {slices.length > 0 ? (slices.map((itemProd,index) => (
-                  <div className= 'shrink-0 w-full sm:w-1/2 md:w-1/2 lg:w-1/3 mb-10' data-aos="fade-up" key={index}>                  
+                  <div className= 'shrink-0 w-full min-[796px]:max-lg:w-1/2 lg:max-[1088px]:w-1/2 min-[1088px]:w-1/3 mb-10' data-aos="fade-up" key={index}>                  
                       <ProductCard itemProd={itemProd} />
                   </div> 
               ))):(

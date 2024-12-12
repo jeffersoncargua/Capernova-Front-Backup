@@ -8,7 +8,7 @@ export const WhatsappComponent = () => {
     const [hidden,setHidden] = useState(true);
 
   return (
-    <div data-dial-init className="fixed start-14 bottom-14 group z-50 group text-black dark:text-white">
+    <div data-dial-init className="fixed start-10 bottom-10 group z-50 group text-black dark:text-white">
         <div id="speed-dial-menu-hover" className={`flex flex-col items-center ${hidden ? 'hidden':''} mb-4 space-y-2`}>
             <div className="flex flex-col items-center justify-center max-w-xs p-6 bg-green-400 border border-green-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">           
                 <div className="w-14 h-14 rounded-full flex justify-center items-center bg-black dark:bg-white ">
