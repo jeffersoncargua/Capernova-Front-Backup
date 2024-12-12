@@ -119,9 +119,19 @@ export const SliderCursos = () => {
         <div className="w-[90%] overflow-x-hidden mx-auto">
 
           {/* permite transformar el desplazamiento en x en pantalla completa  style={{transform: `translateX(-${current/3 * 100}%)`}} */}
-          <div className={`flex transition ease-in-out duration-40 mx-auto max-lg:hidden `} style={{transform: `translateX(-${current *25}%)`}} >
+          <div className={`flex transition ease-in-out duration-40 mx-auto max-[1088px]:hidden `} style={{transform: `translateX(-${current *25}%)`}} >
               {slices.map((itemProd,index) => (
-                  <div className= 'shrink-0 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 hover:scale-110 mb-10' key={index}>
+                  <div className= 'shrink-0 w-1/4 hover:scale-110 mb-10' key={index}>
+                    {/*ProductCard */}
+                      <ProductCard itemProd={itemProd} />
+                  </div> 
+              ))}
+          </div>
+
+          {/* permite transformar el desplazamiento en x en pantalla completa  style={{transform: `translateX(-${current/3 * 100}%)`}} */}
+          <div className={`lg:max-[1088px]:flex transition ease-in-out duration-40 mx-auto hidden `} style={{transform: `translateX(-${current/3 *100}%)`}} >
+              {slices.map((itemProd,index) => (
+                  <div className= 'shrink-0 w-1/3 hover:scale-110 mb-10' key={index}>
                     {/*ProductCard */}
                       <ProductCard itemProd={itemProd} />
                   </div> 
@@ -129,9 +139,19 @@ export const SliderCursos = () => {
           </div>
 
           {/* permite transformar el desplazamiento en x en pantalla semicompleta  style={{transform: `translateX(-${current/3 * 100}%)`}} */}
-          <div className={`md:max-lg:flex transition ease-in-out duration-40 mx-auto hidden `} style={{transform: `translateX(-${current/3 * 100}%)`}} >
+          <div className={`min-[796px]:max-lg:flex transition ease-in-out duration-40 mx-auto hidden `} style={{transform: `translateX(-${current/3 * 100}%)`}} >
               {slices.map((itemProd,index) => (
-                  <div className= 'shrink-0 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 hover:scale-110 mb-10' key={index}>
+                  <div className= 'shrink-0  w-1/3  hover:scale-110 mb-10' key={index}>
+                    {/*ProductCard */}
+                      <ProductCard itemProd={itemProd} />
+                  </div> 
+              ))}
+          </div>
+
+          {/* permite transformar el desplazamiento en x en pantalla semicompleta  style={{transform: `translateX(-${current/3 * 100}%)`}} */}
+          <div className={`md:max-[795px]:flex transition ease-in-out duration-40 mx-auto hidden `} style={{transform: `translateX(-${current*50}%)`}} >
+              {slices.map((itemProd,index) => (
+                  <div className= 'shrink-0 w-1/2  hover:scale-110 mb-10' key={index}>
                     {/*ProductCard */}
                       <ProductCard itemProd={itemProd} />
                   </div> 
@@ -141,7 +161,7 @@ export const SliderCursos = () => {
           {/* permite transformar el desplazamiento en x en pantalla mediana  style={{transform: `translateX(-${current/3 * 100}%)`}} */}
           <div className={`sm:max-md:flex transition ease-in-out duration-40 mx-auto hidden `} style={{transform: `translateX(-${current * 50}%)`}} >
               {slices.map((itemProd,index) => (
-                  <div className= 'shrink-0 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 hover:scale-110 mb-10' key={index}>
+                  <div className= 'shrink-0 w-1/2 hover:scale-110 mb-10' key={index}>
                     {/*ProductCard */}
                       <ProductCard itemProd={itemProd} />
                   </div> 
@@ -165,7 +185,7 @@ export const SliderCursos = () => {
             >
                 {slices.map((itemProd,index) => (
                   <SwiperSlide key={index}>
-                    <div className= 'shrink-0 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 hover:scale-100 mb-10' key={index}>
+                    <div className= 'shrink-0 w-full hover:scale-100 mb-10' key={index}>
                       {/*ProductCard */}
                         <ProductCard itemProd={itemProd} />
                     </div>

@@ -28,3 +28,6 @@ export {Loading} from './Loading';
 
 export {AreasCategorias} from './AreasCategorias';
 export {ModalAreaCategoria} from './ModalAreaCategoria';
+
+export {Inscripcion} from './Inscripcion';
+export {ModalInscripcion} from './ModalInscripcion';

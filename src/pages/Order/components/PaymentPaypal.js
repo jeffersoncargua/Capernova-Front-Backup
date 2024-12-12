@@ -204,7 +204,22 @@ export const PaymentPaypal = ({cartList,total,isValid,setError,setShowModal,hidd
                 </PayPalScriptProvider>
                 
             </div>
+
         )}
+
+        <div className="mt-4 text-black dark:text-white" data-aos="fade-up">
+            <div className="flex flex-row items-center justify-center">
+                <hr className="border-0.5 border-black dark:border-white w-[45%]" />
+                <span className="text-center w-[10%]">ó</span>
+                <hr className="border-0.5 border-black dark:border-white w-[45%]" />
+            </div>
+            
+            <div className="block flex flex-col justify-center">
+                <p className="text-justify">También puedes realizar el pago por transferencia. Para ayudarte contactános a nuestro Whatsapp 0987203469.</p>
+                <img src="https://img.unocero.com/2019/03/mobile_payment.gif" className="w-full md:w-64 md:h-56 self-center mt-2" alt="Paying whit transfer" />
+            </div>
+            
+        </div>
         
     </div>
   )

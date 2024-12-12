@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { Videos} from "../Components";
 //import { SideBar , Publicidad,Cursos, Videos, TalentoHumano,Profesor} from "./Components";
-import { SideBar , Publicidad,Cursos, TalentoHumano,Profesor,Productos,Ventas,Pedidos, AreasCategorias} from "./Components";
+import { SideBar , Publicidad,Cursos, TalentoHumano,Profesor,Productos,Ventas,Pedidos, AreasCategorias, Inscripcion} from "./Components";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -26,7 +26,8 @@ export const Administracion = () => {
   const [showVideos,setShowVideos] = useState(false);
   //const [showModalAssigment,setShowModalAssigment] = useState(false);
   const [showProductos,setShowProductos] = useState(false);
-  const [showAreaCategoria, setShowAreaCategoria] = useState(false);;
+  const [showAreaCategoria, setShowAreaCategoria] = useState(false);
+  const [showInscripcion, setShowInscripcion] = useState(false);
 
   const [response, setResponse] = useState({}); //Permite mostrar si la accion se realizo correctamente al llamar al api
   const navigate = useNavigate();
@@ -81,7 +82,7 @@ export const Administracion = () => {
   return (
     <div className="w-[95%] mx-auto">
         
-        <SideBar setShowPublicidad={setShowPublicidad} setShowCursos={setShowCursos} setShowVentas={setShowVentas} setShowPedidos={setShowPedidos} setShowVideos={setShowVideos} setShowTalento={setShowTalento} setShowProfesor={setShowProfesor} setShowProductos={setShowProductos} setResponse={setResponse} setShowAreaCategoria={setShowAreaCategoria} />
+        <SideBar setShowPublicidad={setShowPublicidad} setShowCursos={setShowCursos} setShowVentas={setShowVentas} setShowPedidos={setShowPedidos} setShowVideos={setShowVideos} setShowTalento={setShowTalento} setShowProfesor={setShowProfesor} setShowProductos={setShowProductos} setResponse={setResponse} setShowAreaCategoria={setShowAreaCategoria} setShowInscripcion={setShowInscripcion} />
 
         <div className="sm:ml-56">
             {showPublicidad && <Publicidad />}
@@ -94,6 +95,7 @@ export const Administracion = () => {
             {showProductos && <Productos  />}
             {showVentas && <Ventas  />}
             {showPedidos && <Pedidos  />}
+            {showInscripcion && <Inscripcion />}
 
         </div>
 
