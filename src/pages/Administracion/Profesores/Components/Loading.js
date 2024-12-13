@@ -6,7 +6,7 @@ export const Loading = () => {
 
   return (
     <div className="w-full mx-auto flex justify-center z-50 fixed inset-0" tabIndex='-1'>
-        <div aria-label="Loading..." role="status" className="flex flex-col md:flex-row items-center justify-center space-x-2 mt-[60%] sm:mt-[40%] md:mt-[30%]">
+        <div aria-label="Loading..." role="status" className="flex flex-col md:flex-row items-center justify-center space-x-2 mt-28">
             {/* <svg className="h-20 w-20 animate-spin stroke-orange-500" viewBox="0 0 256 256">
                 <line x1="128" y1="32" x2="128" y2="64" strokeLinecap="round" strokeLinejoin="round" strokeWidth="24"></line>
                 <line x1="195.9" y1="60.1" x2="173.3" y2="82.7" strokeLinecap="round" strokeLinejoin="round"
