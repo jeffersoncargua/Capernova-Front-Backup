@@ -104,15 +104,15 @@ export const CursoDetail = () => {
       (<Loading />)
       :(<div className={``} data-aos="fade-up" >
         <div className="flex flex-wrap mt-10">
-          <div className="w-full text-center md:mx-10 md:w-[60%] mt-10 md:mt-0 group order-2 md:order-1 ">
+          <div className="w-full text-center min-[842px]:mx-10 min-[842px]:w-[60%] mt-10 min-[842px]:mt-0 group order-2 min-[842px]:order-1 ">
             <h1 translate="no" className="font-semibold text-3xl dark:text-white">{producto.titulo}</h1>
             <hr className="mx-auto w-[100px] border border-blue-400 drop-shadow-md" />
             <ul className="text-sm font-medium text-center text-gray-500 rounded-lg shadow flex dark:divide-gray-700 dark:text-gray-400 mt-5">
               <li className="w-full focus-within:z-10">
-                  <button onClick={()=> {setEnableDescription(true);setEnableContenido(false)}} className="inline-block w-full p-4 text-gray-900 bg-gray-100 border-r border-gray-200 dark:border-gray-700 rounded-s-lg focus:ring-4 focus:ring-blue-300 active focus:outline-none dark:bg-gray-700 dark:text-white" aria-current="page">Descripción</button>
+                  <button onClick={()=> {setEnableDescription(true);setEnableContenido(false)}} className={`inline-block w-full p-4 text-black ${enableDescription ? 'bg-gray-100 dark:bg-gray-700':'bg-white dark:bg-gray-800'}  border-r border-gray-200 dark:border-gray-700 rounded-s-lg focus:ring-4 focus:ring-blue-300 active focus:outline-none dark:text-white`} aria-current="page">Descripción</button>
               </li>
               <li className="w-full focus-within:z-10">
-                  <button onClick={()=> {setEnableDescription(false);setEnableContenido(true)}} className="inline-block w-full p-4 bg-white border-r border-gray-200 dark:border-gray-700 hover:text-gray-700 hover:bg-gray-50 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700">Contenido del Curso</button>
+                  <button onClick={()=> {setEnableDescription(false);setEnableContenido(true)}} className={`inline-block w-full p-4 text-black ${enableContenido ? 'bg-gray-100 dark:bg-gray-700':'bg-white dark:bg-gray-800'} border-r border-gray-200 dark:border-gray-700 rounded-e-lg hover:bg-gray-50 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:text-white `}>Contenido del Curso</button>
               </li>
             </ul>
             {/* <span className="flex self-start text-xl font-semibold mb-2">Descripción:</span> */}
@@ -124,9 +124,9 @@ export const CursoDetail = () => {
             )}
 
           </div>
-          <div className="w-full md:w-[30%] order-1 md:order-2 md:mt-[3rem]" data-aos="fade-up">
-            <img className={`mx-auto w-full sm:max-w-md md:max-w-sm  rounded-lg shadow shadow-gray-500 shadow-lg dark:shadow-white`} src={`https://lh3.googleusercontent.com/d/${producto.imagenUrl}`} alt="Aqui va la imagen" />
-            <div className="mt-10 gap-y-3 flex justify-around items-center">
+          <div className="w-full min-[842px]:w-[30%] order-1 min-[842px]:order-2 min-[842px]:mt-[3rem]" data-aos="fade-up">
+            <img className={`mx-auto w-full sm:max-w-md min-[842px]:max-w-sm  rounded-lg shadow shadow-gray-500 shadow-lg dark:shadow-white`} src={`https://lh3.googleusercontent.com/d/${producto.imagenUrl}`} alt="Aqui va la imagen" />
+            <div className="mt-10 gap-y-3 flex justify-around sm:max-[842px]:justify-center items-center">
               
               <span className="font-semibold text-lg me-3 dark:text-white" >
                 Precio: <p className="inline-block text-lg text-pink-500">

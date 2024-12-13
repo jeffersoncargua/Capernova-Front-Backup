@@ -190,7 +190,7 @@ export const ProductDetail = () => {
               <div className="md:mx-10">
                 <h1 className="font-semibold text-3xl dark:text-white">{producto.titulo}</h1>
                 <hr className="mx-auto w-[100px] border border-blue-400 drop-shadow-md" />
-                <span className="flex self-start text-xl font-semibold mb-2">Descripción:</span>
+                <span className="flex self-start text-xl font-semibold my-2">Descripción:</span>
                 <div className="flex flex-col self-start text-start text-lg gap-y-2 dark:text-white">
                   <pre className=" text-sm font-sans leading-loose text-wrap text-justify">
                     {producto.detalle}
@@ -203,7 +203,7 @@ export const ProductDetail = () => {
                   </span>
                   
                 </div>
-                <div className="flex flex-wrap items-center">
+                <div className="flex flex-wrap max-sm:justify-center items-center">
                   {/*Esta seccion es para el contador de productos que se desea adquirir */}
                   <div className="relative flex items-center max-w-[13rem] mt-5 me-5">
                     <label className="font-semibold text-md me-3">Cantidad:</label>

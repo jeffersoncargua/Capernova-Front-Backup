@@ -98,7 +98,7 @@ let nextSlice = () => {
 }
 
   return (
-    <div className="w-[95%] mx-auto flex flex-col dark:bg-gray-900 mt-10 mb-10" data-aos="fade-up">
+    <div className="w-full mx-auto flex flex-col dark:bg-gray-900 mb-10" data-aos="fade-up">
 
         {slices.length > 0 && (
             <div>

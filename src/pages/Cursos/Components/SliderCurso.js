@@ -101,7 +101,7 @@ export const SliderCurso = ({producto}) => {
 
 
   return (
-    <div className="w-[95%] mx-auto flex flex-col dark:bg-gray-900 mt-10 mb-10" data-aos="fade-up" >
+    <div className="w-full mx-auto flex flex-col dark:bg-gray-900 mt-10 mb-10" data-aos="fade-up" >
         {slices.length > 0 && (
             <div>
                 <h1 className="self-center text-3xl font-medium text-center my-10 dark:text-white">
