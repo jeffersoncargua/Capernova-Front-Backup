@@ -33,7 +33,7 @@ export const Inscripcion = () => {
                     });
         
                     const resultFetch = await resultFetchMatricula.json();
-                    console.log(resultFetch);
+                    //console.log(resultFetch);
         
                     if(resultFetch.isSuccess){
                         setMatriculaList(resultFetch.result);

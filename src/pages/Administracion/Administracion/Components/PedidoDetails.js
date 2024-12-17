@@ -134,7 +134,7 @@ useEffect(() => {
                                     {cartList.length > 0 && cartList.map((item) => (
                                     <tr key={item.Id} className="border-b dark:border-gray-700">
                                         <td className="px-4 py-3">
-                                            <img src={item.Imagen} className="w-16 max-h-full" alt={item.Titulo} />
+                                            <img src={`https://lh3.googleusercontent.com/d/${item.Imagen}`} className="w-16 max-h-full" alt={item.Titulo} />
                                         </td>
                                         <td className="px-4 py-3">{item.Codigo}</td>
                                         <td className="px-4 py-3">{item.Titulo}</td>                                                         

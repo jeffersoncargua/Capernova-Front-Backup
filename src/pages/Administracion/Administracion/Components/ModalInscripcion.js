@@ -21,7 +21,7 @@ export const ModalInscripcion = ({showModalInscripcion,setShowModalInscripcion,s
         });
 
         const resultFetch = await resultFromApi.json();
-        console.log(resultFetch);
+        //console.log(resultFetch);
 
         if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
           throw resultFetch;
