@@ -67,8 +67,7 @@ export const ModalInscripcion = ({showModalInscripcion,setShowModalInscripcion,s
         if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
           throw resultFetch;
         }
-
-        setResponse(resultFetch); 
+        
         setShowButtonLoading(false);
         setShowModalInscripcion(false);
         
