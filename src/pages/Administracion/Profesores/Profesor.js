@@ -49,6 +49,43 @@ export const Profesor = () => {
 //    //setCursoList(list);
 //  },[userTeacher,search])
 
+
+  useEffect(()=>{
+    const GetTeacher = async()=>{
+      try {
+        const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Teacher/getTeacher?id=${userTeacher.nameIdentifier}`,{
+          method:'GET',
+          credentials : 'include',
+          //mode: 'no-cors',
+          headers:{
+            'Content-Type' : 'application/json',
+            'Accept' : 'application/json',  
+          }
+        });
+
+
+        const resultFetch = await resultFromApi.json();
+        
+        if (resultFromApi.status !==200 && resultFromApi.status !== 400) {
+          throw resultFetch;
+        }
+
+        if (resultFetch.isSuccess) {
+          setProfesor(resultFetch.result);
+        }else{
+          setProfesor({});
+        }
+
+      } catch (error) {
+        console.error(error)
+        toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
+      }
+    }
+
+    GetTeacher();
+    
+  },[userTeacher])
+
  
    useEffect(()=>{
     const GetCurso = async()=>{
@@ -73,7 +110,9 @@ export const Profesor = () => {
        if (resultFetch.isSuccess) {
         //console.log(resultFetch);
         setCursoList(resultFetch.result);
-        setProfesor(resultFetch.result[0].teacher);
+        //setProfesor(resultFetch.result[0].teacher);
+       }else{
+        setCursoList([]);
        }
       //const capitulos = JSON.parse(resultFetch.result[0].capitulos);
       } catch (error) {
