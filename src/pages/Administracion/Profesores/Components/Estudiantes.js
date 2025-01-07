@@ -61,19 +61,28 @@ export const Estudiantes = ({cursoList}) => {
           if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
             throw resultFetch;
           }
-  
+
+          if (resultFetch.isSuccess) {
+            setMatriculaList(resultFetch.result);
+            //console.log(resultFetch.result);
+            setNumberOfPages(Math.ceil(resultFetch.result?.length / pageSize));
+    
+            setCurrentDataDisplayed(() => {
+            const page = resultFetch?.result?.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+            //return { list: page }; //List es una lista con la cantidad de items de publicidad que se va a mostrar en la tabla
+            return page;
+            });
+            setPreviousAllowed(() => currentPage > 1);
+            setNextAllowed(() => currentPage < numberOfPages);
+          }else{
+            setMatriculaList([]);
+            setNumberOfPages(0);
+            setCurrentDataDisplayed([]);
+            setPreviousAllowed(false);
+            setNextAllowed(true);
+          }
           
-          setMatriculaList(resultFetch.result);
-          //console.log(resultFetch.result);
-          setNumberOfPages(Math.ceil(resultFetch.result?.length / pageSize));
-  
-          setCurrentDataDisplayed(() => {
-          const page = resultFetch?.result?.slice((currentPage - 1) * pageSize, currentPage * pageSize);
-          //return { list: page }; //List es una lista con la cantidad de items de publicidad que se va a mostrar en la tabla
-          return page;
-          });
-          setPreviousAllowed(() => currentPage > 1);
-          setNextAllowed(() => currentPage < numberOfPages);
+          
         } catch (error) {
           console.error(error);
           toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
