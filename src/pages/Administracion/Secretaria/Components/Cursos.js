@@ -143,7 +143,7 @@ export const Cursos = ({setShowCursos,cursoList,setCursoList}) => {
                   {currentDataDisplayed.list? (currentDataDisplayed.list.map((item) => (
                     <tr key={item.id} className="border-b dark:border-gray-700">
                       <td className="px-4 py-3">
-                        <img src={item.imagenUrl} className="w-16 md:w-44 max-w-full max-h-full" alt={item.titulo} />
+                        <img src={`https://lh3.googleusercontent.com/d/${item.imagenUrl}`} className="w-16 md:w-44 max-w-full max-h-full" alt={item.titulo} />
                       </td>
                       <td className="px-4 py-3">{item.titulo}</td>
                       <td className="px-4 py-3">{item.teacher !== null ? (item.teacher.name +' '+item.teacher.lastName):'Sin asignar'}</td>
