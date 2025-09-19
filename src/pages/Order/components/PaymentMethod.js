@@ -1,27 +1,24 @@
-
-import { useEffect } from 'react';
-import PagandoCuenta from '../../../assets/MujerPagando.png';
-
+import { useEffect } from "react";
+import PagandoCuenta from "../../../assets/MujerPagando.png";
 
 //export const PaymentMethod = ({checkCard,setCheckCard,checkPaypal,setCheckPayPal}) => {
-export const PaymentMethod = ({setIsValid}) => {
+export const PaymentMethod = ({ setIsValid }) => {
+	useEffect(() => {
+		setIsValid(true);
+	}, [setIsValid]);
 
-
-    useEffect(()=>{
-        setIsValid(true);
-    },[setIsValid])
-
-
-  return (
-    <div className="flex flex-col h-full w-[95%] md:max-w-xl mt-12 md:mx-2">
-
-        <div className='mb-10'>
-            <img src={PagandoCuenta} alt="Imagen de Pago" className='w-[80%] md:max-w-lg h-auto md:h-80 mx-auto rounded-lg' />
-        </div> 
-
-    </div>
-  )
-}
+	return (
+		<div className="flex flex-col h-full w-[95%] md:max-w-xl mt-12 md:mx-2">
+			<div className="mb-10">
+				<img
+					src={PagandoCuenta}
+					alt="Imagen de Pago"
+					className="w-[80%] md:max-w-lg h-auto md:h-80 mx-auto rounded-lg"
+				/>
+			</div>
+		</div>
+	);
+};
 
 /*
 //Este aparatdo funciona con stripe y paypal por separado

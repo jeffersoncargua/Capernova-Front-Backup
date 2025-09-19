@@ -1,3 +1,3 @@
-export {Modal} from './Modal';
-export {ModalLogin} from './ModalLogin';
-export {ModalForget} from './ModalForget';
+export { Modal } from "./Modal";
+export { ModalLogin } from "./ModalLogin";
+export { ModalForget } from "./ModalForget";

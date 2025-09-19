@@ -1,8 +1,7 @@
-
 export const Certificado = () => {
-  return (
-    <div>
-		{/* <div style='display:flex; justify-content:center;'>
+	return (
+		<div>
+			{/* <div style='display:flex; justify-content:center;'>
             <img src="https://drive.google.com/thumbnail?id=1Io3SAYU468d_ekK2k7_Ic7u6UXoXj9eV" alt="Aqui va una imagen" />
         </div>
         <h1 style='text-align:center'><b>Se ha realizado un pedido</b></h1>
@@ -34,11 +33,9 @@ export const Certificado = () => {
        <p>Muchas Gracias por preferirnos, tenga un excelente día</p>
        <br />
        <p>Atentamente, Capernova</p> */}
-        
-    </div>
-  )
-}
-
+		</div>
+	);
+};
 
 /*
 

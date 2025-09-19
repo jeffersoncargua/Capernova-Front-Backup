@@ -1,59 +1,43 @@
-//import { useEffect } from "react"
-
-import {  useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-//import { baseURL } from "../endpoints";
+import { ConfirmEmail } from "../../apiServices/Authenticate/AuthenticateServices";
 
-export const ConfirmationEmail = ({children}) => {
+export const ConfirmationEmail = ({ children }) => {
+	const [response, setResponse] = useState({});
+	const [searchParams] = useSearchParams();
+	const token = searchParams.get("token");
+	token.replace(" ", "+");
+	const email = searchParams.get("email");
 
+	useEffect(() => {
+		const FetchConfirm = async () => {
+			try {
+				var resultFromApi = await ConfirmEmail(token, email);
 
-    const [response,setResponse] = useState({});
-    const [searchParams] = useSearchParams();
-    const token = searchParams.get('token');
-    token.replace(' ','+');
-    const email =searchParams.get('email');
+				const resultFetch = await resultFromApi.json();
 
-    //const navigate = useNavigate();
+				setResponse(resultFetch);
+			} catch (error) {
+				console.log(error);
+			}
+		};
+		FetchConfirm();
+	}, [token, email]);
 
-
-    useEffect(()=>{  
-      
-      
-      const FetchConfirm = async() =>{
-        try {
-          const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Authentication/ConfirmEmail?token=${token}&email=${email}`,{
-                method:'GET',
-                headers:{
-                  "Content-Type" : "application/json",
-                  "Accept" : "application/json",
-                },
-          });
-
-          const resultFetch = await resultFromApi.json();
-
-          // if (resultFromApi.status === 404) {
-          //   throw resultFetch;
-          // }
-
-          setResponse(resultFetch);
-
-          } catch (error) {
-            console.log(error);
-            //navigate('/error');
-          }
-        
-      }
-      FetchConfirm();
-          
-       
-    },[token,email]);
-
-  return (
-    <div className="w-[95%] mx-auto mt-10 group text-black dark:text-white">
-        <h1 className={`text-xl ${response.isSuccess ? 'text-green-500 dark:text-green-400':'text-red-500 dark:text-red-400'}  mb-4`}>{response.message}!!!!!</h1>
-        {response.isSuccess && <p className="text-sm">Navega por nuestro sitio web y conoce acerca más sobre nosotros y de nuestros cursos y productos</p>}
-        {children}
-    </div>
-  )
-}
-
+	return (
+		<div className="w-[95%] mx-auto mt-10 group text-black dark:text-white">
+			<h1
+				className={`text-xl ${response.isSuccess ? "text-green-500 dark:text-green-400" : "text-red-500 dark:text-red-400"}  mb-4`}
+			>
+				{response.message}!!!!!
+			</h1>
+			{response.isSuccess && (
+				<p className="text-sm">
+					Navega por nuestro sitio web y conoce acerca más sobre nosotros y de
+					nuestros cursos y productos
+				</p>
+			)}
+			{children}
+		</div>
+	);
+};

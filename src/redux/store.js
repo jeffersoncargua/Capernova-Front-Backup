@@ -6,15 +6,13 @@ import { courseReducer } from "./courseSlice";
 import { orderReducer } from "./orderSlice";
 import { playListReducer } from "./playlistSlice";
 
-
-
 export const store = configureStore({
-   reducer:{
-    cartState:cartReducer,
-    userState:userReducer,
-    searchState: searchReducer,
-    courseState: courseReducer,
-    orderState : orderReducer,
-    playListState: playListReducer,
-   },
+	reducer: {
+		cartState: cartReducer,
+		userState: userReducer,
+		searchState: searchReducer,
+		courseState: courseReducer,
+		orderState: orderReducer,
+		playListState: playListReducer,
+	},
 });

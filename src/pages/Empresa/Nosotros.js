@@ -1,10 +1,10 @@
-import { MisionVision,TalentoHumano } from "./Components"
+import { MisionVision, TalentoHumano } from "./Components";
 
 export const Nosotros = () => {
-  return (
-    <div>
-        <MisionVision />
-        <TalentoHumano />
-    </div>
-  )
-}
+	return (
+		<div>
+			<MisionVision />
+			<TalentoHumano />
+		</div>
+	);
+};

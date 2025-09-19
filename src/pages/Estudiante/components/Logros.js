@@ -1,100 +1,95 @@
-import { useState, useEffect} from "react";
-import { CoursesCard, ProgressBar , ModalDownload} from "../../Estudiante/components";
-//import { toast } from "react-toastify";
+import { useState, useEffect } from "react";
+import {
+	CoursesCard,
+	ProgressBar,
+	ModalDownload,
+} from "../../Estudiante/components";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 
-import { Pagination, Navigation } from 'swiper/modules';
+import { Pagination, Navigation } from "swiper/modules";
 
 //Styles Swiper
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 import { useNavigate } from "react-router-dom";
+import { GetCoursesStudent } from "../../../apiServices/StudentServices/StudentServices";
 
+export const Logros = ({ estudiante }) => {
+	const [matriculaList, setMatriculaList] = useState([]);
+	const [showModalDownload, setShowModalDownload] = useState(false);
+	const [result, setResult] = useState({});
 
-export const Logros = ({estudiante}) => {
+	const navigate = useNavigate();
 
-  
-  const [matriculaList,setMatriculaList] = useState([]);
-  const [showModalDownload, setShowModalDownload] = useState(false);
-  const [result,setResult] = useState({});
+	useEffect(() => {
+		const FecthCourses = async () => {
+			try {
+				var resultFromApi = await GetCoursesStudent(estudiante.id);
 
-  const navigate = useNavigate();
+				const resultFetch = await resultFromApi.json();
 
-  useEffect(()=>{
-    const FecthCourses = async()=>{
-      try {
-        const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Student/getCursos?id=${estudiante.id}`,{
-          method: 'GET',
-          credentials:'include',
-          headers:{
-            'Content-Type':'application/json',
-            'Accept':'application/json'
-          }
-        });
-        const resultFetch = await resultFromApi.json();
-        
-        if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
-          throw resultFetch;
-        }
-        
-        //console.log(resultFetch);
-        if(resultFetch.isSuccess){
-          setMatriculaList(resultFetch.result);
-        }else{
-          setMatriculaList([]);
-        }
-      } catch (error) {
-        console.error(error);
-        //toast.error('Algo ha fallado en nuestro servidor. Inténtalo más tarde');
-        navigate('/error');
-      }
-      
-    }
+				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+					throw resultFetch;
+				}
 
-    FecthCourses();
-  },[estudiante,navigate])
+				if (resultFetch.isSuccess) {
+					setMatriculaList(resultFetch.result);
+				} else {
+					setMatriculaList([]);
+				}
+			} catch (error) {
+				console.error(error);
+				navigate("/error");
+			}
+		};
 
-  return (
-    //<div className="w-[95%] mx-auto flex flex-wrap space-x-8  ">
-    <div className="w-[95%] mx-auto flex space-x-8  ">
+		FecthCourses();
+	}, [estudiante, navigate]);
 
-      {/*Aqui van los modal */}
-      
-      {showModalDownload && <ModalDownload  showModalDownload={showModalDownload} setShowModalDownload={setShowModalDownload} result={result} setResult={setResult} />}
+	return (
+		//<div className="w-[95%] mx-auto flex flex-wrap space-x-8  ">
+		<div className="w-[95%] mx-auto flex space-x-8  ">
+			{/*Aqui van los modal */}
 
-      {/* {matriculaList.length > 0 && matriculaList.map((matricula) => (
-        <div key={matricula.id}>
-          <CoursesCard matricula={matricula} >
-              <ProgressBar matricula={matricula} setShowModalDownload={setShowModalDownload} setResult={setResult}/>
-          </CoursesCard>
-        </div>))} */}
+			{showModalDownload && (
+				<ModalDownload
+					showModalDownload={showModalDownload}
+					setShowModalDownload={setShowModalDownload}
+					result={result}
+					setResult={setResult}
+				/>
+			)}
 
-      <Swiper 
-         pagination={{
-          type: 'fraction',
-        }}
-        navigation={true}
-        modules={[Pagination, Navigation]}
-        className="text-black dark:text-white">
-        {matriculaList.length > 0 && matriculaList.map((matricula,index) => (        
-          <div key={index || Math.random()}>
-            <SwiperSlide className="" style={{width:''}} >
-              <div className="contents">
-                <CoursesCard matricula={matricula} >
-                  <ProgressBar matricula={matricula} setShowModalDownload={setShowModalDownload} setResult={setResult}/>
-                </CoursesCard>
-              </div>
-            </SwiperSlide>
-          </div>
-          
-        ))}
-      </Swiper>
-      
-    </div>
-  )
-}
+			<Swiper
+				pagination={{
+					type: "fraction",
+				}}
+				navigation={true}
+				modules={[Pagination, Navigation]}
+				className="text-black dark:text-white"
+			>
+				{matriculaList.length > 0 &&
+					matriculaList.map((matricula, index) => (
+						<div key={index || Math.random()}>
+							<SwiperSlide className="" style={{ width: "" }}>
+								<div className="contents">
+									<CoursesCard matricula={matricula}>
+										<ProgressBar
+											matricula={matricula}
+											setShowModalDownload={setShowModalDownload}
+											setResult={setResult}
+										/>
+									</CoursesCard>
+								</div>
+							</SwiperSlide>
+						</div>
+					))}
+			</Swiper>
+		</div>
+	);
+};
 
 /*
 
