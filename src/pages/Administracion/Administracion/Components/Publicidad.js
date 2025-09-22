@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { ModalDelete } from "../../Components";
 import { ModalPublicidad } from "../Components";
 import { toast } from "react-toastify";
@@ -16,16 +16,15 @@ export const Publicidad = () => {
 	const [search, setSearch] = useState("");
 	const [showModal, setShowModal] = useState(false);
 	const [showModalDelete, setShowModalDelete] = useState(false);
-	const [response, setResponse] = useState({});
+	//const [response, setResponse] = useState({});
 	const columns = ["Imagen", "Titulo", "Editar/Eliminar"];
 	const [tipo, setTipo] = useState(""); //es para almacenar el tipo de objeto a eliminar que puede ser curso, capitulo, video, deber, etc
 	const [objeto, setObjeto] = useState({}); //es para almacenar el objeto a eliminar mediante el componente ModalDelete
 	const refSearch = useRef();
 
-	useEffect(() => {
-		const fetchPublicidad = async () => {
+	const fetchPublicidad = useCallback(async () => {
 			try {
-				var resultFromApi = await GetAllMarketing(search);
+				const resultFromApi = await GetAllMarketing(search);
 
 				const resultFetch = await resultFromApi.json();
 
@@ -51,20 +50,12 @@ export const Publicidad = () => {
 				console.error(error);
 				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
 			}
-		};
+		},[search, numberOfPages, currentPage]);
+
+
+	useEffect(() => {
 		fetchPublicidad();
-		//console.log(response);
-		response.isSuccess
-			? toast.success(response.message)
-			: toast.error(response.message);
-	}, [
-		currentPage,
-		numberOfPages,
-		showModal,
-		showModalDelete,
-		search,
-		response,
-	]);
+	}, [fetchPublicidad]);
 
 	const handleSearch = () => {
 		if (refSearch.current.value.length > 0) {
@@ -73,32 +64,32 @@ export const Publicidad = () => {
 		} else {
 			setSearch("");
 		}
-		setResponse({});
+		//setResponse({});
 	};
 
 	const handleEdit = (publicidad) => {
 		setPublicidad(publicidad);
 		setShowModal(!showModal);
-		setResponse({});
+		//setResponse({});
 	};
 
 	const handleDelete = (publicidad) => {
 		setObjeto(publicidad);
 		setTipo("publicidad");
 		setShowModalDelete(!showModalDelete);
-		setResponse({});
+		//setResponse({});
 	};
 
 	const handlePagination = (action) => {
 		if (action === "prev") {
 			if (!previousAllowed) return;
-			setCurrentPage((prevState) => (prevState -= 1));
+			setCurrentPage((prevState) => (prevState - 1));
 		}
 		if (action === "next") {
 			if (!nextAllowed) return;
-			setCurrentPage((prevState) => (prevState += 1));
+			setCurrentPage((prevState) => (prevState + 1));
 		}
-		setResponse({});
+		//setResponse({});
 	};
 
 	return (
@@ -113,7 +104,8 @@ export const Publicidad = () => {
 					showModal={showModal}
 					setShowModal={setShowModal}
 					publicidad={publicidad}
-					setResponse={setResponse}
+					//setResponse={setResponse}
+					fetchPublicidad={fetchPublicidad}
 				/>
 			)}
 			{/* {showModalDelete && <ModalDelete showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete} publicidad={publicidad} setResponse={setResponse}  />} */}
@@ -123,9 +115,10 @@ export const Publicidad = () => {
 					setShowModalDelete={setShowModalDelete}
 					objeto={objeto}
 					setObjeto={setObjeto}
-					setResponse={setResponse}
+					//setResponse={setResponse}
 					tipo={tipo}
 					setTipo={setTipo}
+					getFunction={fetchPublicidad}
 				/>
 			)}
 
@@ -159,7 +152,8 @@ export const Publicidad = () => {
 										<input
 											onChange={handleSearch}
 											type="text"
-											id="simple-search"
+											//id="simple-search"
+											name="simple-search"
 											className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 											placeholder="Search"
 											required=""
@@ -173,7 +167,7 @@ export const Publicidad = () => {
 									onClick={() => {
 										setShowModal(!showModal);
 										setPublicidad({});
-										setResponse({});
+										//setResponse({});
 									}}
 									type="button"
 									className="flex items-center justify-center text-gray-900 hover:text-white bg-green-500 hover:bg-green-700 focus:ring-4 focus:ring-primary-300 rounded-lg text-sm px-4 py-2 focus:outline-none dark:focus:ring-primary-800"
@@ -221,6 +215,7 @@ export const Publicidad = () => {
 												<td className="px-4 py-3">
 													<div className="py-1 flex justify-start">
 														<button
+															type="button"
 															onClick={() => handleEdit(item)}
 															className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-yellow-300 hover:bg-yellow-400 rounded-lg mr-2"
 														>
@@ -239,6 +234,7 @@ export const Publicidad = () => {
 															Editar
 														</button>
 														<button
+															type="button"
 															onClick={() => handleDelete(item)}
 															className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-red-500 hover:bg-red-600 rounded-lg"
 														>
@@ -284,6 +280,7 @@ export const Publicidad = () => {
 				</div>
 				<div className="flex justify-between">
 					<button
+						type="button"
 						onClick={() => handlePagination("prev")}
 						className="flex items-center justify-center bg-gray-400 hover:bg-gray-500 px-4 py-2 mr-2 rounded-lg hover:cursor-pointer"
 					>
@@ -301,6 +298,7 @@ export const Publicidad = () => {
 						Anterior
 					</button>
 					<button
+						type="button"
 						onClick={() => handlePagination("next")}
 						className="flex items-center justify-center bg-gray-400 hover:bg-gray-500 px-4 py-2 rounded-lg hover:cursor-pointer"
 					>

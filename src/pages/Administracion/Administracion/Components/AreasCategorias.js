@@ -1,10 +1,11 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { toast } from "react-toastify";
 import { ModalAreaCategoria } from "../Components";
 import { ModalDelete } from "../../Components";
 import { GetAllCategories } from "../../../../apiServices/ManagmentServices/ManagmentCategoriesServices";
 
-export const AreasCategorias = ({ response, setResponse }) => {
+// export const AreasCategorias = ({ response, setResponse }) => {
+export const AreasCategorias = () => {
 	const [categoryList, setCategoryList] = useState([]);
 	const [categoria, setCategoria] = useState({});
 
@@ -16,11 +17,10 @@ export const AreasCategorias = ({ response, setResponse }) => {
 	const [tipo, setTipo] = useState(""); //es para almacenar el tipo de objeto a eliminar que puede ser curso, capitulo, video, deber, etc
 	const [objeto, setObjeto] = useState({}); //es para almacenar el objeto a eliminar mediante el componente ModalDelete
 	const refSearchCategory = useRef();
-
-	useEffect(() => {
-		const FetchCategory = async () => {
+	
+	const FetchCategory = useCallback(async () => {
 			try {
-				var resultFromApi = await GetAllCategories(searchCategory);
+				const resultFromApi = await GetAllCategories(searchCategory);
 
 				const resultFetch = await resultFromApi.json();
 
@@ -37,12 +37,11 @@ export const AreasCategorias = ({ response, setResponse }) => {
 				console.error(error);
 				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
 			}
-		};
+		},[searchCategory]);
+	
+	useEffect(() => {
 		FetchCategory();
-		response.isSuccess
-			? toast.success(response.message)
-			: toast.error(response.message);
-	}, [showModalAreaCategoria, showModalDelete, searchCategory, response]);
+	}, [FetchCategory]);
 
 	const handleSearchCategory = () => {
 		if (refSearchCategory.current.value.length > 0) {
@@ -50,20 +49,20 @@ export const AreasCategorias = ({ response, setResponse }) => {
 		} else {
 			setSearchCategory("");
 		}
-		setResponse({});
+		//setResponse({});
 	};
 
 	const handleEdit = (item) => {
 		setCategoria(item);
 		setShowModalAreaCategoria(true);
-		setResponse({});
+		//setResponse({});
 	};
 
 	const handleDelete = (itemDelete) => {
 		setObjeto(itemDelete);
 		setTipo("categoría");
 		setShowModalDelete(!showModalDelete);
-		setResponse({});
+		//setResponse({});
 	};
 
 	return (
@@ -79,7 +78,8 @@ export const AreasCategorias = ({ response, setResponse }) => {
 						setShowModalAreaCategoria={setShowModalAreaCategoria}
 						categoria={categoria}
 						setCategoria={setCategoria}
-						setResponse={setResponse}
+						//setResponse={setResponse}
+						FetchCategory={FetchCategory}
 					/>
 				)}
 				{/* {showModalDelete && <ModalDelete showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete} publicidad={publicidad} setResponse={setResponse}  />} */}
@@ -89,9 +89,10 @@ export const AreasCategorias = ({ response, setResponse }) => {
 						setShowModalDelete={setShowModalDelete}
 						objeto={objeto}
 						setObjeto={setObjeto}
-						setResponse={setResponse}
+						//setResponse={setResponse}
 						tipo={tipo}
 						setTipo={setTipo}
+						getFunction={FetchCategory}
 					/>
 				)}
 
@@ -125,7 +126,8 @@ export const AreasCategorias = ({ response, setResponse }) => {
 											<input
 												onChange={handleSearchCategory}
 												type="text"
-												id="simple-search"
+												//id="simple-search"
+												name="simple-search"
 												className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 												placeholder="Busca por el nombre de la categoría"
 												required=""
@@ -139,7 +141,7 @@ export const AreasCategorias = ({ response, setResponse }) => {
 										onClick={() => {
 											setShowModalAreaCategoria(!showModalAreaCategoria);
 											setCategoria({});
-											setResponse({});
+											//setResponse({});
 										}}
 										type="button"
 										className="flex items-center justify-center text-gray-900 hover:text-white bg-green-500 hover:bg-green-700 focus:ring-4 focus:ring-primary-300 rounded-lg text-sm px-4 py-2 focus:outline-none dark:focus:ring-primary-800"
@@ -181,6 +183,7 @@ export const AreasCategorias = ({ response, setResponse }) => {
 													<td className="px-4 py-3">
 														<div className="py-1 flex justify-start">
 															<button
+																type="button"
 																onClick={() => handleEdit(category)}
 																className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-yellow-300 hover:bg-yellow-400 rounded-lg mr-2"
 															>
@@ -199,6 +202,7 @@ export const AreasCategorias = ({ response, setResponse }) => {
 																Editar
 															</button>
 															<button
+																type="button"
 																onClick={() => handleDelete(category)}
 																className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-red-500 hover:bg-red-600 rounded-lg"
 															>

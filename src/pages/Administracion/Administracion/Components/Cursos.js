@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { ModalDelete } from "../../Components";
 import { ModalCourse } from "../Components";
-import { toast } from "react-toastify";
+//import { toast } from "react-toastify";
 
 //export const Cursos = ({setShowCursos, setShowVideos, showModalCourse ,setShowModalCourse,showModalDeleteCurso,setShowModalDeleteCurso, cursoList ,curso, setCurso, setSearch, response ,setResponse}) => {
 export const Cursos = ({
@@ -14,8 +14,9 @@ export const Cursos = ({
 	cursoList,
 	setCurso,
 	setSearch,
-	response,
-	setResponse,
+	//response,
+	//setResponse,
+	GetCursos
 }) => {
 	const pageSize = 5;
 
@@ -50,21 +51,21 @@ export const Cursos = ({
 		setPreviousAllowed(() => currentPage > 1);
 		setNextAllowed(() => currentPage < numberOfPages);
 
-		response.isSuccess
-			? toast.success(response.message)
-			: toast.error(response.message);
-	}, [currentPage, numberOfPages, cursoList, response]);
+		// response.isSuccess
+		// 	? toast.success(response.message)
+		// 	: toast.error(response.message);
+	}, [currentPage, numberOfPages, cursoList]);
 
 	const handlePagination = (action) => {
 		if (action === "prev") {
 			if (!previousAllowed) return;
-			setCurrentPage((prevState) => (prevState -= 1));
+			setCurrentPage((prevState) => (prevState - 1));
 		}
 		if (action === "next") {
 			if (!nextAllowed) return;
-			setCurrentPage((prevState) => (prevState += 1));
+			setCurrentPage((prevState) => (prevState + 1));
 		}
-		setResponse({});
+		//setResponse({});
 	};
 
 	const handleSearch = () => {
@@ -74,14 +75,14 @@ export const Cursos = ({
 		} else {
 			setSearch("");
 		}
-		setResponse({});
+		//setResponse({});
 	};
 
 	const handleDelete = (curso) => {
 		setObjeto(curso);
 		setTipo("curso");
 		setShowModalDelete(!showModalDelete);
-		setResponse({});
+		//setResponse({});
 	};
 
 	return (
@@ -97,7 +98,8 @@ export const Cursos = ({
 					showModalCourse={showModalCourse}
 					setShowModalCourse={setShowModalCourse}
 					setSearch={setSearch}
-					setResponse={setResponse}
+					//setResponse={setResponse}
+					GetCursos={GetCursos}
 				/>
 			)}
 			{/* {showModalDeleteCurso && <ModalDeleteCurso showModalDeleteCurso={showModalDeleteCurso} setShowModalDeleteCurso={setShowModalDeleteCurso} curso={curso} setSearch={setSearch} setResponse={setResponse} />} */}
@@ -107,9 +109,10 @@ export const Cursos = ({
 					setShowModalDelete={setShowModalDelete}
 					objeto={objeto}
 					setObjeto={setObjeto}
-					setResponse={setResponse}
+					//setResponse={setResponse}
 					tipo={tipo}
 					setTipo={setTipo}
+					getFunction={GetCursos}
 				/>
 			)}
 			{/* Tabla para la informacion */}
@@ -142,7 +145,8 @@ export const Cursos = ({
 										<input
 											onChange={handleSearch}
 											type="text"
-											id="simple-search"
+											//id="simple-search"
+											name="simple-search"
 											className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 											placeholder="Busca el curso por el titulo"
 											required=""
@@ -156,7 +160,7 @@ export const Cursos = ({
 									onClick={() => {
 										setShowModalCourse(!showModalCourse);
 										setCurso({});
-										setResponse({});
+										//setResponse({});
 									}}
 									type="button"
 									className="flex items-center justify-center text-gray-900 hover:text-white bg-green-500 hover:bg-green-700 focus:ring-4 focus:ring-primary-300 rounded-lg text-sm px-4 py-2 focus:outline-none dark:focus:ring-primary-800"
@@ -211,11 +215,12 @@ export const Cursos = ({
 												<td className="px-4 py-3">
 													<div className="py-1 flex justify-start">
 														<button
+															type="button"
 															onClick={() => {
 																setShowVideos(true);
 																setShowCursos(false);
 																setCurso(item);
-																setResponse({});
+																//setResponse({});
 															}}
 															className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-yellow-300 hover:bg-yellow-400 rounded-lg mr-2"
 														>
@@ -234,6 +239,7 @@ export const Cursos = ({
 															Agregar Videos
 														</button>
 														<button
+															type="button"
 															onClick={() => handleDelete(item)}
 															className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-red-500 hover:bg-red-600 rounded-lg"
 														>
@@ -279,6 +285,7 @@ export const Cursos = ({
 				</div>
 				<div className="flex justify-between">
 					<button
+						type="button"
 						onClick={() => handlePagination("prev")}
 						className="flex items-center justify-center bg-gray-400 hover:bg-gray-500 px-4 py-2 mr-2 rounded-lg hover:cursor-pointer"
 					>
@@ -296,6 +303,7 @@ export const Cursos = ({
 						Anterior
 					</button>
 					<button
+						type="button"
 						onClick={() => handlePagination("next")}
 						className="flex items-center justify-center bg-gray-400 hover:bg-gray-500 px-4 py-2 rounded-lg hover:cursor-pointer"
 					>

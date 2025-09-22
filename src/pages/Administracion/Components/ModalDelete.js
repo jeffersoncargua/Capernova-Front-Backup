@@ -7,10 +7,12 @@ export const ModalDelete = ({
 	setShowModalDelete,
 	objeto,
 	setObjeto,
-	setResponse,
+	//setResponse,
 	tipo,
 	setTipo,
+	getFunction
 }) => {
+
 	const [showButtonLoading, setShowButtonLoading] = useState(false);
 
 	const handleDelete = async (object) => {
@@ -18,60 +20,60 @@ export const ModalDelete = ({
 		switch (tipo) {
 			case "prueba": //instrucciones para eliminar la prueba
 				resultFetch = await DeleteObject("/Prueba/deletePrueba", object);
-				setResponse(resultFetch);
+				//setResponse(resultFetch);
 
 				break;
 			case "deber": //instrucciones para eliminar la deber
 				resultFetch = await DeleteObject("/Deber/deleteDeber", object);
-				setResponse(resultFetch);
+				//setResponse(resultFetch);
 				break;
 			case "capitulo": //instrucciones para eliminar el capitulo
 				resultFetch = await DeleteObject("/Capitulo/deleteCapitulo", object);
-				setResponse(resultFetch);
+				//setResponse(resultFetch);
 				break;
 			case "video": //instrucciones para eliminar el video
 				resultFetch = await DeleteObject("/Video/deleteVideo", object);
-				setResponse(resultFetch);
+				//setResponse(resultFetch);
 
 				break;
 			case "curso": //instrucciones para eliminar la prueba Course/deleteCourse
 				resultFetch = await DeleteObject("/Course/deleteCourse", object);
-				setResponse(resultFetch);
+				//setResponse(resultFetch);
 
 				break;
 			case "publicidad": //instrucciones para eliminar la prueba Course/deleteCourse
 				resultFetch = await DeleteObject("/Marketing/deletePublicidad", object);
-				setResponse(resultFetch);
+				//setResponse(resultFetch);
 
 				break;
 			case "talento": //instrucciones para eliminar la prueba Course/deleteCourse
 				resultFetch = await DeleteObject("/Managment/deleteUser", object);
-				setResponse(resultFetch);
+				//setResponse(resultFetch);
 
 				break;
 			case "producto": //instrucciones para eliminar la prueba Course/deleteCourse
 				resultFetch = await DeleteObject("/Producto/deleteProducto", object);
-				setResponse(resultFetch);
+				//setResponse(resultFetch);
 
 				break;
 			case "venta": //instrucciones para eliminar la prueba Course/deleteCourse
 				resultFetch = await DeleteObject("/Venta/deleteVenta", object);
-				setResponse(resultFetch);
+				//setResponse(resultFetch);
 
 				break;
 			case "pedido": //instrucciones para eliminar la prueba Course/deleteCourse
 				resultFetch = await DeleteObject("/Venta/deletePedido", object);
-				setResponse(resultFetch);
+				//setResponse(resultFetch);
 
 				break;
-			case "categoria": //instrucciones para eliminar la prueba Course/deleteCourse
+			case "categoría": //instrucciones para eliminar la prueba Course/deleteCourse
 				resultFetch = await DeleteObject("/Producto/deleteCategoria", object);
-				setResponse(resultFetch);
+				//setResponse(resultFetch);
 
 				break;
 			case "matricula": //instrucciones para eliminar la prueba Course/deleteCourse
 				resultFetch = await DeleteObject("/Managment/deleteMatricula", object);
-				setResponse(resultFetch);
+				//setResponse(resultFetch);
 
 				break;
 			default:
@@ -94,16 +96,24 @@ export const ModalDelete = ({
 			setTipo("");
 			setShowModalDelete(false);
 			setShowButtonLoading(false);
-			return resultFetch;
+			//return resultFetch;
+
+			getFunction();
+
+			resultFetch.isSuccess ?
+				toast.success(resultFetch.message):
+				toast.error(resultFetch.message);
 
 			// setPrueba({});
+
+
 		} catch (error) {
 			console.error(error);
 			toast.error("Ha ocurrido un error en el servidor");
 			setObjeto({});
 			setTipo("");
 			setShowModalDelete(false);
-			setResponse({});
+			//setResponse({});
 			setShowButtonLoading(false);
 		}
 	};
@@ -162,6 +172,7 @@ export const ModalDelete = ({
 							</h3>
 							{showButtonLoading ? (
 								<button
+									type="button"
 									disabled
 									className="text-white inline-flex items-center bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-blue-800"
 								>

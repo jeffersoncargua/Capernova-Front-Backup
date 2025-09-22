@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { toast } from "react-toastify";
 //import { ModalDelete } from "../../Components";
 import { PedidoDetails } from "../Components";
@@ -31,25 +31,12 @@ export const Pedidos = () => {
 	];
 	//const [tipo,setTipo] = useState(''); //es para almacenar el tipo de objeto a eliminar que puede ser curso, capitulo, video, deber, etc
 	//const [objeto, setObjeto] = useState({}); //es para almacenar el objeto a eliminar mediante el componente ModalDelete
-	const [response, setResponse] = useState({});
+	//const [response, setResponse] = useState({});
 	const refSearch = useRef();
 
-	useEffect(() => {
-		const fetchPedidos = async () => {
+	const fetchPedidos = useCallback(async () => {
 			try {
-				// const resultFromApi = await fetch(
-				// 	`${process.env.REACT_APP_API_URL}/Venta/getAllPedidos?search=${search}&start=${JSON.stringify(value.startDate)}&end=${JSON.stringify(value.endDate)}`,
-				// 	{
-				// 		method: "GET",
-				// 		credentials: "include",
-				// 		headers: {
-				// 			"Content-Type": "application/json",
-				// 			Accept: "application/json",
-				// 		},
-				// 	},
-				// );
-
-				var resultFromApi = await GetAllPedidos(
+				const resultFromApi = await GetAllPedidos(
 					search,
 					value.startDate,
 					value.endDate,
@@ -57,35 +44,34 @@ export const Pedidos = () => {
 
 				const resultFetch = await resultFromApi.json();
 
-				//console.log(resultFromApi.status);
 				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
 					throw resultFetch;
 				}
 
-				//console.log(resultFetch);
 				if (resultFetch.isSuccess) {
 					setPedidoList(resultFetch.result);
 				}
+
 			} catch (error) {
 				console.error(error);
 				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
 			}
-		};
-		fetchPedidos();
-		response.isSuccess
-			? toast.success(response.message)
-			: toast.error(response.message);
-	}, [showModalPedidoDetail, search, response, value]);
+		},[value, search]);
 
-	const handleSearch = (event) => {
+	useEffect(() => {
+		
+		fetchPedidos();
+	}, [fetchPedidos]);
+
+	const handleSearch = (_event) => {
 		setSearch(refSearch.current.value);
-		setResponse({});
+		//setResponse({});
 	};
 
 	const handleDetail = (pedido) => {
 		setPedido(pedido);
 		setShowModalPedidoDetail(!showModalPedidoDetail);
-		setResponse({});
+		//setResponse({});
 	};
 
 	// const handleDelete = (pedido) => {
@@ -96,10 +82,15 @@ export const Pedidos = () => {
 	//   setResponse({});
 	// }
 
-	const GetFecha = (fecha) => {
+	const GetFecha = useCallback((fecha) => {
 		const date = new Date(fecha);
 		return date.toLocaleDateString();
-	};
+	},[]);
+
+	// function GetFecha (fecha) {
+	// 	const date = new Date(fecha);
+	// 	return date.toLocaleDateString();
+	// };
 
 	return (
 		<div>
@@ -113,7 +104,7 @@ export const Pedidos = () => {
 					setShowModalPedidoDetail={setShowModalPedidoDetail}
 					pedido={pedido}
 					setPedido={setPedido}
-					setResponse={setResponse}
+					//setResponse={setResponse}
 				/>
 			)}
 			{/* {showModalDelete && <ModalDelete showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete} publicidad={publicidad} setResponse={setResponse}  />} */}
@@ -155,7 +146,8 @@ export const Pedidos = () => {
 									<input
 										onChange={handleSearch}
 										type="text"
-										id="simple-search"
+										//id="simple-search"
+										name="simple-search"
 										className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 										placeholder="Buscar por Transaccion ID, ID o Apellido del cliente"
 										required=""
@@ -210,6 +202,7 @@ export const Pedidos = () => {
 												<td className="px-4 py-3">
 													<div className="py-1 flex justify-start">
 														<button
+															type="button"
 															onClick={() => handleDetail(item)}
 															className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-yellow-300 hover:bg-yellow-400 rounded-lg mr-2"
 														>

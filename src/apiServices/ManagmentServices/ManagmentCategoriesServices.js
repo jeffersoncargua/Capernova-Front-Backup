@@ -1,9 +1,9 @@
 import { useFetch } from "../../hooks/useFetch";
 
-const GetAllCategories = async (search) => {
+const GetAllCategories = async (search = '') => {
 	const verbose = "GET";
 	const route = "/Producto/getAllCategoria";
-	const query = `?tipo=${search}`;
+	const query = `?search=${search}`;
 
 	var response = await useFetch({
 		verbose: verbose,

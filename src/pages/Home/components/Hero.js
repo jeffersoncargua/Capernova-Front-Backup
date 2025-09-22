@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 // Import AOS para el fade
 import AOS from "aos";
 import "aos/dist/aos.css"; // You can also use <link> for styles
+import { GetAllMarketing } from "../../../apiServices/GeneralServices";
 
 export const Hero = ({ video }) => {
 	const [current, setCurrent] = useState(0);

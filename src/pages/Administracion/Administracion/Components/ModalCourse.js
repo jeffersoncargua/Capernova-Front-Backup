@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { toast } from "react-toastify";
 import { GetCategoriaCursos } from "../../../../apiServices/GeneralServices";
 import { CreateCourse } from "../../../../apiServices/ManagmentServices/ManagmentCourseServices";
@@ -6,7 +6,8 @@ import { CreateCourse } from "../../../../apiServices/ManagmentServices/Managmen
 export const ModalCourse = ({
 	showModalCourse,
 	setShowModalCourse,
-	setResponse,
+	//setResponse,
+	GetCursos
 }) => {
 	const [showButtonLoading, setShowButtonLoading] = useState(false);
 	const [categoriaList, setCategoriaList] = useState([]);
@@ -19,10 +20,9 @@ export const ModalCourse = ({
 	const refBiblioteca = useRef();
 	const refClasesUrl = useRef();
 
-	useEffect(() => {
-		const FetchCategoriaCurso = async () => {
+	const FetchCategoriaCurso = useCallback(async () => {
 			try {
-				var resultFromApi = await GetCategoriaCursos();
+				const resultFromApi = await GetCategoriaCursos();
 
 				const resultFetch = await resultFromApi.json();
 
@@ -39,15 +39,17 @@ export const ModalCourse = ({
 				console.error(error);
 				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
 			}
-		};
+		},[]);
+	
+	useEffect(() => {
 		FetchCategoriaCurso();
-	}, []);
+	}, [FetchCategoriaCurso]);
 
 	const handleSubmitAdd = async (event) => {
 		event.preventDefault();
 		setShowButtonLoading(true);
 		try {
-			var result = await CreateCourse({
+			const result = await CreateCourse({
 				imagenUrl: refImageUrl.current.value,
 				titulo: refTitulo.current.value,
 				codigo: refCodigo.current.value,
@@ -63,6 +65,7 @@ export const ModalCourse = ({
 				bibliotecaUrl: refBiblioteca.current.value || null,
 				claseUrl: refClasesUrl.current.value || null,
 			});
+
 			const resultFetch = await result.json();
 
 			if (result.status !== 200 && result.status !== 400) {
@@ -71,7 +74,14 @@ export const ModalCourse = ({
 
 			setShowModalCourse(false);
 			setShowButtonLoading(false);
-			setResponse(resultFetch);
+			//setResponse(resultFetch);
+
+			GetCursos();
+
+			resultFetch.isSuccess ?
+			toast.success(resultFetch.message) :
+			toast.error(resultFetch.message)
+			
 		} catch (error) {
 			setShowButtonLoading(false);
 			setShowModalCourse(false);
@@ -84,7 +94,7 @@ export const ModalCourse = ({
 		<div>
 			{/*<!-- Main modal -->*/}
 			<div
-				id="crud-modal"
+				//id="crud-modal"
 				tabIndex="-1"
 				className={`${showModalCourse ? "" : "hidden"} overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] bg-gray-700/[0.6]`}
 			>
@@ -99,7 +109,7 @@ export const ModalCourse = ({
 							<button
 								onClick={() => {
 									setShowModalCourse(!showModalCourse);
-									setResponse({});
+									//setResponse({});
 								}}
 								type="button"
 								className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -136,7 +146,7 @@ export const ModalCourse = ({
 									<input
 										type="text"
 										name="codigo"
-										id="codigo"
+										//id="codigo"
 										className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 										placeholder="Escribe el código del curso aquí"
 										required
@@ -153,7 +163,7 @@ export const ModalCourse = ({
 									<input
 										type="text"
 										name="titulo"
-										id="titulo"
+										//id="titulo"
 										className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 										placeholder="Escribe el titulo del curso aquí"
 										required
@@ -170,7 +180,7 @@ export const ModalCourse = ({
 									<input
 										type="text"
 										name="imageUrl"
-										id="imageUrl"
+										//id="imageUrl"
 										className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 										placeholder="Inserta la url de la imagen aquí"
 										required
@@ -188,7 +198,7 @@ export const ModalCourse = ({
 										type="text"
 										pattern="[0-9]{1,}\.[0-9]{1,}"
 										name="price"
-										id="price"
+										//id="price"
 										className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 										placeholder="Coloca el precio aquí. Ejmeplo: $100.50"
 										required
@@ -205,7 +215,7 @@ export const ModalCourse = ({
 									<input
 										type="text"
 										name="biblioteca"
-										id="biblioteca"
+										//id="biblioteca"
 										className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 										placeholder="Inserta la url de la biblioteca aquí"
 										ref={refBiblioteca}
@@ -221,7 +231,7 @@ export const ModalCourse = ({
 									<input
 										type="text"
 										name="clasesEnVivo"
-										id="clasesEnVivo"
+										//id="clasesEnVivo"
 										className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 										placeholder="Inserta la url de las clases en vivo aquí"
 										ref={refClasesUrl}
@@ -235,7 +245,8 @@ export const ModalCourse = ({
 										Tipo de Categoría:
 									</label>
 									<select
-										id="tipo"
+										//id="tipo"
+										name="tipo"
 										className="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 										defaultValue={""}
 										ref={refCategoria}
@@ -260,7 +271,7 @@ export const ModalCourse = ({
 										Descripción
 									</label>
 									<textarea
-										id="descripcion"
+										//id="descripcion"
 										name="descripcion"
 										rows="4"
 										className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -272,12 +283,13 @@ export const ModalCourse = ({
 							</div>
 							{showButtonLoading ? (
 								<button
+									type="button"
 									disabled
 									className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
 								>
 									<svg
 										aria-hidden="true"
-										role="status"
+										//role="status"
 										className="inline w-4 h-4 me-3 text-white animate-spin"
 										viewBox="0 0 100 101"
 										fill="none"

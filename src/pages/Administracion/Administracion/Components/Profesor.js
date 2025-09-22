@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { toast } from "react-toastify";
 import {
 	AssigmentTeacherCourse,
@@ -7,10 +7,11 @@ import {
 
 export const Profesor = ({
 	profesor,
-	setProfesor,
+	//setProfesor,
 	cursoList,
-	response,
-	setResponse,
+	//response,
+	//setResponse,
+	GetCursos
 }) => {
 	const refCurso = useRef();
 	const [cursoId, setCursoId] = useState();
@@ -22,10 +23,10 @@ export const Profesor = ({
 
 		try {
 			if (cursoId !== "" && cursoId !== undefined) {
-				var result = await AssigmentTeacherCourse({
-					cursoId: parseInt(cursoId),
-					teacherId: profesor.id,
-				});
+				const result = await AssigmentTeacherCourse(
+					parseInt(cursoId,10),
+					profesor.id,
+				);
 
 				const resultFetch = await result.json();
 
@@ -33,9 +34,15 @@ export const Profesor = ({
 					throw resultFetch;
 				}
 
-				setResponse(resultFetch);
 				setCursoId(); //para eliminar el valor de cursoId para nuevas asignaciones
 				setShowButtonLoading(false);
+
+				GetCursos();
+
+				resultFetch.isSuccess ?
+				toast.success(resultFetch.message) :
+				toast.error(resultFetch.message);
+
 			} else {
 				setShowButtonLoading(false);
 				toast.warning("Selecciona un curso");
@@ -47,31 +54,32 @@ export const Profesor = ({
 		}
 	};
 
-	useEffect(() => {
-		response.isSuccess
-			? toast.success(response.message)
-			: toast.error(response.message);
-	}, [response]);
-
 	const handleSelectCourse = () => {
 		setCursoId(refCurso.current.value);
 	};
 
 	const handleDeleteAssigment = async (curso) => {
 		try {
-			var result = await DeleteAssigmentTeacherCourse({
-				cursoId: curso.id,
-				teacherId: profesor.id,
-			});
+			const result = await DeleteAssigmentTeacherCourse(
+				curso.id,
+				profesor.id,
+			);
 
 			const resultFetch = await result.json();
 
 			if (result.status !== 200 && result.status !== 400) {
 				throw resultFetch;
 			}
-			setResponse(resultFetch);
+			//setResponse(resultFetch);
 			setCursoId(); //para eliminar el valor de cursoId para nuevas asignaciones
 			setShowButtonLoading2(false);
+
+			GetCursos();
+
+			resultFetch.isSuccess ? 
+			toast.success(resultFetch.message) : 
+			toast.error(resultFetch.message);
+
 		} catch (error) {
 			console.error(error);
 			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
@@ -107,7 +115,8 @@ export const Profesor = ({
 					</label>
 					<select
 						onChange={() => handleSelectCourse()}
-						id="curso"
+						//id="curso"
+						name="curso"
 						className="block w-full p-2 text-sm border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 						defaultValue={""}
 						ref={refCurso}
@@ -133,7 +142,7 @@ export const Profesor = ({
 						>
 							<svg
 								aria-hidden="true"
-								role="status"
+								//role="status"
 								className="inline w-4 h-4 me-3 text-white animate-spin"
 								viewBox="0 0 100 101"
 								fill="none"
@@ -213,12 +222,13 @@ export const Profesor = ({
 										<td className="px-6 py-4">
 											{showButtonLoading2 ? (
 												<button
+													type="button"
 													disabled
 													className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-red-500 hover:bg-red-600 rounded-lg"
 												>
 													<svg
 														aria-hidden="true"
-														role="status"
+														//role="status"
 														className="inline w-4 h-4 me-3 text-white animate-spin"
 														viewBox="0 0 100 101"
 														fill="none"
@@ -237,6 +247,7 @@ export const Profesor = ({
 												</button>
 											) : (
 												<button
+													type="button"
 													onClick={() => handleDeleteAssigment(curso)}
 													className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-red-500 hover:bg-red-600 rounded-lg"
 												>

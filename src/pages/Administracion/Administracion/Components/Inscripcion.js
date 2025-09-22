@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { ModalInscripcion } from "../Components";
 import { ModalDelete } from "../../Components";
 import { toast } from "react-toastify";
@@ -8,7 +8,7 @@ import { GetUser } from "../../../../apiServices/GeneralServices";
 export const Inscripcion = () => {
 	const [user, setUser] = useState({});
 	const [matriculaList, setMatriculaList] = useState([]);
-	const [response, setResponse] = useState({});
+	//const [response, setResponse] = useState({});
 	const [responseSearch, setResponseSearch] = useState({});
 	const [showMessage, setShowMessage] = useState(false);
 	const [showModalInscripcion, setShowModalInscripcion] = useState(false);
@@ -17,10 +17,10 @@ export const Inscripcion = () => {
 	const [tipo, setTipo] = useState("");
 	const refUser = useRef();
 
-	useEffect(() => {
-		const fetchMatricula = async () => {
+	const fetchMatricula = useCallback(async () => {
 			if (user.id) {
-				var result = await GetMatricula(user.id);
+				
+				const result = await GetMatricula(user.id);
 
 				const resultFetch = await result.json();
 
@@ -30,19 +30,16 @@ export const Inscripcion = () => {
 					setMatriculaList([]);
 				}
 			}
-		};
+		},[user.id]);
 
+	useEffect(() => {
 		fetchMatricula();
+	}, [fetchMatricula]);
 
-		response.isSuccess
-			? toast.success(response.message)
-			: toast.error(response.message);
-	}, [user, response]);
-
-	const handleSearchUser = async (e) => {
+	const handleSearchUser = useCallback(async (e) => {
 		e.preventDefault();
 		try {
-			var resultFromApi = await GetUser(refUser.current.value);
+			const resultFromApi = await GetUser(refUser.current.value);
 
 			const resultFetch = await resultFromApi.json();
 
@@ -59,25 +56,25 @@ export const Inscripcion = () => {
 				setResponseSearch({});
 				setUser({});
 			}
-		} catch (error) {
+		} catch (_error) {
 			toast.error(
 				"Error. Algo ocurrió en nuestros servidores. Inténtelo nuevamente!!!",
 			);
 		}
-	};
+	},[]);
 
 	const handleDelete = (matricula) => {
 		setObjeto(matricula);
 		setTipo("matricula");
 		setShowModalDelete(true);
-		setResponse({});
+		//setResponse({});
 	};
 
 	const handleChange = (e) => {
 		e.preventDefault();
 		if (refUser.current.value.length <= 0) {
 			setShowMessage(false);
-			setResponse({});
+			//setResponse({});
 			setResponseSearch({});
 			setUser({});
 			setMatriculaList([]);
@@ -100,7 +97,7 @@ export const Inscripcion = () => {
 					setShowModalDelete={setShowModalDelete}
 					objeto={objeto}
 					setObjeto={setObjeto}
-					setResponse={setResponse}
+					//setResponse={setResponse}
 					tipo={tipo}
 					setTipo={setTipo}
 				/>
@@ -111,10 +108,10 @@ export const Inscripcion = () => {
 			</h1>
 			<div className="w-[95%] mx-auto">
 				<form onSubmit={handleSearchUser} className="flex justify-center">
-					<label htmlFor="user"></label>
+					{/* <label htmlFor="user"></label> */}
 					<input
 						onChange={handleChange}
-						id="user"
+						//id="user"
 						name="user"
 						type="text"
 						placeholder="Buscar usuario por correo, nombre o apellido"
@@ -160,6 +157,7 @@ export const Inscripcion = () => {
 								Registros del Estudiante
 							</h1>
 							<button
+								type="button"
 								onClick={() => setShowModalInscripcion(true)}
 								className="bg-green-700 hover:bg-green-500 px-2 py-2 flex items-center rounded-lg ms-3 text-black group "
 							>
@@ -201,6 +199,7 @@ export const Inscripcion = () => {
 											<td className="px-6 py-4">{matricula.curso.codigo}</td>
 											<td className="px-6 py-4">
 												<button
+												type="button"
 													onClick={() => handleDelete(matricula)}
 													className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-red-500 hover:bg-red-600 rounded-lg"
 												>

@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { toast } from "react-toastify";
 import {
 	ModalCapitulo,
@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import {
 	GetAllCapitulo,
 	GetProductCode,
+	UpdateCourse,
 } from "../../../apiServices/ManagmentServices/ManagmentCourseServices";
 import { GetCategoriaCursos } from "../../../apiServices/GeneralServices";
 
@@ -22,6 +23,7 @@ export const Videos = ({
 	setCurso,
 	setShowDeberes,
 	setShowPruebas,
+	GetCursos
 }) => {
 	const [capitulos, setCapitulos] = useState([]);
 	const [capitulo, setCapitulo] = useState({});
@@ -51,9 +53,6 @@ export const Videos = ({
 	const refCategoria = useRef();
 	const refBiblioteca = useRef();
 	const refClasesUrl = useRef();
-
-	//console.log(curso);
-	//console.log(capitulos);
 
 	// useEffect(()=>{
 	//   const FetchCategoriaCurso = async()=>{
@@ -91,27 +90,14 @@ export const Videos = ({
 	//   FetchCategoriaCurso();
 	// },[producto,navigate])
 
-	useEffect(() => {
-		const FetchProducto = async () => {
-			try {
-				//Falta agregar la autorizacion mediante bearer --Mucho ojo!!!
-				// const result = await fetch(
-				// 	`${process.env.REACT_APP_API_URL}/Producto/getProductoCode?codigo=${curso.codigo}`,
-				// 	{
-				// 		method: "GET",
-				// 		credentials: "include",
-				// 		headers: {
-				// 			"Content-Type": "application/json",
-				// 			Accept: "application/json",
-				// 		},
-				// 	},
-				// );
 
-				var result = await GetProductCode(curso.codigo);
+	const FetchProducto = useCallback(async () => {
+			try {
+
+				let result = await GetProductCode(curso.codigo);
+
 				const resultFetch = await result.json();
 
-				//console.log(resultFetch);
-				//console.log(result.status);
 				if (result.status !== 200 && result.status !== 400) {
 					throw resultFetch;
 				}
@@ -126,28 +112,14 @@ export const Videos = ({
 				//toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
 				navigate("/error");
 			}
-		};
+		},[curso]);
 
-		const FetchCategoriaCurso = async () => {
+		const FetchCategoriaCurso = useCallback(async () => {
 			try {
-				//Falta agregar la autorizacion mediante bearer --Mucho ojo!!!
-				// const result = await fetch(
-				// 	`${process.env.REACT_APP_API_URL}/Producto/getAllCategoria?tipo=${"curso"}`,
-				// 	{
-				// 		method: "GET",
-				// 		credentials: "include",
-				// 		headers: {
-				// 			"Content-Type": "application/json",
-				// 			Accept: "application/json",
-				// 		},
-				// 	},
-				// );
+				let result = await GetCategoriaCursos();
 
-				var result = await GetCategoriaCursos();
 				const resultFetch = await result.json();
 
-				//console.log(resultFetch);
-				//console.log(result.status);
 				if (result.status !== 200 && result.status !== 400) {
 					throw resultFetch;
 				}
@@ -162,28 +134,11 @@ export const Videos = ({
 				//toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
 				navigate("/error");
 			}
-		};
+		},[navigate]);
 
-		FetchProducto();
-		FetchCategoriaCurso();
-	}, [curso, navigate]);
-
-	useEffect(() => {
-		const GetCapitulo = async () => {
+	const GetCapitulo = useCallback(async () => {
 			try {
-				// const resultFromApi = await fetch(
-				// 	`${process.env.REACT_APP_API_URL}/Capitulo/getAllCapitulo/${curso.id}`,
-				// 	{
-				// 		method: "GET",
-				// 		credentials: "include",
-				// 		headers: {
-				// 			"Content-Type": "application/json",
-				// 			Accept: "application/json",
-				// 		},
-				// 	},
-				// );
-
-				var resultFromApi = await GetAllCapitulo(curso.id);
+				let resultFromApi = await GetAllCapitulo(curso.id);
 
 				const resultFetch = await resultFromApi.json();
 
@@ -191,7 +146,6 @@ export const Videos = ({
 					throw resultFetch;
 				}
 				if (resultFetch.isSuccess) {
-					//console.log(resultFetch);
 					setCapitulos(resultFetch.result);
 				} else {
 					setCapitulos([]);
@@ -202,12 +156,13 @@ export const Videos = ({
 				setCapitulos([]);
 				navigate("/error");
 			}
-		};
+		},[curso, navigate]);
+
+	useEffect(() => {
+		FetchProducto();
+		FetchCategoriaCurso();
 		GetCapitulo();
-		response.isSuccess
-			? toast.success(response.message)
-			: toast.error(response.message);
-	}, [curso, response, navigate]);
+	}, [FetchProducto,FetchCategoriaCurso, GetCapitulo]);
 
 	const handleEditCap = (cap) => {
 		setShowModalCapitulo(true);
@@ -232,16 +187,7 @@ export const Videos = ({
 	const handleCursoEdit = async () => {
 		setShowButtonLoading(true);
 		try {
-			const result = await fetch(
-				`${process.env.REACT_APP_API_URL}/Course/updateCourse/${curso.id}`,
-				{
-					method: "PUT",
-					credentials: "include",
-					headers: {
-						"Content-Type": "application/json",
-						Accept: "application/json",
-					},
-					body: JSON.stringify({
+			let result = await UpdateCourse({
 						id: curso.id,
 						codigo: refCodigo.current.value,
 						imagenUrl: refImageUrl.current.value,
@@ -259,11 +205,9 @@ export const Videos = ({
 						categoriaId: refCategoria.current.value,
 						bibliotecaUrl: refBiblioteca.current.value,
 						claseUrl: refClasesUrl.current.value,
-					}),
-				},
-			);
+					});
+
 			const resultFetch = await result.json();
-			console.log(result);
 
 			if (result.status !== 200 && result.status !== 400) {
 				throw resultFetch;
@@ -273,22 +217,23 @@ export const Videos = ({
 			//console.log(resultFetch);
 			setShowButtonLoading(false);
 			setShowModalSuccess(true);
+
+			GetCursos();
+
+			resultFetch.isSuccess ?
+			toast.success(resultFetch.message) :
+			toast.error(resultFetch.message)
+
 		} catch (error) {
 			setShowButtonLoading(false);
 			console.error(error);
-			setResponse({});
+			//setResponse({});
 			//console.log(resultFetch);
 			setShowButtonLoading(false);
 			setShowModalSuccess(true);
 			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
 		}
 	};
-
-	//console.log(producto);
-	// console.log(producto.id);
-	// console.log(typeof(producto.categoriaId));
-	// console.log(String(producto.categoriaId));
-	// console.log(typeof(String(producto.categoriaId)));
 
 	// const handleChange = ()  => {
 	//   console.log(refCategoria.current.value);
@@ -333,7 +278,7 @@ export const Videos = ({
 					setShowModalDelete={setShowModalDelete}
 					objeto={objeto}
 					setObjeto={setObjeto}
-					setResponse={setResponse}
+					//setResponse={setResponse}
 					tipo={tipo}
 					setTipo={setTipo}
 				/>
@@ -500,7 +445,7 @@ export const Videos = ({
 				{producto.id && (
 					<select
 						id="tipo"
-						className="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+						className="text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 						defaultValue={producto.categoriaId || 0}
 						ref={refCategoria}
 					>

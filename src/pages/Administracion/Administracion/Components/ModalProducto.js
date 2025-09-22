@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { GetCategoriaProductos } from "../../../../apiServices/GeneralServices";
@@ -11,7 +11,8 @@ export const ModalProducto = ({
 	showModal,
 	setShowModal,
 	producto,
-	setResponse,
+	//setResponse,
+	fetchProducto
 }) => {
 	const [showButtonLoading, setShowButtonLoading] = useState(false);
 	const [categoriaList, setCategoriaList] = useState([]);
@@ -24,10 +25,9 @@ export const ModalProducto = ({
 	const refPrecio = useRef();
 	const refCategoria = useRef();
 
-	useEffect(() => {
-		const FetchCategoriaProducto = async () => {
+	const FetchCategoriaProducto = useCallback(async () => {
 			try {
-				var result = await GetCategoriaProductos();
+				const result = await GetCategoriaProductos();
 
 				const resultFetch = await result.json();
 
@@ -44,18 +44,20 @@ export const ModalProducto = ({
 				console.error(error);
 				navigate("/error");
 			}
-		};
+		},[navigate]);
+	
+	useEffect(() => {
 		FetchCategoriaProducto();
-	}, [navigate]);
+	}, [FetchCategoriaProducto]);
 
 	const handleSubmitAdd = async (event) => {
 		event.preventDefault();
 		setShowButtonLoading(true);
 		try {
-			var result = await CreateProduct({
+			const result = await CreateProduct({
 				codigo: refCodigo.current.value,
 				titulo: refTitulo.current.value,
-				cantidad: parseInt(refCantidad.current.value),
+				cantidad: parseInt(refCantidad.current.value,10),
 				imagenUrl: refImageUrl.current.value,
 				detalle: refDescripcion.current.value,
 				precio: parseFloat(refPrecio.current.value),
@@ -65,15 +67,20 @@ export const ModalProducto = ({
 
 			const resultFetch = await result.json();
 
-			//console.log(resultFetch);
-			//console.log(result.status);
 			if (result.status !== 200 && result.status !== 400) {
 				throw resultFetch;
 			}
 
-			setResponse(resultFetch);
+			//setResponse(resultFetch);
 			setShowModal(false);
 			setShowButtonLoading(false);
+
+			fetchProducto();
+
+			resultFetch.isSuccess
+			? toast.success(resultFetch.message)
+			: toast.error(resultFetch.message);
+
 		} catch (error) {
 			setShowButtonLoading(false);
 			setShowModal(false);
@@ -87,7 +94,7 @@ export const ModalProducto = ({
 
 		setShowButtonLoading(true);
 		try {
-			var result = await UpdateProduct({
+			const result = await UpdateProduct({
 				id: producto.id,
 				imagenUrl: refImageUrl.current.value,
 				titulo: refTitulo.current.value,
@@ -95,7 +102,7 @@ export const ModalProducto = ({
 				precio: parseFloat(refPrecio.current.value),
 				codigo: refCodigo.current.value,
 				tipo: producto.tipo,
-				cantidad: parseInt(refCantidad.current.value),
+				cantidad: parseInt(refCantidad.current.value,10),
 				categoriaId: refCategoria.current.value,
 			});
 
@@ -104,10 +111,16 @@ export const ModalProducto = ({
 			if (result.status !== 200 && result.status !== 400) {
 				throw resultFetch;
 			}
-			//console.log(resultFetch);
-			setResponse(resultFetch);
+			//setResponse(resultFetch);
 			setShowModal(false);
 			setShowButtonLoading(false);
+
+			fetchProducto();
+
+			resultFetch.isSuccess
+			? toast.success(resultFetch.message)
+			: toast.error(resultFetch.message);
+
 		} catch (error) {
 			setShowModal(false);
 			setShowButtonLoading(false);
@@ -120,7 +133,7 @@ export const ModalProducto = ({
 		<div>
 			{/*<!-- Main modal -->*/}
 			<div
-				id="crud-modal"
+				//id="crud-modal"
 				tabIndex="-1"
 				className={`${showModal ? "" : "hidden"} overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] bg-gray-700/[0.6]`}
 			>
@@ -135,7 +148,7 @@ export const ModalProducto = ({
 							<button
 								onClick={() => {
 									setShowModal(false);
-									setResponse({});
+									//setResponse({});
 								}}
 								type="button"
 								className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -173,7 +186,7 @@ export const ModalProducto = ({
 									<input
 										type="text"
 										name="codigo"
-										id="codigo"
+										//id="codigo"
 										className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 										placeholder="Escribe el código"
 										required
@@ -191,7 +204,7 @@ export const ModalProducto = ({
 									<input
 										type="text"
 										name="titulo"
-										id="titulo"
+										//id="titulo"
 										className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 										placeholder="Escribe el titulo"
 										required
@@ -210,7 +223,7 @@ export const ModalProducto = ({
 									<input
 										type="text"
 										name="imageUrl"
-										id="imageUrl"
+										//id="imageUrl"
 										className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 										placeholder="Inserta la url de la imagen aqui"
 										required
@@ -227,9 +240,9 @@ export const ModalProducto = ({
 									</label>
 									<input
 										type="text"
-										pattern="[0-9]{1,}\.[0-9]{1,}"
+										pattern="^\d+(\.\d{0,2})?$"
 										name="price"
-										id="price"
+										//id="price"
 										className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 										placeholder="Escribe el precio aquí. Ejemplo: $100.50"
 										required
@@ -247,7 +260,7 @@ export const ModalProducto = ({
 									<input
 										type="number"
 										name="cantidad"
-										id="cantidad"
+										//id="cantidad"
 										className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 										placeholder="0"
 										required
@@ -266,7 +279,8 @@ export const ModalProducto = ({
 									</label>
 									{categoriaList.length > 0 && (
 										<select
-											id="tipo"
+											//id="tipo"
+											name="tipo"
 											className="text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 											defaultValue={producto.id ? producto.categoriaId : 0}
 											ref={refCategoria}
@@ -275,8 +289,8 @@ export const ModalProducto = ({
 												---Seleccione el tipo de Categoría---
 											</option>
 											{categoriaList.length > 0 &&
-												categoriaList.map((categoria, index) => (
-													<option key={index} value={categoria.id}>
+												categoriaList.map((categoria) => (
+													<option key={categoria.id} value={categoria.id}>
 														{categoria.name}
 													</option>
 												))}
@@ -291,7 +305,7 @@ export const ModalProducto = ({
 										Descripción
 									</label>
 									<textarea
-										id="descripcion"
+										//id="descripcion"
 										name="descripcion"
 										rows="4"
 										className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -304,12 +318,13 @@ export const ModalProducto = ({
 							</div>
 							{showButtonLoading ? (
 								<button
+									type="button"
 									disabled
 									className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
 								>
 									<svg
 										aria-hidden="true"
-										role="status"
+										//role="status"
 										className="inline w-4 h-4 me-3 text-white animate-spin"
 										viewBox="0 0 100 101"
 										fill="none"

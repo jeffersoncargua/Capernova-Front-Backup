@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { Registration } from "../../../../apiServices/ManagmentServices/ManagmentTalentServices";
 
@@ -6,10 +6,11 @@ export const ModalTalento = ({
 	showModalTalento,
 	setShowModalTalento,
 	talento,
-	setTalento,
-	talentoList,
-	setTalentoList,
-	setResponse,
+	//setTalento,
+	//talentoList,
+	//setTalentoList,
+	//setResponse,
+	fetchTalento
 }) => {
 	const refName = useRef();
 	const refLastName = useRef();
@@ -21,11 +22,11 @@ export const ModalTalento = ({
 
 	const [showButtonLoading, setShowButtonLoading] = useState(false);
 
-	const handleSubmitAdd = async (event) => {
+	const handleSubmitAdd = useCallback(async (event) => {
 		event.preventDefault();
 		setShowButtonLoading(true);
 		try {
-			var resultFromApi = await Registration({
+			const resultFromApi = await Registration({
 				name: refName.current.value,
 				lastName: refLastName.current.value,
 				email: refEmail.current.value,
@@ -44,23 +45,26 @@ export const ModalTalento = ({
 
 			setShowButtonLoading(false);
 			setShowModalTalento(false);
-			setResponse(resultFetch);
-		} catch (error) {
+			//setResponse(resultFetch);
+
+			fetchTalento();
+
+			resultFetch.isSuccess ?
+			toast.success(resultFetch.message) :
+			toast.error(resultFetch.message);
+
+		} catch (_error) {
 			setShowButtonLoading(false);
 			setShowModalTalento(false);
 			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
 		}
-	};
-
-	const handleSubmitEdit = (event) => {
-		event.preventDefault();
-	};
+	},[setShowModalTalento]);
 
 	return (
 		<div>
 			{/*<!-- Main modal -->*/}
 			<div
-				id="crud-modal"
+				//id="crud-modal"
 				tabIndex="-1"
 				className={`${showModalTalento ? "" : "hidden"} overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] bg-gray-700/[0.6]`}
 			>
@@ -114,7 +118,7 @@ export const ModalTalento = ({
 									<input
 										type="text"
 										name="name"
-										id="name"
+										//id="name"
 										className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 										placeholder="Escribe del nombre usuario aquí"
 										required
@@ -132,7 +136,7 @@ export const ModalTalento = ({
 									<input
 										type="text"
 										name="lastName"
-										id="lastName"
+										//id="lastName"
 										className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 										placeholder="Escribe del apellido usuario aquí"
 										required
@@ -151,7 +155,7 @@ export const ModalTalento = ({
 										type="email"
 										pattern="[a-zA-Z0-9!#$%&'*\/=?^_`\{\|\}~\+\-]([\.]?[a-zA-Z0-9!#$%&'*\/=?^_`\{\|\}~\+\-])+@[a-zA-Z0-9]([^@&%$\/\(\)=?¿!\.,:;]|\d)+[a-zA-Z0-9][\.][a-zA-Z]{2,4}([\.][a-zA-Z]{2})?"
 										name="email"
-										id="email"
+										//id="email"
 										className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 										placeholder="Escribe el correo del usuario aquí"
 										required
@@ -169,7 +173,7 @@ export const ModalTalento = ({
 									<input
 										type="text"
 										name="password"
-										id="password"
+										//id="password"
 										className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 										placeholder="Escribe la contraseña del usuario aquí"
 										required
@@ -188,7 +192,7 @@ export const ModalTalento = ({
 										type="tel"
 										pattern="[0-9]{10}"
 										name="phone"
-										id="phone"
+										//id="phone"
 										className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 										placeholder="Escribe el número de teléfono aquí"
 										required
@@ -206,7 +210,7 @@ export const ModalTalento = ({
 									<input
 										type="text"
 										name="city"
-										id="city"
+										//id="city"
 										className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 										placeholder="Escribe la ciudad donde reside aquí"
 										required
@@ -222,7 +226,8 @@ export const ModalTalento = ({
 										Rol de Usuario:
 									</label>
 									<select
-										id="role"
+										//id="role"
+										name="role"
 										className="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 										ref={refRole}
 										defaultValue={talento.role || ""}
@@ -239,12 +244,13 @@ export const ModalTalento = ({
 							</div>
 							{showButtonLoading ? (
 								<button
+									type="button"
 									disabled
 									className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
 								>
 									<svg
 										aria-hidden="true"
-										role="status"
+										//role="status"
 										className="inline w-4 h-4 me-3 text-white animate-spin"
 										viewBox="0 0 100 101"
 										fill="none"

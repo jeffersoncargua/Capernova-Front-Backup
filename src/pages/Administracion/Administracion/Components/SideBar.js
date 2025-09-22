@@ -9,7 +9,7 @@ export const SideBar = ({
 	setShowTalento,
 	setShowProfesor,
 	setShowProductos,
-	setResponse,
+	//setResponse,
 	setShowAreaCategoria,
 	setShowInscripcion,
 }) => {
@@ -42,10 +42,10 @@ export const SideBar = ({
 			</button>
 
 			<div
-				id="sidebar-multi-level-sidebar"
+				//id="sidebar-multi-level-sidebar"
 				className={`absolute top-0 left-0 z-40 w-[95%] min-[350px]:w-56 p-4 flex overflow-y-auto  transition-transform ${showBar ? "-translate-x-full" : ""} sm:translate-x-0 bg-slate-800 dark:bg-gray-800 border border-b-2 rounded-lg border-slate-400 mt-4`}
 				tabIndex="-1"
-				aria-label="Sidebar"
+				//aria-label="Sidebar"
 			>
 				<button
 					onClick={() => setShowBar(!showBar)}
@@ -72,7 +72,7 @@ export const SideBar = ({
 
 				<div className="overflow-y-auto ">
 					<h5
-						id="drawer-navigation-label"
+						//id="drawer-navigation-label"
 						className="text-base font-semibold text-gray-300 uppercase dark:text-white"
 					>
 						Menu
@@ -80,6 +80,7 @@ export const SideBar = ({
 					<ul className="space-y-2 text-sm font-small">
 						<li>
 							<button
+								type="button"
 								onClick={() => {
 									setShowPublicidad(true);
 									setShowCursos(false);
@@ -91,7 +92,7 @@ export const SideBar = ({
 									setShowProductos(false);
 									setShowAreaCategoria(false);
 									setShowInscripcion(false);
-									setResponse({});
+									//setResponse({});
 								}}
 								className="w-full flex items-center text-gray-300 p-2 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group"
 							>
@@ -108,6 +109,7 @@ export const SideBar = ({
 						</li>
 						<li>
 							<button
+								type="button"
 								onClick={() => {
 									setShowPublicidad(false);
 									setShowCursos(false);
@@ -119,7 +121,7 @@ export const SideBar = ({
 									setShowProductos(false);
 									setShowAreaCategoria(true);
 									setShowInscripcion(false);
-									setResponse({});
+									//setResponse({});
 								}}
 								className="w-full flex items-center text-gray-300 p-2 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group"
 							>
@@ -148,6 +150,7 @@ export const SideBar = ({
 						</li>
 						<li>
 							<button
+								type="button"
 								onClick={() => {
 									setShowPublicidad(false);
 									setShowCursos(true);
@@ -159,7 +162,7 @@ export const SideBar = ({
 									setShowProductos(false);
 									setShowAreaCategoria(false);
 									setShowInscripcion(false);
-									setResponse({});
+									//setResponse({});
 								}}
 								className="w-full flex items-center text-gray-300 p-2 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group"
 							>
@@ -181,6 +184,7 @@ export const SideBar = ({
 						</li>
 						<li>
 							<button
+								type="button"
 								onClick={() => {
 									setShowPublicidad(false);
 									setShowCursos(false);
@@ -192,7 +196,7 @@ export const SideBar = ({
 									setShowProductos(true);
 									setShowAreaCategoria(false);
 									setShowInscripcion(false);
-									setResponse({});
+									//setResponse({});
 								}}
 								className="w-full flex items-center text-gray-300 p-2 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group"
 							>
@@ -211,6 +215,7 @@ export const SideBar = ({
 						</li>
 						<li>
 							<button
+								type="button"
 								onClick={() => {
 									setShowPublicidad(false);
 									setShowCursos(false);
@@ -222,7 +227,7 @@ export const SideBar = ({
 									setShowProductos(false);
 									setShowAreaCategoria(false);
 									setShowInscripcion(false);
-									setResponse({});
+									//setResponse({});
 								}}
 								className="w-full flex items-center text-gray-300 p-2 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group"
 							>
@@ -245,6 +250,7 @@ export const SideBar = ({
 						</li>
 						<li>
 							<button
+								type="button"
 								onClick={() => {
 									setShowPublicidad(false);
 									setShowCursos(false);
@@ -256,7 +262,7 @@ export const SideBar = ({
 									setShowProductos(false);
 									setShowAreaCategoria(false);
 									setShowInscripcion(false);
-									setResponse({});
+									//setResponse({});
 								}}
 								className="w-full flex items-center text-gray-300 p-2 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group"
 							>
@@ -276,6 +282,7 @@ export const SideBar = ({
 						</li>
 						<li>
 							<button
+								type="button"
 								onClick={() => {
 									setShowPublicidad(false);
 									setShowCursos(false);
@@ -287,7 +294,7 @@ export const SideBar = ({
 									setShowProductos(false);
 									setShowAreaCategoria(false);
 									setShowInscripcion(false);
-									setResponse({});
+									//setResponse({});
 								}}
 								className="w-full flex items-center text-gray-300 p-2 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group"
 							>
@@ -304,6 +311,7 @@ export const SideBar = ({
 						</li>
 						<li>
 							<button
+								type="button"
 								onClick={() => {
 									setShowPublicidad(false);
 									setShowCursos(false);
@@ -315,7 +323,7 @@ export const SideBar = ({
 									setShowProductos(false);
 									setShowAreaCategoria(false);
 									setShowInscripcion(true);
-									setResponse({});
+									//setResponse({});
 								}}
 								className="w-full flex items-center text-gray-300 p-2 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group"
 							>

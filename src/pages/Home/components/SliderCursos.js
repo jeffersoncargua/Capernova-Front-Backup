@@ -13,7 +13,7 @@ import "swiper/css/pagination";
 // Import AOS para el fade
 import AOS from "aos";
 import "aos/dist/aos.css"; // You can also use <link> for styles
-import { GetCategoriaCursos } from "../../../apiServices/GeneralServices";
+import { GetAllProducts } from "../../../apiServices/GeneralServices";
 // ..
 
 export const SliderCursos = () => {
@@ -36,7 +36,7 @@ export const SliderCursos = () => {
 	useEffect(() => {
 		const fetchCourses = async () => {
 			try {
-				const result = await GetCategoriaCursos();
+				const result = await GetAllProducts("curso");
 
 				const resultFetch = await result.json();
 
@@ -109,7 +109,7 @@ export const SliderCursos = () => {
 						style={{ transform: `translateX(-${current * 25}%)` }}
 					>
 						{slices.map((itemProd) => (
-							<div className="shrink-0 w-1/4 hover:scale-110 mb-10" key={itemProd.titulo}>
+							<div className="shrink-0 w-1/4 hover:scale-110 mb-10" key={Math.random()}>
 								<ProductCard itemProd={itemProd} />
 							</div>
 						))}
@@ -121,7 +121,7 @@ export const SliderCursos = () => {
 						style={{ transform: `translateX(-${(current / 3) * 100}%)` }}
 					>
 						{slices.map((itemProd) => (
-							<div className="shrink-0 w-1/3 hover:scale-110 mb-10" key={itemProd.titulo}>
+							<div className="shrink-0 w-1/3 hover:scale-110 mb-10" key={Math.random()}>
 								<ProductCard itemProd={itemProd} />
 							</div>
 						))}
@@ -135,7 +135,7 @@ export const SliderCursos = () => {
 						{slices.map((itemProd) => (
 							<div
 								className="shrink-0  w-1/3  hover:scale-110 mb-10"
-								key={itemProd.titulo}
+								key={Math.random()}
 							>
 								<ProductCard itemProd={itemProd} />
 							</div>
@@ -150,7 +150,7 @@ export const SliderCursos = () => {
 						{slices.map((itemProd) => (
 							<div
 								className="shrink-0 w-1/2  hover:scale-110 mb-10"
-								key={itemProd.titulo}
+								key={Math.random()}
 							>
 								<ProductCard itemProd={itemProd} />
 							</div>
@@ -163,7 +163,7 @@ export const SliderCursos = () => {
 						style={{ transform: `translateX(-${current * 50}%)` }}
 					>
 						{slices.map((itemProd) => (
-							<div className="shrink-0 w-1/2 hover:scale-110 mb-10" key={itemProd.titulo}>
+							<div className="shrink-0 w-1/2 hover:scale-110 mb-10" key={Math.random()}>
 								<ProductCard itemProd={itemProd} />
 							</div>
 						))}
@@ -173,7 +173,7 @@ export const SliderCursos = () => {
 					<div className="max-sm:flex hidden mx-auto">
 						<Swiper pagination={true} modules={[Pagination]}>
 							{slices.map((itemProd) => (
-								<SwiperSlide key={itemProd.titulo}>
+								<SwiperSlide key={Math.random()}>
 									<div
 										className="shrink-0 w-full hover:scale-100 mb-10"
 										key={Math.random()}

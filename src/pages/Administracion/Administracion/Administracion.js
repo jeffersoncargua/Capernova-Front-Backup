@@ -14,7 +14,7 @@ import {
 	Inscripcion,
 } from "./Components";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+//import { toast } from "react-toastify";
 import { GetAllCourse } from "../../../apiServices/ManagmentServices/ManagmentCourseServices";
 
 export const Administracion = () => {
@@ -36,13 +36,14 @@ export const Administracion = () => {
 	const [showAreaCategoria, setShowAreaCategoria] = useState(false);
 	const [showInscripcion, setShowInscripcion] = useState(false);
 
-	const [response, setResponse] = useState({}); //Permite mostrar si la accion se realizo correctamente al llamar al api
+	//const [response, setResponse] = useState({}); //Permite mostrar si la accion se realizo correctamente al llamar al api
 	const navigate = useNavigate();
 
-	const GetCurso = useCallback(async () => {
+	const GetCursos = useCallback(async () => {
 		try {
-			var resultFromApi = await GetAllCourse(search);
-			var resultFetch = await resultFromApi.json();
+			const resultFromApi = await GetAllCourse(search);
+
+			const resultFetch = await resultFromApi.json();
 
 			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
 				throw resultFetch;
@@ -60,19 +61,8 @@ export const Administracion = () => {
 	}, [search, navigate]);
 
 	useEffect(() => {
-		GetCurso();
-
-		response.isSuccess
-			? toast.success(response.message)
-			: toast.error(response.message);
-	}, [
-		GetCurso,
-		showModalCourse,
-		showModalDelete,
-		showTalento,
-		showVideos,
-		response,
-	]);
+		GetCursos();
+	}, [GetCursos]);
 
 	return (
 		<div className="w-[95%] mx-auto">
@@ -85,7 +75,7 @@ export const Administracion = () => {
 				setShowTalento={setShowTalento}
 				setShowProfesor={setShowProfesor}
 				setShowProductos={setShowProductos}
-				setResponse={setResponse}
+				//setResponse={setResponse}
 				setShowAreaCategoria={setShowAreaCategoria}
 				setShowInscripcion={setShowInscripcion}
 			/>
@@ -93,7 +83,8 @@ export const Administracion = () => {
 			<div className="sm:ml-56">
 				{showPublicidad && <Publicidad />}
 				{showAreaCategoria && (
-					<AreasCategorias response={response} setResponse={setResponse} />
+					// <AreasCategorias response={response} setResponse={setResponse} />
+					<AreasCategorias />
 				)}
 				{/* {showCursos && <Cursos setShowCursos={setShowCursos} setShowVideos={setShowVideos} showModalCourse={showModalCourse} setShowModalCourse={setShowModalCourse} showModalDeleteCurso={showModalDeleteCurso} setShowModalDeleteCurso={setShowModalDeleteCurso} cursoList={cursoList} curso={curso} setCurso={setCurso} setSearch={setSearch} response={response} setResponse={setResponse} />} */}
 				{showCursos && (
@@ -108,8 +99,9 @@ export const Administracion = () => {
 						curso={curso}
 						setCurso={setCurso}
 						setSearch={setSearch}
-						response={response}
-						setResponse={setResponse}
+						//response={response}
+						//setResponse={setResponse}
+						GetCursos={GetCursos}
 					/>
 				)}
 				{showVideos && (
@@ -118,6 +110,7 @@ export const Administracion = () => {
 						setShowVideos={setShowVideos}
 						curso={curso}
 						setCurso={setCurso}
+						GetCursos={GetCursos}
 					/>
 				)}
 				{showTalento && (
@@ -125,8 +118,8 @@ export const Administracion = () => {
 						setShowTalento={setShowTalento}
 						setShowProfesor={setShowProfesor}
 						setProfesor={setProfesor}
-						response={response}
-						setResponse={setResponse}
+						//response={response}
+						//setResponse={setResponse}
 					/>
 				)}
 				{showProfesor && (
@@ -135,10 +128,11 @@ export const Administracion = () => {
 						setProfesor={setProfesor}
 						cursoList={cursoList}
 						setSearch={setSearch}
-						response={response}
-						setResponse={setResponse}
+						// response={response}
+						// setResponse={setResponse}
+						GetCursos={GetCursos}
 					/>
-				)}{" "}
+				)}
 				{/* Permite asignar el/los curso/s a un profesor */}
 				{showProductos && <Productos />}
 				{showVentas && <Ventas />}

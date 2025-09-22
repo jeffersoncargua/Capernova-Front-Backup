@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { CreateMatricula } from "../../../../apiServices/ManagmentServices/ManagmentStudentServices";
 import { GetAllCourse } from "../../../../apiServices/ManagmentServices/ManagmentCourseServices";
@@ -6,46 +6,48 @@ import { GetAllCourse } from "../../../../apiServices/ManagmentServices/Managmen
 export const ModalInscripcion = ({
 	showModalInscripcion,
 	setShowModalInscripcion,
-	setResponse,
+	//setResponse,
 	user,
 }) => {
 	const [cursoList, setCursoList] = useState([]);
 	const [showButtonLoading, setShowButtonLoading] = useState(false);
 	const refCursoId = useRef();
 
-	useEffect(() => {
+	const fetchCursos = useCallback(async () => {
 		try {
-			const fetchCursos = async () => {
-				var resultFromApi = await GetAllCourse();
+			const resultFromApi = await GetAllCourse();
 
-				const resultFetch = await resultFromApi.json();
+			const resultFetch = await resultFromApi.json();
 
-				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
-					throw resultFetch;
-				}
+			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+				throw resultFetch;
+			}
 
-				if (resultFetch.isSuccess) {
-					setCursoList(resultFetch.result);
-				} else {
-					setCursoList([]);
-				}
-			};
+			if (resultFetch.isSuccess) {
+				setCursoList(resultFetch.result);
+			} else {
+				setCursoList([]);
+			}
 
-			fetchCursos();
-		} catch (error) {
+		} catch (_error) {
 			toast.error(
 				"Error. Algo ocurrio en nuestro servidor. Intentélo más tarde!!",
 			);
 			setShowModalInscripcion(false);
-			setResponse({});
+			//setResponse({});
 		}
-	}, [setResponse, setShowModalInscripcion]);
+	},[setShowModalInscripcion]);
+
+
+	useEffect(() => {
+		fetchCursos();
+	}, [fetchCursos]);
 
 	const handleAddMatricula = async (e) => {
 		e.preventDefault();
 		setShowButtonLoading(true);
 		try {
-			var resultFromApi = await CreateMatricula({
+			const resultFromApi = await CreateMatricula({
 				cursoId: refCursoId.current.value,
 				estudianteId: user.id,
 			});
@@ -58,18 +60,23 @@ export const ModalInscripcion = ({
 
 			setShowButtonLoading(false);
 			setShowModalInscripcion(false);
-		} catch (error) {
+
+			resultFetch.isSuccess ?
+			toast.success(resultFetch.message) :
+			toast.error(resultFetch.message)
+
+		} catch (_error) {
 			toast.error("No se pudo realizar la matrícula del estudiante!!");
 			setShowButtonLoading(false);
 			setShowModalInscripcion(false);
-			setResponse({});
+			//setResponse({});
 		}
 	};
 
 	return (
 		<div>
 			<div
-				id="crud-modal"
+				//id="crud-modal"
 				tabIndex="-1"
 				className={`${showModalInscripcion ? "" : "hidden"} overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] bg-gray-700/[0.6]`}
 			>
@@ -84,7 +91,7 @@ export const ModalInscripcion = ({
 							<button
 								onClick={() => {
 									setShowModalInscripcion(false);
-									setResponse({});
+									//setResponse({});
 								}}
 								type="button"
 								className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -118,14 +125,15 @@ export const ModalInscripcion = ({
 									</label>
 									{cursoList.length > 0 && (
 										<select
-											id="curso"
+											//id="curso"
+											name="curso"
 											className="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-600 focus:border-primary-600  dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 text-center"
 											ref={refCursoId}
 										>
 											<option value={0}>---Seleccione el curso---</option>
 											{cursoList.length > 0 &&
-												cursoList.map((curso, index) => (
-													<option key={index} value={curso.id}>
+												cursoList.map((curso) => (
+													<option key={curso.id} value={curso.id}>
 														{curso.titulo}
 													</option>
 												))}
@@ -136,12 +144,13 @@ export const ModalInscripcion = ({
 								<div className="self-end mt-4">
 									{showButtonLoading ? (
 										<button
+											type="button"
 											disabled
 											className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
 										>
 											<svg
 												aria-hidden="true"
-												role="status"
+												//role="status"
 												className="inline w-4 h-4 me-3 text-white animate-spin"
 												viewBox="0 0 100 101"
 												fill="none"

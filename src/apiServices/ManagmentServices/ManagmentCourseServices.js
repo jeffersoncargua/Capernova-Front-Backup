@@ -1,6 +1,6 @@
 import { useFetch } from "../../hooks/useFetch";
 
-const GetAllCourse = async (search) => {
+const GetAllCourse = async (search = '') => {
 	const verbose = "GET";
 	const route = "/Course/getAllCourse";
 	const query = `?search=${search}`;
@@ -28,6 +28,22 @@ const CreateCourse = async (curso) => {
 	return response;
 };
 
+const UpdateCourse = async (curso) => {
+	const verbose = "PUT";
+	const route = "/Course/updateCourse";
+	const query = `/${curso.id}`;
+	const object = curso;
+
+	var response = await useFetch({
+		verbose: verbose,
+		route: route,
+		query: query,
+		object: object,
+	});
+
+	return response;
+};
+
 const AssigmentTeacherCourse = async (cursoId, teacherId) => {
 	const verbose = "PUT";
 	const route = "/Managment/assigmentCourse";
@@ -46,7 +62,7 @@ const AssigmentTeacherCourse = async (cursoId, teacherId) => {
 
 const DeleteAssigmentTeacherCourse = async (cursoId, teacherId) => {
 	const verbose = "PUT";
-	const route = "Managment/deleteAssigmentCourse";
+	const route = "/Managment/deleteAssigmentCourse";
 	const query = `/${cursoId}`;
 	const object = teacherId;
 
@@ -182,6 +198,7 @@ export {
 	AssigmentTeacherCourse,
 	DeleteAssigmentTeacherCourse,
 	CreateCapitulo,
+	UpdateCourse,
 	UpdateCapitulo,
 	CreateVideo,
 	UpdateVideo,

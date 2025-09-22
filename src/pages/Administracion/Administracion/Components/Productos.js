@@ -1,11 +1,12 @@
-import { useState, useRef, useEffect } from "react";
-import { toast } from "react-toastify";
+import { useState, useRef, useEffect, useCallback } from "react";
+//import { toast } from "react-toastify";
 import { ModalDelete } from "../../Components";
 import { ModalProducto } from "../Components";
 import { useNavigate } from "react-router-dom";
 import { GetAllProducts } from "../../../../apiServices/ManagmentServices/ManagmentProductServices";
 
-export const Productos = ({ setShowProductos }) => {
+// export const Productos = ({ setShowProductos }) => {
+export const Productos = () => {
 	const pageSize = 5;
 	const [productList, setProductList] = useState([]);
 	const [producto, setProducto] = useState({});
@@ -28,15 +29,15 @@ export const Productos = ({ setShowProductos }) => {
 	];
 	const [tipo, setTipo] = useState(""); //es para almacenar el tipo de objeto a eliminar que puede ser curso, capitulo, video, deber, etc
 	const [objeto, setObjeto] = useState({}); //es para almacenar el objeto a eliminar mediante el componente ModalDelete
-	const [response, setResponse] = useState({});
+	//const [response, setResponse] = useState({});
 
 	const refSearch = useRef();
 	const navigate = useNavigate();
 
-	useEffect(() => {
-		const fetchProducto = async () => {
+
+	const fetchProducto = useCallback(async () => {
 			try {
-				var resultFromApi = await GetAllProducts(search);
+				const resultFromApi = await GetAllProducts(search);
 
 				const resultFetch = await resultFromApi.json();
 
@@ -62,20 +63,11 @@ export const Productos = ({ setShowProductos }) => {
 				console.error(error);
 				navigate("/error");
 			}
-		};
+		},[search,navigate,numberOfPages, currentPage]);
+
+	useEffect(() => {
 		fetchProducto();
-		response.isSuccess
-			? toast.success(response.message)
-			: toast.error(response.message);
-	}, [
-		currentPage,
-		numberOfPages,
-		showModal,
-		showModalDelete,
-		search,
-		response,
-		navigate,
-	]);
+	}, [fetchProducto]);
 
 	const handleSearch = () => {
 		if (refSearch.current.value.length > 0) {
@@ -84,32 +76,32 @@ export const Productos = ({ setShowProductos }) => {
 		} else {
 			setSearch("");
 		}
-		setResponse({});
+		//setResponse({});
 	};
 
 	const handleEdit = (producto) => {
 		setProducto(producto);
 		setShowModal(!showModal);
-		setResponse({});
+		//setResponse({});
 	};
 
 	const handleDelete = (producto) => {
 		setObjeto(producto);
 		setTipo("producto");
 		setShowModalDelete(!showModalDelete);
-		setResponse({});
+		//setResponse({});
 	};
 
 	const handlePagination = (action) => {
 		if (action === "prev") {
 			if (!previousAllowed) return;
-			setCurrentPage((prevState) => (prevState -= 1));
+			setCurrentPage((prevState) => (prevState - 1));
 		}
 		if (action === "next") {
 			if (!nextAllowed) return;
-			setCurrentPage((prevState) => (prevState += 1));
+			setCurrentPage((prevState) => (prevState + 1));
 		}
-		setResponse({});
+		//setResponse({});
 	};
 
 	return (
@@ -124,7 +116,9 @@ export const Productos = ({ setShowProductos }) => {
 					showModal={showModal}
 					setShowModal={setShowModal}
 					producto={producto}
-					setResponse={setResponse}
+					//setResponse={setResponse}
+					fetchProducto={fetchProducto}
+					
 				/>
 			)}
 			{/* {showModalDelete && <ModalDelete showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete} publicidad={publicidad} setResponse={setResponse}  />} */}
@@ -134,9 +128,10 @@ export const Productos = ({ setShowProductos }) => {
 					setShowModalDelete={setShowModalDelete}
 					objeto={objeto}
 					setObjeto={setObjeto}
-					setResponse={setResponse}
+					//setResponse={setResponse}
 					tipo={tipo}
 					setTipo={setTipo}
+					getFunction={fetchProducto}
 				/>
 			)}
 
@@ -170,7 +165,8 @@ export const Productos = ({ setShowProductos }) => {
 										<input
 											onChange={handleSearch}
 											type="text"
-											id="simple-search"
+											//id="simple-search"
+											name="simple-search"
 											className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 											placeholder="Busca por el titulo del producto"
 											required=""
@@ -184,7 +180,7 @@ export const Productos = ({ setShowProductos }) => {
 									onClick={() => {
 										setShowModal(!showModal);
 										setProducto({});
-										setResponse({});
+										//setResponse({});
 									}}
 									type="button"
 									className="flex items-center justify-center text-gray-900 hover:text-white bg-green-500 hover:bg-green-700 focus:ring-4 focus:ring-primary-300 rounded-lg text-sm px-4 py-2 focus:outline-none dark:focus:ring-primary-800"
@@ -239,6 +235,7 @@ export const Productos = ({ setShowProductos }) => {
 												<td className="px-4 py-3">
 													<div className="py-1 flex justify-start">
 														<button
+															type="button"
 															onClick={() => handleEdit(item)}
 															className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-yellow-300 hover:bg-yellow-400 rounded-lg mr-2"
 														>
@@ -257,6 +254,7 @@ export const Productos = ({ setShowProductos }) => {
 															Editar
 														</button>
 														<button
+															type="button"
 															onClick={() => handleDelete(item)}
 															className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-red-500 hover:bg-red-600 rounded-lg"
 														>
@@ -302,6 +300,7 @@ export const Productos = ({ setShowProductos }) => {
 				</div>
 				<div className="flex justify-between">
 					<button
+						type="button"
 						onClick={() => handlePagination("prev")}
 						className="flex items-center justify-center bg-gray-400 hover:bg-gray-500 px-4 py-2 mr-2 rounded-lg hover:cursor-pointer"
 					>
@@ -319,6 +318,7 @@ export const Productos = ({ setShowProductos }) => {
 						Anterior
 					</button>
 					<button
+						type="button"
 						onClick={() => handlePagination("next")}
 						className="flex items-center justify-center bg-gray-400 hover:bg-gray-500 px-4 py-2 rounded-lg hover:cursor-pointer"
 					>

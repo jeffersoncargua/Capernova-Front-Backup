@@ -1,11 +1,11 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { toast } from "react-toastify";
 import { VentaDetails, Loading } from "../Components";
 //import datepicker para escoger la fecha de busqueda de registros de las ventas
 import Datepicker from "react-tailwindcss-datepicker";
 
 import { DownloadTableExcel } from "react-export-table-to-excel";
-import { GetAllVentas } from "../../../../apiServices/ManagmentServices/ManagmentVentas";
+import { GetAllVentas, UpdateRefundVenta } from "../../../../apiServices/ManagmentServices/ManagmentVentas";
 
 export const Ventas = () => {
 	const [ventaList, setVentaList] = useState([]);
@@ -42,16 +42,15 @@ export const Ventas = () => {
 		"Estado",
 	];
 
-	const [response, setResponse] = useState({});
+	//const [response, setResponse] = useState({});
 	const refSearch = useRef();
 	const [loading, setLoading] = useState(false);
 
 	const tableRef = useRef(null);
 
-	useEffect(() => {
-		const fetchVentas = async () => {
+	const fetchVentas = useCallback(async () => {
 			try {
-				var resultFromApi = await GetAllVentas(
+				const resultFromApi = await GetAllVentas(
 					search,
 					value.startDate,
 					value.endDate,
@@ -73,20 +72,20 @@ export const Ventas = () => {
 					});
 					setTotal(subTotal);
 				}
+
 			} catch (error) {
 				console.error(error);
 				toast.error("Ha ocurrido un error en el servidor");
 			}
-		};
-		fetchVentas();
-		response.isSuccess
-			? toast.success(response.message)
-			: toast.error(response.message);
-	}, [showModalVentaDetail, search, response, value]);
+		},[search,value]);
 
-	const handleSearch = (event) => {
+	useEffect(() => {
+		fetchVentas();
+	}, [fetchVentas]);
+
+	const handleSearch = (_event) => {
 		setSearch(refSearch.current.value);
-		setResponse({});
+		//setResponse({});
 	};
 
 	const handleDetail = (venta) => {
@@ -95,21 +94,13 @@ export const Ventas = () => {
 	};
 
 	//Esta funcion permite realizar el cambiar el estado de reembolso para eliminar el shoppingCart, la matricula de ser necesario y el pedido
-	const handleRefund = async (venta) => {
+	const handleRefund = useCallback(async (venta) => {
 		setLoading(true);
 		try {
 			setLoading(true);
-			const resultFromApi = await fetch(
-				`${process.env.REACT_APP_API_URL}/Venta/updateVenta/${venta.id}`,
-				{
-					method: "PUT",
-					credentials: "include",
-					headers: {
-						"Content-Type": "application/json",
-						Accept: "application/json",
-					},
-				},
-			);
+
+			const resultFromApi = await UpdateRefundVenta(venta.id);
+
 			const resultFetch = await resultFromApi.json();
 
 			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
@@ -120,18 +111,20 @@ export const Ventas = () => {
 				? toast.success(resultFetch.message)
 				: toast.error(resultFetch.message);
 			setLoading(false);
+
 		} catch (error) {
 			console.error(error);
 			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
 			setLoading(false);
 		}
-		setResponse({});
-	};
+		fetchVentas();
+		//setResponse({});
+	},[fetchVentas]);
 
-	const GetFecha = (fecha) => {
+	const GetFecha = useCallback((fecha) => {
 		const date = new Date(fecha);
 		return date.toLocaleDateString();
-	};
+	},[]);
 
 	return (
 		<div>
@@ -160,7 +153,7 @@ export const Ventas = () => {
 							sheet="reporte"
 							currentTableRef={tableRef.current}
 						>
-							<button className="bg-green-700 hover:bg-green-600 flex items-center rounded-lg px-3 py-2 ">
+							<button type="button" className="bg-green-700 hover:bg-green-600 flex items-center rounded-lg px-3 py-2 ">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									fill="currentColor"
@@ -207,7 +200,8 @@ export const Ventas = () => {
 									<input
 										onChange={handleSearch}
 										type="text"
-										id="simple-search"
+										//id="simple-search"
+										name="simple-search"
 										className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 										placeholder="Buscar por Transacción ID, ID, Correo o Apellido del Cliente"
 										required=""
@@ -256,6 +250,7 @@ export const Ventas = () => {
 												<td className="px-4 py-3">
 													<div className="py-1 flex justify-start">
 														<button
+															type="button"
 															onClick={() => handleDetail(item)}
 															className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-yellow-300 hover:bg-yellow-400 rounded-lg mr-2"
 														>
@@ -274,6 +269,7 @@ export const Ventas = () => {
 															Ver Detalle
 														</button>
 														<button
+															type="button"
 															onClick={() => handleRefund(item)}
 															disabled={item.estado === "Reembolsado"}
 															className={` ${item.estado === "Pagado" ? "cursor-pointer" : "cursor-not-allowed"} flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-red-500 hover:bg-red-600 rounded-lg`}
@@ -325,7 +321,7 @@ export const Ventas = () => {
 							</table>
 							{/*La tabla que se va a imprimir */}
 							<table
-								id="imprimir"
+								//id="imprimir"
 								ref={tableRef}
 								className="w-full text-sm text-left dark:text-white hidden"
 							>

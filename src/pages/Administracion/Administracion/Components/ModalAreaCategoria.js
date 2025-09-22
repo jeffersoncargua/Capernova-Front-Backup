@@ -10,7 +10,8 @@ export const ModalAreaCategoria = ({
 	setShowModalAreaCategoria,
 	categoria,
 	setCategoria,
-	setResponse,
+	FetchCategory
+	//setResponse,
 }) => {
 	const refName = useRef();
 	const refTipo = useRef();
@@ -20,7 +21,7 @@ export const ModalAreaCategoria = ({
 		setShowButtonLoading(true);
 		event.preventDefault();
 		try {
-			var resultFromApi = await CreateCategory({
+			const resultFromApi = await CreateCategory({
 				name: refName.current.value,
 				tipo: refTipo.current.value,
 			});
@@ -30,10 +31,19 @@ export const ModalAreaCategoria = ({
 			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
 				throw resultFetch;
 			}
-			setResponse(resultFetch);
+			//setResponse(resultFetch);
 			setCategoria({});
 			setShowModalAreaCategoria(false);
 			setShowButtonLoading(false);
+
+			FetchCategory();
+
+			resultFetch.isSuccess ?
+			toast.success(resultFetch.message) :
+			toast.error(resultFetch.message)
+			
+			
+
 		} catch (error) {
 			console.error(error);
 			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
@@ -45,7 +55,7 @@ export const ModalAreaCategoria = ({
 		setShowButtonLoading(true);
 		event.preventDefault();
 		try {
-			var resultFromApi = await UpdateCategory({
+			const resultFromApi = await UpdateCategory({
 				id: categoria.id,
 				name: refName.current.value,
 				tipo: refTipo.current.value,
@@ -57,13 +67,20 @@ export const ModalAreaCategoria = ({
 				throw resultFetch;
 			}
 			setCategoria({});
-			setResponse(resultFetch);
+			//setResponse(resultFetch);
 			setShowModalAreaCategoria(false);
 			setShowButtonLoading(false);
+
+			FetchCategory();
+
+			resultFetch.isSuccess ?
+			toast.success(resultFetch.message) :
+			toast.error(resultFetch.message)
+
 		} catch (error) {
 			console.error(error);
 			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
-			setResponse({});
+			//setResponse({});
 			setShowModalAreaCategoria(false);
 			setShowButtonLoading(false);
 		}
@@ -73,7 +90,7 @@ export const ModalAreaCategoria = ({
 		<div>
 			{/*<!-- Main modal -->*/}
 			<div
-				id="crud-modal"
+				//id="crud-modal"
 				tabIndex="-1"
 				className={`${showModalAreaCategoria ? "" : "hidden"} overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] bg-gray-700/[0.6]`}
 			>
@@ -125,7 +142,7 @@ export const ModalAreaCategoria = ({
 									<input
 										type="text"
 										name="name"
-										id="name"
+										//id="name"
 										className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 										placeholder="Escribe el nombre de la categoría"
 										required=""
@@ -143,7 +160,8 @@ export const ModalAreaCategoria = ({
 								</label>
 								<select
 									//onChange={() => handleChangeTipo()}
-									id="tipo"
+									//id="tipo"
+									name="tipo"
 									className="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 									defaultValue={categoria.tipo}
 									ref={refTipo}
@@ -157,12 +175,13 @@ export const ModalAreaCategoria = ({
 							</div>
 							{showButtonLoading ? (
 								<button
+									type="button"
 									disabled
 									className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
 								>
 									<svg
 										aria-hidden="true"
-										role="status"
+										//role="status"
 										className="inline w-4 h-4 me-3 text-white animate-spin"
 										viewBox="0 0 100 101"
 										fill="none"

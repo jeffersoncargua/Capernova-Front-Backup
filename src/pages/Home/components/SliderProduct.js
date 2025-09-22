@@ -13,7 +13,7 @@ import "swiper/css/pagination";
 // Import AOS para el fade
 import AOS from "aos";
 import "aos/dist/aos.css"; // You can also use <link> for styles
-import { GetCategoriaProductos } from "../../../apiServices/GeneralServices";
+import { GetAllProducts } from "../../../apiServices/GeneralServices";
 // ..
 
 export const SliderProduct = () => {
@@ -35,7 +35,7 @@ export const SliderProduct = () => {
 
 	const fetchProducto = useCallback( async () => {
 			try {
-				const resultFromApi = await GetCategoriaProductos();
+				const resultFromApi = await GetAllProducts('producto');
 
 				const resultFetch = await resultFromApi.json();
 
@@ -105,7 +105,7 @@ export const SliderProduct = () => {
 						style={{ transform: `translateX(-${current * 25}%)` }}
 					>
 						{slices.map((itemProd) => (
-							<div className="shrink-0 w-1/4 hover:scale-110 mb-10" key={itemProd.titulo}>
+							<div className="shrink-0 w-1/4 hover:scale-110 mb-10" key={Math.random()}>
 								{/*ProductCard */}
 								<ProductCard itemProd={itemProd} />
 							</div>
@@ -118,7 +118,7 @@ export const SliderProduct = () => {
 						style={{ transform: `translateX(-${(current / 3) * 100}%)` }}
 					>
 						{slices.map((itemProd) => (
-							<div className="shrink-0 w-1/3 hover:scale-110 mb-10" key={itemProd.titulo}>
+							<div className="shrink-0 w-1/3 hover:scale-110 mb-10" key={Math.random()}>
 								<ProductCard itemProd={itemProd} />
 							</div>
 						))}
@@ -130,7 +130,7 @@ export const SliderProduct = () => {
 						style={{ transform: `translateX(-${(current / 3) * 100}%)` }}
 					>
 						{slices.map((itemProd) => (
-							<div className="shrink-0 w-1/3 hover:scale-110 mb-10" key={itemProd.titulo}>
+							<div className="shrink-0 w-1/3 hover:scale-110 mb-10" key={Math.random()}>
 								<ProductCard itemProd={itemProd} />
 							</div>
 						))}
@@ -142,7 +142,7 @@ export const SliderProduct = () => {
 						style={{ transform: `translateX(-${current * 50}%)` }}
 					>
 						{slices.map((itemProd) => (
-							<div className="shrink-0 w-1/2 hover:scale-110 mb-10" key={itemProd.titulo}>
+							<div className="shrink-0 w-1/2 hover:scale-110 mb-10" key={Math.random()}>
 								<ProductCard itemProd={itemProd} />
 							</div>
 						))}
@@ -154,7 +154,7 @@ export const SliderProduct = () => {
 						style={{ transform: `translateX(-${current * 50}%)` }}
 					>
 						{slices.map((itemProd) => (
-							<div className="shrink-0 w-1/2 hover:scale-110 mb-10" key={itemProd.titulo}>
+							<div className="shrink-0 w-1/2 hover:scale-110 mb-10" key={Math.random()}>
 								<ProductCard itemProd={itemProd} />
 							</div>
 						))}
@@ -164,7 +164,7 @@ export const SliderProduct = () => {
 					<div className="max-sm:flex hidden mx-auto">
 						<Swiper pagination={true} modules={[Pagination]}>
 							{slices.map((itemProd) => (
-								<SwiperSlide key={itemProd.titulo}>
+								<SwiperSlide key={Math.random()}>
 									<div
 										className="shrink-0 w-full hover:scale-100 mb-10"
 										key={Math.random()}
