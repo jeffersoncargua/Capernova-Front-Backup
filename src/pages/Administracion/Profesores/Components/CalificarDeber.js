@@ -12,7 +12,6 @@ export const CalificarDeber = ({ deber, matricula }) => {
 	//const [response, setResponse] = useState({});
 	const [showButtonLoading, setShowButtonLoading] = useState(false);
 
-
 	const GetNotaDeber = useCallback(async () => {
 		try {
 			const resultFromApi = await GetTaskNota(deber.id, matricula.estudianteId);
@@ -30,7 +29,7 @@ export const CalificarDeber = ({ deber, matricula }) => {
 			console.error(error);
 			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
 		}
-	},[deber, matricula]);
+	}, [deber, matricula]);
 
 	useEffect(() => {
 		GetNotaDeber();
@@ -56,10 +55,9 @@ export const CalificarDeber = ({ deber, matricula }) => {
 
 				setShowButtonLoading(false);
 
-				resultFetch.isSuccess ?
-				toast.success(resultFetch.message) :
-				toast.error(resultFetch.message)
-
+				resultFetch.isSuccess
+					? toast.success(resultFetch.message)
+					: toast.error(resultFetch.message);
 			} else {
 				setShowButtonLoading(false);
 				toast.error("Aún no se ha entregado el deber. Inténtelo mas tarde");

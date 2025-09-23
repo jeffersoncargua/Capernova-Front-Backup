@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { toast } from "react-toastify";
 import { PedidoDetails } from "../Components";
 import Datepicker from "react-tailwindcss-datepicker";
@@ -26,53 +26,51 @@ export const Pedidos = () => {
 		"Ver Detalle/Eliminar",
 	];
 
-	const [response, setResponse] = useState({});
+	//const [response, setResponse] = useState({});
 	const refSearch = useRef();
 
-	useEffect(() => {
-		const fetchPedidos = async () => {
-			try {
-				var resultFromApi = await GetAllPedidos(
-					search,
-					value.startDate,
-					value.endDate,
-				);
+	const fetchPedidos = useCallback(async () => {
+		try {
+			const resultFromApi = await GetAllPedidos(
+				search,
+				value.startDate,
+				value.endDate,
+			);
 
-				const resultFetch = await resultFromApi.json();
+			const resultFetch = await resultFromApi.json();
 
-				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
-					throw resultFetch;
-				}
-
-				if (resultFetch.isSuccess) {
-					setPedidoList(resultFetch.result);
-				}
-			} catch (error) {
-				console.error(error);
-				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+				throw resultFetch;
 			}
-		};
-		fetchPedidos();
-		response.isSuccess
-			? toast.success(response.message)
-			: toast.error(response.message);
-	}, [showModalPedidoDetail, search, response, value]);
 
-	const handleSearch = (event) => {
+			if (resultFetch.isSuccess) {
+				setPedidoList(resultFetch.result);
+			}
+		} catch (error) {
+			console.error(error);
+			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+		}
+	}, [search, value]);
+
+	useEffect(() => {
+		fetchPedidos();
+	}, [fetchPedidos]);
+
+	const handleSearch = (_event) => {
 		setSearch(refSearch.current.value);
-		setResponse({});
+		//setResponse({});
 	};
 
 	const handleDetail = (pedido) => {
 		setPedido(pedido);
 		setShowModalPedidoDetail(!showModalPedidoDetail);
-		setResponse({});
+		//setResponse({});
 	};
 
-	const GetFecha = (fecha) => {
+	const GetFecha = useCallback((fecha) => {
 		const date = new Date(fecha);
 		return date.toLocaleDateString();
-	};
+	}, []);
 
 	return (
 		<div>
@@ -85,8 +83,9 @@ export const Pedidos = () => {
 					showModalPedidoDetail={showModalPedidoDetail}
 					setShowModalPedidoDetail={setShowModalPedidoDetail}
 					pedido={pedido}
-					setPedido={setPedido}
-					setResponse={setResponse}
+					//setPedido={setPedido}
+					//setResponse={setResponse}
+					GetPedidos={fetchPedidos}
 				/>
 			)}
 			{/* {showModalDelete && <ModalDelete showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete} publicidad={publicidad} setResponse={setResponse}  />} */}
@@ -128,7 +127,8 @@ export const Pedidos = () => {
 									<input
 										onChange={handleSearch}
 										type="text"
-										id="simple-search"
+										//id="simple-search"
+										name="simple-search"
 										className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 										placeholder="Buscar por Transaccion ID, ID o Apellido del cliente"
 										required=""
@@ -172,6 +172,7 @@ export const Pedidos = () => {
 												<td className="px-4 py-3">
 													<div className="py-1 flex justify-start">
 														<button
+															type="button"
 															onClick={() => handleDetail(item)}
 															className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-yellow-300 hover:bg-yellow-400 rounded-lg mr-2"
 														>

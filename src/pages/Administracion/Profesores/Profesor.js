@@ -60,54 +60,53 @@ export const Profesor = () => {
 	//  },[userTeacher,search])
 
 	const GetTeacher = useCallback(async () => {
-			try {
-				let resultFromApi = await GetTeacherAuthenticate(
-					userTeacher.nameIdentifier,
-				);
+		try {
+			let resultFromApi = await GetTeacherAuthenticate(
+				userTeacher.nameIdentifier,
+			);
 
-				const resultFetch = await resultFromApi.json();
+			const resultFetch = await resultFromApi.json();
 
-				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
-					throw resultFetch;
-				}
-
-				if (resultFetch.isSuccess) {
-					setProfesor(resultFetch.result);
-				} else {
-					setProfesor({});
-				}
-			} catch (error) {
-				console.error(error);
-				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+				throw resultFetch;
 			}
-		},[userTeacher]);
 
-		const GetCursos = useCallback(async () => {
-			try {
-				const resultFromApi = await GetTeacherCourse(
-					userTeacher.nameIdentifier,
-					search,
-				);
-
-				const resultFetch = await resultFromApi.json();
-
-				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
-					throw resultFetch;
-				}
-
-				if (resultFetch.isSuccess) {
-					setCursoList(resultFetch.result);
-					//setProfesor(resultFetch.result[0].teacher);
-				} else {
-					setCursoList([]);
-				}
-				//const capitulos = JSON.parse(resultFetch.result[0].capitulos);
-			} catch (error) {
-				console.error(error);
-				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+			if (resultFetch.isSuccess) {
+				setProfesor(resultFetch.result);
+			} else {
+				setProfesor({});
 			}
-		},[userTeacher,search]);
+		} catch (error) {
+			console.error(error);
+			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+		}
+	}, [userTeacher]);
 
+	const GetCursos = useCallback(async () => {
+		try {
+			const resultFromApi = await GetTeacherCourse(
+				userTeacher.nameIdentifier,
+				search,
+			);
+
+			const resultFetch = await resultFromApi.json();
+
+			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+				throw resultFetch;
+			}
+
+			if (resultFetch.isSuccess) {
+				setCursoList(resultFetch.result);
+				//setProfesor(resultFetch.result[0].teacher);
+			} else {
+				setCursoList([]);
+			}
+			//const capitulos = JSON.parse(resultFetch.result[0].capitulos);
+		} catch (error) {
+			console.error(error);
+			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+		}
+	}, [userTeacher, search]);
 
 	useEffect(() => {
 		GetTeacher();

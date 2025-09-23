@@ -12,7 +12,7 @@ export const ModalPrueba = ({
 	setPrueba,
 	curso,
 	//setResponse /*pruebas,setPruebas*/,
-	GetPruebas
+	GetPruebas,
 }) => {
 	//const refId = useRef();
 	const [showButtonLoading, setShowButtonLoading] = useState(false);
@@ -37,9 +37,9 @@ export const ModalPrueba = ({
 				throw resultFetch;
 			}
 
-			resultFetch.isSuccess ?
-			toast.success(resultFetch.message) :
-			toast.error(resultFetch.message) 
+			resultFetch.isSuccess
+				? toast.success(resultFetch.message)
+				: toast.error(resultFetch.message);
 
 			GetPruebas();
 			//setResponse(resultFetch);
@@ -79,9 +79,9 @@ export const ModalPrueba = ({
 				throw resultFetch;
 			}
 
-			resultFetch.isSuccess ?
-			toast.success(resultFetch.message) :
-			toast.error(resultFetch.message) 
+			resultFetch.isSuccess
+				? toast.success(resultFetch.message)
+				: toast.error(resultFetch.message);
 
 			GetPruebas();
 
@@ -89,7 +89,6 @@ export const ModalPrueba = ({
 			setShowModalPrueba(false);
 			setPrueba({});
 			setShowButtonLoading(false);
-
 		} catch (error) {
 			console.error(error);
 			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");

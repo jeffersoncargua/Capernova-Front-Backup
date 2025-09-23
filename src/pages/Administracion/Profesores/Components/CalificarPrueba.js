@@ -12,27 +12,27 @@ export const CalificarPrueba = ({ prueba, matricula }) => {
 	const [showButtonLoading, setShowButtonLoading] = useState(false);
 
 	const GetNotaDeber = useCallback(async () => {
-			try {
-				const resultFromApi = await GetTestNota(
-					prueba.id,
-					matricula.estudianteId,
-				);
+		try {
+			const resultFromApi = await GetTestNota(
+				prueba.id,
+				matricula.estudianteId,
+			);
 
-				const resultFetch = await resultFromApi.json();
+			const resultFetch = await resultFromApi.json();
 
-				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
-					throw resultFetch;
-				}
-
-				if (resultFetch.isSuccess) {
-					setNotaPrueba(resultFetch.result);
-				}
-			} catch (error) {
-				console.error(error);
-				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+				throw resultFetch;
 			}
-		},[prueba,matricula]);
-	
+
+			if (resultFetch.isSuccess) {
+				setNotaPrueba(resultFetch.result);
+			}
+		} catch (error) {
+			console.error(error);
+			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+		}
+	}, [prueba, matricula]);
+
 	useEffect(() => {
 		GetNotaDeber();
 	}, [GetNotaDeber]);
@@ -78,7 +78,10 @@ export const CalificarPrueba = ({ prueba, matricula }) => {
 			<td className="px-4 py-3">
 				<div className="flex justify-center space-x-3 items-center">
 					{showButtonLoading ? (
-						<button type="button" className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-yellow-300 hover:bg-yellow-400 rounded-lg mr-2">
+						<button
+							type="button"
+							className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-yellow-300 hover:bg-yellow-400 rounded-lg mr-2"
+						>
 							<svg
 								aria-hidden="true"
 								//role="status"

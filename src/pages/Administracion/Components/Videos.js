@@ -110,7 +110,7 @@ export const Videos = ({
 			//toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
 			navigate("/error");
 		}
-	}, [curso,navigate]);
+	}, [curso, navigate]);
 
 	const FetchCategoriaCurso = useCallback(async () => {
 		try {
@@ -221,7 +221,6 @@ export const Videos = ({
 			resultFetch.isSuccess
 				? toast.success(resultFetch.message)
 				: toast.error(resultFetch.message);
-				
 		} catch (error) {
 			setShowButtonLoading(false);
 			console.error(error);

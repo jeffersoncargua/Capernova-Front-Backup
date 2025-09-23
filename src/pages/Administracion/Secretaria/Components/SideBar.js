@@ -31,10 +31,10 @@ export const SideBar = ({ setShowCursos, setShowVentas, setShowPedidos }) => {
 			</button>
 
 			<div
-				id="sidebar-multi-level-sidebar"
+				//id="sidebar-multi-level-sidebar"
 				className={`absolute top-0 left-0 z-40 w-[95%] min-[350px]:w-64 p-4 transition-transform ${showBar ? "-translate-x-full" : ""} sm:translate-x-0 bg-slate-800 dark:bg-gray-800 border-e-2 border border-b-2 rounded-lg border-slate-400 mt-4`}
 				tabIndex="-1"
-				aria-labelledby="drawer-navigation-label"
+				//aria-labelledby="drawer-navigation-label"
 			>
 				<button
 					onClick={() => setShowBar(!showBar)}
@@ -61,7 +61,7 @@ export const SideBar = ({ setShowCursos, setShowVentas, setShowPedidos }) => {
 
 				<div className="overflow-y-auto ">
 					<h5
-						id="drawer-navigation-label"
+						//id="drawer-navigation-label"
 						className="text-base font-semibold text-gray-300 uppercase dark:text-white"
 					>
 						Menu
@@ -69,6 +69,7 @@ export const SideBar = ({ setShowCursos, setShowVentas, setShowPedidos }) => {
 					<ul className="space-y-2  text-sm font-small">
 						<li>
 							<button
+								type="button"
 								onClick={() => {
 									setShowCursos(true);
 									setShowVentas(false);
@@ -94,6 +95,7 @@ export const SideBar = ({ setShowCursos, setShowVentas, setShowPedidos }) => {
 						</li>
 						<li>
 							<button
+								type="button"
 								onClick={() => {
 									setShowCursos(false);
 									setShowVentas(true);
@@ -121,6 +123,7 @@ export const SideBar = ({ setShowCursos, setShowVentas, setShowPedidos }) => {
 
 						<li>
 							<button
+								type="button"
 								onClick={() => {
 									setShowCursos(false);
 									setShowVentas(false);

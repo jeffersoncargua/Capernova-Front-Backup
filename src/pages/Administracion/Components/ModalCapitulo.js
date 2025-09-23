@@ -12,7 +12,7 @@ export const ModalCapitulo = ({
 	setCapitulo,
 	curso,
 	//setResponse /*,capitulos, setCapitulos*/,
-	GetCapitulos
+	GetCapitulos,
 }) => {
 	//const refCodigo = useRef();
 	const refTitulo = useRef();
@@ -56,12 +56,11 @@ export const ModalCapitulo = ({
 				throw resultFetch;
 			}
 
-			resultFetch.isSuccess ?
-			toast.success(resultFetch.message) :
-			toast.error(resultFetch.message) 
+			resultFetch.isSuccess
+				? toast.success(resultFetch.message)
+				: toast.error(resultFetch.message);
 
 			GetCapitulos();
-
 
 			//console.log(resultFetch);
 			//setResponse(resultFetch);
@@ -100,9 +99,9 @@ export const ModalCapitulo = ({
 			//console.log(resultFetch);
 			//setResponse(resultFetch);
 
-			resultFetch.isSuccess ?
-			toast.success(resultFetch.message) :
-			toast.error(resultFetch.message) 
+			resultFetch.isSuccess
+				? toast.success(resultFetch.message)
+				: toast.error(resultFetch.message);
 
 			GetCapitulos();
 

@@ -9,7 +9,10 @@ import { toast } from "react-toastify";
 
 //import para escoger la fecha de busqueda de registros de las ventas
 import Datepicker from "react-tailwindcss-datepicker";
-import { GetAllStudents, UpdateMatriculaEstado } from "../../../../apiServices/TeacherServices/TeacherServices";
+import {
+	GetAllStudents,
+	UpdateMatriculaEstado,
+} from "../../../../apiServices/TeacherServices/TeacherServices";
 
 export const Estudiantes = ({ cursoList }) => {
 	const pageSize = 10;
@@ -51,53 +54,51 @@ export const Estudiantes = ({ cursoList }) => {
 	const refCurso = useRef();
 
 	const FetchEstudiantes = useCallback(async () => {
-			if (cursoId !== "") {
-				try {
-					const resultFromApi = await GetAllStudents(
-						cursoId || 0,
-						searchUser,
-						value.startDate,
-						value.endDate,
-					);
+		if (cursoId !== "") {
+			try {
+				const resultFromApi = await GetAllStudents(
+					cursoId || 0,
+					searchUser,
+					value.startDate,
+					value.endDate,
+				);
 
-					const resultFetch = await resultFromApi.json();
+				const resultFetch = await resultFromApi.json();
 
-					if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
-						throw resultFetch;
-					}
-
-					if (resultFetch.isSuccess) {
-						setMatriculaList(resultFetch.result);
-						setNumberOfPages(Math.ceil(resultFetch.result?.length / pageSize));
-
-						setCurrentDataDisplayed(() => {
-							const page = resultFetch?.result?.slice(
-								(currentPage - 1) * pageSize,
-								currentPage * pageSize,
-							);
-							//return { list: page }; //List es una lista con la cantidad de items de publicidad que se va a mostrar en la tabla
-							return page;
-						});
-						setPreviousAllowed(() => currentPage > 1);
-						setNextAllowed(() => currentPage < numberOfPages);
-					} else {
-						setMatriculaList([]);
-						setNumberOfPages(0);
-						setCurrentDataDisplayed([]);
-						setPreviousAllowed(false);
-						setNextAllowed(true);
-					}
-				} catch (error) {
-					console.error(error);
-					toast.error(
-						"Algo ha fallado en nuestro servidor. Inténtelo más tarde",
-					);
+				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+					throw resultFetch;
 				}
-			} else {
-				toast.info("Selecciona un curso");
-				setCurrentDataDisplayed([]);
+
+				if (resultFetch.isSuccess) {
+					setMatriculaList(resultFetch.result);
+					setNumberOfPages(Math.ceil(resultFetch.result?.length / pageSize));
+
+					setCurrentDataDisplayed(() => {
+						const page = resultFetch?.result?.slice(
+							(currentPage - 1) * pageSize,
+							currentPage * pageSize,
+						);
+						//return { list: page }; //List es una lista con la cantidad de items de publicidad que se va a mostrar en la tabla
+						return page;
+					});
+					setPreviousAllowed(() => currentPage > 1);
+					setNextAllowed(() => currentPage < numberOfPages);
+				} else {
+					setMatriculaList([]);
+					setNumberOfPages(0);
+					setCurrentDataDisplayed([]);
+					setPreviousAllowed(false);
+					setNextAllowed(true);
+				}
+			} catch (error) {
+				console.error(error);
+				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
 			}
-		},[cursoId, searchUser, value, numberOfPages, currentPage]);
+		} else {
+			toast.info("Selecciona un curso");
+			setCurrentDataDisplayed([]);
+		}
+	}, [cursoId, searchUser, value, numberOfPages, currentPage]);
 
 	useEffect(() => {
 		FetchEstudiantes();
@@ -145,24 +146,28 @@ export const Estudiantes = ({ cursoList }) => {
 	const handlePagination = (action) => {
 		if (action === "prev") {
 			if (!previousAllowed) return;
-			setCurrentPage((prevState) => (prevState - 1));
+			setCurrentPage((prevState) => prevState - 1);
 		}
 		if (action === "next") {
 			if (!nextAllowed) return;
-			setCurrentPage((prevState) => (prevState + 1));
+			setCurrentPage((prevState) => prevState + 1);
 		}
 	};
 
 	const GetFecha = useCallback((fecha) => {
 		const date = new Date(fecha);
 		return date.toLocaleDateString();
-	},[]);
+	}, []);
 
 	//handleDeshabilitar
 	const handleEstadoMatricula = async (matricula) => {
 		setShowLoading(true);
 		try {
-			let resultFromApi = await UpdateMatriculaEstado(matricula.id, matricula.estudianteId, matricula.isActive );
+			let resultFromApi = await UpdateMatriculaEstado(
+				matricula.id,
+				matricula.estudianteId,
+				matricula.isActive,
+			);
 
 			const resultFetch = await resultFromApi.json();
 
@@ -237,7 +242,7 @@ export const Estudiantes = ({ cursoList }) => {
 										ref={refCurso}
 									>
 										<option value="">---- Selecciona el curso ----</option>
-										{cursoList.length > 0  &&
+										{cursoList.length > 0 &&
 											cursoList?.map((curso) => (
 												<option key={curso.id} value={`${curso.id}`}>
 													{curso.titulo}

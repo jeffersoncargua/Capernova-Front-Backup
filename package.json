@@ -34,7 +34,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format": "npx @biomejs/biome format --write ./src",
-    "lint": "npx @biomejs/biome lint --max-diagnostics 50 --write ./src/pages/Administracion/Profesores",
+    "lint": "npx @biomejs/biome lint --max-diagnostics 50 --write ./src/pages/Administracion/Secretaria",
     "check": "npx @biomejs/biome check --write ./src"
   },
   "browserslist": {

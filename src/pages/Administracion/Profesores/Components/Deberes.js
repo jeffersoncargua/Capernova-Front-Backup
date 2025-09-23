@@ -22,24 +22,24 @@ export const Deberes = ({
 	const [objeto, setObjeto] = useState({});
 
 	const GetDeberes = useCallback(async () => {
-			try {
-				const resultFromApi = await GetAllTask(curso.id);
+		try {
+			const resultFromApi = await GetAllTask(curso.id);
 
-				const resultFetch = await resultFromApi.json();
+			const resultFetch = await resultFromApi.json();
 
-				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
-					throw resultFetch;
-				}
-				if (resultFetch.isSuccess) {
-					setDeberes(resultFetch.result);
-				} else {
-					setDeberes([]);
-				}
-			} catch (error) {
-				console.error(error);
-				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+				throw resultFetch;
 			}
-		},[curso]);
+			if (resultFetch.isSuccess) {
+				setDeberes(resultFetch.result);
+			} else {
+				setDeberes([]);
+			}
+		} catch (error) {
+			console.error(error);
+			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+		}
+	}, [curso]);
 
 	useEffect(() => {
 		GetDeberes();

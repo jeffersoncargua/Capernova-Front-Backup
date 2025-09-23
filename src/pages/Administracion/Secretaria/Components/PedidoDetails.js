@@ -6,7 +6,8 @@ export const PedidoDetails = ({
 	showModalPedidoDetail,
 	setShowModalPedidoDetail,
 	pedido,
-	setResponse,
+	//setResponse,
+	GetPedidos,
 }) => {
 	const columns = ["Imagen", "Código", "Producto", "Cantidad"];
 	const [cartList, setCartList] = useState([]);
@@ -21,7 +22,7 @@ export const PedidoDetails = ({
 
 	const handlePedidoEdit = async (pedido) => {
 		try {
-			var resultFromApi = await UpdatePedido({
+			const resultFromApi = await UpdatePedido({
 				id: pedido.id,
 				emision: pedido.emision,
 				productos: pedido.productos,
@@ -39,6 +40,13 @@ export const PedidoDetails = ({
 			if (resultFetch.isSuccess) {
 				setResponse(resultFetch);
 			}
+
+			resultFetch.isSuccess
+				? toast.success(resultFetch.message)
+				: toast.error(resultFetch.message);
+
+			GetPedidos();
+
 			setShowModalPedidoDetail(false);
 		} catch (error) {
 			console.error(error);
@@ -51,7 +59,7 @@ export const PedidoDetails = ({
 		<div>
 			{/*<!-- Main modal -->*/}
 			<div
-				id="crud-modal"
+				//id="crud-modal"
 				tabIndex="-1"
 				className={`${showModalPedidoDetail ? "" : "hidden"} overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] bg-gray-700/[0.6]`}
 			>
@@ -103,7 +111,7 @@ export const PedidoDetails = ({
 									disabled
 									type="text"
 									name="name"
-									id="name"
+									//id="name"
 									className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 									defaultValue={pedido.venta.name}
 								/>
@@ -119,7 +127,7 @@ export const PedidoDetails = ({
 									disabled
 									type="text"
 									name="lastName"
-									id="lastName"
+									//id="lastName"
 									className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 									defaultValue={pedido.venta.lastName}
 								/>
@@ -136,7 +144,7 @@ export const PedidoDetails = ({
 									type="email"
 									pattern="[a-zA-Z0-9!#$%&'*\/=?^_`\{\|\}~\+\-]([\.]?[a-zA-Z0-9!#$%&'*\/=?^_`\{\|\}~\+\-])+@[a-zA-Z0-9]([^@&%$\/\(\)=?¿!\.,:;]|\d)+[a-zA-Z0-9][\.][a-zA-Z]{2,4}([\.][a-zA-Z]{2})?"
 									name="email"
-									id="email"
+									//id="email"
 									className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 									defaultValue={pedido.venta.email}
 								/>
@@ -154,7 +162,7 @@ export const PedidoDetails = ({
 									type="text"
 									pattern="[0-9]{10}"
 									name="identificacion"
-									id="identificacion"
+									//id="identificacion"
 									className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 									defaultValue={pedido.venta.userId}
 								/>
@@ -172,7 +180,7 @@ export const PedidoDetails = ({
 									type="tel"
 									pattern="[0-9]{10}"
 									name="phone"
-									id="phone"
+									//id="phone"
 									className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 									defaultValue={pedido.venta.phone}
 								/>
@@ -188,7 +196,7 @@ export const PedidoDetails = ({
 								<input
 									type="text"
 									name="direccionPrincipal"
-									id="direccionPrincipal"
+									//id="direccionPrincipal"
 									className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 									defaultValue={pedido.directionMain}
 									ref={refDirMain}
@@ -204,7 +212,7 @@ export const PedidoDetails = ({
 								<input
 									type="text"
 									name="direccionSecundaria"
-									id="direccionSecundaria"
+									//id="direccionSecundaria"
 									className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 									defaultValue={pedido.directionSec}
 									ref={refDirSec}
@@ -219,7 +227,8 @@ export const PedidoDetails = ({
 								</label>
 								<select
 									onChange={() => handlePedidoEdit(pedido)}
-									id="estado"
+									//id="estado"
+									name="estado"
 									className="block w-full p-2 text-sm text-black border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 									defaultValue={pedido.estado}
 									ref={refEstado}

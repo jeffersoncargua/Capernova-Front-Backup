@@ -13,7 +13,7 @@ export const VentaDetails = ({
 	useEffect(() => {
 		const fetchVentaDetail = async () => {
 			try {
-				var resultFromApi = await GetShoppingCart(venta.id);
+				const resultFromApi = await GetShoppingCart(venta.id);
 
 				const resultFetch = await resultFromApi.json();
 
@@ -36,7 +36,7 @@ export const VentaDetails = ({
 		<div>
 			{/*<!-- Main modal -->*/}
 			<div
-				id="crud-modal"
+				//id="crud-modal"
 				tabIndex="-1"
 				className={`${showModalVentaDetail ? "" : "hidden"} overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] bg-gray-700/[0.6]`}
 			>
@@ -85,7 +85,7 @@ export const VentaDetails = ({
 									disabled
 									type="text"
 									name="name"
-									id="name"
+									//id="name"
 									className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 									defaultValue={venta.name}
 								/>
@@ -101,7 +101,7 @@ export const VentaDetails = ({
 									disabled
 									type="text"
 									name="lastName"
-									id="lastName"
+									//id="lastName"
 									className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 									defaultValue={venta.lastName}
 								/>
@@ -118,7 +118,7 @@ export const VentaDetails = ({
 									type="email"
 									pattern="[a-zA-Z0-9!#$%&'*\/=?^_`\{\|\}~\+\-]([\.]?[a-zA-Z0-9!#$%&'*\/=?^_`\{\|\}~\+\-])+@[a-zA-Z0-9]([^@&%$\/\(\)=?¿!\.,:;]|\d)+[a-zA-Z0-9][\.][a-zA-Z]{2,4}([\.][a-zA-Z]{2})?"
 									name="email"
-									id="email"
+									//id="email"
 									className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 									defaultValue={venta.email}
 								/>
@@ -136,7 +136,7 @@ export const VentaDetails = ({
 									type="text"
 									pattern="[0-9]{10}"
 									name="identificacion"
-									id="identificacion"
+									//id="identificacion"
 									className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 									defaultValue={venta.userId}
 								/>
@@ -154,7 +154,7 @@ export const VentaDetails = ({
 									type="tel"
 									pattern="[0-9]{10}"
 									name="phone"
-									id="phone"
+									//id="phone"
 									className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 									defaultValue={venta.phone}
 								/>

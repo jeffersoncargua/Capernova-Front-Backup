@@ -222,7 +222,11 @@ const UpdateTaskNota = async (taskId, matriculaStudentId, grade) => {
 	return response;
 };
 
-const UpdateMatriculaEstado = async (matriculaId, matriculaStudentId, isActive) => {
+const UpdateMatriculaEstado = async (
+	matriculaId,
+	matriculaStudentId,
+	isActive,
+) => {
 	const verbose = "PUT";
 	const route = "/Teacher/updateMatriculaEstado";
 	const query = `/${matriculaId}/${matriculaStudentId}`;
@@ -254,5 +258,5 @@ export {
 	UpsertTestNota,
 	GetTaskNota,
 	UpdateTaskNota,
-	UpdateMatriculaEstado
+	UpdateMatriculaEstado,
 };

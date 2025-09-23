@@ -1,9 +1,13 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { GetAllCourse } from "../../../../apiServices/ManagmentServices/ManagmentCourseServices";
+import {
+	GetAllCourse,
+	GetProductCode,
+} from "../../../../apiServices/ManagmentServices/ManagmentCourseServices";
 
-export const Cursos = ({ setShowCursos, cursoList, setCursoList }) => {
+// export const Cursos = ({ setShowCursos, cursoList, setCursoList }) => {
+export const Cursos = ({ cursoList, setCursoList }) => {
 	const pageSize = 5;
 
 	const [currentPage, setCurrentPage] = useState(1);
@@ -16,46 +20,47 @@ export const Cursos = ({ setShowCursos, cursoList, setCursoList }) => {
 	const refSearch = useRef();
 	const navigate = useNavigate();
 
-	useEffect(() => {
-		const fetchCurso = async () => {
-			try {
-				var resultFromApi = await GetAllCourse(search);
+	const fetchCurso = useCallback(async () => {
+		try {
+			const resultFromApi = await GetAllCourse(search);
 
-				const resultFetch = await resultFromApi.json();
+			const resultFetch = await resultFromApi.json();
 
-				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
-					throw resultFetch;
-				}
-
-				setCursoList(resultFetch.result);
-				setNumberOfPages(Math.ceil(resultFetch.result.length / pageSize));
-
-				//publicidadList &&
-				setCurrentDataDisplayed(() => {
-					const page = resultFetch?.result?.slice(
-						(currentPage - 1) * pageSize,
-						currentPage * pageSize,
-					);
-					return { list: page }; //List es una lista con la cantidad de items de publicidad que se va a mostrar en la tabla
-				});
-				setPreviousAllowed(() => currentPage > 1);
-				setNextAllowed(() => currentPage < numberOfPages);
-			} catch (error) {
-				console.error(error);
-				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+				throw resultFetch;
 			}
-		};
+
+			setCursoList(resultFetch.result);
+			setNumberOfPages(Math.ceil(resultFetch.result.length / pageSize));
+
+			//publicidadList &&
+			setCurrentDataDisplayed(() => {
+				const page = resultFetch?.result?.slice(
+					(currentPage - 1) * pageSize,
+					currentPage * pageSize,
+				);
+				return { list: page }; //List es una lista con la cantidad de items de publicidad que se va a mostrar en la tabla
+			});
+			setPreviousAllowed(() => currentPage > 1);
+			setNextAllowed(() => currentPage < numberOfPages);
+		} catch (error) {
+			console.error(error);
+			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+		}
+	}, [search, currentPage, numberOfPages, setCursoList]);
+
+	useEffect(() => {
 		fetchCurso();
-	}, [currentPage, numberOfPages, search, setCursoList]);
+	}, [fetchCurso]);
 
 	const handlePagination = (action) => {
 		if (action === "prev") {
 			if (!previousAllowed) return;
-			setCurrentPage((prevState) => (prevState -= 1));
+			setCurrentPage((prevState) => prevState - 1);
 		}
 		if (action === "next") {
 			if (!nextAllowed) return;
-			setCurrentPage((prevState) => (prevState += 1));
+			setCurrentPage((prevState) => prevState + 1);
 		}
 	};
 
@@ -70,17 +75,7 @@ export const Cursos = ({ setShowCursos, cursoList, setCursoList }) => {
 
 	const handleVerCurso = async (itemCurso) => {
 		try {
-			const resultFromApi = await fetch(
-				`${process.env.REACT_APP_API_URL}/Producto/getProductoCode?codigo=${itemCurso.codigo}`,
-				{
-					method: "GET",
-					credentials: "include",
-					headers: {
-						"Content-Type": "application/json",
-						Accept: "application/json",
-					},
-				},
-			);
+			const resultFromApi = await GetProductCode(itemCurso.codigo);
 
 			const resultFetch = await resultFromApi.json();
 
@@ -127,7 +122,8 @@ export const Cursos = ({ setShowCursos, cursoList, setCursoList }) => {
 										<input
 											onChange={handleSearch}
 											type="text"
-											id="simple-search"
+											//id="simple-search"
+											name="simple-search"
 											className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 											placeholder="Buscar por el titulo del curso"
 											required=""
@@ -165,7 +161,7 @@ export const Cursos = ({ setShowCursos, cursoList, setCursoList }) => {
 													<td className="px-4 py-3">{item.titulo}</td>
 													<td className="px-4 py-3">
 														{item.teacher !== null
-															? item.teacher.name + " " + item.teacher.lastName
+															? `${item.teacher.name} ${item.teacher.lastName}`
 															: "Sin asignar"}
 													</td>
 													<td className="px-4 py-3 text-blue-500 text-lg">
@@ -174,6 +170,7 @@ export const Cursos = ({ setShowCursos, cursoList, setCursoList }) => {
 													<td className="px-4 py-3">
 														<div className="py-1 flex justify-start">
 															<button
+																type="button"
 																onClick={() => handleVerCurso(item)}
 																className="flex items-center justify-center py-2 px-4 text-sm text-black hover:text-white bg-yellow-300 hover:bg-yellow-400 rounded-lg mr-2"
 															>
@@ -217,6 +214,7 @@ export const Cursos = ({ setShowCursos, cursoList, setCursoList }) => {
 				</div>
 				<div className="flex justify-between">
 					<button
+						type="button"
 						onClick={() => handlePagination("prev")}
 						className="flex items-center justify-center bg-gray-400 hover:bg-gray-500 px-4 py-2 mr-2 rounded-lg hover:cursor-pointer"
 					>
@@ -234,6 +232,7 @@ export const Cursos = ({ setShowCursos, cursoList, setCursoList }) => {
 						Anterior
 					</button>
 					<button
+						type="button"
 						onClick={() => handlePagination("next")}
 						className="flex items-center justify-center bg-gray-400 hover:bg-gray-500 px-4 py-2 rounded-lg hover:cursor-pointer"
 					>

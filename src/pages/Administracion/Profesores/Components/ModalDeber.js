@@ -12,7 +12,7 @@ export const ModalDeber = ({
 	setDeber,
 	curso,
 	//setResponse /*deberes,setDeberes*/,
-	GetDeberes
+	GetDeberes,
 }) => {
 	const [showButtonLoading, setShowButtonLoading] = useState(false);
 	const refTitulo = useRef();
@@ -36,9 +36,9 @@ export const ModalDeber = ({
 
 			GetDeberes();
 
-			resultFetch.isSuccess ?
-			toast.success(resultFetch.message) :
-			toast.error(resultFetch.message)
+			resultFetch.isSuccess
+				? toast.success(resultFetch.message)
+				: toast.error(resultFetch.message);
 
 			setShowModalDeber(false);
 			//setResponse(resultFetch);
@@ -83,10 +83,10 @@ export const ModalDeber = ({
 
 			GetDeberes();
 
-			resultFetch.isSuccess ?
-			toast.success(resultFetch.message) :
-			toast.error(resultFetch.message)
-			
+			resultFetch.isSuccess
+				? toast.success(resultFetch.message)
+				: toast.error(resultFetch.message);
+
 			//setResponse(resultFetch);
 			setShowModalDeber(false);
 			setDeber({});

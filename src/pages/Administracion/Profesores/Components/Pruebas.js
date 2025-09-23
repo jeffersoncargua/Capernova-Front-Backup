@@ -23,25 +23,25 @@ export const Pruebas = ({
 	const [objeto, setObjeto] = useState({});
 
 	const GetPruebas = useCallback(async () => {
-			try {
-				const resultFromApi = await GetAllTest(curso.id);
+		try {
+			const resultFromApi = await GetAllTest(curso.id);
 
-				const resultFetch = await resultFromApi.json();
+			const resultFetch = await resultFromApi.json();
 
-				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
-					throw resultFetch;
-				}
-				if (resultFetch.isSuccess) {
-					setPruebas(resultFetch.result);
-				} else {
-					setPruebas([]);
-				}
-			} catch (error) {
-				console.error(error);
-				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+				throw resultFetch;
 			}
-		},[curso]);
-	
+			if (resultFetch.isSuccess) {
+				setPruebas(resultFetch.result);
+			} else {
+				setPruebas([]);
+			}
+		} catch (error) {
+			console.error(error);
+			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+		}
+	}, [curso]);
+
 	useEffect(() => {
 		GetPruebas();
 	}, [GetPruebas]);
@@ -148,7 +148,7 @@ export const Pruebas = ({
 						type="text"
 						className="rounded-lg bg-transparent dark:bg-slate-900 border-0"
 						name="titulo"
-						i//d="titulo"
+						i //d="titulo"
 						defaultValue={curso.titulo}
 					/>
 				</div>

@@ -66,11 +66,11 @@ export const Cursos = ({
 	const handlePagination = (action) => {
 		if (action === "prev") {
 			if (!previousAllowed) return;
-			setCurrentPage((prevState) => (prevState - 1));
+			setCurrentPage((prevState) => prevState - 1);
 		}
 		if (action === "next") {
 			if (!nextAllowed) return;
-			setCurrentPage((prevState) => (prevState + 1));
+			setCurrentPage((prevState) => prevState + 1);
 		}
 		//setResponse({});
 	};
@@ -320,4 +320,3 @@ export const Cursos = ({
 		</div>
 	);
 };
-

@@ -5,10 +5,10 @@ import { Loading } from "../Components";
 import Avatar from "../../../../assets/avatar.png";
 import { UpdateTeacher } from "../../../../apiServices/TeacherServices/TeacherServices";
 
-export const Informacion = ({ 
-	profesor, 
-	//response, 
-	//setResponse 
+export const Informacion = ({
+	profesor,
+	//response,
+	//setResponse
 }) => {
 	const refName = useRef();
 	const refLastName = useRef();
@@ -43,7 +43,7 @@ export const Informacion = ({
 			});
 
 			const resultFecthInfo = await resultFromApi.json();
-			
+
 			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
 				throw resultFecthInfo;
 			}
@@ -68,9 +68,9 @@ export const Informacion = ({
 				}
 			}
 
-			resultFecthInfo.isSuccess ?
-			toast.success(resultFecthInfo.message) :
-			toast.error(resultFecthInfo.message)
+			resultFecthInfo.isSuccess
+				? toast.success(resultFecthInfo.message)
+				: toast.error(resultFecthInfo.message);
 
 			//setResponse(resultFecthInfo);
 			setShowButtonLoading(false);

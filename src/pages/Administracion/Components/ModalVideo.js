@@ -15,7 +15,7 @@ export const ModalVideo = ({
 	capitulo,
 	setCapitulo,
 	//setResponse /*,capitulos,setCapitulos*/,
-	GetCapitulos
+	GetCapitulos,
 }) => {
 	const [showButtonLoading, setShowButtonLoading] = useState(false);
 	//const refCodigo = useRef();
@@ -50,9 +50,9 @@ export const ModalVideo = ({
 				throw resultFetch;
 			}
 
-			resultFetch.isSuccess ? 
-			toast.success(resultFetch.message) :
-			toast.error(resultFetch.message)
+			resultFetch.isSuccess
+				? toast.success(resultFetch.message)
+				: toast.error(resultFetch.message);
 
 			GetCapitulos();
 
@@ -97,9 +97,9 @@ export const ModalVideo = ({
 				throw resultFetch;
 			}
 
-			resultFetch.isSuccess ? 
-			toast.success(resultFetch.message) :
-			toast.error(resultFetch.message)
+			resultFetch.isSuccess
+				? toast.success(resultFetch.message)
+				: toast.error(resultFetch.message);
 
 			GetCapitulos();
 

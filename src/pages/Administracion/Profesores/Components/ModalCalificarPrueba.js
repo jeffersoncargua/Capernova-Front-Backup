@@ -19,22 +19,22 @@ export const ModalCalificarPrueba = ({
 	];
 
 	const GetNotaPrueba = useCallback(async () => {
-			try {
-				const resultFromApi = await GetAllTest(matricula.cursoId);
+		try {
+			const resultFromApi = await GetAllTest(matricula.cursoId);
 
-				const resultFetch = await resultFromApi.json();
+			const resultFetch = await resultFromApi.json();
 
-				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
-					throw resultFetch;
-				}
-				if (resultFetch.isSuccess) {
-					setPruebaList(resultFetch.result);
-				}
-			} catch (error) {
-				console.error(error);
-				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+				throw resultFetch;
 			}
-		},[matricula]);
+			if (resultFetch.isSuccess) {
+				setPruebaList(resultFetch.result);
+			}
+		} catch (error) {
+			console.error(error);
+			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+		}
+	}, [matricula]);
 
 	useEffect(() => {
 		GetNotaPrueba();

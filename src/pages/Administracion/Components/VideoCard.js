@@ -14,26 +14,25 @@ export const VideoCard = ({
 	const [videos, setVideos] = useState([]);
 
 	const GetVideo = useCallback(async () => {
-			try {
+		try {
+			const resultFromApi = await GetAllVideos(cap.id);
 
-				const resultFromApi = await GetAllVideos(cap.id);
+			const resultFetch = await resultFromApi.json();
 
-				const resultFetch = await resultFromApi.json();
-
-				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
-					throw resultFetch;
-				}
-
-				if (resultFetch.isSuccess) {
-					setVideos(resultFetch.result);
-				} else {
-					setVideos([]);
-				}
-			} catch (error) {
-				console.error(error);
-				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+				throw resultFetch;
 			}
-		},[cap]);
+
+			if (resultFetch.isSuccess) {
+				setVideos(resultFetch.result);
+			} else {
+				setVideos([]);
+			}
+		} catch (error) {
+			console.error(error);
+			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+		}
+	}, [cap]);
 
 	useEffect(() => {
 		GetVideo();

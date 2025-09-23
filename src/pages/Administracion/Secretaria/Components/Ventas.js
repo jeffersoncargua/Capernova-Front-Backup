@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { toast } from "react-toastify";
 import { VentaDetails, Loading } from "../Components";
 import Datepicker from "react-tailwindcss-datepicker";
@@ -40,50 +40,49 @@ export const Ventas = () => {
 		"Total",
 		"Estado",
 	];
-	const [response, setResponse] = useState({});
+	//const [response, setResponse] = useState({});
 	const refSearch = useRef();
 	const [loading, setLoading] = useState(false);
 
 	const tableRef = useRef(null);
 
-	useEffect(() => {
-		const fetchVentas = async () => {
-			try {
-				var resultFromApi = await GetAllVentas(
-					search,
-					value.startDate,
-					value.endDate,
-				);
+	const fetchVentas = useCallback(async () => {
+		try {
+			const resultFromApi = await GetAllVentas(
+				search,
+				value.startDate,
+				value.endDate,
+			);
 
-				const resultFetch = await resultFromApi.json();
+			const resultFetch = await resultFromApi.json();
 
-				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
-					throw resultFetch;
-				}
-				if (resultFetch.isSuccess) {
-					let subTotal = 0;
-					setVentaList(resultFetch.result);
-					resultFetch.result.forEach((element) => {
-						if (element.estado === "Pagado") {
-							subTotal += element.total;
-						}
-					});
-					setTotal(subTotal);
-				}
-			} catch (error) {
-				console.error(error);
-				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+				throw resultFetch;
 			}
-		};
-		fetchVentas();
-		response.isSuccess
-			? toast.success(response.message)
-			: toast.error(response.message);
-	}, [showModalVentaDetail, search, response, value]);
+			if (resultFetch.isSuccess) {
+				let subTotal = 0;
+				setVentaList(resultFetch.result);
+				resultFetch.result.forEach((element) => {
+					if (element.estado === "Pagado") {
+						subTotal += element.total;
+					}
+				});
 
-	const handleSearch = (event) => {
+				setTotal(subTotal);
+			}
+		} catch (error) {
+			console.error(error);
+			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+		}
+	}, [search, value]);
+
+	useEffect(() => {
+		fetchVentas();
+	}, [fetchVentas]);
+
+	const handleSearch = (_event) => {
 		setSearch(refSearch.current.value);
-		setResponse({});
+		//setResponse({});
 	};
 
 	const handleDetail = (venta) => {
@@ -97,7 +96,7 @@ export const Ventas = () => {
 		try {
 			setLoading(true);
 
-			var resultFromApi = await UpdateVenta(venta.id);
+			const resultFromApi = await UpdateVenta(venta.id);
 
 			const resultFetch = await resultFromApi.json();
 
@@ -108,19 +107,22 @@ export const Ventas = () => {
 			resultFetch.isSuccess
 				? toast.success(resultFetch.message)
 				: toast.error(resultFetch.message);
+
+			fetchVentas();
+
 			setLoading(false);
 		} catch (error) {
 			console.error(error);
 			toast.error("Ha ocurrido un error en el servidor");
 			setLoading(false);
 		}
-		setResponse({});
+		//setResponse({});
 	};
 
-	const GetFecha = (fecha) => {
+	const GetFecha = useCallback((fecha) => {
 		const date = new Date(fecha);
 		return date.toLocaleDateString();
-	};
+	}, []);
 
 	return (
 		<div>
@@ -149,7 +151,10 @@ export const Ventas = () => {
 							sheet="reporte"
 							currentTableRef={tableRef.current}
 						>
-							<button className="bg-green-700 hover:bg-green-600 flex items-center rounded-lg px-3 py-2 ">
+							<button
+								type="button"
+								className="bg-green-700 hover:bg-green-600 flex items-center rounded-lg px-3 py-2 "
+							>
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									fill="currentColor"
@@ -196,7 +201,8 @@ export const Ventas = () => {
 									<input
 										onChange={handleSearch}
 										type="text"
-										id="simple-search"
+										//id="simple-search"
+										name="simple-search"
 										className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 										placeholder="Buscar por Transacción ID, ID, Correo o Apellido del Cliente"
 										required=""
@@ -245,6 +251,7 @@ export const Ventas = () => {
 												<td className="px-4 py-3">
 													<div className="py-1 flex justify-start">
 														<button
+															type="button"
 															onClick={() => handleDetail(item)}
 															className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-yellow-300 hover:bg-yellow-400 rounded-lg mr-2"
 														>
@@ -263,6 +270,7 @@ export const Ventas = () => {
 															Ver Detalle
 														</button>
 														<button
+															type="button"
 															onClick={() => handleRefund(item)}
 															disabled={item.estado === "Reembolsado"}
 															className={` ${item.estado === "Pagado" ? "cursor-pointer" : "cursor-not-allowed"} flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-red-500 hover:bg-red-600 rounded-lg`}
@@ -315,7 +323,7 @@ export const Ventas = () => {
 
 							{/*La tabla que se va a imprimir */}
 							<table
-								id="imprimir"
+								//id="imprimir"
 								ref={tableRef}
 								className="w-full text-sm text-left dark:text-white hidden"
 							>
