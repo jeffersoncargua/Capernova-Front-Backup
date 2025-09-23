@@ -30,7 +30,7 @@ const UpdatePedido = async (pedido) => {
 	return response;
 };
 
-//Este servicio permite cambiar el estado de reembolso, eliminar el shoppingCart, la matricula y el pedido en caso de ser necesario 
+//Este servicio permite cambiar el estado de reembolso, eliminar el shoppingCart, la matricula y el pedido en caso de ser necesario
 const UpdateRefundVenta = async (ventaId) => {
 	const verbose = "PUT";
 	const route = "/Venta/updateVenta";
@@ -73,10 +73,10 @@ const GetAllVentas = async (search, startDate, endDate) => {
 	return response;
 };
 
-export { 
+export {
 	GetAllPedidos,
-	UpdatePedido, 
-	GetShoppingCart, 
+	UpdatePedido,
+	GetShoppingCart,
 	GetAllVentas,
-	UpdateRefundVenta
+	UpdateRefundVenta,
 };

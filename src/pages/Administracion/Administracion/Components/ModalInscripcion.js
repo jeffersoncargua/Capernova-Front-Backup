@@ -28,7 +28,6 @@ export const ModalInscripcion = ({
 			} else {
 				setCursoList([]);
 			}
-
 		} catch (_error) {
 			toast.error(
 				"Error. Algo ocurrio en nuestro servidor. Intentélo más tarde!!",
@@ -36,8 +35,7 @@ export const ModalInscripcion = ({
 			setShowModalInscripcion(false);
 			//setResponse({});
 		}
-	},[setShowModalInscripcion]);
-
+	}, [setShowModalInscripcion]);
 
 	useEffect(() => {
 		fetchCursos();
@@ -61,10 +59,9 @@ export const ModalInscripcion = ({
 			setShowButtonLoading(false);
 			setShowModalInscripcion(false);
 
-			resultFetch.isSuccess ?
-			toast.success(resultFetch.message) :
-			toast.error(resultFetch.message)
-
+			resultFetch.isSuccess
+				? toast.success(resultFetch.message)
+				: toast.error(resultFetch.message);
 		} catch (_error) {
 			toast.error("No se pudo realizar la matrícula del estudiante!!");
 			setShowButtonLoading(false);

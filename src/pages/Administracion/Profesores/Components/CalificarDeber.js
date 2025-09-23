@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
@@ -9,40 +9,38 @@ import {
 export const CalificarDeber = ({ deber, matricula }) => {
 	const refCalificacionDeber = useRef();
 	const [notaDeber, setNotaDeber] = useState({});
-	const [response, setResponse] = useState({});
+	//const [response, setResponse] = useState({});
 	const [showButtonLoading, setShowButtonLoading] = useState(false);
 
-	useEffect(() => {
-		const GetNotaDeber = async () => {
-			try {
-				var resultFromApi = await GetTaskNota(deber.id, matricula.estudianteId);
 
-				const resultFetch = await resultFromApi.json();
+	const GetNotaDeber = useCallback(async () => {
+		try {
+			const resultFromApi = await GetTaskNota(deber.id, matricula.estudianteId);
 
-				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
-					throw resultFetch;
-				}
+			const resultFetch = await resultFromApi.json();
 
-				if (resultFetch.isSuccess) {
-					setNotaDeber(resultFetch.result);
-				}
-			} catch (error) {
-				console.error(error);
-				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+				throw resultFetch;
 			}
-		};
 
+			if (resultFetch.isSuccess) {
+				setNotaDeber(resultFetch.result);
+			}
+		} catch (error) {
+			console.error(error);
+			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+		}
+	},[deber, matricula]);
+
+	useEffect(() => {
 		GetNotaDeber();
-		response.isSuccess
-			? toast.success(response.message)
-			: toast.error(response.message);
-	}, [deber, matricula, response]);
+	}, [GetNotaDeber]);
 
 	const handleCalificarDeberes = async (notaDeber) => {
 		setShowButtonLoading(true);
 		try {
 			if (notaDeber.id) {
-				var resultFromApi = await UpdateTaskNota(
+				const resultFromApi = await UpdateTaskNota(
 					notaDeber.id,
 					matricula.estudianteId,
 					refCalificacionDeber.current.value,
@@ -54,8 +52,14 @@ export const CalificarDeber = ({ deber, matricula }) => {
 					throw resultFetch;
 				}
 
-				setResponse(resultFetch);
+				//setResponse(resultFetch);
+
 				setShowButtonLoading(false);
+
+				resultFetch.isSuccess ?
+				toast.success(resultFetch.message) :
+				toast.error(resultFetch.message)
+
 			} else {
 				setShowButtonLoading(false);
 				toast.error("Aún no se ha entregado el deber. Inténtelo mas tarde");
@@ -75,7 +79,7 @@ export const CalificarDeber = ({ deber, matricula }) => {
 				<input
 					type="text"
 					name="calificacion"
-					id="calificacion"
+					//id="calificacion"
 					className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
 					defaultValue={notaDeber.calificacion}
 					ref={refCalificacionDeber}
@@ -101,12 +105,13 @@ export const CalificarDeber = ({ deber, matricula }) => {
 					</Link>
 					{showButtonLoading ? (
 						<button
+							type="button"
 							disabled
 							className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-yellow-300 hover:bg-yellow-400 rounded-lg mr-2"
 						>
 							<svg
 								aria-hidden="true"
-								role="status"
+								//role="status"
 								className="inline w-4 h-4 me-3 text-white animate-spin"
 								viewBox="0 0 100 101"
 								fill="none"
@@ -125,6 +130,7 @@ export const CalificarDeber = ({ deber, matricula }) => {
 						</button>
 					) : (
 						<button
+							type="button"
 							onClick={() => {
 								handleCalificarDeberes(notaDeber);
 							}}

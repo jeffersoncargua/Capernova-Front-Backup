@@ -14,7 +14,7 @@ export const ModalCalificarNotaFinal = ({
 	const handleNotaFinal = async () => {
 		setShowButtonLoading(true);
 		try {
-			var resultFromApi = await UpdateMatriculaNota(
+			const resultFromApi = await UpdateMatriculaNota(
 				matricula.id,
 				refNotaFinal.current.value,
 			);
@@ -38,7 +38,7 @@ export const ModalCalificarNotaFinal = ({
 
 	return (
 		<div
-			id="crud-modal"
+			//id="crud-modal"
 			tabIndex="-1"
 			className={`${showModalCalificarNotaFinal ? "" : "hidden"} overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] bg-gray-700/[0.6]`}
 		>
@@ -88,7 +88,7 @@ export const ModalCalificarNotaFinal = ({
 									type="text"
 									disabled
 									name="name"
-									id="name"
+									//id="name"
 									className="bg-gray-50 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
 									defaultValue={matricula.estudiante.name || ""}
 								/>
@@ -103,8 +103,8 @@ export const ModalCalificarNotaFinal = ({
 								<input
 									type="text"
 									disabled
-									name="name"
-									id="name"
+									name="lastName"
+									//id="name"
 									className=" bg-gray-50 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
 									defaultValue={matricula.estudiante.lastName || ""}
 								/>
@@ -120,7 +120,7 @@ export const ModalCalificarNotaFinal = ({
 									type="text"
 									disabled
 									name="email"
-									id="email"
+									//id="email"
 									className="bg-gray-50 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
 									defaultValue={matricula.estudiante.email || ""}
 								/>
@@ -131,19 +131,20 @@ export const ModalCalificarNotaFinal = ({
 							<input
 								type="text"
 								name="calificacion"
-								id="calificacion"
+								//id="calificacion"
 								className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-80 p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500 mr-14"
 								defaultValue={matricula.notaFinal || 0}
 								ref={refNotaFinal}
 							/>
 							{showButtonLoading ? (
 								<button
+									type="button"
 									disabled
 									className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
 								>
 									<svg
 										aria-hidden="true"
-										role="status"
+										//role="status"
 										className="inline w-4 h-4 me-3 text-white animate-spin"
 										viewBox="0 0 100 101"
 										fill="none"
@@ -162,6 +163,7 @@ export const ModalCalificarNotaFinal = ({
 								</button>
 							) : (
 								<button
+									type="button"
 									onClick={() => handleNotaFinal()}
 									className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
 								>

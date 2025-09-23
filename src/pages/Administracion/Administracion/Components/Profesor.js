@@ -11,7 +11,7 @@ export const Profesor = ({
 	cursoList,
 	//response,
 	//setResponse,
-	GetCursos
+	GetCursos,
 }) => {
 	const refCurso = useRef();
 	const [cursoId, setCursoId] = useState();
@@ -24,7 +24,7 @@ export const Profesor = ({
 		try {
 			if (cursoId !== "" && cursoId !== undefined) {
 				const result = await AssigmentTeacherCourse(
-					parseInt(cursoId,10),
+					parseInt(cursoId, 10),
 					profesor.id,
 				);
 
@@ -39,10 +39,9 @@ export const Profesor = ({
 
 				GetCursos();
 
-				resultFetch.isSuccess ?
-				toast.success(resultFetch.message) :
-				toast.error(resultFetch.message);
-
+				resultFetch.isSuccess
+					? toast.success(resultFetch.message)
+					: toast.error(resultFetch.message);
 			} else {
 				setShowButtonLoading(false);
 				toast.warning("Selecciona un curso");
@@ -60,10 +59,7 @@ export const Profesor = ({
 
 	const handleDeleteAssigment = async (curso) => {
 		try {
-			const result = await DeleteAssigmentTeacherCourse(
-				curso.id,
-				profesor.id,
-			);
+			const result = await DeleteAssigmentTeacherCourse(curso.id, profesor.id);
 
 			const resultFetch = await result.json();
 
@@ -76,10 +72,9 @@ export const Profesor = ({
 
 			GetCursos();
 
-			resultFetch.isSuccess ? 
-			toast.success(resultFetch.message) : 
-			toast.error(resultFetch.message);
-
+			resultFetch.isSuccess
+				? toast.success(resultFetch.message)
+				: toast.error(resultFetch.message);
 		} catch (error) {
 			console.error(error);
 			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");

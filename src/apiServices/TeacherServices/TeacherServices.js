@@ -144,7 +144,7 @@ const CreateTask = async (task) => {
 
 const UpdateTask = async (task) => {
 	const verbose = "PUT";
-	const route = "/Prueba/updatePrueba";
+	const route = "/Deber/updateDeber";
 	const query = `/${task.id}`;
 	const object = task;
 
@@ -222,6 +222,22 @@ const UpdateTaskNota = async (taskId, matriculaStudentId, grade) => {
 	return response;
 };
 
+const UpdateMatriculaEstado = async (matriculaId, matriculaStudentId, isActive) => {
+	const verbose = "PUT";
+	const route = "/Teacher/updateMatriculaEstado";
+	const query = `/${matriculaId}/${matriculaStudentId}`;
+	const object = isActive; //Estado de la matricula del estudiante
+
+	var response = await useFetch({
+		verbose: verbose,
+		route: route,
+		query: query,
+		object: object,
+	});
+
+	return response;
+};
+
 export {
 	GetTeacherAuthenticate,
 	GetTeacherCourse,
@@ -238,4 +254,5 @@ export {
 	UpsertTestNota,
 	GetTaskNota,
 	UpdateTaskNota,
+	UpdateMatriculaEstado
 };

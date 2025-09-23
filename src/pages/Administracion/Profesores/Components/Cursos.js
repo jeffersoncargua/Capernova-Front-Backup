@@ -4,7 +4,7 @@ export const Cursos = ({
 	setShowCursos,
 	setShowVideos,
 	cursoList,
-	setResponse,
+	//setResponse,
 	setCurso,
 	setSearch,
 	setShowDeberes,
@@ -66,13 +66,13 @@ export const Cursos = ({
 	const handlePagination = (action) => {
 		if (action === "prev") {
 			if (!previousAllowed) return;
-			setCurrentPage((prevState) => (prevState -= 1));
+			setCurrentPage((prevState) => (prevState - 1));
 		}
 		if (action === "next") {
 			if (!nextAllowed) return;
-			setCurrentPage((prevState) => (prevState += 1));
+			setCurrentPage((prevState) => (prevState + 1));
 		}
-		setResponse({});
+		//setResponse({});
 	};
 
 	const handleSearch = () => {
@@ -82,7 +82,7 @@ export const Cursos = ({
 		} else {
 			setSearch("");
 		}
-		setResponse({});
+		//setResponse({});
 	};
 
 	return (
@@ -121,7 +121,8 @@ export const Cursos = ({
 										<input
 											onChange={handleSearch}
 											type="text"
-											id="simple-search"
+											//id="simple-search"
+											name="simple-search"
 											className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 											placeholder="Busca el curso por el titulo"
 											required=""
@@ -170,11 +171,12 @@ export const Cursos = ({
 												<td className="px-4 py-3">
 													<div className="py-1 flex justify-start">
 														<button
+															type="button"
 															onClick={() => {
 																setShowVideos(true);
 																setShowCursos(false);
 																setCurso(item);
-																setResponse({});
+																//setResponse({});
 																setShowDeberes(false);
 																setShowPruebas(false);
 															}}
@@ -195,11 +197,12 @@ export const Cursos = ({
 															Agregar Videos
 														</button>
 														<button
+															type="button"
 															onClick={() => {
 																setShowVideos(false);
 																setShowCursos(false);
 																setCurso(item);
-																setResponse({});
+																//setResponse({});
 																setShowDeberes(true);
 																setShowPruebas(false);
 															}}
@@ -220,11 +223,12 @@ export const Cursos = ({
 															Agregar Deberes
 														</button>
 														<button
+															type="button"
 															onClick={() => {
 																setShowVideos(false);
 																setShowCursos(false);
 																setCurso(item);
-																setResponse({});
+																//setResponse({});
 																setShowDeberes(false);
 																setShowPruebas(true);
 															}}
@@ -276,6 +280,7 @@ export const Cursos = ({
 				</div>
 				<div className="flex justify-between">
 					<button
+						type="button"
 						onClick={() => handlePagination("prev")}
 						className="flex items-center justify-center bg-gray-400 hover:bg-gray-500 px-4 py-2 mr-2 rounded-lg hover:cursor-pointer"
 					>
@@ -293,6 +298,7 @@ export const Cursos = ({
 						Anterior
 					</button>
 					<button
+						type="button"
 						onClick={() => handlePagination("next")}
 						className="flex items-center justify-center bg-gray-400 hover:bg-gray-500 px-4 py-2 rounded-lg hover:cursor-pointer"
 					>
@@ -314,3 +320,4 @@ export const Cursos = ({
 		</div>
 	);
 };
+

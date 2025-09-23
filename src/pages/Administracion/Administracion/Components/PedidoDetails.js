@@ -43,10 +43,9 @@ export const PedidoDetails = ({
 
 			setShowModalPedidoDetail(false);
 
-			resultFetch.isSuccess ?
-			toast.success(resultFetch.message) :
-			toast.error(resultFetch.message)
-
+			resultFetch.isSuccess
+				? toast.success(resultFetch.message)
+				: toast.error(resultFetch.message);
 		} catch (error) {
 			console.error(error);
 			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");

@@ -12,26 +12,26 @@ export const DropDownProductos = ({
 	const [categoriaList, setCategoriaList] = useState([]);
 	const navigate = useNavigate();
 
-	const FetchCategoriaCurso = useCallback(async() => {
-			try {
-				const result = await GetCategoriaProductos();
+	const FetchCategoriaCurso = useCallback(async () => {
+		try {
+			const result = await GetCategoriaProductos();
 
-				const resultFetch = await result.json();
+			const resultFetch = await result.json();
 
-				if (result.status !== 200 && result.status !== 400) {
-					throw resultFetch;
-				}
-
-				if (resultFetch.isSuccess) {
-					setCategoriaList(resultFetch.result);
-				} else {
-					setCategoriaList([]);
-				}
-			} catch (error) {
-				console.error(error);
-				navigate("/error");
+			if (result.status !== 200 && result.status !== 400) {
+				throw resultFetch;
 			}
-		},[navigate]);
+
+			if (resultFetch.isSuccess) {
+				setCategoriaList(resultFetch.result);
+			} else {
+				setCategoriaList([]);
+			}
+		} catch (error) {
+			console.error(error);
+			navigate("/error");
+		}
+	}, [navigate]);
 
 	useEffect(() => {
 		FetchCategoriaCurso();

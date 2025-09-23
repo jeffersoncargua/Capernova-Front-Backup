@@ -11,26 +11,25 @@ export const VentaDetails = ({
 	const [cartList, setCartList] = useState([]);
 
 	const fetchVentaDetail = useCallback(async () => {
-			try {
-				const resultFromApi = await GetShoppingCart(venta.id);
+		try {
+			const resultFromApi = await GetShoppingCart(venta.id);
 
-				const resultFetch = await resultFromApi.json();
+			const resultFetch = await resultFromApi.json();
 
-				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
-					throw resultFetch;
-				}
-				if (resultFetch.isSuccess) {
-					setCartList(resultFetch.result);
-				}
-			} catch (error) {
-				console.error(error);
-				setShowModalVentaDetail(false);
-				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+				throw resultFetch;
 			}
-		},[venta,setShowModalVentaDetail]);
-	
+			if (resultFetch.isSuccess) {
+				setCartList(resultFetch.result);
+			}
+		} catch (error) {
+			console.error(error);
+			setShowModalVentaDetail(false);
+			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+		}
+	}, [venta, setShowModalVentaDetail]);
+
 	useEffect(() => {
-		
 		fetchVentaDetail();
 	}, [fetchVentaDetail]);
 

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { Videos } from "../Components";
 //import { SideBar,Cursos,Videos,Estudiantes,Informacion,Deberes,Pruebas } from "./Components" //Estos contiente los componentes del Profesor pero se quiere emplear componentes en comun con Administración
@@ -29,7 +29,7 @@ export const Profesor = () => {
 	const [showDeberes, setShowDeberes] = useState(false);
 	const [showPruebas, setShowPruebas] = useState(false);
 	const [showVideos, setShowVideos] = useState(false);
-	const [response, setResponse] = useState({});
+	//const [response, setResponse] = useState({});
 
 	//   const GetCurso = useCallback(async()=>{
 	//     try {
@@ -59,10 +59,9 @@ export const Profesor = () => {
 	//    //setCursoList(list);
 	//  },[userTeacher,search])
 
-	useEffect(() => {
-		const GetTeacher = async () => {
+	const GetTeacher = useCallback(async () => {
 			try {
-				var resultFromApi = await GetTeacherAuthenticate(
+				let resultFromApi = await GetTeacherAuthenticate(
 					userTeacher.nameIdentifier,
 				);
 
@@ -81,15 +80,11 @@ export const Profesor = () => {
 				console.error(error);
 				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
 			}
-		};
+		},[userTeacher]);
 
-		GetTeacher();
-	}, [userTeacher]);
-
-	useEffect(() => {
-		const GetCurso = async () => {
+		const GetCursos = useCallback(async () => {
 			try {
-				var resultFromApi = await GetTeacherCourse(
+				const resultFromApi = await GetTeacherCourse(
 					userTeacher.nameIdentifier,
 					search,
 				);
@@ -101,7 +96,6 @@ export const Profesor = () => {
 				}
 
 				if (resultFetch.isSuccess) {
-					//console.log(resultFetch);
 					setCursoList(resultFetch.result);
 					//setProfesor(resultFetch.result[0].teacher);
 				} else {
@@ -112,10 +106,13 @@ export const Profesor = () => {
 				console.error(error);
 				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
 			}
-		};
+		},[userTeacher,search]);
 
-		GetCurso();
-	}, [response, search, userTeacher]);
+
+	useEffect(() => {
+		GetTeacher();
+		GetCursos();
+	}, [GetTeacher, GetCursos]);
 
 	return (
 		<div className="w-[95%] mx-auto">
@@ -126,15 +123,15 @@ export const Profesor = () => {
 				setShowEstudiantes={setShowEstudiantes}
 				setShowDeberes={setShowDeberes}
 				setShowPruebas={setShowPruebas}
-				setResponse={setResponse}
+				//setResponse={setResponse}
 			/>
 
 			<div className="md:ml-64">
 				{showInformacion && (
 					<Informacion
 						profesor={profersor}
-						response={response}
-						setResponse={setResponse}
+						//response={response}
+						//setResponse={setResponse}
 					/>
 				)}
 				{showCursos && (
@@ -143,7 +140,7 @@ export const Profesor = () => {
 						setShowVideos={setShowVideos}
 						cursoList={cursoList}
 						curso={curso}
-						setResponse={setResponse}
+						//setResponse={setResponse}
 						setCurso={setCurso}
 						setSearch={setSearch}
 						setShowDeberes={setShowDeberes}
@@ -155,9 +152,10 @@ export const Profesor = () => {
 						setShowCursos={setShowCursos}
 						setShowVideos={setShowVideos}
 						curso={curso}
-						setCurso={setCurso}
-						setShowDeberes={setShowDeberes}
-						setShowPruebas={setShowPruebas}
+						//setCurso={setCurso}
+						//setShowDeberes={setShowDeberes}
+						//setShowPruebas={setShowPruebas}
+						GetCursos={GetCursos}
 					/>
 				)}
 				{showDeberes && (
@@ -165,9 +163,9 @@ export const Profesor = () => {
 						setShowCursos={setShowCursos}
 						setShowVideos={setShowVideos}
 						curso={curso}
-						setCurso={setCurso}
-						setShowDeberes={setShowDeberes}
-						setShowPruebas={setShowPruebas}
+						//setCurso={setCurso}
+						//setShowDeberes={setShowDeberes}
+						//setShowPruebas={setShowPruebas}
 					/>
 				)}
 				{showPruebas && (
@@ -176,8 +174,8 @@ export const Profesor = () => {
 						setShowVideos={setShowVideos}
 						curso={curso}
 						setCurso={setCurso}
-						response={response}
-						setResponse={setResponse}
+						//response={response}
+						//setResponse={setResponse}
 						setShowDeberes={setShowDeberes}
 						setShowPruebas={setShowPruebas}
 					/>

@@ -34,36 +34,35 @@ export const Productos = () => {
 	const refSearch = useRef();
 	const navigate = useNavigate();
 
-
 	const fetchProducto = useCallback(async () => {
-			try {
-				const resultFromApi = await GetAllProducts(search);
+		try {
+			const resultFromApi = await GetAllProducts(search);
 
-				const resultFetch = await resultFromApi.json();
+			const resultFetch = await resultFromApi.json();
 
-				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
-					throw resultFetch;
-				}
-
-				setProductList(resultFetch.result);
-				setNumberOfPages(Math.ceil(resultFetch.result.length / pageSize));
-
-				//productList &&
-				setCurrentDataDisplayed(() => {
-					const page = resultFetch?.result?.slice(
-						(currentPage - 1) * pageSize,
-						currentPage * pageSize,
-					);
-					//return { list: page }; //List es una lista con la cantidad de items de publicidad que se va a mostrar en la tabla
-					return page;
-				});
-				setPreviousAllowed(() => currentPage > 1);
-				setNextAllowed(() => currentPage < numberOfPages);
-			} catch (error) {
-				console.error(error);
-				navigate("/error");
+			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+				throw resultFetch;
 			}
-		},[search,navigate,numberOfPages, currentPage]);
+
+			setProductList(resultFetch.result);
+			setNumberOfPages(Math.ceil(resultFetch.result.length / pageSize));
+
+			//productList &&
+			setCurrentDataDisplayed(() => {
+				const page = resultFetch?.result?.slice(
+					(currentPage - 1) * pageSize,
+					currentPage * pageSize,
+				);
+				//return { list: page }; //List es una lista con la cantidad de items de publicidad que se va a mostrar en la tabla
+				return page;
+			});
+			setPreviousAllowed(() => currentPage > 1);
+			setNextAllowed(() => currentPage < numberOfPages);
+		} catch (error) {
+			console.error(error);
+			navigate("/error");
+		}
+	}, [search, navigate, numberOfPages, currentPage]);
 
 	useEffect(() => {
 		fetchProducto();
@@ -95,11 +94,11 @@ export const Productos = () => {
 	const handlePagination = (action) => {
 		if (action === "prev") {
 			if (!previousAllowed) return;
-			setCurrentPage((prevState) => (prevState - 1));
+			setCurrentPage((prevState) => prevState - 1);
 		}
 		if (action === "next") {
 			if (!nextAllowed) return;
-			setCurrentPage((prevState) => (prevState + 1));
+			setCurrentPage((prevState) => prevState + 1);
 		}
 		//setResponse({});
 	};
@@ -118,7 +117,6 @@ export const Productos = () => {
 					producto={producto}
 					//setResponse={setResponse}
 					fetchProducto={fetchProducto}
-					
 				/>
 			)}
 			{/* {showModalDelete && <ModalDelete showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete} publicidad={publicidad} setResponse={setResponse}  />} */}

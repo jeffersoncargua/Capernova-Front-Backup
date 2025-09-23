@@ -26,26 +26,26 @@ export const Hero = ({ video }) => {
 	}, []);
 
 	const fetchPublicidad = useCallback(async () => {
-			try {
-				const result = await GetAllMarketing();
+		try {
+			const result = await GetAllMarketing();
 
-				const resultFetch = await result.json();
+			const resultFetch = await result.json();
 
-				if (result.status !== 200 && result.status !== 400) {
-					throw resultFetch;
-				}
-
-				if (resultFetch.isSuccess) {
-					setSlices(resultFetch.result);
-					setCurrent(0);
-				} else {
-					setSlices([]);
-				}
-			} catch (error) {
-				console.log(error);
-				navigate("error");
+			if (result.status !== 200 && result.status !== 400) {
+				throw resultFetch;
 			}
-		},[navigate]);
+
+			if (resultFetch.isSuccess) {
+				setSlices(resultFetch.result);
+				setCurrent(0);
+			} else {
+				setSlices([]);
+			}
+		} catch (error) {
+			console.log(error);
+			navigate("error");
+		}
+	}, [navigate]);
 
 	useEffect(() => {
 		fetchPublicidad();

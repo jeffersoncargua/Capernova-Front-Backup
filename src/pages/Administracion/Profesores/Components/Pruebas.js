@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { ModalDelete } from "../../Components";
 //import {ModalPrueba, ModalDeletePrueba, ModalSuccess} from '../Components'
@@ -9,9 +9,9 @@ export const Pruebas = ({
 	setShowCursos,
 	setShowVideos,
 	curso,
-	setCurso,
-	setShowDeberes,
-	setShowPruebas,
+	//setCurso,
+	//setShowDeberes,
+	//setShowPruebas,
 }) => {
 	const [pruebas, setPruebas] = useState([]);
 	const [prueba, setPrueba] = useState({});
@@ -22,10 +22,9 @@ export const Pruebas = ({
 	const [tipo, setTipo] = useState("");
 	const [objeto, setObjeto] = useState({});
 
-	useEffect(() => {
-		const GetDeber = async () => {
+	const GetPruebas = useCallback(async () => {
 			try {
-				var resultFromApi = await GetAllTest(curso.id);
+				const resultFromApi = await GetAllTest(curso.id);
 
 				const resultFetch = await resultFromApi.json();
 
@@ -41,12 +40,11 @@ export const Pruebas = ({
 				console.error(error);
 				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
 			}
-		};
-		GetDeber();
-		response.isSuccess
-			? toast.success(response.message)
-			: toast.error(response.message);
-	}, [curso, response]);
+		},[curso]);
+	
+	useEffect(() => {
+		GetPruebas();
+	}, [GetPruebas]);
 
 	const handleEditPrueba = (test) => {
 		setShowModalPrueba(true);
@@ -109,9 +107,10 @@ export const Pruebas = ({
 					prueba={prueba}
 					setPrueba={setPrueba}
 					curso={curso}
-					setResponse={
-						setResponse
-					} /*pruebas={pruebas} setPruebas={setPruebas}*/
+					// setResponse={
+					// 	setResponse
+					// } /*pruebas={pruebas} setPruebas={setPruebas}*/
+					GetPruebas={GetPruebas}
 				/>
 			)}
 
@@ -121,9 +120,10 @@ export const Pruebas = ({
 					setShowModalDelete={setShowModalDelete}
 					objeto={objeto}
 					setObjeto={setObjeto}
-					setResponse={setResponse}
+					//setResponse={setResponse}
 					tipo={tipo}
 					setTipo={setTipo}
+					getFunction={GetPruebas}
 				/>
 			)}
 			{showModalSuccess && (
@@ -134,8 +134,8 @@ export const Pruebas = ({
 					setResponse={setResponse}
 					setShowCursos={setShowCursos}
 					setShowVideos={setShowVideos}
-					setShowDeberes={setShowDeberes}
-					setShowPruebas={setShowPruebas}
+					//setShowDeberes={setShowDeberes}
+					//setShowPruebas={setShowPruebas}
 				/>
 			)}
 
@@ -148,12 +148,13 @@ export const Pruebas = ({
 						type="text"
 						className="rounded-lg bg-transparent dark:bg-slate-900 border-0"
 						name="titulo"
-						id="titulo"
+						i//d="titulo"
 						defaultValue={curso.titulo}
 					/>
 				</div>
 				<div>
 					<button
+						type="button"
 						onClick={() => {
 							setShowModalPrueba(true);
 							setPrueba({});
@@ -207,6 +208,7 @@ export const Pruebas = ({
 										<td className="px-4 py-3">
 											<div className="py-1 flex justify-start">
 												<button
+													type="button"
 													onClick={() => handleEditPrueba(test)}
 													className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-yellow-300 hover:bg-yellow-400 rounded-lg mr-2"
 												>
@@ -225,6 +227,7 @@ export const Pruebas = ({
 													Editar
 												</button>
 												<button
+													type="button"
 													onClick={() => handleDeletePrueba(test)}
 													className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-red-500 hover:bg-red-600 rounded-lg"
 												>

@@ -5,7 +5,10 @@ import { VentaDetails, Loading } from "../Components";
 import Datepicker from "react-tailwindcss-datepicker";
 
 import { DownloadTableExcel } from "react-export-table-to-excel";
-import { GetAllVentas, UpdateRefundVenta } from "../../../../apiServices/ManagmentServices/ManagmentVentas";
+import {
+	GetAllVentas,
+	UpdateRefundVenta,
+} from "../../../../apiServices/ManagmentServices/ManagmentVentas";
 
 export const Ventas = () => {
 	const [ventaList, setVentaList] = useState([]);
@@ -49,35 +52,34 @@ export const Ventas = () => {
 	const tableRef = useRef(null);
 
 	const fetchVentas = useCallback(async () => {
-			try {
-				const resultFromApi = await GetAllVentas(
-					search,
-					value.startDate,
-					value.endDate,
-				);
+		try {
+			const resultFromApi = await GetAllVentas(
+				search,
+				value.startDate,
+				value.endDate,
+			);
 
-				const resultFetch = await resultFromApi.json();
+			const resultFetch = await resultFromApi.json();
 
-				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
-					throw resultFetch;
-				}
-
-				if (resultFetch.isSuccess) {
-					let subTotal = 0;
-					setVentaList(resultFetch.result);
-					resultFetch.result.forEach((element) => {
-						if (element.estado === "Pagado") {
-							subTotal += element.total;
-						}
-					});
-					setTotal(subTotal);
-				}
-
-			} catch (error) {
-				console.error(error);
-				toast.error("Ha ocurrido un error en el servidor");
+			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+				throw resultFetch;
 			}
-		},[search,value]);
+
+			if (resultFetch.isSuccess) {
+				let subTotal = 0;
+				setVentaList(resultFetch.result);
+				resultFetch.result.forEach((element) => {
+					if (element.estado === "Pagado") {
+						subTotal += element.total;
+					}
+				});
+				setTotal(subTotal);
+			}
+		} catch (error) {
+			console.error(error);
+			toast.error("Ha ocurrido un error en el servidor");
+		}
+	}, [search, value]);
 
 	useEffect(() => {
 		fetchVentas();
@@ -94,37 +96,39 @@ export const Ventas = () => {
 	};
 
 	//Esta funcion permite realizar el cambiar el estado de reembolso para eliminar el shoppingCart, la matricula de ser necesario y el pedido
-	const handleRefund = useCallback(async (venta) => {
-		setLoading(true);
-		try {
+	const handleRefund = useCallback(
+		async (venta) => {
 			setLoading(true);
+			try {
+				setLoading(true);
 
-			const resultFromApi = await UpdateRefundVenta(venta.id);
+				const resultFromApi = await UpdateRefundVenta(venta.id);
 
-			const resultFetch = await resultFromApi.json();
+				const resultFetch = await resultFromApi.json();
 
-			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
-				throw resultFetch;
+				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+					throw resultFetch;
+				}
+
+				resultFetch.isSuccess
+					? toast.success(resultFetch.message)
+					: toast.error(resultFetch.message);
+				setLoading(false);
+			} catch (error) {
+				console.error(error);
+				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+				setLoading(false);
 			}
-
-			resultFetch.isSuccess
-				? toast.success(resultFetch.message)
-				: toast.error(resultFetch.message);
-			setLoading(false);
-
-		} catch (error) {
-			console.error(error);
-			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
-			setLoading(false);
-		}
-		fetchVentas();
-		//setResponse({});
-	},[fetchVentas]);
+			fetchVentas();
+			//setResponse({});
+		},
+		[fetchVentas],
+	);
 
 	const GetFecha = useCallback((fecha) => {
 		const date = new Date(fecha);
 		return date.toLocaleDateString();
-	},[]);
+	}, []);
 
 	return (
 		<div>
@@ -153,7 +157,10 @@ export const Ventas = () => {
 							sheet="reporte"
 							currentTableRef={tableRef.current}
 						>
-							<button type="button" className="bg-green-700 hover:bg-green-600 flex items-center rounded-lg px-3 py-2 ">
+							<button
+								type="button"
+								className="bg-green-700 hover:bg-green-600 flex items-center rounded-lg px-3 py-2 "
+							>
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									fill="currentColor"

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { CalificarDeber } from "../Components";
 import { toast } from "react-toastify";
 import { GetAllTest } from "../../../../apiServices/TeacherServices/TeacherServices";
@@ -17,10 +17,9 @@ export const ModalCalificarDeber = ({
 		"Acciones",
 	];
 
-	useEffect(() => {
-		const GetNotaDeber = async () => {
+	const GetNotaDeber = useCallback(async () => {
 			try {
-				var resultFromApi = await GetAllTest(matricula.cursoId);
+				const resultFromApi = await GetAllTest(matricula.cursoId);
 
 				const resultFetch = await resultFromApi.json();
 
@@ -36,14 +35,15 @@ export const ModalCalificarDeber = ({
 				console.error(error);
 				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
 			}
-		};
+		},[matricula]);
 
+	useEffect(() => {
 		GetNotaDeber();
-	}, [matricula]);
+	}, [GetNotaDeber]);
 
 	return (
 		<div
-			id="crud-modal"
+			//id="crud-modal"
 			tabIndex="-1"
 			className={`${showModalCalificarDeber ? "" : "hidden"} overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] bg-gray-700/[0.6]`}
 		>
@@ -93,7 +93,7 @@ export const ModalCalificarDeber = ({
 									type="text"
 									disabled
 									name="name"
-									id="name"
+									//id="name"
 									className="bg-gray-50 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
 									defaultValue={matricula.estudiante.name || ""}
 								/>
@@ -109,7 +109,7 @@ export const ModalCalificarDeber = ({
 									type="text"
 									disabled
 									name="name"
-									id="name"
+									//id="name"
 									className=" bg-gray-50 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
 									defaultValue={matricula.estudiante.lastName || ""}
 								/>
@@ -125,7 +125,7 @@ export const ModalCalificarDeber = ({
 									type="text"
 									disabled
 									name="email"
-									id="email"
+									//id="email"
 									className="bg-gray-50 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
 									defaultValue={matricula.estudiante.email || ""}
 								/>

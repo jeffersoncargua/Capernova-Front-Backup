@@ -9,7 +9,7 @@ export const ModalPublicidad = ({
 	showModal,
 	setShowModal,
 	publicidad,
-	fetchPublicidad
+	fetchPublicidad,
 	//setResponse,
 }) => {
 	const [showButtonLoading, setShowButtonLoading] = useState(false);
@@ -37,10 +37,9 @@ export const ModalPublicidad = ({
 
 			fetchPublicidad(); //llama a la funcion fetchpublicidad para actualizar los items de publicidad
 
-			resultFetch.isSuccess ?
-			toast.success(resultFetch.message) :
-			toast.error(resultFetch.message) 
-
+			resultFetch.isSuccess
+				? toast.success(resultFetch.message)
+				: toast.error(resultFetch.message);
 		} catch (error) {
 			setShowButtonLoading(false);
 			console.error(error);
@@ -70,10 +69,9 @@ export const ModalPublicidad = ({
 
 			fetchPublicidad(); //llama a la funcion fetchpublicidad para actualizar los items de publicidad
 
-			resultFetch.isSuccess ?
-			toast.success(resultFetch.message) :
-			toast.error(resultFetch.message) 
-
+			resultFetch.isSuccess
+				? toast.success(resultFetch.message)
+				: toast.error(resultFetch.message);
 		} catch (_error) {
 			setShowModal(false);
 			setShowButtonLoading(false);

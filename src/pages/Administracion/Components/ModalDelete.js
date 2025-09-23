@@ -10,69 +10,68 @@ export const ModalDelete = ({
 	//setResponse,
 	tipo,
 	setTipo,
-	getFunction
+	getFunction,
 }) => {
-
 	const [showButtonLoading, setShowButtonLoading] = useState(false);
 
 	const handleDelete = async (object) => {
-		let resultFetch = {};
+		//let resultFetch = {};
 		switch (tipo) {
 			case "prueba": //instrucciones para eliminar la prueba
-				resultFetch = await DeleteObject("/Prueba/deletePrueba", object);
+				await DeleteObject("/Prueba/deletePrueba", object);
 				//setResponse(resultFetch);
 
 				break;
 			case "deber": //instrucciones para eliminar la deber
-				resultFetch = await DeleteObject("/Deber/deleteDeber", object);
+				await DeleteObject("/Deber/deleteDeber", object);
 				//setResponse(resultFetch);
 				break;
 			case "capitulo": //instrucciones para eliminar el capitulo
-				resultFetch = await DeleteObject("/Capitulo/deleteCapitulo", object);
+				await DeleteObject("/Capitulo/deleteCapitulo", object);
 				//setResponse(resultFetch);
 				break;
 			case "video": //instrucciones para eliminar el video
-				resultFetch = await DeleteObject("/Video/deleteVideo", object);
+				await DeleteObject("/Video/deleteVideo", object);
 				//setResponse(resultFetch);
 
 				break;
 			case "curso": //instrucciones para eliminar la prueba Course/deleteCourse
-				resultFetch = await DeleteObject("/Course/deleteCourse", object);
+				await DeleteObject("/Course/deleteCourse", object);
 				//setResponse(resultFetch);
 
 				break;
 			case "publicidad": //instrucciones para eliminar la prueba Course/deleteCourse
-				resultFetch = await DeleteObject("/Marketing/deletePublicidad", object);
+				await DeleteObject("/Marketing/deletePublicidad", object);
 				//setResponse(resultFetch);
 
 				break;
 			case "talento": //instrucciones para eliminar la prueba Course/deleteCourse
-				resultFetch = await DeleteObject("/Managment/deleteUser", object);
+				await DeleteObject("/Managment/deleteUser", object);
 				//setResponse(resultFetch);
 
 				break;
 			case "producto": //instrucciones para eliminar la prueba Course/deleteCourse
-				resultFetch = await DeleteObject("/Producto/deleteProducto", object);
+				await DeleteObject("/Producto/deleteProducto", object);
 				//setResponse(resultFetch);
 
 				break;
 			case "venta": //instrucciones para eliminar la prueba Course/deleteCourse
-				resultFetch = await DeleteObject("/Venta/deleteVenta", object);
+				await DeleteObject("/Venta/deleteVenta", object);
 				//setResponse(resultFetch);
 
 				break;
 			case "pedido": //instrucciones para eliminar la prueba Course/deleteCourse
-				resultFetch = await DeleteObject("/Venta/deletePedido", object);
+				await DeleteObject("/Venta/deletePedido", object);
 				//setResponse(resultFetch);
 
 				break;
 			case "categoría": //instrucciones para eliminar la prueba Course/deleteCourse
-				resultFetch = await DeleteObject("/Producto/deleteCategoria", object);
+				await DeleteObject("/Producto/deleteCategoria", object);
 				//setResponse(resultFetch);
 
 				break;
 			case "matricula": //instrucciones para eliminar la prueba Course/deleteCourse
-				resultFetch = await DeleteObject("/Managment/deleteMatricula", object);
+				await DeleteObject("/Managment/deleteMatricula", object);
 				//setResponse(resultFetch);
 
 				break;
@@ -84,7 +83,7 @@ export const ModalDelete = ({
 	const DeleteObject = async (ruta, objeto) => {
 		setShowButtonLoading(true);
 		try {
-			var resultFromApi = await Delete(ruta, objeto.id);
+			const resultFromApi = await Delete(ruta, objeto.id);
 
 			const resultFetch = await resultFromApi.json();
 
@@ -100,13 +99,11 @@ export const ModalDelete = ({
 
 			getFunction();
 
-			resultFetch.isSuccess ?
-				toast.success(resultFetch.message):
-				toast.error(resultFetch.message);
+			resultFetch.isSuccess
+				? toast.success(resultFetch.message)
+				: toast.error(resultFetch.message);
 
 			// setPrueba({});
-
-
 		} catch (error) {
 			console.error(error);
 			toast.error("Ha ocurrido un error en el servidor");
@@ -121,7 +118,7 @@ export const ModalDelete = ({
 	return (
 		<div>
 			<div
-				id="popup-modal"
+				//id="popup-modal"
 				tabIndex="-1"
 				className={`${showModalDelete ? "" : "hidden"} overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] bg-gray-700/[0.6]`}
 			>
@@ -178,7 +175,7 @@ export const ModalDelete = ({
 								>
 									<svg
 										aria-hidden="true"
-										role="status"
+										//role="status"
 										className="inline w-4 h-4 me-3 text-white animate-spin"
 										viewBox="0 0 100 101"
 										fill="none"

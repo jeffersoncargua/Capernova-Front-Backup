@@ -35,31 +35,29 @@ export const Pedidos = () => {
 	const refSearch = useRef();
 
 	const fetchPedidos = useCallback(async () => {
-			try {
-				const resultFromApi = await GetAllPedidos(
-					search,
-					value.startDate,
-					value.endDate,
-				);
+		try {
+			const resultFromApi = await GetAllPedidos(
+				search,
+				value.startDate,
+				value.endDate,
+			);
 
-				const resultFetch = await resultFromApi.json();
+			const resultFetch = await resultFromApi.json();
 
-				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
-					throw resultFetch;
-				}
-
-				if (resultFetch.isSuccess) {
-					setPedidoList(resultFetch.result);
-				}
-
-			} catch (error) {
-				console.error(error);
-				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+				throw resultFetch;
 			}
-		},[value, search]);
+
+			if (resultFetch.isSuccess) {
+				setPedidoList(resultFetch.result);
+			}
+		} catch (error) {
+			console.error(error);
+			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+		}
+	}, [value, search]);
 
 	useEffect(() => {
-		
 		fetchPedidos();
 	}, [fetchPedidos]);
 
@@ -85,7 +83,7 @@ export const Pedidos = () => {
 	const GetFecha = useCallback((fecha) => {
 		const date = new Date(fecha);
 		return date.toLocaleDateString();
-	},[]);
+	}, []);
 
 	// function GetFecha (fecha) {
 	// 	const date = new Date(fecha);

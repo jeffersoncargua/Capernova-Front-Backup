@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import {
 	ModalCalificarDeber,
 	ModalCalificarNotaFinal,
@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 
 //import para escoger la fecha de busqueda de registros de las ventas
 import Datepicker from "react-tailwindcss-datepicker";
-import { GetAllStudents } from "../../../../apiServices/TeacherServices/TeacherServices";
+import { GetAllStudents, UpdateMatriculaEstado } from "../../../../apiServices/TeacherServices/TeacherServices";
 
 export const Estudiantes = ({ cursoList }) => {
 	const pageSize = 10;
@@ -29,7 +29,7 @@ export const Estudiantes = ({ cursoList }) => {
 
 	const [searchUser, setSearchUser] = useState("");
 
-	const [response, setResponse] = useState({});
+	//const [response, setResponse] = useState({});
 	const [showLoading, setShowLoading] = useState(false);
 	const [value, setValue] = useState({
 		startDate: null,
@@ -50,11 +50,10 @@ export const Estudiantes = ({ cursoList }) => {
 	const refSearch = useRef();
 	const refCurso = useRef();
 
-	useEffect(() => {
-		const FetchEstudiantes = async () => {
+	const FetchEstudiantes = useCallback(async () => {
 			if (cursoId !== "") {
 				try {
-					var resultFromApi = await GetAllStudents(
+					const resultFromApi = await GetAllStudents(
 						cursoId || 0,
 						searchUser,
 						value.startDate,
@@ -98,12 +97,12 @@ export const Estudiantes = ({ cursoList }) => {
 				toast.info("Selecciona un curso");
 				setCurrentDataDisplayed([]);
 			}
-		};
+		},[cursoId, searchUser, value, numberOfPages, currentPage]);
+
+	useEffect(() => {
 		FetchEstudiantes();
-		response.isSuccess
-			? toast.success(response.message)
-			: toast.error(response.message);
-	}, [currentPage, numberOfPages, searchUser, response, cursoId, value]);
+		//toast.info("Selecciona un curso");
+	}, [FetchEstudiantes]);
 
 	const handleSearch = () => {
 		if (refSearch.current.value.length > 0) {
@@ -112,7 +111,7 @@ export const Estudiantes = ({ cursoList }) => {
 		} else {
 			setSearchUser("");
 		}
-		setResponse({});
+		//setResponse({});
 	};
 
 	const handleSelectedCourse = () => {
@@ -122,59 +121,48 @@ export const Estudiantes = ({ cursoList }) => {
 		} else {
 			setCursoId("");
 		}
-		setResponse({});
+		//setResponse({});
 	};
 
 	const handleCalificarDeberes = (matricula) => {
 		setShowModalCalificarDeber(true);
 		setMatricula(matricula);
-		setResponse({});
+		//setResponse({});
 	};
 
 	const handleCalificarPruebas = (matricula) => {
 		setShowModalCalificarPrueba(true);
 		setMatricula(matricula);
-		setResponse({});
+		//setResponse({});
 	};
 
 	const handleCalificarNotaFinal = (matricula) => {
 		setShowModalCalificarNotaFinal(true);
 		setMatricula(matricula);
-		setResponse({});
+		//setResponse({});
 	};
 
 	const handlePagination = (action) => {
 		if (action === "prev") {
 			if (!previousAllowed) return;
-			setCurrentPage((prevState) => (prevState -= 1));
+			setCurrentPage((prevState) => (prevState - 1));
 		}
 		if (action === "next") {
 			if (!nextAllowed) return;
-			setCurrentPage((prevState) => (prevState += 1));
+			setCurrentPage((prevState) => (prevState + 1));
 		}
 	};
 
-	const GetFecha = (fecha) => {
+	const GetFecha = useCallback((fecha) => {
 		const date = new Date(fecha);
 		return date.toLocaleDateString();
-	};
+	},[]);
 
 	//handleDeshabilitar
 	const handleEstadoMatricula = async (matricula) => {
 		setShowLoading(true);
 		try {
-			const resultFromApi = await fetch(
-				`${process.env.REACT_APP_API_URL}/Teacher/updateMatriculaEstado/${matricula.id}/${matricula.estudianteId}`,
-				{
-					method: "PUT",
-					credentials: "include",
-					headers: {
-						"Content-Type": "application/json",
-						Accept: "application/json",
-					},
-					body: JSON.stringify(matricula.isActive),
-				},
-			);
+			let resultFromApi = await UpdateMatriculaEstado(matricula.id, matricula.estudianteId, matricula.isActive );
 
 			const resultFetch = await resultFromApi.json();
 
@@ -182,12 +170,12 @@ export const Estudiantes = ({ cursoList }) => {
 				throw resultFetch;
 			}
 
-			setResponse(resultFetch);
+			//setResponse(resultFetch);
 			setShowLoading(false);
 		} catch (error) {
 			console.error(error);
 			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
-			setResponse({});
+			//setResponse({});
 			setShowLoading(false);
 		}
 	};
@@ -242,14 +230,15 @@ export const Estudiantes = ({ cursoList }) => {
 									</label>
 									<select
 										onChange={() => handleSelectedCourse()}
-										id="curso"
+										//id="curso"
+										name="curso"
 										className=" w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 										defaultValue={""}
 										ref={refCurso}
 									>
 										<option value="">---- Selecciona el curso ----</option>
-										{cursoList &&
-											cursoList.map((curso) => (
+										{cursoList.length > 0  &&
+											cursoList?.map((curso) => (
 												<option key={curso.id} value={`${curso.id}`}>
 													{curso.titulo}
 												</option>
@@ -279,7 +268,8 @@ export const Estudiantes = ({ cursoList }) => {
 										<input
 											onChange={handleSearch}
 											type="text"
-											id="simple-search"
+											//id="simple-search"
+											name="simple-search"
 											className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 											placeholder="Busca por el nombre, apellido o correo"
 											required=""
@@ -290,9 +280,9 @@ export const Estudiantes = ({ cursoList }) => {
 							</div>
 							{/*Permite escoger la fecha de los periodos en las que se registren los estudiantes para poder realizar las calificaciones */}
 							<div className="w-full md:w-1/2 self-start">
-								<label className="me-2 mb-2 text-sm font-medium  dark:text-white">
+								<span className="me-2 mb-2 text-sm font-medium  dark:text-white">
 									Escoge la fecha:
-								</label>
+								</span>
 								<Datepicker
 									value={value}
 									onChange={(newValue) => setValue(newValue)}
@@ -343,6 +333,7 @@ export const Estudiantes = ({ cursoList }) => {
 												<td className="px-4 py-3">
 													<div className="py-1 flex justify-start">
 														<button
+															type="button"
 															onClick={() => {
 																handleCalificarDeberes(matricula);
 															}}
@@ -363,6 +354,7 @@ export const Estudiantes = ({ cursoList }) => {
 															Calificar Deberes
 														</button>
 														<button
+															type="button"
 															onClick={() => {
 																handleCalificarPruebas(matricula);
 															}}
@@ -383,6 +375,7 @@ export const Estudiantes = ({ cursoList }) => {
 															Calificar Pruebas
 														</button>
 														<button
+															type="button"
 															onClick={() => {
 																handleCalificarNotaFinal(matricula);
 															}}
@@ -403,6 +396,7 @@ export const Estudiantes = ({ cursoList }) => {
 															Colocar Nota Final
 														</button>
 														<button
+															type="button"
 															onClick={() => {
 																handleEstadoMatricula(matricula);
 															}}
@@ -456,6 +450,7 @@ export const Estudiantes = ({ cursoList }) => {
 				</div>
 				<div className="flex justify-between">
 					<button
+						type="button"
 						onClick={() => handlePagination("prev")}
 						className="flex items-center justify-center bg-gray-400 hover:bg-gray-500 px-4 py-2 mr-2 rounded-lg hover:cursor-pointer"
 					>
@@ -473,6 +468,7 @@ export const Estudiantes = ({ cursoList }) => {
 						Anterior
 					</button>
 					<button
+						type="button"
 						onClick={() => handlePagination("next")}
 						className="flex items-center justify-center bg-gray-400 hover:bg-gray-500 px-4 py-2 rounded-lg hover:cursor-pointer"
 					>

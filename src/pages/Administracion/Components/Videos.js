@@ -20,10 +20,10 @@ export const Videos = ({
 	setShowCursos,
 	setShowVideos,
 	curso,
-	setCurso,
-	setShowDeberes,
-	setShowPruebas,
-	GetCursos
+	// setCurso,
+	// setShowDeberes,
+	// setShowPruebas,
+	GetCursos,
 }) => {
 	const [capitulos, setCapitulos] = useState([]);
 	const [capitulo, setCapitulo] = useState({});
@@ -38,7 +38,7 @@ export const Videos = ({
 	const [showModalDelete, setShowModalDelete] = useState(false);
 	const [showModalSuccess, setShowModalSuccess] = useState(false);
 	const [showButtonLoading, setShowButtonLoading] = useState(false);
-	const [response, setResponse] = useState({});
+	//const [response, setResponse] = useState({});
 	const [categoriaList, setCategoriaList] = useState([]);
 	const [producto, setProducto] = useState({});
 
@@ -90,79 +90,77 @@ export const Videos = ({
 	//   FetchCategoriaCurso();
 	// },[producto,navigate])
 
-
 	const FetchProducto = useCallback(async () => {
-			try {
+		try {
+			const result = await GetProductCode(curso.codigo);
 
-				let result = await GetProductCode(curso.codigo);
+			const resultFetch = await result.json();
 
-				const resultFetch = await result.json();
-
-				if (result.status !== 200 && result.status !== 400) {
-					throw resultFetch;
-				}
-
-				if (resultFetch.isSuccess) {
-					setProducto(resultFetch.result);
-				} else {
-					setProducto({});
-				}
-			} catch (error) {
-				console.error(error);
-				//toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
-				navigate("/error");
+			if (result.status !== 200 && result.status !== 400) {
+				throw resultFetch;
 			}
-		},[curso]);
 
-		const FetchCategoriaCurso = useCallback(async () => {
-			try {
-				let result = await GetCategoriaCursos();
-
-				const resultFetch = await result.json();
-
-				if (result.status !== 200 && result.status !== 400) {
-					throw resultFetch;
-				}
-
-				if (resultFetch.isSuccess) {
-					setCategoriaList(resultFetch.result);
-				} else {
-					setCategoriaList([]);
-				}
-			} catch (error) {
-				console.error(error);
-				//toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
-				navigate("/error");
+			if (resultFetch.isSuccess) {
+				setProducto(resultFetch.result);
+			} else {
+				setProducto({});
 			}
-		},[navigate]);
+		} catch (error) {
+			console.error(error);
+			//toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
+			navigate("/error");
+		}
+	}, [curso,navigate]);
 
-	const GetCapitulo = useCallback(async () => {
-			try {
-				let resultFromApi = await GetAllCapitulo(curso.id);
+	const FetchCategoriaCurso = useCallback(async () => {
+		try {
+			const result = await GetCategoriaCursos();
 
-				const resultFetch = await resultFromApi.json();
+			const resultFetch = await result.json();
 
-				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
-					throw resultFetch;
-				}
-				if (resultFetch.isSuccess) {
-					setCapitulos(resultFetch.result);
-				} else {
-					setCapitulos([]);
-				}
-			} catch (error) {
-				console.error(error);
-				//toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
+			if (result.status !== 200 && result.status !== 400) {
+				throw resultFetch;
+			}
+
+			if (resultFetch.isSuccess) {
+				setCategoriaList(resultFetch.result);
+			} else {
+				setCategoriaList([]);
+			}
+		} catch (error) {
+			console.error(error);
+			//toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
+			navigate("/error");
+		}
+	}, [navigate]);
+
+	const GetCapitulos = useCallback(async () => {
+		try {
+			let resultFromApi = await GetAllCapitulo(curso.id);
+
+			const resultFetch = await resultFromApi.json();
+
+			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+				throw resultFetch;
+			}
+			if (resultFetch.isSuccess) {
+				setCapitulos(resultFetch.result);
+			} else {
 				setCapitulos([]);
-				navigate("/error");
 			}
-		},[curso, navigate]);
+		} catch (error) {
+			console.error(error);
+			//toast.error('Algo ha fallado en nuestro servidor. Inténtelo más tarde');
+			setCapitulos([]);
+			navigate("/error");
+		}
+	}, [curso, navigate]);
 
 	useEffect(() => {
 		FetchProducto();
 		FetchCategoriaCurso();
-		GetCapitulo();
-	}, [FetchProducto,FetchCategoriaCurso, GetCapitulo]);
+		GetCapitulos();
+	}, [FetchProducto, FetchCategoriaCurso, GetCapitulos]);
 
 	const handleEditCap = (cap) => {
 		setShowModalCapitulo(true);
@@ -187,25 +185,25 @@ export const Videos = ({
 	const handleCursoEdit = async () => {
 		setShowButtonLoading(true);
 		try {
-			let result = await UpdateCourse({
-						id: curso.id,
-						codigo: refCodigo.current.value,
-						imagenUrl: refImageUrl.current.value,
-						titulo: refTitulo.current.value,
-						detalle: refDescripcion.current.value,
-						// state: curso.state,
-						// deberes: JSON.parse(curso.deberes),
-						// pruebas: JSON.parse(curso.pruebas),
-						// notaFinal : curso.notaFinal,
-						teacherId: curso.teacherId,
-						precio: refPrice.current.value,
-						//isActive: curso.isActive,
-						//capituloList: capitulos
-						folderId: refFolder.current.value,
-						categoriaId: refCategoria.current.value,
-						bibliotecaUrl: refBiblioteca.current.value,
-						claseUrl: refClasesUrl.current.value,
-					});
+			const result = await UpdateCourse({
+				id: curso.id,
+				codigo: refCodigo.current.value,
+				imagenUrl: refImageUrl.current.value,
+				titulo: refTitulo.current.value,
+				detalle: refDescripcion.current.value,
+				// state: curso.state,
+				// deberes: JSON.parse(curso.deberes),
+				// pruebas: JSON.parse(curso.pruebas),
+				// notaFinal : curso.notaFinal,
+				teacherId: curso.teacherId,
+				precio: refPrice.current.value,
+				//isActive: curso.isActive,
+				//capituloList: capitulos
+				folderId: refFolder.current.value,
+				categoriaId: refCategoria.current.value,
+				bibliotecaUrl: refBiblioteca.current.value,
+				claseUrl: refClasesUrl.current.value,
+			});
 
 			const resultFetch = await result.json();
 
@@ -213,17 +211,17 @@ export const Videos = ({
 				throw resultFetch;
 			}
 
-			setResponse(resultFetch);
+			//setResponse(resultFetch);
 			//console.log(resultFetch);
 			setShowButtonLoading(false);
 			setShowModalSuccess(true);
 
 			GetCursos();
 
-			resultFetch.isSuccess ?
-			toast.success(resultFetch.message) :
-			toast.error(resultFetch.message)
-
+			resultFetch.isSuccess
+				? toast.success(resultFetch.message)
+				: toast.error(resultFetch.message);
+				
 		} catch (error) {
 			setShowButtonLoading(false);
 			console.error(error);
@@ -250,9 +248,10 @@ export const Videos = ({
 					capitulo={capitulo}
 					setCapitulo={setCapitulo}
 					curso={curso}
-					setResponse={
-						setResponse
-					} /*capitulos={capitulos} setCapitulos={setCapitulos}*/
+					// setResponse={
+					// 	setResponse
+					// } /*capitulos={capitulos} setCapitulos={setCapitulos}*/
+					GetCapitulos={GetCapitulos}
 				/>
 			)}
 
@@ -266,9 +265,10 @@ export const Videos = ({
 					setVideos={setVideos}
 					capitulo={capitulo}
 					setCapitulo={setCapitulo}
-					setResponse={
-						setResponse
-					} /*capitulos={capitulos} setCapitulos={setCapitulos}*/
+					// setResponse={
+					// 	setResponse
+					// } /*capitulos={capitulos} setCapitulos={setCapitulos}*/
+					GetCapitulos={GetCapitulos}
 				/>
 			)}
 
@@ -281,6 +281,7 @@ export const Videos = ({
 					//setResponse={setResponse}
 					tipo={tipo}
 					setTipo={setTipo}
+					getFunction={GetCapitulos}
 				/>
 			)}
 			{showModalSuccess && (
@@ -304,7 +305,7 @@ export const Videos = ({
 						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 						placeholder="Escribe el titulo del curso aquí"
 						name="titulo"
-						id="titulo"
+						//id="titulo"
 						defaultValue={curso.titulo}
 						ref={refTitulo}
 					/>
@@ -318,13 +319,14 @@ export const Videos = ({
 						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 						placeholder="Escribe el código del curso aquí"
 						name="codigo"
-						id="codigo"
+						//id="codigo"
 						defaultValue={curso.codigo}
 						ref={refCodigo}
 					/>
 				</div>
 				<div>
 					<button
+						type="button"
 						onClick={() => {
 							setShowModalCapitulo(true);
 							setCapitulo({});
@@ -356,7 +358,7 @@ export const Videos = ({
 					className="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 					placeholder="Coloca la URL de la imagen aquí"
 					name="imageUrl"
-					id="imageUrl"
+					//id="imageUrl"
 					defaultValue={curso.imagenUrl}
 					ref={refImageUrl}
 				/>
@@ -371,9 +373,9 @@ export const Videos = ({
 					</label>
 					<input
 						type="text"
-						pattern="[0-9]{1,}\.[0-9]{1,}"
+						pattern="\d+(\.\d{0,2})?"
 						name="price"
-						id="price"
+						//id="price"
 						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 						placeholder="Coloca el precio del producto. Ejemplo: $100,50"
 						required=""
@@ -393,7 +395,7 @@ export const Videos = ({
 						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 						placeholder="Coloca el ID de la carpeta de deberes del curso aquí"
 						name="folderId"
-						id="folderId"
+						//id="folderId"
 						defaultValue={curso.folderId}
 						ref={refFolder}
 					/>
@@ -410,7 +412,7 @@ export const Videos = ({
 					<input
 						type="text"
 						name="biblioteca"
-						id="biblioteca"
+						//id="biblioteca"
 						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 						placeholder="Coloca la URL de la biblioteca del curso aquí"
 						defaultValue={curso.bibliotecaUrl}
@@ -429,7 +431,7 @@ export const Videos = ({
 						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 						placeholder="Coloca la URL de las clases en vivo del curso aquí"
 						name="clasesEnVivo"
-						id="clasesEnVivo"
+						//id="clasesEnVivo"
 						defaultValue={curso.claseUrl}
 						ref={refClasesUrl}
 					/>
@@ -444,15 +446,16 @@ export const Videos = ({
 				</label>
 				{producto.id && (
 					<select
-						id="tipo"
+						//id="tipo"
+						name="tipo"
 						className="text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 						defaultValue={producto.categoriaId || 0}
 						ref={refCategoria}
 					>
 						<option value={0}>---Seleccione el tipo de Categoría---</option>
 						{categoriaList.length > 0 &&
-							categoriaList.map((categoria, index) => (
-								<option key={index} value={categoria.id}>
+							categoriaList.map((categoria) => (
+								<option key={categoria.id} value={categoria.id}>
 									{categoria.name}
 								</option>
 							))}
@@ -467,7 +470,7 @@ export const Videos = ({
 					Descripción:
 				</label>
 				<textarea
-					id="descripcion"
+					//id="descripcion"
 					name="descripcion"
 					rows="4"
 					className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -491,13 +494,14 @@ export const Videos = ({
 									<span
 										className="rounded-lg bg-transparent dark:bg-slate-900 border-0"
 										name="titulo"
-										id="titulo"
+										//id="titulo"
 									>
 										{cap.titulo}
 									</span>
 								</div>
 								<div className="flex">
 									<button
+										type="button"
 										onClick={() => handleAddVideo(cap)}
 										className="bg-orange-400 hover:bg-orange-600 hover:text-white hover:cursor-pointer flex items-center px-4 py-2 text-sm rounded-lg mr-2"
 									>
@@ -513,6 +517,7 @@ export const Videos = ({
 										Agregar Videos
 									</button>
 									<button
+										type="button"
 										onClick={() => handleEditCap(cap)}
 										className="flex items-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-cyan-400 hover:bg-cyan-600 rounded-lg mr-2"
 									>
@@ -531,6 +536,7 @@ export const Videos = ({
 										Editar Capitulo
 									</button>
 									<button
+										type="button"
 										onClick={() => handleDeleteCap(cap)}
 										className="flex items-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-red-400 hover:bg-red-600 rounded-lg"
 									>
@@ -620,6 +626,7 @@ export const Videos = ({
 			<div className="flex justify-end my-10">
 				{showButtonLoading ? (
 					<button
+						type="button"
 						disabled
 						className="flex items-center px-4 py-2 bg-blue-400 hover:bg-blue-600 text-gray 900 hover:text-white text-sm rounded-lg hover:scale-125"
 					>
@@ -636,6 +643,7 @@ export const Videos = ({
 					</button>
 				) : (
 					<button
+						type="button"
 						onClick={() => handleCursoEdit()}
 						className="flex items-center px-4 py-2 bg-gray-400 hover:bg-gray-600 text-gray 900 hover:text-white text-sm rounded-lg hover:scale-125"
 					>

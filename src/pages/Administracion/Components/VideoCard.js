@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { GetAllVideos } from "../../../apiServices/ManagmentServices/ManagmentCourseServices";
 
@@ -13,22 +13,10 @@ export const VideoCard = ({
 }) => {
 	const [videos, setVideos] = useState([]);
 
-	useEffect(() => {
-		const GetVideo = async () => {
+	const GetVideo = useCallback(async () => {
 			try {
-				// const resultFromApi = await fetch(
-				// 	`${process.env.REACT_APP_API_URL}/Video/getAllVideos/${cap.id}`,
-				// 	{
-				// 		method: "GET",
-				// 		credentials: "include",
-				// 		headers: {
-				// 			"Content-Type": "application/json",
-				// 			Accept: "application/json",
-				// 		},
-				// 	},
-				// );
 
-				var resultFromApi = await GetAllVideos(cap.id);
+				const resultFromApi = await GetAllVideos(cap.id);
 
 				const resultFetch = await resultFromApi.json();
 
@@ -36,7 +24,6 @@ export const VideoCard = ({
 					throw resultFetch;
 				}
 
-				//console.log (resultFetch);
 				if (resultFetch.isSuccess) {
 					setVideos(resultFetch.result);
 				} else {
@@ -46,9 +33,11 @@ export const VideoCard = ({
 				console.error(error);
 				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
 			}
-		};
+		},[cap]);
+
+	useEffect(() => {
 		GetVideo();
-	}, [cap]);
+	}, [GetVideo]);
 
 	//console.log(cap);
 
@@ -82,6 +71,7 @@ export const VideoCard = ({
 						<td className="px-4 py-3">
 							<div className="py-1 flex justify-start">
 								<button
+									type="button"
 									onClick={() => handleEditVideo(video)}
 									className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-yellow-300 hover:bg-yellow-400 rounded-lg mr-2"
 								>
@@ -100,6 +90,7 @@ export const VideoCard = ({
 									Editar
 								</button>
 								<button
+									type="button"
 									onClick={() => handleDeleteVideo(video)}
 									className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-red-500 hover:bg-red-600 rounded-lg"
 								>

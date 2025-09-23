@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import {
 	GetTestNota,
@@ -8,13 +8,12 @@ import {
 export const CalificarPrueba = ({ prueba, matricula }) => {
 	const refCalificacionPrueba = useRef();
 	const [notaPrueba, setNotaPrueba] = useState({});
-	const [response, setResponse] = useState({});
+	//const [response, setResponse] = useState({});
 	const [showButtonLoading, setShowButtonLoading] = useState(false);
 
-	useEffect(() => {
-		const GetNotaDeber = async () => {
+	const GetNotaDeber = useCallback(async () => {
 			try {
-				var resultFromApi = await GetTestNota(
+				const resultFromApi = await GetTestNota(
 					prueba.id,
 					matricula.estudianteId,
 				);
@@ -32,18 +31,16 @@ export const CalificarPrueba = ({ prueba, matricula }) => {
 				console.error(error);
 				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
 			}
-		};
-
+		},[prueba,matricula]);
+	
+	useEffect(() => {
 		GetNotaDeber();
-		response.isSuccess
-			? toast.success(response.message)
-			: toast.error(response.message);
-	}, [prueba, matricula, response]);
+	}, [GetNotaDeber]);
 
-	const handleCalificarPrueba = async (notaPrueba) => {
+	const handleCalificarPrueba = async (_notaPrueba) => {
 		setShowButtonLoading(true);
 		try {
-			var resultFromApi = await UpsertTestNota(
+			const resultFromApi = await UpsertTestNota(
 				prueba.id || 0,
 				matricula.estudianteId,
 				refCalificacionPrueba.current.value,
@@ -72,7 +69,7 @@ export const CalificarPrueba = ({ prueba, matricula }) => {
 				<input
 					type="text"
 					name="calificacion"
-					id="calificacion"
+					//id="calificacion"
 					className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
 					defaultValue={notaPrueba.calificacion}
 					ref={refCalificacionPrueba}
@@ -81,10 +78,10 @@ export const CalificarPrueba = ({ prueba, matricula }) => {
 			<td className="px-4 py-3">
 				<div className="flex justify-center space-x-3 items-center">
 					{showButtonLoading ? (
-						<button className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-yellow-300 hover:bg-yellow-400 rounded-lg mr-2">
+						<button type="button" className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-yellow-300 hover:bg-yellow-400 rounded-lg mr-2">
 							<svg
 								aria-hidden="true"
-								role="status"
+								//role="status"
 								className="inline w-4 h-4 me-3 text-white animate-spin"
 								viewBox="0 0 100 101"
 								fill="none"
@@ -103,6 +100,7 @@ export const CalificarPrueba = ({ prueba, matricula }) => {
 						</button>
 					) : (
 						<button
+							type="button"
 							onClick={() => {
 								handleCalificarPrueba(notaPrueba);
 							}}

@@ -98,7 +98,11 @@ export const SliderCursos = () => {
 			{/*Slider que permite movilizar los cursos que contiene la pagina web */}
 			<div className="w-full flex">
 				<div className="w-[5%] flex items-center max-sm:hidden">
-					<button type="button" onClick={() => previousSlice()} className="cursor-pointer">
+					<button
+						type="button"
+						onClick={() => previousSlice()}
+						className="cursor-pointer"
+					>
 						<i className="bi bi-arrow-left-circle-fill text-gray-300 hover:text-blue-600 text-3xl"></i>
 					</button>
 				</div>
@@ -109,7 +113,10 @@ export const SliderCursos = () => {
 						style={{ transform: `translateX(-${current * 25}%)` }}
 					>
 						{slices.map((itemProd) => (
-							<div className="shrink-0 w-1/4 hover:scale-110 mb-10" key={Math.random()}>
+							<div
+								className="shrink-0 w-1/4 hover:scale-110 mb-10"
+								key={Math.random()}
+							>
 								<ProductCard itemProd={itemProd} />
 							</div>
 						))}
@@ -121,7 +128,10 @@ export const SliderCursos = () => {
 						style={{ transform: `translateX(-${(current / 3) * 100}%)` }}
 					>
 						{slices.map((itemProd) => (
-							<div className="shrink-0 w-1/3 hover:scale-110 mb-10" key={Math.random()}>
+							<div
+								className="shrink-0 w-1/3 hover:scale-110 mb-10"
+								key={Math.random()}
+							>
 								<ProductCard itemProd={itemProd} />
 							</div>
 						))}
@@ -163,7 +173,10 @@ export const SliderCursos = () => {
 						style={{ transform: `translateX(-${current * 50}%)` }}
 					>
 						{slices.map((itemProd) => (
-							<div className="shrink-0 w-1/2 hover:scale-110 mb-10" key={Math.random()}>
+							<div
+								className="shrink-0 w-1/2 hover:scale-110 mb-10"
+								key={Math.random()}
+							>
 								<ProductCard itemProd={itemProd} />
 							</div>
 						))}
@@ -187,7 +200,11 @@ export const SliderCursos = () => {
 					</div>
 				</div>
 				<div className="w-[5%] flex items-center justify-end max-sm:hidden">
-					<button type="button" onClick={() => nextSlice()} className="cursor-pointer">
+					<button
+						type="button"
+						onClick={() => nextSlice()}
+						className="cursor-pointer"
+					>
 						<i className="bi bi-arrow-right-circle-fill text-gray-300 hover:text-blue-600  text-3xl"></i>
 					</button>
 				</div>

@@ -37,35 +37,34 @@ export const TalentoHumano = ({
 	const refSearch = useRef();
 	const refRole = useRef();
 
-
 	const fetchTalento = useCallback(async () => {
-			try {
-				let resultFromApi = await GetTalent(searchRole, searchUser);
+		try {
+			let resultFromApi = await GetTalent(searchRole, searchUser);
 
-				const resultFetch = await resultFromApi.json();
+			const resultFetch = await resultFromApi.json();
 
-				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
-					throw resultFetch;
-				}
-
-				setTalentoList(resultFetch.result);
-				setNumberOfPages(Math.ceil(resultFetch.result.length / pageSize));
-
-				setCurrentDataDisplayed(() => {
-					const page = resultFetch?.result?.slice(
-						(currentPage - 1) * pageSize,
-						currentPage * pageSize,
-					);
-					//return { list: page }; //List es una lista con la cantidad de items de publicidad que se va a mostrar en la tabla
-					return page;
-				});
-				setPreviousAllowed(() => currentPage > 1);
-				setNextAllowed(() => currentPage < numberOfPages);
-			} catch (error) {
-				console.error(error);
-				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+				throw resultFetch;
 			}
-		},[searchRole,searchUser,numberOfPages,currentPage]);
+
+			setTalentoList(resultFetch.result);
+			setNumberOfPages(Math.ceil(resultFetch.result.length / pageSize));
+
+			setCurrentDataDisplayed(() => {
+				const page = resultFetch?.result?.slice(
+					(currentPage - 1) * pageSize,
+					currentPage * pageSize,
+				);
+				//return { list: page }; //List es una lista con la cantidad de items de publicidad que se va a mostrar en la tabla
+				return page;
+			});
+			setPreviousAllowed(() => currentPage > 1);
+			setNextAllowed(() => currentPage < numberOfPages);
+		} catch (error) {
+			console.error(error);
+			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+		}
+	}, [searchRole, searchUser, numberOfPages, currentPage]);
 
 	useEffect(() => {
 		fetchTalento();
@@ -108,11 +107,11 @@ export const TalentoHumano = ({
 	const handlePagination = (action) => {
 		if (action === "prev") {
 			if (!previousAllowed) return;
-			setCurrentPage((prevState) => (prevState - 1));
+			setCurrentPage((prevState) => prevState - 1);
 		}
 		if (action === "next") {
 			if (!nextAllowed) return;
-			setCurrentPage((prevState) => (prevState + 1));
+			setCurrentPage((prevState) => prevState + 1);
 		}
 	};
 

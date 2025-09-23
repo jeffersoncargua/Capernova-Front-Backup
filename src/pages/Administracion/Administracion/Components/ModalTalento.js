@@ -10,7 +10,7 @@ export const ModalTalento = ({
 	//talentoList,
 	//setTalentoList,
 	//setResponse,
-	fetchTalento
+	fetchTalento,
 }) => {
 	const refName = useRef();
 	const refLastName = useRef();
@@ -22,43 +22,45 @@ export const ModalTalento = ({
 
 	const [showButtonLoading, setShowButtonLoading] = useState(false);
 
-	const handleSubmitAdd = useCallback(async (event) => {
-		event.preventDefault();
-		setShowButtonLoading(true);
-		try {
-			const resultFromApi = await Registration({
-				name: refName.current.value,
-				lastName: refLastName.current.value,
-				email: refEmail.current.value,
-				password: refPassword.current.value,
-				confirmPassword: refPassword.current.value,
-				phone: refPhone.current.value,
-				city: refCity.current.value,
-				role: refRole.current.value,
-			});
+	const handleSubmitAdd = useCallback(
+		async (event) => {
+			event.preventDefault();
+			setShowButtonLoading(true);
+			try {
+				const resultFromApi = await Registration({
+					name: refName.current.value,
+					lastName: refLastName.current.value,
+					email: refEmail.current.value,
+					password: refPassword.current.value,
+					confirmPassword: refPassword.current.value,
+					phone: refPhone.current.value,
+					city: refCity.current.value,
+					role: refRole.current.value,
+				});
 
-			const resultFetch = await resultFromApi.json();
+				const resultFetch = await resultFromApi.json();
 
-			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
-				throw resultFetch;
+				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+					throw resultFetch;
+				}
+
+				setShowButtonLoading(false);
+				setShowModalTalento(false);
+				//setResponse(resultFetch);
+
+				fetchTalento();
+
+				resultFetch.isSuccess
+					? toast.success(resultFetch.message)
+					: toast.error(resultFetch.message);
+			} catch (_error) {
+				setShowButtonLoading(false);
+				setShowModalTalento(false);
+				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
 			}
-
-			setShowButtonLoading(false);
-			setShowModalTalento(false);
-			//setResponse(resultFetch);
-
-			fetchTalento();
-
-			resultFetch.isSuccess ?
-			toast.success(resultFetch.message) :
-			toast.error(resultFetch.message);
-
-		} catch (_error) {
-			setShowButtonLoading(false);
-			setShowModalTalento(false);
-			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
-		}
-	},[setShowModalTalento]);
+		},
+		[setShowModalTalento],
+	);
 
 	return (
 		<div>

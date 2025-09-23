@@ -18,19 +18,18 @@ export const Inscripcion = () => {
 	const refUser = useRef();
 
 	const fetchMatricula = useCallback(async () => {
-			if (user.id) {
-				
-				const result = await GetMatricula(user.id);
+		if (user.id) {
+			const result = await GetMatricula(user.id);
 
-				const resultFetch = await result.json();
+			const resultFetch = await result.json();
 
-				if (resultFetch.isSuccess) {
-					setMatriculaList(resultFetch.result);
-				} else {
-					setMatriculaList([]);
-				}
+			if (resultFetch.isSuccess) {
+				setMatriculaList(resultFetch.result);
+			} else {
+				setMatriculaList([]);
 			}
-		},[user.id]);
+		}
+	}, [user.id]);
 
 	useEffect(() => {
 		fetchMatricula();
@@ -61,7 +60,7 @@ export const Inscripcion = () => {
 				"Error. Algo ocurrió en nuestros servidores. Inténtelo nuevamente!!!",
 			);
 		}
-	},[]);
+	}, []);
 
 	const handleDelete = (matricula) => {
 		setObjeto(matricula);
@@ -199,7 +198,7 @@ export const Inscripcion = () => {
 											<td className="px-6 py-4">{matricula.curso.codigo}</td>
 											<td className="px-6 py-4">
 												<button
-												type="button"
+													type="button"
 													onClick={() => handleDelete(matricula)}
 													className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-red-500 hover:bg-red-600 rounded-lg"
 												>

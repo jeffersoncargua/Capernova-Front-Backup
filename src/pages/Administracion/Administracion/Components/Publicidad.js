@@ -23,35 +23,34 @@ export const Publicidad = () => {
 	const refSearch = useRef();
 
 	const fetchPublicidad = useCallback(async () => {
-			try {
-				const resultFromApi = await GetAllMarketing(search);
+		try {
+			const resultFromApi = await GetAllMarketing(search);
 
-				const resultFetch = await resultFromApi.json();
+			const resultFetch = await resultFromApi.json();
 
-				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
-					throw resultFetch;
-				}
-
-				setPublicidadList(resultFetch.result);
-				setNumberOfPages(Math.ceil(resultFetch.result.length / pageSize));
-
-				//publicidadList &&
-				setCurrentDataDisplayed(() => {
-					const page = resultFetch?.result?.slice(
-						(currentPage - 1) * pageSize,
-						currentPage * pageSize,
-					);
-					//return { list: page }; //List es una lista con la cantidad de items de publicidad que se va a mostrar en la tabla
-					return page;
-				});
-				setPreviousAllowed(() => currentPage > 1);
-				setNextAllowed(() => currentPage < numberOfPages);
-			} catch (error) {
-				console.error(error);
-				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+				throw resultFetch;
 			}
-		},[search, numberOfPages, currentPage]);
 
+			setPublicidadList(resultFetch.result);
+			setNumberOfPages(Math.ceil(resultFetch.result.length / pageSize));
+
+			//publicidadList &&
+			setCurrentDataDisplayed(() => {
+				const page = resultFetch?.result?.slice(
+					(currentPage - 1) * pageSize,
+					currentPage * pageSize,
+				);
+				//return { list: page }; //List es una lista con la cantidad de items de publicidad que se va a mostrar en la tabla
+				return page;
+			});
+			setPreviousAllowed(() => currentPage > 1);
+			setNextAllowed(() => currentPage < numberOfPages);
+		} catch (error) {
+			console.error(error);
+			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+		}
+	}, [search, numberOfPages, currentPage]);
 
 	useEffect(() => {
 		fetchPublicidad();
@@ -83,11 +82,11 @@ export const Publicidad = () => {
 	const handlePagination = (action) => {
 		if (action === "prev") {
 			if (!previousAllowed) return;
-			setCurrentPage((prevState) => (prevState - 1));
+			setCurrentPage((prevState) => prevState - 1);
 		}
 		if (action === "next") {
 			if (!nextAllowed) return;
-			setCurrentPage((prevState) => (prevState + 1));
+			setCurrentPage((prevState) => prevState + 1);
 		}
 		//setResponse({});
 	};

@@ -17,28 +17,28 @@ export const AreasCategorias = () => {
 	const [tipo, setTipo] = useState(""); //es para almacenar el tipo de objeto a eliminar que puede ser curso, capitulo, video, deber, etc
 	const [objeto, setObjeto] = useState({}); //es para almacenar el objeto a eliminar mediante el componente ModalDelete
 	const refSearchCategory = useRef();
-	
+
 	const FetchCategory = useCallback(async () => {
-			try {
-				const resultFromApi = await GetAllCategories(searchCategory);
+		try {
+			const resultFromApi = await GetAllCategories(searchCategory);
 
-				const resultFetch = await resultFromApi.json();
+			const resultFetch = await resultFromApi.json();
 
-				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
-					throw resultFetch;
-				}
-
-				if (resultFetch.isSuccess) {
-					setCategoryList(resultFetch.result);
-				} else {
-					setCategoryList([]);
-				}
-			} catch (error) {
-				console.error(error);
-				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+				throw resultFetch;
 			}
-		},[searchCategory]);
-	
+
+			if (resultFetch.isSuccess) {
+				setCategoryList(resultFetch.result);
+			} else {
+				setCategoryList([]);
+			}
+		} catch (error) {
+			console.error(error);
+			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+		}
+	}, [searchCategory]);
+
 	useEffect(() => {
 		FetchCategory();
 	}, [FetchCategory]);

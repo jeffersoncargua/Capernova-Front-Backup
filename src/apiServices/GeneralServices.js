@@ -73,7 +73,7 @@ const UpdateMarketing = async (marketing) => {
 	return response;
 };
 
-const GetAllMarketing = async (search = '') => {
+const GetAllMarketing = async (search = "") => {
 	const verbose = "GET";
 	const route = "/Marketing/publicidadList";
 	const query = `?search=${search}`;
@@ -133,7 +133,7 @@ const GetAllCommentaries = async () => {
 	return response;
 };
 
-const GetAllProducts = async (tipo = '' ,categoryId = 0) => {
+const GetAllProducts = async (tipo = "", categoryId = 0) => {
 	const verbose = "GET";
 	const route = "/Producto/getAllProducto";
 	const query = `?tipo=${tipo}&categoriaId=${categoryId}`;

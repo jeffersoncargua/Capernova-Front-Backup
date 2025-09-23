@@ -12,7 +12,7 @@ export const ModalProducto = ({
 	setShowModal,
 	producto,
 	//setResponse,
-	fetchProducto
+	fetchProducto,
 }) => {
 	const [showButtonLoading, setShowButtonLoading] = useState(false);
 	const [categoriaList, setCategoriaList] = useState([]);
@@ -26,26 +26,26 @@ export const ModalProducto = ({
 	const refCategoria = useRef();
 
 	const FetchCategoriaProducto = useCallback(async () => {
-			try {
-				const result = await GetCategoriaProductos();
+		try {
+			const result = await GetCategoriaProductos();
 
-				const resultFetch = await result.json();
+			const resultFetch = await result.json();
 
-				if (result.status !== 200 && result.status !== 400) {
-					throw resultFetch;
-				}
-
-				if (resultFetch.isSuccess) {
-					setCategoriaList(resultFetch.result);
-				} else {
-					setCategoriaList([]);
-				}
-			} catch (error) {
-				console.error(error);
-				navigate("/error");
+			if (result.status !== 200 && result.status !== 400) {
+				throw resultFetch;
 			}
-		},[navigate]);
-	
+
+			if (resultFetch.isSuccess) {
+				setCategoriaList(resultFetch.result);
+			} else {
+				setCategoriaList([]);
+			}
+		} catch (error) {
+			console.error(error);
+			navigate("/error");
+		}
+	}, [navigate]);
+
 	useEffect(() => {
 		FetchCategoriaProducto();
 	}, [FetchCategoriaProducto]);
@@ -57,7 +57,7 @@ export const ModalProducto = ({
 			const result = await CreateProduct({
 				codigo: refCodigo.current.value,
 				titulo: refTitulo.current.value,
-				cantidad: parseInt(refCantidad.current.value,10),
+				cantidad: parseInt(refCantidad.current.value, 10),
 				imagenUrl: refImageUrl.current.value,
 				detalle: refDescripcion.current.value,
 				precio: parseFloat(refPrecio.current.value),
@@ -78,9 +78,8 @@ export const ModalProducto = ({
 			fetchProducto();
 
 			resultFetch.isSuccess
-			? toast.success(resultFetch.message)
-			: toast.error(resultFetch.message);
-
+				? toast.success(resultFetch.message)
+				: toast.error(resultFetch.message);
 		} catch (error) {
 			setShowButtonLoading(false);
 			setShowModal(false);
@@ -102,7 +101,7 @@ export const ModalProducto = ({
 				precio: parseFloat(refPrecio.current.value),
 				codigo: refCodigo.current.value,
 				tipo: producto.tipo,
-				cantidad: parseInt(refCantidad.current.value,10),
+				cantidad: parseInt(refCantidad.current.value, 10),
 				categoriaId: refCategoria.current.value,
 			});
 
@@ -118,9 +117,8 @@ export const ModalProducto = ({
 			fetchProducto();
 
 			resultFetch.isSuccess
-			? toast.success(resultFetch.message)
-			: toast.error(resultFetch.message);
-
+				? toast.success(resultFetch.message)
+				: toast.error(resultFetch.message);
 		} catch (error) {
 			setShowModal(false);
 			setShowButtonLoading(false);

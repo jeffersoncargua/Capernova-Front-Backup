@@ -5,7 +5,11 @@ import { Loading } from "../Components";
 import Avatar from "../../../../assets/avatar.png";
 import { UpdateTeacher } from "../../../../apiServices/TeacherServices/TeacherServices";
 
-export const Informacion = ({ profesor, response, setResponse }) => {
+export const Informacion = ({ 
+	profesor, 
+	//response, 
+	//setResponse 
+}) => {
 	const refName = useRef();
 	const refLastName = useRef();
 	const refPhone = useRef();
@@ -28,7 +32,7 @@ export const Informacion = ({ profesor, response, setResponse }) => {
 		setLoading(true);
 
 		try {
-			var resultFromApi = await UpdateTeacher({
+			const resultFromApi = await UpdateTeacher({
 				id: profesor.id,
 				name: refName.current.value,
 				lastName: refLastName.current.value,
@@ -39,6 +43,7 @@ export const Informacion = ({ profesor, response, setResponse }) => {
 			});
 
 			const resultFecthInfo = await resultFromApi.json();
+			
 			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
 				throw resultFecthInfo;
 			}
@@ -63,10 +68,19 @@ export const Informacion = ({ profesor, response, setResponse }) => {
 				}
 			}
 
-			setResponse(resultFecthInfo);
+			resultFecthInfo.isSuccess ?
+			toast.success(resultFecthInfo.message) :
+			toast.error(resultFecthInfo.message)
+
+			//setResponse(resultFecthInfo);
 			setShowButtonLoading(false);
 			setLoading(false);
 			formData.delete("file");
+			setUploadFile(false);
+			setEnableName(false);
+			setEnableLastName(false);
+			setEnablePhone(false);
+			setEnableBiography(false);
 		} catch (error) {
 			console.error(error);
 			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
@@ -76,19 +90,15 @@ export const Informacion = ({ profesor, response, setResponse }) => {
 		}
 	};
 
-	useEffect(() => {
-		if (response.isSuccess) {
-			setUploadFile(false);
-			setEnableName(false);
-			setEnableLastName(false);
-			setEnablePhone(false);
-			setEnableBiography(false);
-		}
-
-		response.isSuccess
-			? toast.success(response.message)
-			: toast.error(response.message);
-	}, [response]);
+	// useEffect(() => {
+	// 	if (response.isSuccess) {
+	// 		setUploadFile(false);
+	// 		setEnableName(false);
+	// 		setEnableLastName(false);
+	// 		setEnablePhone(false);
+	// 		setEnableBiography(false);
+	// 	}
+	// }, []);
 
 	const changePhoto = () => {
 		//console.log(refImageUrl.current.files[0]); //imprime el contenido del archivo seleccionado
@@ -153,7 +163,7 @@ export const Informacion = ({ profesor, response, setResponse }) => {
 									className={`rounded-lg ${!enableName ? "border-0 bg-transparent" : "border border-blue-300 bg-blue-200 dark:bg-slate-900"}`}
 									disabled={!enableName}
 									type="text"
-									id="nombre"
+									//id="nombre"
 									name="nombre"
 									required
 									defaultValue={profesor.name}
@@ -188,7 +198,7 @@ export const Informacion = ({ profesor, response, setResponse }) => {
 									className={`rounded-lg ${!enableLastName ? "border-0 bg-transparent" : "border border-blue-300 bg-blue-200 dark:bg-slate-900"}`}
 									disabled={!enableLastName}
 									type="text"
-									id="apellido"
+									//id="apellido"
 									name="apellido"
 									required
 									defaultValue={profesor.lastName}
@@ -226,7 +236,7 @@ export const Informacion = ({ profesor, response, setResponse }) => {
 									pattern="[0-9]{10}"
 									className={`rounded-lg ${!enablePhone ? "border-0 bg-transparent" : "border border-blue-300 bg-blue-200 dark:bg-slate-900"}`}
 									disabled={!enablePhone}
-									id="telefono"
+									//id="telefono"
 									name="telefono"
 									required
 									defaultValue={profesor.phone}
@@ -265,7 +275,7 @@ export const Informacion = ({ profesor, response, setResponse }) => {
 									required
 									disabled={!enableBiography}
 									name="biography"
-									id="biography"
+									//id="biography"
 									defaultValue={profesor.biografy}
 									placeholder="Ingrese información sobre su biografía..."
 									ref={refBiography}
@@ -317,6 +327,7 @@ export const Informacion = ({ profesor, response, setResponse }) => {
 						uploadFile) &&
 						(showButtonLoading ? (
 							<button
+								type="button"
 								disabled
 								className="flex items-center px-4 py-2 bg-blue-400 hover:bg-blue-600 text-gray 900 hover:text-white text-sm rounded-lg hover:scale-125"
 							>

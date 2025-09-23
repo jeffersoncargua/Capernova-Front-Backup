@@ -171,11 +171,19 @@ export const Products = () => {
 				{/*Slider buttons */}
 				<div className="absolute top-0 h-full w-full justify-between flex items-center text-black text-3xl">
 					{/*boton para pasar al item item */}
-					<button type="button" onClick={() => previousSlice()} className="cursor-pointer z-10">
+					<button
+						type="button"
+						onClick={() => previousSlice()}
+						className="cursor-pointer z-10"
+					>
 						<i className="bi bi-arrow-left-circle-fill"></i>
 					</button>
 					{/*boton para pasar al proximo item */}
-					<button type="button" onClick={() => nextSlice()} className="cursor-pointer z-10">
+					<button
+						type="button"
+						onClick={() => nextSlice()}
+						className="cursor-pointer z-10"
+					>
 						<i className="bi bi-arrow-right-circle-fill"></i>
 					</button>
 				</div>

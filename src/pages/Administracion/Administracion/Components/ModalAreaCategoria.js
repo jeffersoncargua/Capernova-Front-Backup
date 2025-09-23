@@ -10,7 +10,7 @@ export const ModalAreaCategoria = ({
 	setShowModalAreaCategoria,
 	categoria,
 	setCategoria,
-	FetchCategory
+	FetchCategory,
 	//setResponse,
 }) => {
 	const refName = useRef();
@@ -38,12 +38,9 @@ export const ModalAreaCategoria = ({
 
 			FetchCategory();
 
-			resultFetch.isSuccess ?
-			toast.success(resultFetch.message) :
-			toast.error(resultFetch.message)
-			
-			
-
+			resultFetch.isSuccess
+				? toast.success(resultFetch.message)
+				: toast.error(resultFetch.message);
 		} catch (error) {
 			console.error(error);
 			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
@@ -73,10 +70,9 @@ export const ModalAreaCategoria = ({
 
 			FetchCategory();
 
-			resultFetch.isSuccess ?
-			toast.success(resultFetch.message) :
-			toast.error(resultFetch.message)
-
+			resultFetch.isSuccess
+				? toast.success(resultFetch.message)
+				: toast.error(resultFetch.message);
 		} catch (error) {
 			console.error(error);
 			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");

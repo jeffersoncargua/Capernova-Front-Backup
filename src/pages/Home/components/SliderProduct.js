@@ -33,27 +33,26 @@ export const SliderProduct = () => {
 		});
 	}, []);
 
-	const fetchProducto = useCallback( async () => {
-			try {
-				const resultFromApi = await GetAllProducts('producto');
+	const fetchProducto = useCallback(async () => {
+		try {
+			const resultFromApi = await GetAllProducts("producto");
 
-				const resultFetch = await resultFromApi.json();
+			const resultFetch = await resultFromApi.json();
 
-				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
-					throw resultFetch;
-				}
-
-				if (resultFetch.isSuccess) {
-					setSlices(resultFetch.result);
-				} else {
-					setSlices([]);
-				}
-			} catch (error) {
-				console.error(error);
-				navigate("error");
+			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+				throw resultFetch;
 			}
-		},[navigate]);
 
+			if (resultFetch.isSuccess) {
+				setSlices(resultFetch.result);
+			} else {
+				setSlices([]);
+			}
+		} catch (error) {
+			console.error(error);
+			navigate("error");
+		}
+	}, [navigate]);
 
 	useEffect(() => {
 		fetchProducto();
@@ -94,7 +93,11 @@ export const SliderProduct = () => {
 			{/*Slider que permite movilizar los cursos que contiene la pagina web */}
 			<div className="w-full flex ">
 				<div className="w-[5%] flex items-center max-sm:hidden">
-					<button type="button" onClick={() => previousSlice()} className=" cursor-pointer">
+					<button
+						type="button"
+						onClick={() => previousSlice()}
+						className=" cursor-pointer"
+					>
 						<i className="bi bi-arrow-left-circle-fill text-gray-300 hover:text-blue-600 text-3xl"></i>
 					</button>
 				</div>
@@ -105,7 +108,10 @@ export const SliderProduct = () => {
 						style={{ transform: `translateX(-${current * 25}%)` }}
 					>
 						{slices.map((itemProd) => (
-							<div className="shrink-0 w-1/4 hover:scale-110 mb-10" key={Math.random()}>
+							<div
+								className="shrink-0 w-1/4 hover:scale-110 mb-10"
+								key={Math.random()}
+							>
 								{/*ProductCard */}
 								<ProductCard itemProd={itemProd} />
 							</div>
@@ -118,7 +124,10 @@ export const SliderProduct = () => {
 						style={{ transform: `translateX(-${(current / 3) * 100}%)` }}
 					>
 						{slices.map((itemProd) => (
-							<div className="shrink-0 w-1/3 hover:scale-110 mb-10" key={Math.random()}>
+							<div
+								className="shrink-0 w-1/3 hover:scale-110 mb-10"
+								key={Math.random()}
+							>
 								<ProductCard itemProd={itemProd} />
 							</div>
 						))}
@@ -130,7 +139,10 @@ export const SliderProduct = () => {
 						style={{ transform: `translateX(-${(current / 3) * 100}%)` }}
 					>
 						{slices.map((itemProd) => (
-							<div className="shrink-0 w-1/3 hover:scale-110 mb-10" key={Math.random()}>
+							<div
+								className="shrink-0 w-1/3 hover:scale-110 mb-10"
+								key={Math.random()}
+							>
 								<ProductCard itemProd={itemProd} />
 							</div>
 						))}
@@ -142,7 +154,10 @@ export const SliderProduct = () => {
 						style={{ transform: `translateX(-${current * 50}%)` }}
 					>
 						{slices.map((itemProd) => (
-							<div className="shrink-0 w-1/2 hover:scale-110 mb-10" key={Math.random()}>
+							<div
+								className="shrink-0 w-1/2 hover:scale-110 mb-10"
+								key={Math.random()}
+							>
 								<ProductCard itemProd={itemProd} />
 							</div>
 						))}
@@ -154,7 +169,10 @@ export const SliderProduct = () => {
 						style={{ transform: `translateX(-${current * 50}%)` }}
 					>
 						{slices.map((itemProd) => (
-							<div className="shrink-0 w-1/2 hover:scale-110 mb-10" key={Math.random()}>
+							<div
+								className="shrink-0 w-1/2 hover:scale-110 mb-10"
+								key={Math.random()}
+							>
 								<ProductCard itemProd={itemProd} />
 							</div>
 						))}
@@ -177,7 +195,11 @@ export const SliderProduct = () => {
 					</div>
 				</div>
 				<div className="w-[5%] flex items-center justify-end max-sm:hidden">
-					<button type="button" onClick={() => nextSlice()} className="cursor-pointer">
+					<button
+						type="button"
+						onClick={() => nextSlice()}
+						className="cursor-pointer"
+					>
 						<i className="bi bi-arrow-right-circle-fill text-gray-300 hover:text-blue-600 text-3xl"></i>
 					</button>
 				</div>
@@ -185,10 +207,8 @@ export const SliderProduct = () => {
 
 			{/*Indicadores de la tarjeta actual */}
 			<div className="flex justify-center w-full  items-center max-sm:hidden">
-				{slices.map((_s,index) => (
-
+				{slices.map((_s, index) => (
 					<span
-
 						key={Math.random()}
 						className={`flex me-3 ${current === index ? "bg-blue-600 w-3.5 h-3.5" : "bg-gray-600 w-3 h-3"}  rounded-full`}
 					></span>

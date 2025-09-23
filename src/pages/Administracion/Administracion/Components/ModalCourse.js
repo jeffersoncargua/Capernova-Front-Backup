@@ -7,7 +7,7 @@ export const ModalCourse = ({
 	showModalCourse,
 	setShowModalCourse,
 	//setResponse,
-	GetCursos
+	GetCursos,
 }) => {
 	const [showButtonLoading, setShowButtonLoading] = useState(false);
 	const [categoriaList, setCategoriaList] = useState([]);
@@ -21,26 +21,26 @@ export const ModalCourse = ({
 	const refClasesUrl = useRef();
 
 	const FetchCategoriaCurso = useCallback(async () => {
-			try {
-				const resultFromApi = await GetCategoriaCursos();
+		try {
+			const resultFromApi = await GetCategoriaCursos();
 
-				const resultFetch = await resultFromApi.json();
+			const resultFetch = await resultFromApi.json();
 
-				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
-					throw resultFetch;
-				}
-
-				if (resultFetch.isSuccess) {
-					setCategoriaList(resultFetch.result);
-				} else {
-					setCategoriaList([]);
-				}
-			} catch (error) {
-				console.error(error);
-				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+				throw resultFetch;
 			}
-		},[]);
-	
+
+			if (resultFetch.isSuccess) {
+				setCategoriaList(resultFetch.result);
+			} else {
+				setCategoriaList([]);
+			}
+		} catch (error) {
+			console.error(error);
+			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+		}
+	}, []);
+
 	useEffect(() => {
 		FetchCategoriaCurso();
 	}, [FetchCategoriaCurso]);
@@ -78,10 +78,9 @@ export const ModalCourse = ({
 
 			GetCursos();
 
-			resultFetch.isSuccess ?
-			toast.success(resultFetch.message) :
-			toast.error(resultFetch.message)
-			
+			resultFetch.isSuccess
+				? toast.success(resultFetch.message)
+				: toast.error(resultFetch.message);
 		} catch (error) {
 			setShowButtonLoading(false);
 			setShowModalCourse(false);

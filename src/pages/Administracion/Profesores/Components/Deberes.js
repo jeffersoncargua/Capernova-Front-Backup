@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { toast } from "react-toastify";
 import { ModalDelete } from "../../Components";
 import { ModalDeber, ModalSuccess } from "../Components";
@@ -8,9 +8,9 @@ export const Deberes = ({
 	setShowCursos,
 	setShowVideos,
 	curso,
-	setCurso,
-	setShowDeberes,
-	setShowPruebas,
+	//setCurso,
+	//setShowDeberes,
+	//setShowPruebas,
 }) => {
 	const [deberes, setDeberes] = useState([]);
 	const [deber, setDeber] = useState({});
@@ -21,10 +21,9 @@ export const Deberes = ({
 	const [tipo, setTipo] = useState("");
 	const [objeto, setObjeto] = useState({});
 
-	useEffect(() => {
-		const GetDeber = async () => {
+	const GetDeberes = useCallback(async () => {
 			try {
-				var resultFromApi = await GetAllTask(curso.id);
+				const resultFromApi = await GetAllTask(curso.id);
 
 				const resultFetch = await resultFromApi.json();
 
@@ -40,12 +39,11 @@ export const Deberes = ({
 				console.error(error);
 				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
 			}
-		};
-		GetDeber();
-		response.isSuccess
-			? toast.success(response.message)
-			: toast.error(response.message);
-	}, [curso, response]);
+		},[curso]);
+
+	useEffect(() => {
+		GetDeberes();
+	}, [GetDeberes]);
 
 	const handleEditDeber = (deber) => {
 		setShowModalDeber(true);
@@ -105,9 +103,10 @@ export const Deberes = ({
 					deber={deber}
 					setDeber={setDeber}
 					curso={curso}
-					setResponse={
-						setResponse
-					} /*deberes={deberes} setDeberes={setDeberes}*/
+					// setResponse={
+					// 	setResponse
+					// } /*deberes={deberes} setDeberes={setDeberes}*/
+					GetDeberes={GetDeberes}
 				/>
 			)}
 			{showModalDelete && (
@@ -116,21 +115,22 @@ export const Deberes = ({
 					setShowModalDelete={setShowModalDelete}
 					objeto={objeto}
 					setObjeto={setObjeto}
-					setResponse={setResponse}
+					//setResponse={setResponse}
 					tipo={tipo}
 					setTipo={setTipo}
+					getFunction={GetDeberes}
 				/>
 			)}
 			{showModalSuccess && (
 				<ModalSuccess
-					showModalSuccess={showModalSuccess}
+					//showModalSuccess={showModalSuccess}
 					setShowModalSuccess={setShowModalSuccess}
 					response={response}
 					setResponse={setResponse}
 					setShowCursos={setShowCursos}
 					setShowVideos={setShowVideos}
-					setShowDeberes={setShowDeberes}
-					setShowPruebas={setShowPruebas}
+					//setShowDeberes={setShowDeberes}
+					//setShowPruebas={setShowPruebas}
 				/>
 			)}
 
@@ -147,12 +147,13 @@ export const Deberes = ({
 						type="text"
 						className="rounded-lg bg-transparent dark:bg-slate-900 border-0"
 						name="titulo"
-						id="titulo"
+						//id="titulo"
 						defaultValue={curso.titulo}
 					/>
 				</div>
 				<div>
 					<button
+						type="button"
 						onClick={() => {
 							setShowModalDeber(true);
 							setDeber({});
@@ -205,6 +206,7 @@ export const Deberes = ({
 										<td className="px-4 py-3">
 											<div className="py-1 flex justify-start">
 												<button
+													type="button"
 													onClick={() => handleEditDeber(task)}
 													className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-yellow-300 hover:bg-yellow-400 rounded-lg mr-2"
 												>
@@ -223,6 +225,7 @@ export const Deberes = ({
 													Editar
 												</button>
 												<button
+													type="button"
 													onClick={() => handleDeleteDeber(task)}
 													className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-red-500 hover:bg-red-600 rounded-lg"
 												>
