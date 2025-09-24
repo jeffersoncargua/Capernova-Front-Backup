@@ -36,9 +36,6 @@ export const ShoppingCart = ({ cartList, total }) => {
 
 	const handleRemoveToCart = (item) => {
 		dispatch(removeToCart(item));
-		console.log(typeof String(item.id));
-
-		console.log(shoppingCart);
 
 		if (shoppingCart.length > 0) {
 			const updateCartList = shoppingCart;
@@ -118,6 +115,7 @@ export const ShoppingCart = ({ cartList, total }) => {
 									<td className="p-4">
 										{item.tipo === "producto" ? (
 											<button
+												type="button"
 												onClick={() =>
 													navigate(`/productDetail?productoId=${item.id}`)
 												}
@@ -136,6 +134,7 @@ export const ShoppingCart = ({ cartList, total }) => {
 											</button>
 										) : (
 											<button
+												type="button"
 												onClick={() =>
 													navigate(`/cursoDetail?productoId=${item.id}`)
 												}
@@ -168,6 +167,7 @@ export const ShoppingCart = ({ cartList, total }) => {
 									</td>
 									<td className="px-6 py-4 text-center">
 										<button
+											type="button"
 											onClick={() => handleRemoveToCart(item)}
 											className=" transition duration-300 ease-in-out rounded-lg hover:scale-90 hover:text-white text-black bg-blue-600 hover:bg-red-600 py-2 px-6 mx-8 mb-2"
 										>
@@ -190,6 +190,7 @@ export const ShoppingCart = ({ cartList, total }) => {
 				</div>
 				<div className="mt-8">
 					<button
+						type="button"
 						onClick={() => handlePay()}
 						className="block bg-blue-600 rounded-lg transition duration-300 hover:text-white hover:bg-green-600 hover:scale-110 py-2 px-3 "
 					>

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { toast } from "react-toastify";
 import { GetTaskGrade } from "../../../apiServices/StudentServices/StudentServices";
@@ -8,7 +8,8 @@ export const ModalDeber = ({
 	setShowModalDeber,
 	matricula,
 	deber,
-	setResponse,
+	//setResponse,
+	GetDeberes
 }) => {
 	const [showButtonLoading, setShowButtonLoading] = useState(false);
 	const [notaDeber, setNotaDeber] = useState({});
@@ -24,10 +25,9 @@ export const ModalDeber = ({
 		</li>
 	));
 
-	useEffect(() => {
-		const GetNotaDeber = async () => {
+	const GetNotaDeber = useCallback(async () => {
 			try {
-				var resultFromApi = await GetTaskGrade(
+				const resultFromApi = await GetTaskGrade(
 					deber.id,
 					matricula.estudianteId,
 				);
@@ -44,10 +44,11 @@ export const ModalDeber = ({
 				console.error(error);
 				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
 			}
-		};
+		},[deber, matricula]);
 
+	useEffect(() => {
 		GetNotaDeber();
-	}, [deber, matricula]);
+	}, [GetNotaDeber]);
 
 	const handleSubmitAdd = async (event) => {
 		event.preventDefault();
@@ -71,7 +72,15 @@ export const ModalDeber = ({
 			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
 				throw resultFetch;
 			}
-			setResponse(resultFetch);
+			
+			//setResponse(resultFetch);
+
+			resultFetch.isSuccess ?
+			toast.success(resultFetch.message) :
+			toast.error(resultFetch.message) 
+
+			GetDeberes();
+
 			setShowButtonLoading(false);
 			setShowModalDeber(false);
 			formData.delete("file");
@@ -86,7 +95,7 @@ export const ModalDeber = ({
 
 	return (
 		<div
-			id="crud-modal"
+			//id="crud-modal"
 			tabIndex="-1"
 			className={`${showModalDeber ? "" : "hidden"} overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] bg-gray-700/[0.6]`}
 		>
@@ -136,7 +145,7 @@ export const ModalDeber = ({
 									type="text"
 									disabled
 									name="titulo"
-									id="titulo"
+									//id="titulo"
 									className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
 									placeholder="Escribe el Titulo"
 									required=""
@@ -151,7 +160,7 @@ export const ModalDeber = ({
 									Detalle
 								</label>
 								<textarea
-									id="detalle"
+									//id="detalle"
 									disabled
 									name="detalle"
 									rows="17"
@@ -193,7 +202,7 @@ export const ModalDeber = ({
 										</div>
 										<input
 											{...getInputProps()}
-											id="dropzone-file"
+											//id="dropzone-file"
 											type="file"
 											className={`hidden`}
 											ref={refFileUrl}
@@ -209,12 +218,13 @@ export const ModalDeber = ({
 						</div>
 						{showButtonLoading ? (
 							<button
+								type="button"
 								disabled
 								className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
 							>
 								<svg
 									aria-hidden="true"
-									role="status"
+									//role="status"
 									className="inline w-4 h-4 me-3 text-white animate-spin"
 									viewBox="0 0 100 101"
 									fill="none"

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -11,29 +11,30 @@ export const SearchFilter = () => {
 
 	const dispatch = useDispatch();
 
-	useEffect(() => {
-		const FetchCategoriaCurso = async () => {
-			try {
-				var result = await GetCategoriaCursos();
+	const FetchCategoriaCurso = useCallback(async () => {
+		try {
+			const result = await GetCategoriaCursos();
 
-				const resultFetch = await result.json();
+			const resultFetch = await result.json();
 
-				if (result.status !== 200 && result.status !== 400) {
-					throw resultFetch;
-				}
-
-				if (resultFetch.isSuccess) {
-					setCategoriaList(resultFetch.result);
-				} else {
-					setCategoriaList([]);
-				}
-			} catch (error) {
-				console.error(error);
-				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+			if (result.status !== 200 && result.status !== 400) {
+				throw resultFetch;
 			}
-		};
-		FetchCategoriaCurso();
+
+			if (resultFetch.isSuccess) {
+				setCategoriaList(resultFetch.result);
+			} else {
+				setCategoriaList([]);
+			}
+		} catch (error) {
+			console.error(error);
+			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+		}
 	}, []);
+
+	useEffect(() => {
+		FetchCategoriaCurso();
+	}, [FetchCategoriaCurso]);
 
 	return (
 		<div className="relative sm:mr-4">
@@ -101,9 +102,9 @@ export const SearchFilter = () => {
 					))
 				) : (
 					<div className="">
-						<label className="w-full py-4 ms-2 text-sm md:text-base ">
+						<span className="w-full py-4 ms-2 text-sm md:text-base ">
 							No existen áreas de búsqueda ...{" "}
-						</label>
+						</span>
 					</div>
 				)}
 

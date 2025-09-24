@@ -11,7 +11,7 @@ export const ProgressBar = ({ matricula, setShowModalDownload, setResult }) => {
 	const handleGetCertificate = async () => {
 		setLoading(true);
 		try {
-			var result = await GetCertificate(
+			const result = await GetCertificate(
 				matricula.estudianteId,
 				matricula.cursoId,
 			);
@@ -37,13 +37,11 @@ export const ProgressBar = ({ matricula, setShowModalDownload, setResult }) => {
 		<div>
 			{showLoading && <Loading />}
 			<button
+				type="button"
 				onClick={() => handleGetCertificate()}
-				disabled={
-					matricula.estado === "Completado" && matricula.notaFinal !== null
-						? false
-						: true
+				disabled={!(matricula.estado === "Completado" && matricula.notaFinal !== null)
 				}
-				className={`${matricula.estado === "Completado" && matricula.notaFinal !== null ? "hover:cursor-pointer" : "hover:cursor-not-allowed"}`}
+				className={`${(matricula.estado === "Completado" && matricula.notaFinal !== null) ? "hover:cursor-pointer" : "hover:cursor-not-allowed"}`}
 			>
 				<div className="relative w-full h-28 mb-2 flex flex-col justify-center items-center ">
 					{matricula.notaFinal && (

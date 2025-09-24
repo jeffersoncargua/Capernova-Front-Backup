@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
 	PlayerVideo,
 	SideBar,
@@ -29,17 +29,16 @@ export const Estudiante = () => {
 	const [showDeberDetail, setShowDeberDetail] = useState(false);
 	const [showPruebaDetail, setShowPruebaDetail] = useState(false);
 	const [estudiante, setEstudiante] = useState({});
-	const [response, setResponse] = useState({});
+	//const [response, setResponse] = useState({});
 	const [matricula, setMatricula] = useState({});
 
 	const navigate = useNavigate();
 
 	const userStudent = useSelector((state) => state.userState.user);
 
-	useEffect(() => {
-		const FetchEstudiante = async () => {
+	const FetchEstudiante = useCallback(async () => {
 			try {
-				var resultFromApi = await GetStudent(userStudent.nameIdentifier);
+				const resultFromApi = await GetStudent(userStudent.nameIdentifier);
 
 				const resultFetch = await resultFromApi.json();
 
@@ -54,10 +53,11 @@ export const Estudiante = () => {
 				console.error(error);
 				navigate("/error");
 			}
-		};
+		},[userStudent, navigate]);
 
+	useEffect(() => {
 		FetchEstudiante();
-	}, [userStudent, navigate]);
+	}, [FetchEstudiante]);
 
 	return (
 		<div className="relative w-[95%] mx-auto">
@@ -74,7 +74,7 @@ export const Estudiante = () => {
 				setShowPruebaDetail={setShowPruebaDetail}
 				setShowLibrary={setShowLibrary}
 				setShowCursoLive={setShowCursoLive}
-				setResponse={setResponse}
+				//setResponse={setResponse}
 			/>
 
 			{/*Informacion del estudiante */}
@@ -83,8 +83,9 @@ export const Estudiante = () => {
 				<div className="p-4 sm:ml-56">
 					<Informacion
 						estudiante={estudiante}
-						response={response}
-						setResponse={setResponse}
+						//response={response}
+						//setResponse={setResponse}
+						GetStudent={FetchEstudiante}
 					/>
 				</div>
 			)}

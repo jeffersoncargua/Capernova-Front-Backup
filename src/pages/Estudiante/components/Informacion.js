@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import { Tooltip } from "react-tooltip";
 import { toast } from "react-toastify";
 import { Loading } from "../components";
@@ -6,7 +6,12 @@ import Avatar from "../../../assets/avatar.png";
 import { useNavigate } from "react-router-dom";
 import { UpdateStudent } from "../../../apiServices/StudentServices/StudentServices";
 
-export const Informacion = ({ estudiante, response, setResponse }) => {
+export const Informacion = ({ 
+	estudiante, 
+	//response, 
+	//setResponse
+	GetStudent 
+}) => {
 	const refName = useRef();
 	const refLastName = useRef();
 	const refPhone = useRef();
@@ -29,7 +34,7 @@ export const Informacion = ({ estudiante, response, setResponse }) => {
 		setLoading(true);
 
 		try {
-			var resultFromApi = await UpdateStudent({
+			const resultFromApi = await UpdateStudent({
 				id: estudiante.id,
 				name: refName.current.value,
 				lastName: refLastName.current.value,
@@ -42,10 +47,6 @@ export const Informacion = ({ estudiante, response, setResponse }) => {
 			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
 				throw resultFecthInfo;
 			}
-
-			console.log(refImageUrl.current);
-			console.log(refImageUrl.current !== null);
-			console.log(refImageUrl.current !== undefined);
 
 			if (refImageUrl.current !== null && refImageUrl.current !== undefined) {
 				const result = await fetch(
@@ -61,14 +62,27 @@ export const Informacion = ({ estudiante, response, setResponse }) => {
 					},
 				);
 				const resultFetchPhoto = await result.json();
+
 				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
 					throw resultFetchPhoto;
 				}
 			}
-			setResponse(resultFecthInfo);
+			
+			resultFecthInfo.isSuccess ?
+			toast.success(resultFecthInfo.message) :
+			toast.error(resultFecthInfo.message)
+
+			GetStudent();
+
+			//setResponse(resultFecthInfo);
+			setUploadFile(false);
+			setEnableName(false);
+			setEnableLastName(false);
+			setEnablePhone(false);
 			setShowButtonLoading(false);
 			setLoading(false);
 			formData.delete("file");
+
 		} catch (error) {
 			console.error(error);
 			setShowButtonLoading(false);
@@ -77,19 +91,6 @@ export const Informacion = ({ estudiante, response, setResponse }) => {
 			navigate("/error");
 		}
 	};
-
-	useEffect(() => {
-		if (response.isSuccess) {
-			setUploadFile(false);
-			setEnableName(false);
-			setEnableLastName(false);
-			setEnablePhone(false);
-		}
-
-		response.isSuccess
-			? toast.success(response.message)
-			: toast.error(response.message);
-	}, [response]);
 
 	const changePhoto = () => {
 		formData.append("file", refImageUrl.current.files[0]);
@@ -154,7 +155,7 @@ export const Informacion = ({ estudiante, response, setResponse }) => {
 									className={`rounded-lg ${!enableName ? "border-0 bg-transparent" : "border border-blue-300 bg-blue-200 dark:bg-slate-900"}`}
 									disabled={!enableName}
 									type="text"
-									id="nombre"
+									//id="nombre"
 									required
 									name="nombre"
 									defaultValue={estudiante.name || ""}
@@ -189,7 +190,7 @@ export const Informacion = ({ estudiante, response, setResponse }) => {
 									className={`rounded-lg ${!enableLastName ? "border-0 bg-transparent" : "border border-blue-300 bg-blue-200 dark:bg-slate-900"}`}
 									disabled={!enableLastName}
 									type="text"
-									id="apellido"
+									//id="apellido"
 									required
 									name="apellido"
 									defaultValue={estudiante.lastName || ""}
@@ -227,7 +228,7 @@ export const Informacion = ({ estudiante, response, setResponse }) => {
 									pattern="[0-9]{10}"
 									className={`rounded-lg ${!enablePhone ? "border-0 bg-transparent" : "border border-blue-300 bg-blue-200 dark:bg-slate-900"}`}
 									disabled={!enablePhone}
-									id="telefono"
+									//id="telefono"
 									required
 									name="telefono"
 									defaultValue={estudiante.phone || ""}
@@ -275,6 +276,7 @@ export const Informacion = ({ estudiante, response, setResponse }) => {
 					{(enableName || enableLastName || enablePhone || uploadFile) &&
 						(showButtonLoading ? (
 							<button
+								type="button"
 								disabled
 								className="flex items-center px-4 py-2 bg-blue-400 hover:bg-blue-600 text-gray 900 hover:text-white text-sm rounded-lg hover:scale-125"
 							>

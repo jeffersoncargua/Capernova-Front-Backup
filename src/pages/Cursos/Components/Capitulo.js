@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Temario } from "../Components";
 import { toast } from "react-toastify";
 import { GetAllCapitulo } from "../../../apiServices/ManagmentServices/ManagmentCourseServices";
@@ -7,31 +7,31 @@ export const Capitulo = ({ curso }) => {
 	const [capitulos, setCapitulos] = useState([]);
 	console.log(curso);
 
-	useEffect(() => {
-		const FetchCapitulos = async () => {
-			try {
-				var resultFromApi = await GetAllCapitulo(curso.id);
+	const FetchCapitulos = useCallback(async () => {
+		try {
+			const resultFromApi = await GetAllCapitulo(curso.id);
 
-				const resultFetch = await resultFromApi.json();
+			const resultFetch = await resultFromApi.json();
 
-				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
-					throw resultFetch;
-				}
-				if (resultFetch.isSuccess) {
-					setCapitulos(resultFetch.result);
-				} else {
-					setCapitulos([]);
-				}
-			} catch (error) {
-				console.error(error);
-				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+				throw resultFetch;
 			}
-		};
+			if (resultFetch.isSuccess) {
+				setCapitulos(resultFetch.result);
+			} else {
+				setCapitulos([]);
+			}
+		} catch (error) {
+			console.error(error);
+			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+		}
+	}, [curso]);
 
+	useEffect(() => {
 		if (Object.keys(curso).length > 0) {
 			FetchCapitulos();
 		}
-	}, [curso]);
+	}, [curso, FetchCapitulos]);
 
 	return (
 		<div className="mt-5">

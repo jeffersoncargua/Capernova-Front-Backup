@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
 	CoursesCard,
 	ProgressBar,
@@ -19,14 +19,13 @@ import { GetCoursesStudent } from "../../../apiServices/StudentServices/StudentS
 export const Logros = ({ estudiante }) => {
 	const [matriculaList, setMatriculaList] = useState([]);
 	const [showModalDownload, setShowModalDownload] = useState(false);
-	const [result, setResult] = useState({});
+	const [result, setResult] = useState({}); //Sirve para pasar informacion al modal Download para obtener la informacion y generar el certificado
 
 	const navigate = useNavigate();
 
-	useEffect(() => {
-		const FecthCourses = async () => {
+	const FecthCourses = useCallback(async () => {
 			try {
-				var resultFromApi = await GetCoursesStudent(estudiante.id);
+				const resultFromApi = await GetCoursesStudent(estudiante.id);
 
 				const resultFetch = await resultFromApi.json();
 
@@ -43,10 +42,11 @@ export const Logros = ({ estudiante }) => {
 				console.error(error);
 				navigate("/error");
 			}
-		};
+		},[estudiante, navigate]);
 
+	useEffect(() => {
 		FecthCourses();
-	}, [estudiante, navigate]);
+	}, [FecthCourses]);
 
 	return (
 		//<div className="w-[95%] mx-auto flex flex-wrap space-x-8  ">

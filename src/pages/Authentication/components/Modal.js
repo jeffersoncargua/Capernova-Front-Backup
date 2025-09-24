@@ -9,11 +9,11 @@ export const Modal = ({
 
 	return (
 		<div
-			id="popup-modal"
+			//id="popup-modal"
 			tabIndex="-1"
-			className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+			className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)]"
 		>
-			<div className="relative p-4 mx-auto w-full max-w-md h-full">
+			<div className="relative p-4 mx-auto w-full max-w-md max-h-full">
 				<div className="relative bg-white my-[20%] rounded-lg shadow dark:bg-gray-700">
 					<button
 						onClick={() => setShowModal(false)}
@@ -88,7 +88,7 @@ export const Modal = ({
 										Para cambiar tu constraseña debes:
 									</h2>
 								)}
-								<ul className="max-w-md space-y-1 text-justify text-black list-disc list-inside dark:text-white">
+								<ul className="max-w-md space-y-1 text-start text-black list-disc list-inside dark:text-white">
 									<li>Ingresar una contraseña con al menos 8 caracteres.</li>
 									<li>
 										Ingresar tu contraseña con al menos un caracter especial

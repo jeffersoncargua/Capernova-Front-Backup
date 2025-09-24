@@ -44,10 +44,10 @@ export const SideBar = ({
 			</button>
 
 			<div
-				id="drawer-navigation"
+				//id="drawer-navigation"
 				className={`absolute top-0 left-0 z-40 w-[95%] min-[350px]:w-56 p-4 flex overflow-y-auto transition-transform ${showBar ? "-translate-x-full" : ""} sm:translate-x-0  bg-slate-800 dark:bg-gray-800 border-e-2 border border-b-2 rounded-lg border-slate-400 mt-4`}
 				tabIndex="-1"
-				aria-labelledby="drawer-navigation-label"
+				//aria-labelledby="drawer-navigation-label"
 			>
 				<button
 					onClick={() => setShowBar(!showBar)}
@@ -74,7 +74,7 @@ export const SideBar = ({
 
 				<div className="overflow-y-auto">
 					<h5
-						id="drawer-navigation-label"
+						//id="drawer-navigation-label"
 						className="text-base font-semibold text-gray-300 uppercase dark:text-white"
 					>
 						Menu
@@ -82,6 +82,7 @@ export const SideBar = ({
 					<ul className="space-y-2 text-sm font-small">
 						<li>
 							<button
+								type="button"	
 								onClick={() => navigate("/")}
 								className="w-full flex items-center p-2 text-gray-300 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group"
 							>
@@ -99,6 +100,7 @@ export const SideBar = ({
 						</li>
 						<li>
 							<button
+								type="button"
 								onClick={() => {
 									setResponse({});
 									setShowCourses(false);
@@ -127,6 +129,7 @@ export const SideBar = ({
 						</li>
 						<li>
 							<button
+								type="button"
 								onClick={() => {
 									setResponse({});
 									setShowCourses(true);
@@ -162,6 +165,7 @@ export const SideBar = ({
 						</li>
 						<li>
 							<button
+								type="button"
 								onClick={() => {
 									setResponse({});
 									setShowCourses(false);
@@ -199,6 +203,7 @@ export const SideBar = ({
 						</li>
 						<li>
 							<button
+								type="button"
 								onClick={() => {
 									setResponse({});
 									setShowCourses(false);
@@ -231,6 +236,7 @@ export const SideBar = ({
 						</li>
 						<li>
 							<button
+								type="button"
 								onClick={() => {
 									setResponse({});
 									setShowLogro(false);
@@ -259,6 +265,7 @@ export const SideBar = ({
 						</li>
 						<li>
 							<button
+								type="button"
 								onClick={() => {
 									setResponse({});
 									setShowLogro(false);
@@ -292,6 +299,7 @@ export const SideBar = ({
 						</li>
 						<li>
 							<button
+								type="button"
 								onClick={() => {
 									setResponse({});
 									setShowLogro(true);
@@ -321,6 +329,7 @@ export const SideBar = ({
 						</li>
 						<li>
 							<button
+								type="button"
 								onClick={() => navigate("/")}
 								className="w-full flex items-center p-2 text-gray-300 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group"
 							>

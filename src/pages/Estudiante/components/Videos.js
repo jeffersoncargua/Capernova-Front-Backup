@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { addVideo } from "../../../redux/playlistSlice";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import {
+	GetVideos,
 	GetVideosCourse,
 	UpdateStateMatricula,
 } from "../../../apiServices/StudentServices/StudentServices";
@@ -23,20 +24,10 @@ export const Videos = ({
 
 	const playList = useSelector((state) => state.playListState.playList);
 
-	useEffect(() => {
-		const FetchVideos = async () => {
+	const FetchVideos = useCallback(async () => {
 			try {
-				const resultFromApi = await fetch(
-					`${process.env.REACT_APP_API_URL}/Student/getVideos/${capitulo.id}`,
-					{
-						method: "GET",
-						credentials: "include",
-						headers: {
-							"Content-Type": "application/json",
-							Accept: "application/json",
-						},
-					},
-				);
+				const resultFromApi = await GetVideos(capitulo.id)
+				
 				const resultFetch = await resultFromApi.json();
 
 				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
@@ -62,15 +53,15 @@ export const Videos = ({
 				console.error(error);
 				navigate("/error");
 			}
-		};
-
-		FetchVideos();
-	}, [capitulo, dispatch, navigate]);
+		},[capitulo, dispatch, navigate]);
 
 	useEffect(() => {
-		const FetchVisualizacion = async () => {
+		FetchVideos();
+	}, [FetchVideos]);
+
+	const FetchVisualizacion = useCallback(async () => {
 			try {
-				var resultFromApi = await GetVideosCourse(
+				const resultFromApi = await GetVideosCourse(
 					estudiante.id,
 					matricula.cursoId,
 				);
@@ -88,23 +79,23 @@ export const Videos = ({
 				console.error(error);
 				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
 			}
-		};
+		},[estudiante, matricula]);
 
+	useEffect(() => {
 		const interval = setInterval(() => {
 			FetchVisualizacion();
 		}, 1500);
 		return () => clearInterval(interval);
-	}, [estudiante, matricula]);
+	}, [FetchVisualizacion]);
 
-	useEffect(() => {
-		const FecthUpdateEstadoMatricula = async () => {
+	const FecthUpdateEstadoMatricula = useCallback(async () => {
 			try {
 				if (
 					playList.length > 0 &&
 					playList.length === videoViewList.length &&
 					matricula.estado === "En progreso"
 				) {
-					var resultFromApi = await UpdateStateMatricula({
+					const resultFromApi = await UpdateStateMatricula({
 						id: matricula.id,
 						cursoId: matricula.cursoId,
 						estudianteId: matricula.estudianteId,
@@ -128,12 +119,13 @@ export const Videos = ({
 				console.error(error);
 				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
 			}
-		};
+		},[matricula, videoViewList, playList, setMatricula]);
 
+	useEffect(() => {
 		FecthUpdateEstadoMatricula();
-	}, [matricula, videoViewList, playList, setMatricula]);
+	}, [FecthUpdateEstadoMatricula]);
 
-	const GetVideoView = (id) => {
+	const GetVideoView = useCallback((id) => {
 		const result = videoViewList.find(
 			(videoView) =>
 				videoView.videoId === id && videoView.studentId === estudiante.id,
@@ -141,7 +133,7 @@ export const Videos = ({
 		if (result && result.estado === "Visto") {
 			return true;
 		}
-	};
+	},[videoViewList,estudiante]);
 
 	return (
 		<ul className="text-sm text-center text-black bg-white border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white md:m-0">
@@ -152,6 +144,7 @@ export const Videos = ({
 						className="w-full px-4 py-2 border-b border-gray-200 dark:border-gray-600 hover:bg-gray-50 group"
 					>
 						<button
+							type="button"
 							className="w-[80%] flex justify-between"
 							onClick={() => handlePlay(video)}
 						>

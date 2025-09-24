@@ -4,13 +4,14 @@ export const ModalPruebaDetail = ({
 	showModalPruebaDetail,
 	setShowModalPruebaDetail,
 	matricula,
-	prueba,
+	prueba
+	//GetTests
 }) => {
 	return (
 		<div
-			id="crud-modal"
+			//id="crud-modal"
 			tabIndex="-1"
-			className={`${showModalPruebaDetail ? "" : "hidden"} overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] h-full bg-gray-700/[0.6]`}
+			className={`${showModalPruebaDetail ? "" : "hidden"} overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] bg-gray-700/[0.6]`}
 		>
 			<div className="relative p-4 mx-auto w-full max-w-2xl max-h-full">
 				{/*<!-- Modal content -->*/}
@@ -58,7 +59,7 @@ export const ModalPruebaDetail = ({
 									type="text"
 									disabled
 									name="titulo"
-									id="titulo"
+									//id="titulo"
 									className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
 									placeholder="Escribe el Titulo"
 									required=""
@@ -73,7 +74,7 @@ export const ModalPruebaDetail = ({
 									Detalle
 								</label>
 								<textarea
-									id="detalle"
+									//id="detalle"
 									disabled
 									name="detalle"
 									rows="17"

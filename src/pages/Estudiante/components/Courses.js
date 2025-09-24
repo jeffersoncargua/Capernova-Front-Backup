@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { CoursesCard } from "../components";
 import { clearPlaylist } from "../../../redux/playlistSlice";
 import { useDispatch } from "react-redux";
@@ -26,10 +26,9 @@ export const Courses = ({
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	useEffect(() => {
-		const FecthCourses = async () => {
+	const FecthCourses = useCallback(async () => {
 			try {
-				var resultFromApi = await GetCoursesStudent(estudiante.id);
+				const resultFromApi = await GetCoursesStudent(estudiante.id);
 
 				const resultFetch = await resultFromApi.json();
 
@@ -43,12 +42,12 @@ export const Courses = ({
 				console.error(error);
 				navigate("/error");
 			}
-		};
+		},[estudiante, navigate]);
 
+	useEffect(() => {
 		FecthCourses();
-
 		dispatch(clearPlaylist([]));
-	}, [estudiante, dispatch, setShowCourses, navigate]);
+	}, [FecthCourses,dispatch]);
 
 	return (
 		// <div className="w-[95%] mx-auto flex flex-wrap space-x-8 ">
@@ -66,6 +65,7 @@ export const Courses = ({
 						<div key={index || Math.random()}>
 							<SwiperSlide className="" style={{ width: "" }}>
 								<button
+									type="button"
 									disabled={!matricula.isActive}
 									onClick={() => {
 										setShowPlayer(true);

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Descripcion, Contenido, SliderCurso, Loading } from "./Components";
 
@@ -35,29 +35,29 @@ export const CursoDetail = () => {
 		});
 	}, []);
 
-	useEffect(() => {
-		const fetchProducto = async () => {
-			setLoading(true);
-			try {
-				var resultFromApi = await GetProduct(productoId);
+	const fetchProducto = useCallback(async () => {
+		setLoading(true);
+		try {
+			const resultFromApi = await GetProduct(productoId);
 
-				const resultFetch = await resultFromApi.json();
+			const resultFetch = await resultFromApi.json();
 
-				if (resultFromApi.status !== 200) {
-					throw resultFetch;
-				}
-
-				setProducto(resultFetch.result);
-				setLoading(false);
-			} catch (error) {
-				console.error(error);
-				setLoading(false);
-				navigate("/error");
+			if (resultFromApi.status !== 200) {
+				throw resultFetch;
 			}
-		};
 
-		fetchProducto();
+			setProducto(resultFetch.result);
+			setLoading(false);
+		} catch (error) {
+			console.error(error);
+			setLoading(false);
+			navigate("/error");
+		}
 	}, [productoId, navigate]);
+
+	useEffect(() => {
+		fetchProducto();
+	}, [fetchProducto]);
 
 	const handleAddToCart = (itemProd) => {
 		const objetoCart = {
@@ -95,6 +95,7 @@ export const CursoDetail = () => {
 							<ul className="text-sm font-medium text-center text-gray-500 rounded-lg shadow flex dark:divide-gray-700 dark:text-gray-400 mt-5">
 								<li className="w-full focus-within:z-10">
 									<button
+										type="button"
 										onClick={() => {
 											setEnableDescription(true);
 											setEnableContenido(false);
@@ -107,6 +108,7 @@ export const CursoDetail = () => {
 								</li>
 								<li className="w-full focus-within:z-10">
 									<button
+										type="button"
 										onClick={() => {
 											setEnableDescription(false);
 											setEnableContenido(true);
@@ -140,6 +142,7 @@ export const CursoDetail = () => {
 								{/*Esta seccion es para colocar el boton que va a agregar el producto al carrito */}
 								<div className="flex group ">
 									<button
+										type="button"
 										onClick={() => handleAddToCart(producto)}
 										className="flex items-center text-black group-hover:text-white group-hover:scale-110 rounded-lg px-2.5 py-2 border border-blue-400 bg-blue-600 hover:border-green-400 hover:bg-green-600"
 									>

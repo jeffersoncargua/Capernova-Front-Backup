@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { CoursesCard } from "../components";
 import { toast } from "react-toastify";
 
@@ -15,10 +15,9 @@ import { GetCoursesStudent } from "../../../apiServices/StudentServices/StudentS
 export const Pruebas = ({ estudiante, setMatricula, setShowPruebaDetail }) => {
 	const [matriculaList, setMatriculaList] = useState([]);
 
-	useEffect(() => {
-		const FecthCourses = async () => {
+	const FecthCourses = useCallback(async () => {
 			try {
-				var resultFromApi = await GetCoursesStudent(estudiante.id);
+				const resultFromApi = await GetCoursesStudent(estudiante.id);
 
 				const resultFetch = await resultFromApi.json();
 
@@ -31,14 +30,16 @@ export const Pruebas = ({ estudiante, setMatricula, setShowPruebaDetail }) => {
 				} else {
 					setMatriculaList([]);
 				}
+				
 			} catch (error) {
 				console.error(error);
 				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
 			}
-		};
+		},[estudiante]);
 
+	useEffect(() => {
 		FecthCourses();
-	}, [estudiante]);
+	}, [FecthCourses]);
 
 	return (
 		// <div className="w-[95%] mx-auto flex flex-wrap space-x-8">
@@ -56,6 +57,7 @@ export const Pruebas = ({ estudiante, setMatricula, setShowPruebaDetail }) => {
 						<div key={index || Math.random()}>
 							<SwiperSlide className="" style={{ width: "" }}>
 								<button
+									type="button"
 									disabled={!matricula.isActive}
 									onClick={() => {
 										setMatricula(matricula);

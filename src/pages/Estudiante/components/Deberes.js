@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { CoursesCard } from "../components";
 //import { toast } from "react-toastify";
 
@@ -18,10 +18,9 @@ export const Deberes = ({ estudiante, setMatricula, setShowDeberDetail }) => {
 
 	const navigate = useNavigate();
 
-	useEffect(() => {
-		const FecthCourses = async () => {
+	const FecthCourses = useCallback(async () => {
 			try {
-				var resultFromApi = await GetCoursesStudent(estudiante.id);
+				const resultFromApi = await GetCoursesStudent(estudiante.id);
 
 				const resultFetch = await resultFromApi.json();
 
@@ -38,10 +37,11 @@ export const Deberes = ({ estudiante, setMatricula, setShowDeberDetail }) => {
 				console.error(error);
 				navigate("/error");
 			}
-		};
+		},[estudiante, navigate]);
 
+	useEffect(() => {
 		FecthCourses();
-	}, [estudiante, navigate]);
+	}, [FecthCourses]);
 
 	return (
 		//<div className="w-[95%] mx-auto flex flex-wrap space-x-8">
@@ -59,6 +59,7 @@ export const Deberes = ({ estudiante, setMatricula, setShowDeberDetail }) => {
 						<div key={index || Math.random()}>
 							<SwiperSlide className="" style={{ width: "" }}>
 								<button
+									type="button"
 									disabled={!matricula.isActive}
 									onClick={() => {
 										setMatricula(matricula);

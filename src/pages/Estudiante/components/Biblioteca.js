@@ -1,14 +1,13 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 export const Biblioteca = ({ estudiante }) => {
 	const column = ["Curso", "Descripción", "Acciones"];
 	const [matriculaList, setMatriculaList] = useState([]);
 
-	useEffect(() => {
-		const FecthCourses = async () => {
+	const FecthCourses = useCallback(async () => {
 			try {
-				var resultFromApi = await GetCoursesStudent(estudiante.id);
+				const resultFromApi = await GetCoursesStudent(estudiante.id);
 
 				const resultFetch = await resultFromApi.json();
 
@@ -21,10 +20,11 @@ export const Biblioteca = ({ estudiante }) => {
 			} catch (error) {
 				console.error(error);
 			}
-		};
+		},[estudiante]);
 
+	useEffect(() => {
 		FecthCourses();
-	}, [estudiante]);
+	}, [FecthCourses]);
 
 	return (
 		<div>
@@ -36,8 +36,8 @@ export const Biblioteca = ({ estudiante }) => {
 				<table className="w-full text-sm text-left rtl:text-right text-black dark:text-white">
 					<thead className="text-xs text-black uppercase bg-gray-50 dark:bg-gray-700 dark:text-white">
 						<tr>
-							{column.map((itemHeader, index) => (
-								<th key={index} scope="col" className="px-6 py-3">
+							{column.map((itemHeader) => (
+								<th key={Math.random()} scope="col" className="px-6 py-3">
 									{itemHeader}
 								</th>
 							))}

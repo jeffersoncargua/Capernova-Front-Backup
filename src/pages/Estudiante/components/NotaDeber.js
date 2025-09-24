@@ -1,16 +1,13 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { GetTaskGrade } from "../../../apiServices/StudentServices/StudentServices";
 
 export const NotaDeber = ({ deber, matricula }) => {
 	const [notaDeber, setNotaDeber] = useState({});
 
-	//console.log(deber);
-
-	useEffect(() => {
-		const GetNotaDeber = async () => {
+	const GetNotaDeber = useCallback(async () => {
 			try {
-				var resultFromApi = await GetTaskGrade(deber.id, matricula.id);
+				const resultFromApi = await GetTaskGrade(deber.id, matricula.id);
 
 				const resultFetch = await resultFromApi.json();
 
@@ -24,10 +21,11 @@ export const NotaDeber = ({ deber, matricula }) => {
 				console.error(error);
 				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
 			}
-		};
+		},[deber, matricula]);
 
+	useEffect(() => {
 		GetNotaDeber();
-	}, [deber, matricula]);
+	}, [GetNotaDeber]);
 
 	return (
 		<>

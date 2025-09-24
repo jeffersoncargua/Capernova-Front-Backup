@@ -1,33 +1,34 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { toast } from "react-toastify";
 import { GetAllVideos } from "../../../apiServices/ManagmentServices/ManagmentCourseServices";
 
 export const Temario = ({ capitulo }) => {
 	const [temas, setTemas] = useState([]);
-	console.log(capitulo);
+
+	const FetchVideos = useCallback(async () => {
+		try {
+			const resultFromApi = await GetAllVideos(capitulo.id);
+
+			const resultFetch = await resultFromApi.json();
+
+			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+				throw resultFetch;
+			}
+			if (resultFetch.isSuccess) {
+				setTemas(resultFetch.result);
+			} else {
+				setTemas([]);
+			}
+		} catch (error) {
+			console.error(error);
+			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+		}
+	}, [capitulo]);
 
 	useEffect(() => {
-		const FetchVideos = async () => {
-			try {
-				var resultFromApi = await GetAllVideos(capitulo.id);
-
-				const resultFetch = await resultFromApi.json();
-
-				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
-					throw resultFetch;
-				}
-				if (resultFetch.isSuccess) {
-					setTemas(resultFetch.result);
-				} else {
-					setTemas([]);
-				}
-			} catch (error) {
-				console.error(error);
-				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
-			}
-		};
 		FetchVideos();
-	}, [capitulo]);
+	}, [FetchVideos]);
+
 	return (
 		<ul className="max-w-md space-y-1 text-gray-500 list-inside dark:text-gray-400">
 			{temas.length > 0 &&

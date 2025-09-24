@@ -84,10 +84,38 @@ const GetAllTests = async (cursoId) => {
 	return response;
 };
 
+const GetVideos = async (capituloId) => {
+	const verbose = "GET";
+	const route = "/Student/getVideos";
+	const query = `/${capituloId}`;
+
+	var response = await useFetch({
+		verbose: verbose,
+		route: route,
+		query: query,
+	});
+
+	return response;
+};
+
 const GetVideosCourse = async (studentId, cursoId) => {
 	const verbose = "GET";
 	const route = "/Student/getViewVideos";
 	const query = `?studentId=${studentId}&cursoId=${cursoId}`;
+
+	var response = await useFetch({
+		verbose: verbose,
+		route: route,
+		query: query,
+	});
+
+	return response;
+};
+
+const GetAllCapitulos = async (cursoId) => {
+	const verbose = "GET";
+	const route = "/Student/getCapitulos";
+	const query = `/${cursoId}`;
 
 	var response = await useFetch({
 		verbose: verbose,
@@ -179,7 +207,9 @@ export {
 	GetTaskGrade,
 	GetTestGrade,
 	GetAllTests,
+	GetVideos,
 	GetVideosCourse,
+	GetAllCapitulos,
 	GetCertificate,
 	CreateCommentary,
 	CreateViewVideo,

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { NotaDeber, ModalDeber } from "../components";
 import { toast } from "react-toastify";
 import { GetTasksStudent } from "../../../apiServices/StudentServices/StudentServices";
@@ -7,13 +7,12 @@ export const DeberDetail = ({ matricula }) => {
 	const [deberList, setDeberList] = useState([]);
 	const [deber, setDeber] = useState({});
 	const [showModalDeber, setShowModalDeber] = useState(false);
-	const [response, setResponse] = useState({});
+	//const [response, setResponse] = useState({});
 	const column = ["Deber", "Descripción", "Estado", "File", "Nota", "Acciones"];
 
-	useEffect(() => {
-		const FecthDeberes = async () => {
+	const FecthDeberes = useCallback(async () => {
 			try {
-				var resultFromApi = await GetTasksStudent(matricula.cursoId);
+				const resultFromApi = await GetTasksStudent(matricula.cursoId);
 
 				const resultFetch = await resultFromApi.json();
 
@@ -30,13 +29,14 @@ export const DeberDetail = ({ matricula }) => {
 				toast.error("Algo ha fallado en nuestro servidor. Inténtalo más tarde");
 				setDeberList([]);
 			}
-		};
+		},[matricula]);
 
+	useEffect(() => {
 		FecthDeberes();
-		response.isSuccess
-			? toast.success(response.message)
-			: toast.error(response.message);
-	}, [matricula, response]);
+		// response.isSuccess
+		// 	? toast.success(response.message)
+		// 	: toast.error(response.message);
+	}, [FecthDeberes]);
 
 	const handleSelectedDeber = (deber) => {
 		setShowModalDeber(true);
@@ -55,15 +55,16 @@ export const DeberDetail = ({ matricula }) => {
 					setShowModalDeber={setShowModalDeber}
 					matricula={matricula}
 					deber={deber}
-					setResponse={setResponse}
+					//setResponse={setResponse}
+					GetDeberes={FecthDeberes}
 				/>
 			)}
 			<div className="overflow-x-auto">
 				<table className="w-full text-sm text-left rtl:text-right text-black dark:text-white">
 					<thead className="text-xs text-black uppercase bg-gray-50 dark:bg-gray-700 dark:text-white">
 						<tr>
-							{column.map((itemHeader, index) => (
-								<th key={index} scope="col" className="px-6 py-3">
+							{column.map((itemHeader) => (
+								<th key={Math.random()} scope="col" className="px-6 py-3">
 									{itemHeader}
 								</th>
 							))}
@@ -87,6 +88,7 @@ export const DeberDetail = ({ matricula }) => {
 									<td className="px-4 py-3">
 										<div className="py-1 flex justify-start">
 											<button
+												type="button"
 												onClick={() => handleSelectedDeber(deber)}
 												className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-yellow-300 hover:bg-yellow-400 rounded-lg mr-2"
 											>

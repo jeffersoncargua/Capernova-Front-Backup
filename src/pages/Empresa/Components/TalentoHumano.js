@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { TeacherCard } from "./TeacherCard";
 import { useNavigate } from "react-router-dom";
 import { GetAllTeachers } from "../../../apiServices/GeneralServices";
@@ -7,10 +7,9 @@ export const TalentoHumano = () => {
 	const [teacherList, setTeacherList] = useState([]);
 	const navigate = useNavigate();
 
-	useEffect(() => {
-		const getTeacher = async () => {
+	const getTeacher = useCallback(async () => {
 			try {
-				var resultFromApi = await GetAllTeachers();
+				const resultFromApi = await GetAllTeachers();
 
 				const resultFetch = await resultFromApi.json();
 
@@ -27,10 +26,11 @@ export const TalentoHumano = () => {
 				console.error(error);
 				navigate("/error");
 			}
-		};
+		},[navigate]);
 
+	useEffect(() => {
 		getTeacher();
-	}, [navigate]);
+	}, [getTeacher]);
 
 	return (
 		<div className="w-[95%] flex flex-col md:my-[50px] leading-loose mx-auto dark:bg-gray-900">
@@ -43,8 +43,8 @@ export const TalentoHumano = () => {
 							<hr className="mx-auto w-[250px] border border-blue-400 drop-shadow-md" />
 						</span>
 					</h1>
-					{teacherList.map((teacher, index) => (
-						<TeacherCard key={index} teacher={teacher} index={index} />
+					{teacherList.map((teacher,index ) => (
+						<TeacherCard key={teacher.id} teacher={teacher} index={index} />
 					))}
 				</>
 			) : null}

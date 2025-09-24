@@ -1,14 +1,13 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { GetTaskGrade } from "../../../apiServices/StudentServices/StudentServices";
 
 export const NotaPrueba = ({ test, matricula }) => {
 	const [notaPrueba, setNotaPrueba] = useState({});
 
-	useEffect(() => {
-		const GetNotaPrueba = async () => {
+	const GetNotaPrueba = useCallback(async () => {
 			try {
-				var resultFromApi = await GetTaskGrade(test.id, matricula.estudianteId);
+				const resultFromApi = await GetTaskGrade(test.id, matricula.estudianteId);
 
 				const resultFetch = await resultFromApi.json();
 
@@ -26,10 +25,11 @@ export const NotaPrueba = ({ test, matricula }) => {
 					);
 				}
 			}
-		};
+		},[test, matricula]);
 
+	useEffect(() => {
 		GetNotaPrueba();
-	}, [test, matricula]);
+	}, [GetNotaPrueba]);
 
 	return (
 		<>

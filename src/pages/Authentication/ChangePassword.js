@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { Modal } from "./components";
 import {
@@ -22,31 +22,32 @@ export const ChangePassword = ({ children }) => {
 	const refPassword = useRef();
 	const refConfirmPassword = useRef();
 
-	useEffect(() => {
-		const fetchResetPassword = async () => {
-			try {
-				var resultFromApi = await ResetPassword(token, email);
+	const fetchResetPassword = useCallback(async () => {
+		try {
+			const resultFromApi = await ResetPassword(token, email);
 
-				const resultFetch = await resultFromApi.json();
+			const resultFetch = await resultFromApi.json();
 
-				if (resultFromApi.status !== 200) {
-					throw resultFetch;
-				}
-
-				setResponse(resultFetch);
-			} catch (error) {
-				console.log(error);
-				navigate("/error");
+			if (resultFromApi.status !== 200) {
+				throw resultFetch;
 			}
-		};
-		fetchResetPassword();
+
+			setResponse(resultFetch);
+		} catch (error) {
+			console.log(error);
+			navigate("/error");
+		}
 	}, [token, email, navigate]);
+
+	useEffect(() => {
+		fetchResetPassword();
+	}, [fetchResetPassword]);
 
 	const handleSubmitChangePassword = async (event) => {
 		event.preventDefault();
 		setShowButtonLoading(true);
 		try {
-			var resultFromApi = await ResetPasswordPost({
+			const resultFromApi = await ResetPasswordPost({
 				password: refPassword.current.value,
 				confirmPassword: refConfirmPassword.current.value,
 				email: email,
@@ -84,7 +85,7 @@ export const ChangePassword = ({ children }) => {
 						disabled
 						type="email"
 						name="email"
-						id="email"
+						//id="email"
 						className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer rouded-lg"
 						placeholder=" "
 						required
@@ -102,7 +103,7 @@ export const ChangePassword = ({ children }) => {
 					<input
 						type={showPass1 ? "text" : "password"}
 						name="password"
-						id="password"
+						//id="password"
 						className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 						placeholder=" "
 						required
@@ -115,7 +116,8 @@ export const ChangePassword = ({ children }) => {
 					>
 						Contraseña
 					</label>
-					<span
+					<button
+						type="button"
 						onClick={() => setShowPass1(!showPass1)}
 						className="absolute inset-y-0 right-0 flex items-center hover:cursor-pointer"
 					>
@@ -141,13 +143,13 @@ export const ChangePassword = ({ children }) => {
 								<path d="M3.35 5.47q-.27.24-.518.487A13 13 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7 7 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12z" />
 							</svg>
 						)}
-					</span>
+					</button>
 				</div>
 				<div className="relative z-0 w-full mb-5 group">
 					<input
 						type={showPass2 ? "text" : "password"}
 						name="confirmPassword"
-						id="confirmPassword"
+						//id="confirmPassword"
 						className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 						placeholder=" "
 						required
@@ -160,7 +162,8 @@ export const ChangePassword = ({ children }) => {
 					>
 						Confirmar Contraseña
 					</label>
-					<span
+					<button
+						type="button"
 						onClick={() => setShowPass2(!showPass2)}
 						className="absolute inset-y-0 right-0 flex items-center hover:cursor-pointer"
 					>
@@ -186,7 +189,7 @@ export const ChangePassword = ({ children }) => {
 								<path d="M3.35 5.47q-.27.24-.518.487A13 13 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7 7 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12z" />
 							</svg>
 						)}
-					</span>
+					</button>
 				</div>
 				{showButtonLoading ? (
 					<button
@@ -196,7 +199,7 @@ export const ChangePassword = ({ children }) => {
 					>
 						<svg
 							aria-hidden="true"
-							role="status"
+							//role="status"
 							className="inline w-4 h-4 me-3 text-white animate-spin"
 							viewBox="0 0 100 101"
 							fill="none"

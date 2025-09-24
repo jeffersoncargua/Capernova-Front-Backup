@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ModalPruebaDetail, NotaPrueba } from "../components";
 import { toast } from "react-toastify";
 import { GetAllTests } from "../../../apiServices/StudentServices/StudentServices";
@@ -7,7 +7,7 @@ export const PruebaDetail = ({ matricula }) => {
 	const [pruebaList, setPruebaList] = useState([]);
 	const [prueba, setPrueba] = useState({});
 	const [showModalPruebaDetail, setShowModalPruebaDetail] = useState(false);
-	const [response, setResponse] = useState({});
+	//const [response, setResponse] = useState({});
 	const column = [
 		"Prueba",
 		"Descripción",
@@ -17,10 +17,9 @@ export const PruebaDetail = ({ matricula }) => {
 		"Acciones",
 	];
 
-	useEffect(() => {
-		const FecthPrueba = async () => {
+	const FecthPruebas = useCallback(async () => {
 			try {
-				var resultFromApi = await GetAllTests(matricula.cursoId);
+				const resultFromApi = await GetAllTests(matricula.cursoId);
 				const resultFetch = await resultFromApi.json();
 
 				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
@@ -37,13 +36,11 @@ export const PruebaDetail = ({ matricula }) => {
 				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
 				setPruebaList([]);
 			}
-		};
+		},[matricula]);
 
-		FecthPrueba();
-		response.isSuccess
-			? toast.success(response.message)
-			: toast.error(response.message);
-	}, [matricula, response]);
+	useEffect(() => {
+		FecthPruebas();
+	}, [FecthPruebas]);
 
 	const handleSelectedPrueba = (test) => {
 		setShowModalPruebaDetail(true);
@@ -62,15 +59,16 @@ export const PruebaDetail = ({ matricula }) => {
 					setShowModalPruebaDetail={setShowModalPruebaDetail}
 					matricula={matricula}
 					prueba={prueba}
-					setResponse={setResponse}
+					//setResponse={setResponse}
+					//GetTests={FecthPruebas}
 				/>
 			)}
 			<div className="overflow-x-auto">
 				<table className="w-full text-sm text-left rtl:text-right text-black dark:text-white">
 					<thead className="text-xs text-black uppercase bg-gray-50 dark:bg-gray-700 dark:text-white">
 						<tr>
-							{column.map((itemHeader, index) => (
-								<th key={index} scope="col" className="px-6 py-3">
+							{column.map((itemHeader) => (
+								<th key={Math.random()} scope="col" className="px-6 py-3">
 									{itemHeader}
 								</th>
 							))}
@@ -94,6 +92,7 @@ export const PruebaDetail = ({ matricula }) => {
 									<td className="px-4 py-3">
 										<div className="py-1 flex justify-start">
 											<button
+												type="button"
 												onClick={() => handleSelectedPrueba(test)}
 												className="flex items-center justify-center py-2 px-4 text-sm text-gray-900 hover:text-white bg-yellow-300 hover:bg-yellow-400 rounded-lg mr-2"
 											>

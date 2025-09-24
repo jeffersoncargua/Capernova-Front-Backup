@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { GetCoursesStudent } from "../../../apiServices/StudentServices/StudentServices";
 
@@ -7,27 +7,27 @@ export const CursoLive = ({ estudiante }) => {
 	const [matriculaList, setMatriculaList] = useState([]);
 	const navigate = useNavigate();
 
-	useEffect(() => {
-		const FecthCourses = async () => {
-			try {
-				var resultFromApi = await GetCoursesStudent(estudiante.id);
+	const FecthCourses = useCallback(async () => {
+		try {
+			const resultFromApi = await GetCoursesStudent(estudiante.id);
 
-				const resultFetch = await resultFromApi.json();
+			const resultFetch = await resultFromApi.json();
 
-				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
-					throw resultFetch;
-				}
-				if (resultFetch.isSuccess) {
-					setMatriculaList(resultFetch.result);
-				}
-			} catch (error) {
-				console.error(error);
-				navigate("/error");
+			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+				throw resultFetch;
 			}
-		};
+			if (resultFetch.isSuccess) {
+				setMatriculaList(resultFetch.result);
+			}
+		} catch (error) {
+			console.error(error);
+			navigate("/error");
+		}
+	},[estudiante, navigate]);
 
+	useEffect(() => {
 		FecthCourses();
-	}, [estudiante, navigate]);
+	}, [FecthCourses]);
 
 	return (
 		<div>
@@ -39,8 +39,8 @@ export const CursoLive = ({ estudiante }) => {
 				<table className="w-full text-sm text-left rtl:text-right text-black dark:text-white">
 					<thead className="text-xs text-black uppercase bg-gray-50 dark:bg-gray-700 dark:text-white">
 						<tr>
-							{column.map((itemHeader, index) => (
-								<th key={index} scope="col" className="px-6 py-3">
+							{column.map((itemHeader) => (
+								<th key={Math.random()} scope="col" className="px-6 py-3">
 									{itemHeader}
 								</th>
 							))}

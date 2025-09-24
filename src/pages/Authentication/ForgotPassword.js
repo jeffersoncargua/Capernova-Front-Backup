@@ -15,7 +15,9 @@ export const ForgotPassword = ({ children }) => {
 		event.preventDefault();
 		setShowButtonLoading(true);
 		try {
-			var resultFromApi = await ForgotPasswordPost(refEmail.current.value);
+			let resultFromApi = await ForgotPasswordPost({
+				email: refEmail.current.value,
+			});
 
 			const resultFetch = await resultFromApi.json();
 
@@ -52,7 +54,7 @@ export const ForgotPassword = ({ children }) => {
 						pattern="[a-zA-Z0-9!#$%&'*\/=?^_`\{\|\}~\+\-]([\.]?[a-zA-Z0-9!#$%&'*\/=?^_`\{\|\}~\+\-])+@[a-zA-Z0-9]([^@&%$\/\(\)=?¿!\.,:;]|\d)+[a-zA-Z0-9][\.][a-zA-Z]{2,4}([\.][a-zA-Z]{2})?"
 						className="text-sm rounded-l-lg dark:bg-gray-800 focus:border-blue-200 focus:ring-2 focus:ring-blue-200 w-[17rem] md:w-80"
 						name="email"
-						id="email"
+						//id="email"
 						type="text"
 						placeholder="Escribe tu correo electrónico"
 						required
@@ -67,7 +69,7 @@ export const ForgotPassword = ({ children }) => {
 						>
 							<svg
 								aria-hidden="true"
-								role="status"
+								//role="status"
 								className="inline w-4 h-4 me-3 text-white animate-spin"
 								viewBox="0 0 100 101"
 								fill="none"

@@ -9,8 +9,8 @@ export const Loading = () => {
 			tabIndex="-1"
 		>
 			<div
-				aria-label="Loading..."
-				role="status"
+				//aria-label="Loading..."
+				//role="status"
 				className="flex flex-col md:flex-row items-center justify-center space-x-2 mt-28"
 			>
 				<img

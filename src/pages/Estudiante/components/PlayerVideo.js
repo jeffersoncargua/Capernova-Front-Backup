@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Videos, ModalCompleted } from "../components";
 import { useSelector } from "react-redux";
 import VideoPlayer from "react-player/vimeo";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { CreateViewVideo } from "../../../apiServices/StudentServices/StudentServices";
+import { CreateViewVideo, GetAllCapitulos } from "../../../apiServices/StudentServices/StudentServices";
 
 export const PlayerVideo = ({ estudiante, matricula, setMatricula }) => {
 	const playList = useSelector((state) => state.playListState.playList);
@@ -15,25 +15,16 @@ export const PlayerVideo = ({ estudiante, matricula, setMatricula }) => {
 	const [capituloList, setCapiuloList] = useState([]);
 	const [showModalCompleted, setShowModalCompleted] = useState(false);
 
-	useEffect(() => {
-		const FetchCapitulos = async () => {
+	const FetchCapitulos = useCallback(async () => {
 			try {
-				const resultFromApi = await fetch(
-					`${process.env.REACT_APP_API_URL}/Student/getCapitulos/${matricula.cursoId}`,
-					{
-						method: "GET",
-						credentials: "include",
-						headers: {
-							"Content-Type": "application/json",
-							Accept: "application/json",
-						},
-					},
-				);
+				const resultFromApi = await GetAllCapitulos(matricula.cursoId);
+
 				const resultFetch = await resultFromApi.json();
 
 				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
 					throw resultFetch;
 				}
+
 				if (resultFetch.isSuccess) {
 					setCapiuloList(resultFetch.result);
 				}
@@ -44,13 +35,15 @@ export const PlayerVideo = ({ estudiante, matricula, setMatricula }) => {
 				);
 				navigate("/error");
 			}
-		};
+		},[matricula, navigate]);
+
+	useEffect(() => {
 		FetchCapitulos();
-	}, [matricula, setCurrentVideo, navigate]);
+	}, [FetchCapitulos]);
 
 	const fetchVisualizacion = async (id) => {
 		try {
-			var resultFromApi = await CreateViewVideo({
+			const resultFromApi = await CreateViewVideo({
 				videoId: id,
 				studentId: estudiante.id,
 				cursoId: matricula.cursoId,

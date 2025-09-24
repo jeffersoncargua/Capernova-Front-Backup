@@ -1,7 +1,7 @@
 export const ModalCompleted = ({ setShowModalCompleted }) => {
 	return (
 		<div
-			id="popup-modal"
+			//id="popup-modal"
 			tabIndex="-1"
 			className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
 		>
@@ -51,7 +51,7 @@ export const ModalCompleted = ({ setShowModalCompleted }) => {
 						<h2 className="mb-2 text-lg font-semibold text-black dark:text-white">
 							Para obtener tu certificado debes:
 						</h2>
-						<ul className="max-w-md space-y-1 text-start text-justify text-black list-disc list-inside dark:text-white">
+						<ul className="max-w-md space-y-1 text-start text-black list-disc list-inside dark:text-white">
 							<li>
 								Completar las tareas, las mismas que están en el apartado
 								izquierdo de tu pantalla.

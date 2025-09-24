@@ -7,6 +7,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css"; // You can also use <link> for styles
 import { GetAllCourseCategory } from "../../apiServices/ManagmentServices/ManagmentCourseServices";
+import { useCallback } from "react";
 // ..
 
 export const Cursos = ({ children }) => {
@@ -30,31 +31,31 @@ export const Cursos = ({ children }) => {
 		});
 	}, []);
 
-	useEffect(() => {
-		const fetchCourses = async () => {
-			try {
-				var result = await GetAllCourseCategory(categoriaId || 0, search);
+	const fetchCourses = useCallback(async () => {
+		try {
+			const result = await GetAllCourseCategory(categoriaId || 0, search);
 
-				const resultFetch = await result.json();
+			const resultFetch = await result.json();
 
-				if (result.status !== 200 && result.status !== 400) {
-					throw resultFetch;
-				}
-				if (resultFetch.isSuccess) {
-					setSlices(resultFetch.result);
-				} else {
-					setSlices([]);
-				}
-			} catch (error) {
-				console.error(error);
-				navigate("/error");
+			if (result.status !== 200 && result.status !== 400) {
+				throw resultFetch;
 			}
-		};
+			if (resultFetch.isSuccess) {
+				setSlices(resultFetch.result);
+			} else {
+				setSlices([]);
+			}
+		} catch (error) {
+			console.error(error);
+			navigate("/error");
+		}
+	}, [categoriaId, search, navigate, setSlices]);
 
+	useEffect(() => {
 		fetchCourses();
-	}, [search, navigate, categoriaId]);
+	}, [fetchCourses]);
 
-	const handleSubmitSearch = (event) => {
+	const handleSubmitSearch = (_event) => {
 		setSearch(refSearch.current.value);
 	};
 
@@ -104,7 +105,8 @@ export const Cursos = ({ children }) => {
 								<input
 									onChange={() => handleSubmitSearch()}
 									type="text"
-									id="search-navbar"
+									//id="search-navbar"
+									name="search-navbar"
 									className="w-full p-2 ps-2 text-sm text-gray-900 rounded-lg bg-gray-50 hover:border-blue-300 focus:outline-none focus:ring-inset focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 									placeholder="Buscar Cursos..."
 									ref={refSearch}
@@ -115,11 +117,11 @@ export const Cursos = ({ children }) => {
 
 					<div className="flex flex-wrap md:justify-center">
 						{slices.length > 0 ? (
-							slices.map((itemProd, index) => (
+							slices.map((itemProd) => (
 								<div
 									className="shrink-0 w-full min-[796px]:max-lg:w-1/2 lg:max-[1088px]:w-1/2 min-[1088px]:w-1/3 mb-10"
 									data-aos="fade-up"
-									key={index}
+									key={itemProd.id}
 								>
 									{/*ProductCard */}
 									<ProductCard itemProd={itemProd} />
@@ -127,9 +129,9 @@ export const Cursos = ({ children }) => {
 							))
 						) : (
 							<div className="group tex-black dark:text-white w-full h-80">
-								<label className=" text-2xl md:text-4xl py-4 ms-2 text-center ">
+								<span className=" text-2xl md:text-4xl py-4 ms-2 text-center ">
 									No existen registros de tu búsqueda ...{" "}
-								</label>
+								</span>
 							</div>
 						)}
 					</div>
