@@ -6,11 +6,11 @@ import Avatar from "../../../assets/avatar.png";
 import { useNavigate } from "react-router-dom";
 import { UpdateStudent } from "../../../apiServices/StudentServices/StudentServices";
 
-export const Informacion = ({ 
-	estudiante, 
-	//response, 
+export const Informacion = ({
+	estudiante,
+	//response,
 	//setResponse
-	GetStudent 
+	GetStudent,
 }) => {
 	const refName = useRef();
 	const refLastName = useRef();
@@ -67,10 +67,10 @@ export const Informacion = ({
 					throw resultFetchPhoto;
 				}
 			}
-			
-			resultFecthInfo.isSuccess ?
-			toast.success(resultFecthInfo.message) :
-			toast.error(resultFecthInfo.message)
+
+			resultFecthInfo.isSuccess
+				? toast.success(resultFecthInfo.message)
+				: toast.error(resultFecthInfo.message);
 
 			GetStudent();
 
@@ -82,7 +82,6 @@ export const Informacion = ({
 			setShowButtonLoading(false);
 			setLoading(false);
 			formData.delete("file");
-
 		} catch (error) {
 			console.error(error);
 			setShowButtonLoading(false);

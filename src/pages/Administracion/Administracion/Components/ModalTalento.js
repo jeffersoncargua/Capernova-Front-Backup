@@ -59,7 +59,7 @@ export const ModalTalento = ({
 				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
 			}
 		},
-		[setShowModalTalento],
+		[setShowModalTalento, fetchTalento],
 	);
 
 	return (

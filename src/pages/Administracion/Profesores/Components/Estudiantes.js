@@ -163,7 +163,7 @@ export const Estudiantes = ({ cursoList }) => {
 	const handleEstadoMatricula = async (matricula) => {
 		setShowLoading(true);
 		try {
-			let resultFromApi = await UpdateMatriculaEstado(
+			const resultFromApi = await UpdateMatriculaEstado(
 				matricula.id,
 				matricula.estudianteId,
 				matricula.isActive,
@@ -176,6 +176,9 @@ export const Estudiantes = ({ cursoList }) => {
 			}
 
 			//setResponse(resultFetch);
+
+			FetchEstudiantes();
+
 			setShowLoading(false);
 		} catch (error) {
 			console.error(error);
@@ -193,7 +196,7 @@ export const Estudiantes = ({ cursoList }) => {
 					showModalCalificarDeber={showModalCalificarDeber}
 					setShowModalCalificarDeber={setShowModalCalificarDeber}
 					matricula={matricula}
-					setResponse={setResponse}
+					//setResponse={setResponse}
 				/>
 			)}
 			{showModalCalificarPrueba && (
@@ -201,7 +204,7 @@ export const Estudiantes = ({ cursoList }) => {
 					showModalCalificarPrueba={showModalCalificarPrueba}
 					setShowModalCalificarPrueba={setShowModalCalificarPrueba}
 					matricula={matricula}
-					setResponse={setResponse}
+					//setResponse={setResponse}
 				/>
 			)}
 			{showModalCalificarNotaFinal && (
@@ -209,7 +212,8 @@ export const Estudiantes = ({ cursoList }) => {
 					showModalCalificarNotaFinal={showModalCalificarNotaFinal}
 					setShowModalCalificarNotaFinal={setShowModalCalificarNotaFinal}
 					matricula={matricula}
-					setResponse={setResponse}
+					//setResponse={setResponse}
+					GetEstudiantes={FetchEstudiantes}
 				/>
 			)}
 			{/* {showModalDeleteTalento && <ModalDeleteTalento showModalDeleteTalento={showModalDeleteTalento} setShowModalDeleteTalento={setShowModalDeleteTalento} talento={talento} setResponse={setResponse} />} */}

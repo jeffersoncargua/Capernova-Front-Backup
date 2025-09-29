@@ -8,8 +8,8 @@ export const useFetch = async ({
 	const apiURL = process.env.REACT_APP_API_URL;
 	var response;
 
-	let headers = {
-		"Content-Type": "application/json",
+	const headers = {
+		"Content-Type": "application/json;charset=utf-8",
 		Accept: "application/json",
 		Authorization: authToken !== null && `Bearer ${authToken}`,
 	};
@@ -20,7 +20,9 @@ export const useFetch = async ({
 				method: verbose,
 				headers: headers,
 			})
-				.then((result) => (response = result))
+				.then((result) => {
+					response = result;
+				})
 				.catch((error) => console.error(error));
 			break;
 		default:
@@ -29,7 +31,9 @@ export const useFetch = async ({
 				headers: headers,
 				body: JSON.stringify(object),
 			})
-				.then((result) => (response = result))
+				.then((result) => {
+					response = result;
+				})
 				//.then((response) => response.json)
 				.catch((error) => console.error(error));
 			break;

@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useId } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { createOrder, cancelOrder } from "../../../redux/orderSlice";
@@ -22,6 +22,7 @@ export const PaymentOrder = ({ setIsValid }) => {
 	const refDireccionSecundaria = useRef();
 
 	const dispatch = useDispatch();
+	const btnSubmit = useId();
 
 	const user = useSelector((state) => state.userState.user);
 
@@ -54,7 +55,7 @@ export const PaymentOrder = ({ setIsValid }) => {
 	};
 
 	const handleChange = (e) => {
-		const boton = document.getElementById("btnSubmit");
+		const boton = document.getElementById(btnSubmit);
 		//console.log(e.target.checked); //permite atrapar el checked actual del elemento checkbox
 		if (
 			e.target.checked &&
@@ -138,7 +139,7 @@ export const PaymentOrder = ({ setIsValid }) => {
 								onChange={(e) => handleInputs(e)}
 								type="text"
 								name="name"
-								id="name"
+								//id="name"
 								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 								placeholder="Escribe tu nombre"
 								required
@@ -157,7 +158,7 @@ export const PaymentOrder = ({ setIsValid }) => {
 								onChange={(e) => handleInputs(e)}
 								type="text"
 								name="lastName"
-								id="lastName"
+								//id="lastName"
 								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 								placeholder="Escribe tu apellido"
 								required
@@ -177,7 +178,7 @@ export const PaymentOrder = ({ setIsValid }) => {
 								type="email"
 								pattern="[a-zA-Z0-9!#$%&'*\/=?^_`\{\|\}~\+\-]([\.]?[a-zA-Z0-9!#$%&'*\/=?^_`\{\|\}~\+\-])+@[a-zA-Z0-9]([^@&%$\/\(\)=?¿!\.,:;]|\d)+[a-zA-Z0-9][\.][a-zA-Z]{2,4}([\.][a-zA-Z]{2})?"
 								name="email"
-								id="email"
+								//id="email"
 								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 								placeholder="Escribe tu correo "
 								required
@@ -198,7 +199,7 @@ export const PaymentOrder = ({ setIsValid }) => {
 								type="text"
 								pattern="[0-9]{10}"
 								name="identificacion"
-								id="identificacion"
+								//id="identificacion"
 								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 								placeholder="Escribe tu identificación"
 								required
@@ -218,7 +219,7 @@ export const PaymentOrder = ({ setIsValid }) => {
 								type="tel"
 								pattern="[0-9]{10}"
 								name="phone"
-								id="phone"
+								//id="phone"
 								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 								placeholder="Escribe tu número de teléfono"
 								required
@@ -237,7 +238,7 @@ export const PaymentOrder = ({ setIsValid }) => {
 								onChange={(e) => handleInputs(e)}
 								type="text"
 								name="direccionPrincipal"
-								id="direccionPrincipal"
+								//id="direccionPrincipal"
 								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 								placeholder="Escribe tu dirección principal"
 								required
@@ -255,7 +256,7 @@ export const PaymentOrder = ({ setIsValid }) => {
 								onChange={(e) => handleInputs(e)}
 								type="text"
 								name="direccionSecundaria"
-								id="direccionSecundaria"
+								//id="direccionSecundaria"
 								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 								placeholder="Escribe tu dirección secundaria"
 								required
@@ -268,7 +269,7 @@ export const PaymentOrder = ({ setIsValid }) => {
 						<input
 							onChange={(e) => handleChange(e)}
 							checked={check}
-							id="link-checkbox"
+							//id="link-checkbox"
 							type="checkbox"
 							className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
 						/>
@@ -286,7 +287,7 @@ export const PaymentOrder = ({ setIsValid }) => {
 							.
 						</label>
 					</div>
-					<button id="btnSubmit" type="submit" className="invisible">
+					<button id={btnSubmit} type="submit" className="invisible">
 						Cargar formulario de pedido
 					</button>
 				</form>

@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { PedidoDetails } from "../Components";
 import Datepicker from "react-tailwindcss-datepicker";
 import { GetAllPedidos } from "../../../../apiServices/ManagmentServices/ManagmentVentas";
+import { Loading } from "../Components";
 
 export const Pedidos = () => {
 	const [pedidoList, setPedidoList] = useState([]);
@@ -25,6 +26,8 @@ export const Pedidos = () => {
 		"Estado",
 		"Ver Detalle/Eliminar",
 	];
+
+	const [showLoading, setShowLoading] = useState(false);
 
 	//const [response, setResponse] = useState({});
 	const refSearch = useRef();
@@ -86,6 +89,7 @@ export const Pedidos = () => {
 					//setPedido={setPedido}
 					//setResponse={setResponse}
 					GetPedidos={fetchPedidos}
+					setShowLoading={setShowLoading}
 				/>
 			)}
 			{/* {showModalDelete && <ModalDelete showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete} publicidad={publicidad} setResponse={setResponse}  />} */}
@@ -207,6 +211,8 @@ export const Pedidos = () => {
 					</div>
 				</div>
 			</section>
+
+			{showLoading && <Loading />}
 		</div>
 	);
 };

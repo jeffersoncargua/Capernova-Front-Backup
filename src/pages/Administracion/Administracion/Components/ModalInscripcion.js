@@ -8,6 +8,7 @@ export const ModalInscripcion = ({
 	setShowModalInscripcion,
 	//setResponse,
 	user,
+	GetMatricula,
 }) => {
 	const [cursoList, setCursoList] = useState([]);
 	const [showButtonLoading, setShowButtonLoading] = useState(false);
@@ -62,6 +63,8 @@ export const ModalInscripcion = ({
 			resultFetch.isSuccess
 				? toast.success(resultFetch.message)
 				: toast.error(resultFetch.message);
+
+			GetMatricula();
 		} catch (_error) {
 			toast.error("No se pudo realizar la matrícula del estudiante!!");
 			setShowButtonLoading(false);

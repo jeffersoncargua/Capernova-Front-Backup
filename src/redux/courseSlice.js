@@ -6,8 +6,8 @@ const courseSlice = createSlice({
 		courseList: [],
 	},
 	reducers: {
-		getCourse(state, action) {},
-		removeCourse(state, action) {},
+		getCourse() {},
+		removeCourse() {},
 	},
 });
 

@@ -6,7 +6,7 @@ import {
 	UpdateTaskNota,
 } from "../../../../apiServices/TeacherServices/TeacherServices";
 
-export const CalificarDeber = ({ deber, matricula }) => {
+export const CalificarDeber = ({ deber, matricula, GetDeberes }) => {
 	const refCalificacionDeber = useRef();
 	const [notaDeber, setNotaDeber] = useState({});
 	//const [response, setResponse] = useState({});
@@ -58,6 +58,9 @@ export const CalificarDeber = ({ deber, matricula }) => {
 				resultFetch.isSuccess
 					? toast.success(resultFetch.message)
 					: toast.error(resultFetch.message);
+
+				GetDeberes();
+				GetNotaDeber();
 			} else {
 				setShowButtonLoading(false);
 				toast.error("Aún no se ha entregado el deber. Inténtelo mas tarde");

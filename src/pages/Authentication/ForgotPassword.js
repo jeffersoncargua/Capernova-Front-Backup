@@ -15,7 +15,7 @@ export const ForgotPassword = ({ children }) => {
 		event.preventDefault();
 		setShowButtonLoading(true);
 		try {
-			let resultFromApi = await ForgotPasswordPost({
+			const resultFromApi = await ForgotPasswordPost({
 				email: refEmail.current.value,
 			});
 

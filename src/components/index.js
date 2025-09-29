@@ -12,3 +12,5 @@ export { Beneficios } from "./Beneficios";
 
 export { DropDownCursos } from "./DropDownCursos";
 export { DropDownProductos } from "./DropDownProductos";
+
+export { Loading } from "./Loading";

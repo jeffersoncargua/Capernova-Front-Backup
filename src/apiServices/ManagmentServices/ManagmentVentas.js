@@ -16,7 +16,7 @@ const GetAllPedidos = async (search, startDate, endDate) => {
 
 const UpdatePedido = async (pedido) => {
 	const verbose = "PUT";
-	const route = "/Venta/updatePedido/";
+	const route = "/Venta/updatePedido";
 	const query = `/${pedido.id}`;
 	const object = pedido;
 

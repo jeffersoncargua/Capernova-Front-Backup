@@ -11,25 +11,25 @@ export const DeberDetail = ({ matricula }) => {
 	const column = ["Deber", "Descripción", "Estado", "File", "Nota", "Acciones"];
 
 	const FecthDeberes = useCallback(async () => {
-			try {
-				const resultFromApi = await GetTasksStudent(matricula.cursoId);
+		try {
+			const resultFromApi = await GetTasksStudent(matricula.cursoId);
 
-				const resultFetch = await resultFromApi.json();
+			const resultFetch = await resultFromApi.json();
 
-				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
-					throw resultFetch;
-				}
-				if (resultFetch.isSuccess) {
-					setDeberList(resultFetch.result);
-				} else {
-					setDeberList([]);
-				}
-			} catch (error) {
-				console.error(error);
-				toast.error("Algo ha fallado en nuestro servidor. Inténtalo más tarde");
+			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+				throw resultFetch;
+			}
+			if (resultFetch.isSuccess) {
+				setDeberList(resultFetch.result);
+			} else {
 				setDeberList([]);
 			}
-		},[matricula]);
+		} catch (error) {
+			console.error(error);
+			toast.error("Algo ha fallado en nuestro servidor. Inténtalo más tarde");
+			setDeberList([]);
+		}
+	}, [matricula]);
 
 	useEffect(() => {
 		FecthDeberes();

@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { toast } from "react-toastify";
+import { GetShoppingCart } from "../../../../apiServices/ManagmentServices/ManagmentVentas";
 
 export const VentaDetails = ({
 	showModalVentaDetail,

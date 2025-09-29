@@ -7,7 +7,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css"; // You can also use <link> for styles
 import { GetAllCourseCategory } from "../../apiServices/ManagmentServices/ManagmentCourseServices";
-import { useCallback } from "react";
+import { useCallback, useState, useRef, useEffect } from "react";
 // ..
 
 export const Cursos = ({ children }) => {
@@ -49,7 +49,7 @@ export const Cursos = ({ children }) => {
 			console.error(error);
 			navigate("/error");
 		}
-	}, [categoriaId, search, navigate, setSlices]);
+	}, [categoriaId, search, navigate]);
 
 	useEffect(() => {
 		fetchCourses();

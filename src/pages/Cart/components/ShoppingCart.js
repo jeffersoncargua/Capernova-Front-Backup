@@ -74,7 +74,6 @@ export const ShoppingCart = ({ cartList, total }) => {
 
 	return (
 		<div className="w-[95%] mx-auto flex flex-col gap-y-8" data-aos="fade-up">
-			{showModal && <ModalCart setShowModal={setShowModal} />}{" "}
 			{/*//permite saber si el cartList contiene cursos para poder indicar que debe iniciar session */}
 			<h1 className="font-medium text-xl text-center dark:text-white">
 				Tu carrito contine:{" "}
@@ -207,6 +206,7 @@ export const ShoppingCart = ({ cartList, total }) => {
 					</button>
 				</div>
 			</div>
+			{showModal && <ModalCart setShowModal={setShowModal} />}
 		</div>
 	);
 };

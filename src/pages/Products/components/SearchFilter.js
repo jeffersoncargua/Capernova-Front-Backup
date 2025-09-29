@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { remove } from "../../../redux/searchProductSlice";
@@ -10,28 +10,29 @@ export const SearchFilter = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	useEffect(() => {
-		const FetchCategoriaProducto = async () => {
-			try {
-				var result = await GetCategoriaProductos();
-				const resultFetch = await result.json();
+	const FetchCategoriaProducto = useCallback(async () => {
+		try {
+			const result = await GetCategoriaProductos();
+			const resultFetch = await result.json();
 
-				if (result.status !== 200 && result.status !== 400) {
-					throw resultFetch;
-				}
-
-				if (resultFetch.isSuccess) {
-					setCategoriaList(resultFetch.result);
-				} else {
-					setCategoriaList([]);
-				}
-			} catch (error) {
-				console.error(error);
-				navigate("error");
+			if (result.status !== 200 && result.status !== 400) {
+				throw resultFetch;
 			}
-		};
-		FetchCategoriaProducto();
+
+			if (resultFetch.isSuccess) {
+				setCategoriaList(resultFetch.result);
+			} else {
+				setCategoriaList([]);
+			}
+		} catch (error) {
+			console.error(error);
+			navigate("error");
+		}
 	}, [navigate]);
+
+	useEffect(() => {
+		FetchCategoriaProducto();
+	}, [FetchCategoriaProducto]);
 
 	return (
 		<div className="relative sm:mr-4">
@@ -99,9 +100,9 @@ export const SearchFilter = () => {
 					))
 				) : (
 					<div className="">
-						<label className="w-full py-4 ms-2 text-sm md:text-base ">
+						<span className="w-full py-4 ms-2 text-sm md:text-base ">
 							No existen áreas de búsqueda ...{" "}
-						</label>
+						</span>
 					</div>
 				)}
 

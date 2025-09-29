@@ -19,6 +19,8 @@ export const Order = () => {
 	const [cursoList, setCursoList] = useState([]);
 	const cartList = useSelector((state) => state.cartState.cartList);
 
+	//console.log(cartList);
+
 	const [showModal, setShowModal] = useState(false);
 	const [error, setError] = useState("");
 	const [hiddenPaypal, setHiddenPaypal] = useState(true); //permite colocar los botones de paypal atras del modal en caso de error

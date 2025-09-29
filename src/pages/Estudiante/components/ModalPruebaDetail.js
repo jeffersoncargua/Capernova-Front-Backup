@@ -4,7 +4,7 @@ export const ModalPruebaDetail = ({
 	showModalPruebaDetail,
 	setShowModalPruebaDetail,
 	matricula,
-	prueba
+	prueba,
 	//GetTests
 }) => {
 	return (

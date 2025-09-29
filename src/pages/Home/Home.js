@@ -15,9 +15,9 @@ import video from "../../assets/IntroCapernova.mp4";
 export const Home = ({ children }) => {
 	const [loading, setLoading] = useState(true);
 
-	setTimeout(() => {
-		setLoading(false);
-	}, [6000]);
+	// setTimeout(() => {
+	// 	setLoading(false);
+	// }, [6000]);
 
 	return (
 		<div className="dark:bg-gray-900">
@@ -28,9 +28,23 @@ export const Home = ({ children }) => {
 				<Hero video={video} />
 				<SliderCursos />
 				<SliderProduct />
-				<Feedback />
+				<Feedback setLoading={setLoading} />
 				{children}
 			</div>
 		</div>
+
+		// {/*Esta es la parte funcional */}
+		// <div className="dark:bg-gray-900">
+		// 	<div className={`${loading ? "visible" : "hidden"}`}>
+		// 		<Loading />
+		// 	</div>
+		// 	<div className={`${loading ? "invisible" : "visible"}`}>
+		// 		<Hero video={video} />
+		// 		<SliderCursos />
+		// 		<SliderProduct />
+		// 		<Feedback />
+		// 		{children}
+		// 	</div>
+		// </div>
 	);
 };

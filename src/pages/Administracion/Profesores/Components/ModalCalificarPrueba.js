@@ -18,7 +18,7 @@ export const ModalCalificarPrueba = ({
 		"Acciones",
 	];
 
-	const GetNotaPrueba = useCallback(async () => {
+	const GetNotaPruebas = useCallback(async () => {
 		try {
 			const resultFromApi = await GetAllTest(matricula.cursoId);
 
@@ -37,8 +37,8 @@ export const ModalCalificarPrueba = ({
 	}, [matricula]);
 
 	useEffect(() => {
-		GetNotaPrueba();
-	}, [GetNotaPrueba]);
+		GetNotaPruebas();
+	}, [GetNotaPruebas]);
 
 	return (
 		<div
@@ -155,6 +155,7 @@ export const ModalCalificarPrueba = ({
 													<CalificarPrueba
 														prueba={prueba}
 														matricula={matricula}
+														GetNotaPruebas={GetNotaPruebas}
 													/>
 												</tr>
 											))

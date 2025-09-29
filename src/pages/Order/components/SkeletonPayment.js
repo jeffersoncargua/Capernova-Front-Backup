@@ -5,7 +5,8 @@ export const SkeletonPayment = () => {
 		<div className="border w-80  rounded-t-lg mx-auto">
 			<div className="relative">
 				<div
-					role="status"
+					type="button"
+					//role="status"
 					className="flex items-center justify-center w-72 h-36 mx-auto mt-2 bg-gray-300 rounded-lg animate-pulse dark:bg-gray-700"
 				>
 					<svg
@@ -38,6 +39,7 @@ export const SkeletonPayment = () => {
 				</div>
 			</div>
 			<button
+				type="button"
 				disabled
 				className="w-full hover:cursor-no-drop bg-gray-300 animate-pulse dark:bg-gray-700"
 			>

@@ -24,25 +24,25 @@ export const Logros = ({ estudiante }) => {
 	const navigate = useNavigate();
 
 	const FecthCourses = useCallback(async () => {
-			try {
-				const resultFromApi = await GetCoursesStudent(estudiante.id);
+		try {
+			const resultFromApi = await GetCoursesStudent(estudiante.id);
 
-				const resultFetch = await resultFromApi.json();
+			const resultFetch = await resultFromApi.json();
 
-				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
-					throw resultFetch;
-				}
-
-				if (resultFetch.isSuccess) {
-					setMatriculaList(resultFetch.result);
-				} else {
-					setMatriculaList([]);
-				}
-			} catch (error) {
-				console.error(error);
-				navigate("/error");
+			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+				throw resultFetch;
 			}
-		},[estudiante, navigate]);
+
+			if (resultFetch.isSuccess) {
+				setMatriculaList(resultFetch.result);
+			} else {
+				setMatriculaList([]);
+			}
+		} catch (error) {
+			console.error(error);
+			navigate("/error");
+		}
+	}, [estudiante, navigate]);
 
 	useEffect(() => {
 		FecthCourses();

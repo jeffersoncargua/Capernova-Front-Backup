@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Avatar from "../../../assets/avatar.png";
@@ -9,7 +9,7 @@ import "aos/dist/aos.css"; // You can also use <link> for styles
 import { GetAllCommentaries } from "../../../apiServices/GeneralServices";
 // ..
 
-export const Feedback = () => {
+export const Feedback = ({ setLoading }) => {
 	const [feedback, setFeedback] = useState(0);
 	const [users, setUsers] = useState([]);
 	const navigate = useNavigate();
@@ -26,35 +26,37 @@ export const Feedback = () => {
 		});
 	}, []);
 
-	useEffect(() => {
-		const fetchComentarios = async () => {
-			try {
-				const resultFromApi = await GetAllCommentaries();
+	const fetchComentarios = useCallback(async () => {
+		try {
+			const resultFromApi = await GetAllCommentaries();
 
-				const resultFetch = await resultFromApi.json();
+			const resultFetch = await resultFromApi.json();
 
-				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
-					throw resultFetch;
-				}
-
-				if (resultFetch.isSuccess) {
-					setUsers(resultFetch.result);
-				} else {
-					setUsers([]);
-				}
-			} catch (error) {
-				console.error(error);
-				navigate("error");
+			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+				throw resultFetch;
 			}
-		};
 
+			if (resultFetch.isSuccess) {
+				setUsers(resultFetch.result);
+			} else {
+				setUsers([]);
+			}
+
+			setLoading(false);
+		} catch (error) {
+			console.error(error);
+			navigate("error");
+		}
+	}, [navigate, setLoading]);
+
+	useEffect(() => {
 		fetchComentarios();
-	}, [navigate]);
+	}, [fetchComentarios]);
 
 	/* */
 	useEffect(() => {
 		const interval = setInterval(() => {
-			if (feedback === users.length - 1) {
+			if (feedback >= users.length - 1) {
 				setFeedback(0);
 			} else {
 				setFeedback(feedback + 1);

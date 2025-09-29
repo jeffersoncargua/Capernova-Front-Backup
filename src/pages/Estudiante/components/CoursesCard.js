@@ -2,7 +2,7 @@ export const CoursesCard = ({ matricula, children }) => {
 	return (
 		<div className="w-full md:max-w-xs mx-auto bg-white mb-8 flex flex-col items-center border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
 			{/*Muestra la imagen del curso */}
-			<div className="w-full md:max-w-xs">
+			<div className="w-full md:max-w-md">
 				<img
 					className="rounded-t-lg "
 					src={`https://lh3.googleusercontent.com/d/${matricula.curso.imagenUrl}`}

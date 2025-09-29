@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { CalificarDeber } from "../Components";
 import { toast } from "react-toastify";
-import { GetAllTest } from "../../../../apiServices/TeacherServices/TeacherServices";
+import { GetAllTask } from "../../../../apiServices/TeacherServices/TeacherServices";
 
 export const ModalCalificarDeber = ({
 	showModalCalificarDeber,
@@ -17,9 +17,9 @@ export const ModalCalificarDeber = ({
 		"Acciones",
 	];
 
-	const GetNotaDeber = useCallback(async () => {
+	const GetDeberes = useCallback(async () => {
 		try {
-			const resultFromApi = await GetAllTest(matricula.cursoId);
+			const resultFromApi = await GetAllTask(matricula.cursoId);
 
 			const resultFetch = await resultFromApi.json();
 
@@ -38,8 +38,8 @@ export const ModalCalificarDeber = ({
 	}, [matricula]);
 
 	useEffect(() => {
-		GetNotaDeber();
-	}, [GetNotaDeber]);
+		GetDeberes();
+	}, [GetDeberes]);
 
 	return (
 		<div
@@ -153,7 +153,11 @@ export const ModalCalificarDeber = ({
 													className="border-b dark:border-gray-700"
 												>
 													<td className="px-4 py-3">{deber.titulo}</td>
-													<CalificarDeber deber={deber} matricula={matricula} />
+													<CalificarDeber
+														deber={deber}
+														matricula={matricula}
+														GetDeberes={GetDeberes}
+													/>
 												</tr>
 											))
 										: null}

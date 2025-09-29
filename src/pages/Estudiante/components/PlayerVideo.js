@@ -1,14 +1,26 @@
 import { useCallback, useEffect, useState } from "react";
 import { Videos, ModalCompleted } from "../components";
 import { useSelector } from "react-redux";
-import VideoPlayer from "react-player/vimeo";
+//import VideoPlayer from "react-player/vimeo";
+import VideoPlayer from "react-player/youtube";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { CreateViewVideo, GetAllCapitulos } from "../../../apiServices/StudentServices/StudentServices";
+import {
+	CreateViewVideo,
+	GetAllCapitulos,
+} from "../../../apiServices/StudentServices/StudentServices";
+
+import {
+	//GetVideos,
+	GetVideosCourse,
+	UpdateStateMatricula,
+} from "../../../apiServices/StudentServices/StudentServices"; //Quitar si no funciona correctamente lo hecho anteriormente
 
 export const PlayerVideo = ({ estudiante, matricula, setMatricula }) => {
 	const playList = useSelector((state) => state.playListState.playList);
 	const [currentVideo, setCurrentVideo] = useState({});
+
+	const [videoViewList, setVideoViewList] = useState([]); //Se agrego para probar sy funcionalidad si no sirve se quita
 
 	const navigate = useNavigate();
 
@@ -16,32 +28,32 @@ export const PlayerVideo = ({ estudiante, matricula, setMatricula }) => {
 	const [showModalCompleted, setShowModalCompleted] = useState(false);
 
 	const FetchCapitulos = useCallback(async () => {
-			try {
-				const resultFromApi = await GetAllCapitulos(matricula.cursoId);
+		try {
+			const resultFromApi = await GetAllCapitulos(matricula.cursoId);
 
-				const resultFetch = await resultFromApi.json();
+			const resultFetch = await resultFromApi.json();
 
-				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
-					throw resultFetch;
-				}
-
-				if (resultFetch.isSuccess) {
-					setCapiuloList(resultFetch.result);
-				}
-			} catch (error) {
-				console.error(error);
-				toast.error(
-					"Algo ha fallado en nuestro servidor. Inténte retornar a sus cursos",
-				);
-				navigate("/error");
+			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+				throw resultFetch;
 			}
-		},[matricula, navigate]);
+
+			if (resultFetch.isSuccess) {
+				setCapiuloList(resultFetch.result);
+			}
+		} catch (error) {
+			console.error(error);
+			toast.error(
+				"Algo ha fallado en nuestro servidor. Inténte retornar a sus cursos",
+			);
+			navigate("/error");
+		}
+	}, [matricula, navigate]);
 
 	useEffect(() => {
 		FetchCapitulos();
 	}, [FetchCapitulos]);
 
-	const fetchVisualizacion = async (id) => {
+	const fetchCreateVisualizacion = async (id) => {
 		try {
 			const resultFromApi = await CreateViewVideo({
 				videoId: id,
@@ -54,6 +66,8 @@ export const PlayerVideo = ({ estudiante, matricula, setMatricula }) => {
 			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
 				throw resultFetch;
 			}
+
+			FetchVisualizacion();
 		} catch (error) {
 			console.error(error);
 			toast.error(
@@ -65,7 +79,7 @@ export const PlayerVideo = ({ estudiante, matricula, setMatricula }) => {
 
 	const handlePlayer = (id) => {
 		if (id !== null) {
-			fetchVisualizacion(id);
+			fetchCreateVisualizacion(id);
 		}
 		const videoActual = playList.find((urlItem) => urlItem.id === id);
 		const nextVideo = playList[playList.indexOf(videoActual) + 1];
@@ -80,6 +94,77 @@ export const PlayerVideo = ({ estudiante, matricula, setMatricula }) => {
 		setCurrentVideo(video);
 	};
 
+	const FecthUpdateEstadoMatricula = useCallback(async () => {
+		//Se agrego si no srive se quita
+		try {
+			if (
+				playList.length > 0 &&
+				playList.length === videoViewList.length &&
+				matricula.estado === "En progreso"
+			) {
+				const resultFromApi = await UpdateStateMatricula({
+					id: matricula.id,
+					cursoId: matricula.cursoId,
+					estudianteId: matricula.estudianteId,
+					isActive: matricula.isActive,
+				});
+
+				const resultFetch = await resultFromApi.json();
+
+				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+					throw resultFetch;
+				}
+
+				if (resultFetch.isSuccess) {
+					setMatricula(resultFetch.result);
+					toast.success(
+						`Has finalizado de ver los videos tutoriales del curso ${matricula.curso.titulo}`,
+					);
+				}
+			}
+		} catch (error) {
+			console.error(error);
+			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+		}
+	}, [matricula, videoViewList, playList, setMatricula]);
+
+	const FetchVisualizacion = useCallback(async () => {
+		//Se agrego si no sirve se quita
+		try {
+			const resultFromApi = await GetVideosCourse(
+				estudiante.id,
+				matricula.cursoId,
+			);
+
+			const resultFetch = await resultFromApi.json();
+
+			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+				throw resultFetch;
+			}
+
+			if (
+				resultFetch.result.length === playList.length &&
+				matricula.estado === "En progreso"
+			) {
+				FecthUpdateEstadoMatricula();
+			}
+
+			if (resultFetch.isSuccess) {
+				setVideoViewList(resultFetch.result);
+			}
+		} catch (error) {
+			console.error(error);
+			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+		}
+	}, [estudiante, matricula, playList, FecthUpdateEstadoMatricula]);
+
+	// useEffect(() => { //Se agrego si no sirve se quita
+	// 	const interval = setInterval(() => {
+	// 		FetchVisualizacion();
+	// 	}, 1000);
+	// 	return () => clearInterval(interval);
+	// }, [FetchVisualizacion]);
+
 	return (
 		<div className="w-[95%] mx-auto flex flex-wrap justify-between">
 			{showModalCompleted && (
@@ -90,14 +175,19 @@ export const PlayerVideo = ({ estudiante, matricula, setMatricula }) => {
 			)}
 
 			<div className="flex-initial w-full md:w-2/3 mb-10">
-				<VideoPlayer
-					playing={true}
-					url={currentVideo.videoUrl}
-					controls={true}
-					onEnded={() => handlePlayer(currentVideo.id || null)}
-					//onDuration={(duration)=>handleDuration(duration)}
-					width="100%"
-				/>
+				{currentVideo && (
+					<VideoPlayer
+						playing={true}
+						url={
+							currentVideo.videoUrl ||
+							"https://www.youtube.com/watch?v=eGo20jYz5I0"
+						}
+						controls={true}
+						onEnded={() => handlePlayer(currentVideo.id || null)}
+						//onDuration={(duration)=>handleDuration(duration)}
+						width="100%"
+					/>
+				)}
 			</div>
 
 			<div className="flex-initial w-full md:w-[30%]">
@@ -115,8 +205,9 @@ export const PlayerVideo = ({ estudiante, matricula, setMatricula }) => {
 								capitulo={capitulo}
 								handlePlay={handlePlay}
 								estudiante={estudiante}
-								matricula={matricula}
-								setMatricula={setMatricula}
+								//matricula={matricula} //Se debe descomentar si no sirve videoViewList
+								//setMatricula={setMatricula} //Se debe descomentar si no sirve videoViewList
+								videoViewList={videoViewList} //Se agrgo sino sirve se quita
 							/>
 						</ul>
 					))}

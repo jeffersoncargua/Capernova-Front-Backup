@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { PedidoDetails } from "../Components";
 import Datepicker from "react-tailwindcss-datepicker";
 import { GetAllPedidos } from "../../../../apiServices/ManagmentServices/ManagmentVentas";
+import { Loading } from "../Components";
 
 export const Pedidos = () => {
 	const [pedidoList, setPedidoList] = useState([]);
@@ -15,6 +16,7 @@ export const Pedidos = () => {
 		endDate: null,
 	}); // permite escoger las fechas de inicio y final para buscar las ventas de acuedo al rango de fecha que se solicite
 	const [showModalPedidoDetail, setShowModalPedidoDetail] = useState(false);
+	const [showLoading, setShowLoading] = useState(false);
 	//const [showModal,setShowModal] = useState(false);
 	//const [showModalDelete,setShowModalDelete] = useState(false);
 	const columns = [
@@ -103,6 +105,8 @@ export const Pedidos = () => {
 					pedido={pedido}
 					setPedido={setPedido}
 					//setResponse={setResponse}
+					GetPedidos={fetchPedidos}
+					setShowLoading={setShowLoading}
 				/>
 			)}
 			{/* {showModalDelete && <ModalDelete showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete} publicidad={publicidad} setResponse={setResponse}  />} */}
@@ -249,6 +253,7 @@ export const Pedidos = () => {
 					</div>
 				</div>
 			</section>
+			{showLoading && <Loading />}
 		</div>
 	);
 };

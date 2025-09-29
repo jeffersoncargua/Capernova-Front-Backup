@@ -12,7 +12,7 @@ export const SideBar = ({
 	setShowPruebaDetail,
 	setShowLibrary,
 	setShowCursoLive,
-	setResponse,
+	//setResponse,
 }) => {
 	const navigate = useNavigate();
 	const [showBar, setShowBar] = useState(true);
@@ -82,7 +82,7 @@ export const SideBar = ({
 					<ul className="space-y-2 text-sm font-small">
 						<li>
 							<button
-								type="button"	
+								type="button"
 								onClick={() => navigate("/")}
 								className="w-full flex items-center p-2 text-gray-300 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group"
 							>
@@ -102,7 +102,7 @@ export const SideBar = ({
 							<button
 								type="button"
 								onClick={() => {
-									setResponse({});
+									//setResponse({});
 									setShowCourses(false);
 									setShowPlayer(false);
 									setShowLogro(false);
@@ -131,7 +131,7 @@ export const SideBar = ({
 							<button
 								type="button"
 								onClick={() => {
-									setResponse({});
+									//setResponse({});
 									setShowCourses(true);
 									setShowPlayer(false);
 									setShowLogro(false);
@@ -167,7 +167,7 @@ export const SideBar = ({
 							<button
 								type="button"
 								onClick={() => {
-									setResponse({});
+									//setResponse({});
 									setShowCourses(false);
 									setShowPlayer(false);
 									setShowLogro(false);
@@ -205,7 +205,7 @@ export const SideBar = ({
 							<button
 								type="button"
 								onClick={() => {
-									setResponse({});
+									//setResponse({});
 									setShowCourses(false);
 									setShowPlayer(false);
 									setShowLogro(false);
@@ -238,7 +238,7 @@ export const SideBar = ({
 							<button
 								type="button"
 								onClick={() => {
-									setResponse({});
+									//setResponse({});
 									setShowLogro(false);
 									setShowPlayer(false);
 									setShowCourses(false);
@@ -267,7 +267,7 @@ export const SideBar = ({
 							<button
 								type="button"
 								onClick={() => {
-									setResponse({});
+									//setResponse({});
 									setShowLogro(false);
 									setShowPlayer(false);
 									setShowCourses(false);
@@ -301,7 +301,7 @@ export const SideBar = ({
 							<button
 								type="button"
 								onClick={() => {
-									setResponse({});
+									//setResponse({});
 									setShowLogro(true);
 									setShowPlayer(false);
 									setShowCourses(false);

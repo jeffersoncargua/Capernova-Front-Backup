@@ -8,6 +8,8 @@ export const PedidoDetails = ({
 	pedido,
 	//setPedido,
 	//setResponse,
+	GetPedidos,
+	setShowLoading,
 }) => {
 	const columns = ["Imagen", "Código", "Producto", "Cantidad"];
 	const [cartList, setCartList] = useState([]);
@@ -21,6 +23,7 @@ export const PedidoDetails = ({
 	}, [pedido]);
 
 	const handlePedidoEdit = async (pedido) => {
+		setShowLoading(true);
 		try {
 			const resultFromApi = await UpdatePedido({
 				id: pedido.id,
@@ -46,10 +49,15 @@ export const PedidoDetails = ({
 			resultFetch.isSuccess
 				? toast.success(resultFetch.message)
 				: toast.error(resultFetch.message);
+
+			GetPedidos();
+
+			setShowLoading(false);
 		} catch (error) {
 			console.error(error);
 			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
 			setShowModalPedidoDetail(false);
+			setShowLoading(false);
 		}
 	};
 
@@ -73,7 +81,7 @@ export const PedidoDetails = ({
 							<button
 								onClick={() => {
 									setShowModalPedidoDetail(false);
-									setResponse({});
+									//setResponse({});
 								}}
 								type="button"
 								className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"

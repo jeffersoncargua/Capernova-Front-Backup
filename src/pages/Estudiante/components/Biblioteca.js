@@ -1,26 +1,27 @@
 import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { GetCoursesStudent } from "../../../apiServices/StudentServices/StudentServices";
 
 export const Biblioteca = ({ estudiante }) => {
 	const column = ["Curso", "Descripción", "Acciones"];
 	const [matriculaList, setMatriculaList] = useState([]);
 
 	const FecthCourses = useCallback(async () => {
-			try {
-				const resultFromApi = await GetCoursesStudent(estudiante.id);
+		try {
+			const resultFromApi = await GetCoursesStudent(estudiante.id);
 
-				const resultFetch = await resultFromApi.json();
+			const resultFetch = await resultFromApi.json();
 
-				if (resultFromApi.status !== 200) {
-					throw resultFetch;
-				}
-				if (resultFetch.isSuccess) {
-					setMatriculaList(resultFetch.result);
-				}
-			} catch (error) {
-				console.error(error);
+			if (resultFromApi.status !== 200) {
+				throw resultFetch;
 			}
-		},[estudiante]);
+			if (resultFetch.isSuccess) {
+				setMatriculaList(resultFetch.result);
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	}, [estudiante]);
 
 	useEffect(() => {
 		FecthCourses();

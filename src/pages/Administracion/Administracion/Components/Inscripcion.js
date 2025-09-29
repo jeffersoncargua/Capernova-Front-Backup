@@ -86,8 +86,9 @@ export const Inscripcion = () => {
 				<ModalInscripcion
 					showModalInscripcion={showModalInscripcion}
 					setShowModalInscripcion={setShowModalInscripcion}
-					setResponse={setResponse}
+					//setResponse={setResponse}
 					user={user}
+					GetMatricula={fetchMatricula}
 				/>
 			)}
 			{showModalDelete && (
@@ -99,6 +100,7 @@ export const Inscripcion = () => {
 					//setResponse={setResponse}
 					tipo={tipo}
 					setTipo={setTipo}
+					getFunction={fetchMatricula}
 				/>
 			)}
 

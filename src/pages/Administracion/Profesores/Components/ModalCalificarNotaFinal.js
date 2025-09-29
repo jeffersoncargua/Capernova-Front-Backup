@@ -6,7 +6,8 @@ export const ModalCalificarNotaFinal = ({
 	showModalCalificarNotaFinal,
 	setShowModalCalificarNotaFinal,
 	matricula,
-	setResponse,
+	//setResponse,
+	GetEstudiantes,
 }) => {
 	const refNotaFinal = useRef();
 	const [showButtonLoading, setShowButtonLoading] = useState(false);
@@ -25,7 +26,13 @@ export const ModalCalificarNotaFinal = ({
 				throw resultFetch;
 			}
 
-			setResponse(resultFetch);
+			resultFetch.isSuccess
+				? toast.success(resultFetch.message)
+				: toast.error(resultFetch.message);
+
+			GetEstudiantes();
+
+			//setResponse(resultFetch);
 			setShowModalCalificarNotaFinal(false);
 			setShowButtonLoading(false);
 		} catch (error) {

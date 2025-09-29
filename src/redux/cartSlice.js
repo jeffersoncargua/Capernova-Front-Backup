@@ -13,14 +13,19 @@ const cartSlice = createSlice({
 			);
 
 			if (cartItem) {
-				state.total = state.total - cartItem.cantidad * cartItem.precio;
-				state.cartList.map((item) =>
+				let updatedCartList = state.cartList;
+				let total = state.total - cartItem.cantidad * cartItem.precio;
+				updatedCartList = updatedCartList.map((item) =>
 					item.id === action.payload.id
-						? { ...item, cantidad: (item.cantidad = action.payload.cantidad) }
+						? { ...item, cantidad: action.payload.cantidad }
 						: item,
 				);
-				state.total =
-					state.total + action.payload.precio * action.payload.cantidad;
+				total = total + action.payload.precio * action.payload.cantidad;
+				return {
+					...state,
+					total: parseFloat(total.toFixed(2)),
+					cartList: updatedCartList,
+				};
 			} else {
 				const updatedCartList = state.cartList.concat(action.payload);
 				const total =
@@ -44,7 +49,7 @@ const cartSlice = createSlice({
 				cartList: updatedCartList,
 			};
 		},
-		clearToCart(state, action) {
+		clearToCart(state) {
 			return { ...state, total: 0, cartList: [] };
 		},
 	},

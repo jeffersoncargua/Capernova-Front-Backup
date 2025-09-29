@@ -39,7 +39,7 @@ export const TalentoHumano = ({
 
 	const fetchTalento = useCallback(async () => {
 		try {
-			let resultFromApi = await GetTalent(searchRole, searchUser);
+			const resultFromApi = await GetTalent(searchRole, searchUser);
 
 			const resultFetch = await resultFromApi.json();
 

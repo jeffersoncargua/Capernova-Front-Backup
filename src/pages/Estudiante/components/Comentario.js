@@ -27,7 +27,7 @@ export const Comentario = ({ estudiante, matricula }) => {
 			resultFetch.isSuccess
 				? toast.success(resultFetch.message)
 				: toast.error(resultFetch.message);
-				
+
 			setShowButtonLoading(false);
 			refFeedBack.current.value = "";
 		} catch (error) {

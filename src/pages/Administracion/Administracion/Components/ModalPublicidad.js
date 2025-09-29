@@ -20,7 +20,7 @@ export const ModalPublicidad = ({
 		event.preventDefault();
 		setShowButtonLoading(true);
 		try {
-			let result = await CreateMarketing({
+			const result = await CreateMarketing({
 				imageUrl: refImageUrl.current.value,
 				titulo: refTitulo.current.value,
 			});
@@ -51,7 +51,7 @@ export const ModalPublicidad = ({
 		event.preventDefault();
 		setShowButtonLoading(true);
 		try {
-			let result = await UpdateMarketing({
+			const result = await UpdateMarketing({
 				id: publicidad.id,
 				imageUrl: refImageUrl.current.value,
 				titulo: refTitulo.current.value,

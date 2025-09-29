@@ -61,7 +61,7 @@ export const Profesor = () => {
 
 	const GetTeacher = useCallback(async () => {
 		try {
-			let resultFromApi = await GetTeacherAuthenticate(
+			const resultFromApi = await GetTeacherAuthenticate(
 				userTeacher.nameIdentifier,
 			);
 

@@ -16,26 +16,25 @@ export const Pruebas = ({ estudiante, setMatricula, setShowPruebaDetail }) => {
 	const [matriculaList, setMatriculaList] = useState([]);
 
 	const FecthCourses = useCallback(async () => {
-			try {
-				const resultFromApi = await GetCoursesStudent(estudiante.id);
+		try {
+			const resultFromApi = await GetCoursesStudent(estudiante.id);
 
-				const resultFetch = await resultFromApi.json();
+			const resultFetch = await resultFromApi.json();
 
-				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
-					throw resultFetch;
-				}
-
-				if (resultFetch.isSuccess) {
-					setMatriculaList(resultFetch.result);
-				} else {
-					setMatriculaList([]);
-				}
-				
-			} catch (error) {
-				console.error(error);
-				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+				throw resultFetch;
 			}
-		},[estudiante]);
+
+			if (resultFetch.isSuccess) {
+				setMatriculaList(resultFetch.result);
+			} else {
+				setMatriculaList([]);
+			}
+		} catch (error) {
+			console.error(error);
+			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+		}
+	}, [estudiante]);
 
 	useEffect(() => {
 		FecthCourses();

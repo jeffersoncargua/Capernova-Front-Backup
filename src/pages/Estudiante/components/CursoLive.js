@@ -23,7 +23,7 @@ export const CursoLive = ({ estudiante }) => {
 			console.error(error);
 			navigate("/error");
 		}
-	},[estudiante, navigate]);
+	}, [estudiante, navigate]);
 
 	useEffect(() => {
 		FecthCourses();

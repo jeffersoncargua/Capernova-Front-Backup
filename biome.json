@@ -18,6 +18,13 @@
 			"recommended": true,
 			"a11y":{
 				"noSvgWithoutTitle":"off"
+			},
+			"correctness":{
+				"useUniqueElementIds":"off",
+				"useExhaustiveDependencies":"off"
+			},
+			"suspicious":{
+				"noUnknownAtRules":"off"
 			}
 		}
 	},

@@ -37,23 +37,23 @@ export const Estudiante = () => {
 	const userStudent = useSelector((state) => state.userState.user);
 
 	const FetchEstudiante = useCallback(async () => {
-			try {
-				const resultFromApi = await GetStudent(userStudent.nameIdentifier);
+		try {
+			const resultFromApi = await GetStudent(userStudent.nameIdentifier);
 
-				const resultFetch = await resultFromApi.json();
+			const resultFetch = await resultFromApi.json();
 
-				if (resultFromApi.status !== 200) {
-					throw resultFetch;
-				}
-
-				if (resultFetch.isSuccess) {
-					setEstudiante(resultFetch.result);
-				}
-			} catch (error) {
-				console.error(error);
-				navigate("/error");
+			if (resultFromApi.status !== 200) {
+				throw resultFetch;
 			}
-		},[userStudent, navigate]);
+
+			if (resultFetch.isSuccess) {
+				setEstudiante(resultFetch.result);
+			}
+		} catch (error) {
+			console.error(error);
+			navigate("/error");
+		}
+	}, [userStudent, navigate]);
 
 	useEffect(() => {
 		FetchEstudiante();

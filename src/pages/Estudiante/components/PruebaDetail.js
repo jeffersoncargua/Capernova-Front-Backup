@@ -18,25 +18,25 @@ export const PruebaDetail = ({ matricula }) => {
 	];
 
 	const FecthPruebas = useCallback(async () => {
-			try {
-				const resultFromApi = await GetAllTests(matricula.cursoId);
-				const resultFetch = await resultFromApi.json();
+		try {
+			const resultFromApi = await GetAllTests(matricula.cursoId);
+			const resultFetch = await resultFromApi.json();
 
-				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
-					throw resultFetch;
-				}
+			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+				throw resultFetch;
+			}
 
-				if (resultFetch.isSuccess) {
-					setPruebaList(resultFetch.result);
-				} else {
-					setPruebaList([]);
-				}
-			} catch (error) {
-				console.error(error);
-				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+			if (resultFetch.isSuccess) {
+				setPruebaList(resultFetch.result);
+			} else {
 				setPruebaList([]);
 			}
-		},[matricula]);
+		} catch (error) {
+			console.error(error);
+			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
+			setPruebaList([]);
+		}
+	}, [matricula]);
 
 	useEffect(() => {
 		FecthPruebas();

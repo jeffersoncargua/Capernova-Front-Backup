@@ -17,6 +17,7 @@ export const PageNotFound = () => {
 			</div>
 			<div className="self-center mb-10">
 				<button
+					type="button"
 					onClick={() => navigate("/")}
 					className="flex items-align rounded-lg px-3 py-2.5 text-black dark:text-white bg-blue-500 hover:bg-blue-600 dark:bg-blue-700 hover:dark:bg-blue-800"
 				>

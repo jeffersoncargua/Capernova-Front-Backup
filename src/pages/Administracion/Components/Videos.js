@@ -38,7 +38,7 @@ export const Videos = ({
 	const [showModalDelete, setShowModalDelete] = useState(false);
 	const [showModalSuccess, setShowModalSuccess] = useState(false);
 	const [showButtonLoading, setShowButtonLoading] = useState(false);
-	//const [response, setResponse] = useState({});
+	const [response, setResponse] = useState({});
 	const [categoriaList, setCategoriaList] = useState([]);
 	const [producto, setProducto] = useState({});
 
@@ -136,7 +136,7 @@ export const Videos = ({
 
 	const GetCapitulos = useCallback(async () => {
 		try {
-			let resultFromApi = await GetAllCapitulo(curso.id);
+			const resultFromApi = await GetAllCapitulo(curso.id);
 
 			const resultFetch = await resultFromApi.json();
 
@@ -211,7 +211,7 @@ export const Videos = ({
 				throw resultFetch;
 			}
 
-			//setResponse(resultFetch);
+			setResponse(resultFetch);
 			//console.log(resultFetch);
 			setShowButtonLoading(false);
 			setShowModalSuccess(true);

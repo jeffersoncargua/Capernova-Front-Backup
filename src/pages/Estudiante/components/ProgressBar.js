@@ -22,7 +22,6 @@ export const ProgressBar = ({ matricula, setShowModalDownload, setResult }) => {
 				throw resultFetch;
 			}
 
-			console.log(resultFetch);
 			setShowModalDownload(true);
 			setResult(resultFetch);
 			setLoading(false);
@@ -39,9 +38,10 @@ export const ProgressBar = ({ matricula, setShowModalDownload, setResult }) => {
 			<button
 				type="button"
 				onClick={() => handleGetCertificate()}
-				disabled={!(matricula.estado === "Completado" && matricula.notaFinal !== null)
+				disabled={
+					!(matricula.estado === "Completado" && matricula.notaFinal !== null)
 				}
-				className={`${(matricula.estado === "Completado" && matricula.notaFinal !== null) ? "hover:cursor-pointer" : "hover:cursor-not-allowed"}`}
+				className={`${matricula.estado === "Completado" && matricula.notaFinal !== null ? "hover:cursor-pointer" : "hover:cursor-not-allowed"}`}
 			>
 				<div className="relative w-full h-28 mb-2 flex flex-col justify-center items-center ">
 					{matricula.notaFinal && (

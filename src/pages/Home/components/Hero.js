@@ -91,7 +91,7 @@ export const Hero = ({ video }) => {
 			</div>
 
 			<div
-				className="w-full flex bg-gradient-to-r from-blue-500/[1] from-10% via-sky-50/[1] via-40% to-cyan-200/[1] to-60%"
+				className="w-full flex bg-gradient-to-r from-cyan-400/90 to-blue-200/90 "
 				data-aos="fade-up"
 			>
 				<div className="w-[90%] mx-auto group text-black space-y-6 my-[2.5%] flex flex-col italic ">

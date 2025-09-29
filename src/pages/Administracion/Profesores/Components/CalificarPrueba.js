@@ -5,13 +5,13 @@ import {
 	UpsertTestNota,
 } from "../../../../apiServices/TeacherServices/TeacherServices";
 
-export const CalificarPrueba = ({ prueba, matricula }) => {
+export const CalificarPrueba = ({ prueba, matricula, GetNotaPruebas }) => {
 	const refCalificacionPrueba = useRef();
 	const [notaPrueba, setNotaPrueba] = useState({});
 	//const [response, setResponse] = useState({});
 	const [showButtonLoading, setShowButtonLoading] = useState(false);
 
-	const GetNotaDeber = useCallback(async () => {
+	const GetNotaPrueba = useCallback(async () => {
 		try {
 			const resultFromApi = await GetTestNota(
 				prueba.id,
@@ -34,8 +34,8 @@ export const CalificarPrueba = ({ prueba, matricula }) => {
 	}, [prueba, matricula]);
 
 	useEffect(() => {
-		GetNotaDeber();
-	}, [GetNotaDeber]);
+		GetNotaPrueba();
+	}, [GetNotaPrueba]);
 
 	const handleCalificarPrueba = async (_notaPrueba) => {
 		setShowButtonLoading(true);
@@ -52,7 +52,15 @@ export const CalificarPrueba = ({ prueba, matricula }) => {
 				throw resultFetch;
 			}
 
-			setResponse(resultFetch);
+			//setResponse(resultFetch);
+
+			resultFetch.isSuccess
+				? toast.success(resultFetch.message)
+				: toast.error(resultFetch.message);
+
+			GetNotaPrueba();
+			GetNotaPruebas();
+
 			setShowButtonLoading(false);
 		} catch (error) {
 			console.error(error);

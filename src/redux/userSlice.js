@@ -23,7 +23,7 @@ const userSlice = createSlice({
 			};
 			return { ...state, user: newUser, isAuth: true };
 		},
-		logout(state, action) {
+		logout(state) {
 			const userLogout = {
 				nameIdentifier: "",
 				unique_name: "",

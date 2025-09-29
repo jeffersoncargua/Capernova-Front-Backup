@@ -7,10 +7,10 @@ export const ModalCart = ({ setShowModal }) => {
 		<div
 			//id="popup-modal"
 			tabIndex="-1"
-			className="overflow-y-auto bg-transparent overflow-x-hidden fixed top-0 right-0 left-0 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+			className="overflow-y-auto bg-transparent overflow-x-hidden fixed top-0 right-0 left-0 flex justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)]"
 		>
-			<div className="relative p-4 mx-auto w-full max-w-md h-full">
-				<div className="relative  bg-white my-[50%] rounded-lg shadow dark:bg-gray-700">
+			<div className="relative p-4 mx-auto w-full max-w-md max-h-full">
+				<div className="relative  bg-white my-[20%] rounded-lg shadow dark:bg-gray-700">
 					<button
 						onClick={() => {
 							setShowModal(false);
@@ -38,7 +38,7 @@ export const ModalCart = ({ setShowModal }) => {
 					</button>
 					<div className="p-4 md:p-5 text-center">
 						<svg
-							className={`mx-auto mb-4 text-red-400 w-12 h-12 dark:text-red-400`}
+							className={`mx-auto mb-4 text-red-600 w-12 h-12 dark:text-red-600`}
 							aria-hidden="true"
 							xmlns="http://www.w3.org/2000/svg"
 							fill="none"
@@ -60,7 +60,7 @@ export const ModalCart = ({ setShowModal }) => {
 						<h2 className="mb-2 text-lg font-semibold text-black dark:text-white">
 							Requerimientos para adquirir nuestros cursos:
 						</h2>
-						<ul className="max-w-md space-y-1 text-black list-disc list-inside dark:text-white">
+						<ul className="max-w-md space-y-1 text-start text-black list-disc list-inside dark:text-white">
 							<li>Debes registrarte en nuestra plataforma.</li>
 							<li>
 								Debes iniciar sesión para registrarte en los cursos que deseas

@@ -1,4 +1,4 @@
-import Logo from "../../../assets/CapernovaWS.png";
+import Logo from "../assets/CapernovaWS.png";
 
 export const Loading = () => {
 	window.scrollTo(0, 0);

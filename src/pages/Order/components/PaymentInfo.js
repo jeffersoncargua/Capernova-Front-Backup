@@ -158,7 +158,7 @@ export const PaymentInfo = ({
 						/>
 					</div>
 				)}
-				{cursoList.length === 0 && productoList.length > 0 ? (
+				{cursoList.length === 0 && productoList.length > 0 && (
 					<div className="mb-10">
 						<img
 							src={PagandoCuenta}
@@ -166,10 +166,6 @@ export const PaymentInfo = ({
 							className="w-[80%] md:max-w-sm h-60 mx-auto rounded-lg"
 						/>
 					</div>
-				) : (
-					<>
-						{/* <img src={PagandoCuenta} alt="Imagen de Pago" className='w-[80%] md:max-w-sm h-60 mx-auto rounded-lg' /> */}
-					</>
 				)}
 
 				<h1 className="font-medium text-center text-xl mb-5 dark:text-white capitalize">

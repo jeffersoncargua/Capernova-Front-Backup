@@ -45,7 +45,8 @@ export const PaymentPaypal = ({
 			anchorPlacement: "top-bottom", // defines which position of the element regarding to window should trigger the animation
 		});
 	}, []);
-	ScriptReducer(); // permite obtener el estado de paypal en la que se encuentra en ese momento de la solicitud de pedido
+
+	// const [{isPending}] = usePayPalScriptReducer(); // permite obtener el estado de paypal en la que se encuentra en ese momento de la solicitud de pedido
 
 	const initialOptions = {
 		clientId: process.env.REACT_APP_PAYPAL, //Esto se debe reemplazar con el clientId que se genere de Paypal revisar el archivo .env
@@ -58,12 +59,14 @@ export const PaymentPaypal = ({
 
 	const handleCreateOrder = async () => {
 		try {
-			var resultFromApi = await PaymentByPayPal({
+			const resultFromApi = await PaymentByPayPal({
 				productos: JSON.stringify(cartList),
 				total: String(total),
 			});
 
 			const resultFetch = await resultFromApi.json();
+
+			console.log(resultFetch);
 
 			if (resultFromApi.status !== 200) {
 				throw resultFetch;
@@ -90,16 +93,17 @@ export const PaymentPaypal = ({
 
 	const handleOnApprove = async () => {
 		try {
-			var resultFromApi = await ConfirmPayByPayPal(orderId);
+			const resultFromApi = await ConfirmPayByPayPal(orderId);
 
 			const resultFetch = await resultFromApi.json();
 
 			if (resultFromApi.status !== 200) {
 				throw resultFetch;
 			}
+
 			TransaccionId = resultFetch.result;
 			if (resultFetch.isSuccess) {
-				var resultAPI = await CreateOrder({
+				const resultAPI = await CreateOrder({
 					productos: JSON.stringify(cartList),
 					total: String(total),
 					orden: JSON.stringify(order),

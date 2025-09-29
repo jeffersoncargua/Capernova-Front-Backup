@@ -8,6 +8,7 @@ export const PedidoDetails = ({
 	pedido,
 	//setResponse,
 	GetPedidos,
+	setShowLoading,
 }) => {
 	const columns = ["Imagen", "Código", "Producto", "Cantidad"];
 	const [cartList, setCartList] = useState([]);
@@ -21,6 +22,7 @@ export const PedidoDetails = ({
 	}, [pedido]);
 
 	const handlePedidoEdit = async (pedido) => {
+		setShowLoading(true);
 		try {
 			const resultFromApi = await UpdatePedido({
 				id: pedido.id,
@@ -37,21 +39,20 @@ export const PedidoDetails = ({
 			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
 				throw resultFetch;
 			}
-			if (resultFetch.isSuccess) {
-				setResponse(resultFetch);
-			}
 
 			resultFetch.isSuccess
 				? toast.success(resultFetch.message)
 				: toast.error(resultFetch.message);
 
 			GetPedidos();
+			setShowLoading(false);
 
 			setShowModalPedidoDetail(false);
 		} catch (error) {
 			console.error(error);
 			toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
 			setShowModalPedidoDetail(false);
+			setShowLoading(false);
 		}
 	};
 

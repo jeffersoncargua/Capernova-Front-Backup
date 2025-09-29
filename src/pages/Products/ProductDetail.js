@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
@@ -39,59 +39,30 @@ export const ProductDetail = () => {
 		});
 	}, []);
 
-	useEffect(() => {
-		const fetchProducto = async () => {
-			setLoading(true);
-			try {
-				var resultFromApi = await GetProduct(productoId);
+	const fetchProducto = useCallback(async () => {
+		setLoading(true);
+		try {
+			const resultFromApi = await GetProduct(productoId);
 
-				const resultFetch = await resultFromApi.json();
+			const resultFetch = await resultFromApi.json();
 
-				if (resultFromApi.status !== 200) {
-					throw resultFetch;
-				}
-
-				setProducto(resultFetch.result);
-
-				setLoading(false);
-			} catch (error) {
-				console.error(error);
-				setLoading(false);
-				navigate("/error");
+			if (resultFromApi.status !== 200) {
+				throw resultFetch;
 			}
-		};
 
-		// const fetchProductos = async() => {
-		// try {
-		//   const resultFromApi = await fetch(`${process.env.REACT_APP_API_URL}/Producto/getAllProducto?tipo=${"producto"}&categoriaId=${resultFetch.result.categoriaId}`,{
-		//     method:'GET',
-		//     credentials : 'include',
-		//     headers:{
-		//       'Content-Type' : 'application/json',
-		//       'Accept' : 'application/json'
-		//     }
-		//   });
+			setProducto(resultFetch.result);
 
-		//   const resultFetch2 = await resultFromApi.json();
-
-		//   //console.log(resultFromApi.status);
-		//   if (resultFromApi.status !== 200) {
-		//     throw resultFetch2;
-		//   }
-		//   //console.log(resultFetch);
-		//   setProductList(resultFetch2.result);
-
-		// } catch (error) {
-		//   if (error.statusCode !== 400) {
-		//     console.error(error);
-		//   }else{
-		//     console.error(error);
-		//   }
-		// }
-		// }
-
-		fetchProducto();
+			setLoading(false);
+		} catch (error) {
+			console.error(error);
+			setLoading(false);
+			navigate("/error");
+		}
 	}, [productoId, navigate]);
+
+	useEffect(() => {
+		fetchProducto();
+	}, [fetchProducto]);
 
 	useEffect(() => {
 		if (shoppingCart.length > 0) {
@@ -104,7 +75,7 @@ export const ProductDetail = () => {
 				setCant(1);
 			}
 		}
-	}, [shoppingCart, productoId, setShoppingCart]);
+	}, [shoppingCart, productoId]);
 
 	const handleIncrement = () => {
 		if (cant < producto.cantidad) {
@@ -140,16 +111,18 @@ export const ProductDetail = () => {
 		);
 		if (itemCart) {
 			const updateListCart = shoppingCart;
-			const cartist = updateListCart.map((itemCart) =>
+			const cartList = updateListCart.map((itemCart) =>
 				itemCart.productoId === productoId
 					? {
 							...itemCart,
-							cantidad: (itemCart.cantidad = refCant.current.value),
+							cantidad: refCant.current.value,
 						}
 					: itemCart,
 			);
+
 			setShoppingCart(updateListCart);
-			localStorage.setItem("shoppingcart", JSON.stringify(cartist));
+
+			localStorage.setItem("shoppingcart", JSON.stringify(cartList));
 		} else {
 			const updateListCart = shoppingCart;
 			setShoppingCart([
@@ -211,13 +184,14 @@ export const ProductDetail = () => {
 								<div className="flex flex-wrap max-sm:justify-center items-center">
 									{/*Esta seccion es para el contador de productos que se desea adquirir */}
 									<div className="relative flex items-center max-w-[13rem] mt-5 me-5">
-										<label className="font-semibold text-md me-3">
+										<span className="font-semibold text-md me-3">
 											Cantidad:
-										</label>
+										</span>
 										<button
 											onClick={() => handleDecrement()}
 											type="button"
-											id="decrement-button"
+											//id="decrement-button"
+											name="decrement-button"
 											data-input-counter-decrement="quantity-input"
 											className="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none"
 										>
@@ -239,7 +213,8 @@ export const ProductDetail = () => {
 										</button>
 										<input
 											type="text"
-											id="quantity-input"
+											//id="quantity-input"
+											name="quantity-input"
 											data-input-counter
 											aria-describedby="helper-text-explanation"
 											className="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -251,7 +226,8 @@ export const ProductDetail = () => {
 										<button
 											onClick={() => handleIncrement()}
 											type="button"
-											id="increment-button"
+											//id="increment-button"
+											name="increment-button"
 											data-input-counter-increment="quantity-input"
 											className="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none"
 										>
@@ -276,8 +252,9 @@ export const ProductDetail = () => {
 									{/*El disabled en false permite que el boton puede ser accedido y en true el boton no puede ser accedido */}
 									<div className="flex justify-center group mt-5">
 										<button
+											type="button"
 											onClick={() => handleAddToCart(producto)}
-											disabled={producto.cantidad > 0 ? false : true}
+											disabled={!(producto.cantidad > 0)}
 											className={`flex items-center text-black group-hover:text-white group-hover:scale-110 rounded-lg px-2.5 py-2 border border-blue-400 bg-blue-600 hover:border-green-400 hover:bg-green-600 ${producto.cantidad > 0 ? "cursor-pointer" : "cursor-not-allowed"}`}
 										>
 											<svg

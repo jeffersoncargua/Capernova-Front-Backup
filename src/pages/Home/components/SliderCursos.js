@@ -91,7 +91,7 @@ export const SliderCursos = () => {
 			<h1 className="self-center md:self-start text-2xl md:text-3xl font-medium text-center md:ml-14 my-10 dark:text-white">
 				<span>
 					Principales Cursos
-					<hr className="mx-auto w-[150px] border border-blue-400 drop-shadow-md" />
+					<hr className="mx-auto w-[150px] mt-1 border border-blue-400 drop-shadow-md" />
 				</span>
 			</h1>
 			{/*<h1 className="self-end text-4xl font-bold before:block before:absolute before:-inset-1 before:-skew-y-[1.7deg] before:bg-cyan-400 relative my-8 " ><span className=" text-white relative ">Te Ofrecemos ...</span></h1>*/}

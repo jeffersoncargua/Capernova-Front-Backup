@@ -26,7 +26,7 @@ const orderSlice = createSlice({
 			};
 			return { ...state, order: newOrder };
 		},
-		cancelOrder(state, action) {
+		cancelOrder(state) {
 			const cancel = {
 				name: "",
 				lastName: "",
@@ -38,7 +38,7 @@ const orderSlice = createSlice({
 			};
 			return { ...state, order: cancel };
 		},
-		clearOrder(state, action) {
+		clearOrder(state) {
 			const clear = {
 				name: "",
 				lastName: "",

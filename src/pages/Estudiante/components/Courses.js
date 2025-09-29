@@ -27,27 +27,27 @@ export const Courses = ({
 	const navigate = useNavigate();
 
 	const FecthCourses = useCallback(async () => {
-			try {
-				const resultFromApi = await GetCoursesStudent(estudiante.id);
+		try {
+			const resultFromApi = await GetCoursesStudent(estudiante.id);
 
-				const resultFetch = await resultFromApi.json();
+			const resultFetch = await resultFromApi.json();
 
-				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
-					throw resultFetch;
-				}
-				if (resultFetch.isSuccess) {
-					setMatriculaList(resultFetch.result);
-				}
-			} catch (error) {
-				console.error(error);
-				navigate("/error");
+			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+				throw resultFetch;
 			}
-		},[estudiante, navigate]);
+			if (resultFetch.isSuccess) {
+				setMatriculaList(resultFetch.result);
+			}
+		} catch (error) {
+			console.error(error);
+			navigate("/error");
+		}
+	}, [estudiante, navigate]);
 
 	useEffect(() => {
 		FecthCourses();
 		dispatch(clearPlaylist([]));
-	}, [FecthCourses,dispatch]);
+	}, [FecthCourses, dispatch]);
 
 	return (
 		// <div className="w-[95%] mx-auto flex flex-wrap space-x-8 ">

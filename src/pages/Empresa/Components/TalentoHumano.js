@@ -3,30 +3,32 @@ import { TeacherCard } from "./TeacherCard";
 import { useNavigate } from "react-router-dom";
 import { GetAllTeachers } from "../../../apiServices/GeneralServices";
 
-export const TalentoHumano = () => {
+export const TalentoHumano = ({ setLoading }) => {
 	const [teacherList, setTeacherList] = useState([]);
 	const navigate = useNavigate();
 
 	const getTeacher = useCallback(async () => {
-			try {
-				const resultFromApi = await GetAllTeachers();
+		try {
+			const resultFromApi = await GetAllTeachers();
 
-				const resultFetch = await resultFromApi.json();
+			const resultFetch = await resultFromApi.json();
 
-				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
-					throw resultFetch;
-				}
-
-				if (resultFetch.isSuccess) {
-					setTeacherList(resultFetch.result);
-				} else {
-					setTeacherList([]);
-				}
-			} catch (error) {
-				console.error(error);
-				navigate("/error");
+			if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+				throw resultFetch;
 			}
-		},[navigate]);
+
+			if (resultFetch.isSuccess) {
+				setTeacherList(resultFetch.result);
+			} else {
+				setTeacherList([]);
+			}
+
+			setLoading(false);
+		} catch (error) {
+			console.error(error);
+			navigate("/error");
+		}
+	}, [navigate, setLoading]);
 
 	useEffect(() => {
 		getTeacher();
@@ -43,7 +45,7 @@ export const TalentoHumano = () => {
 							<hr className="mx-auto w-[250px] border border-blue-400 drop-shadow-md" />
 						</span>
 					</h1>
-					{teacherList.map((teacher,index ) => (
+					{teacherList.map((teacher, index) => (
 						<TeacherCard key={teacher.id} teacher={teacher} index={index} />
 					))}
 				</>

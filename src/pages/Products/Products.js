@@ -38,7 +38,7 @@ export const Products = ({ children }) => {
 	useEffect(() => {
 		const fetchProductos = async () => {
 			try {
-				var result = await GetAllProducts(searchProduct, categoriaId || 0);
+				const result = await GetAllProducts(searchProduct, categoriaId || 0);
 
 				const resultFetch = await result.json();
 
@@ -59,7 +59,7 @@ export const Products = ({ children }) => {
 		fetchProductos();
 	}, [searchProduct, navigate, categoriaId]);
 
-	const handleSubmitSearch = (event) => {
+	const handleSubmitSearch = (_event) => {
 		dispatch(search(refSearch.current.value));
 	};
 
@@ -110,7 +110,8 @@ export const Products = ({ children }) => {
 									<input
 										onChange={() => handleSubmitSearch()}
 										type="text"
-										id="search-navbar"
+										//id="search-navbar"
+										name="search-navbar"
 										className="w-full p-2 ps-2 text-sm text-gray-900 rounded-lg bg-gray-50 hover:border-blue-300 focus:outline-none focus:ring-inset focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 										placeholder="Buscar Productos..."
 										ref={refSearch}
@@ -119,20 +120,20 @@ export const Products = ({ children }) => {
 							</div>
 						</div>
 						{slices.length > 0 ? (
-							slices.map((itemProd, index) => (
+							slices.map((itemProd) => (
 								<div
 									className="shrink-0 w-full min-[796px]:max-lg:w-1/2 lg:max-[1088px]:w-1/2 min-[1088px]:w-1/3 mb-10"
 									data-aos="fade-up"
-									key={index}
+									key={itemProd.id}
 								>
 									<ProductCard itemProd={itemProd} />
 								</div>
 							))
 						) : (
 							<div className="group tex-black dark:text-white w-full h-80">
-								<label className="text-2xl md:text-4xl py-4 ms-2 text-center ">
+								<span className="text-2xl md:text-4xl py-4 ms-2 text-center ">
 									No existen registros de tu búsqueda ...{" "}
-								</label>
+								</span>
 							</div>
 						)}
 					</div>
