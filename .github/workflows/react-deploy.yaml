@@ -1,0 +1,58 @@
+name: "React Deploy Capernova Demo"
+
+on:
+    push:
+        branches: [main]
+
+permissions:
+    contents: write
+
+jobs:
+    lint_prettier:
+        runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                node-version: [22.x]
+
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Run lint and prettier Capernova's project
+              run: npm run check
+
+    build:
+        needs: [lint_prettier]
+        runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                node-version: [22.x]
+
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Use node.js ${{matrix.node-version}}
+              uses: actions/setup-node@v4
+              with:
+                node-version: ${{matrix.node-version}}
+                cache: 'npm'
+                cache-dependency-path: '**/package-lock.json'
+
+            - name : Install Dependencies
+              run: npm install
+
+            - name: Build file
+              run: npm build
+
+            - name: Copy build settings to build folder
+              run: cp netlify.toml build
+
+            - name: Deploy production Capernova Demo to netlify
+              uses: South-Paw/action-netlify-deploy@v1.2.0
+              with:
+                github-token: ${{secrets.PERSONAL_DEMO_GITHUB_TOKEN}}
+                netlify-auth-token: ${{secrets.NETLIFY_AUTH_TOKEN}}
+                netlify-site-id: ${{secrets.NETLIFY_SITE_ID}}
+                build-dir: "./build"
+                comment-on-commit: true
