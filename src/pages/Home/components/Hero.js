@@ -68,16 +68,7 @@ export const Hero = ({ video }) => {
 	return (
 		//<div className='w-full flex flex-col md:flex-row bg-gray-900 mb-10 relative'>
 		<div className=" relative w-full flex flex-col mb-10 md:shadow-2xl md:shadow-slate-50 md:border-b md:border-slate-50 ">
-			{/* <img className='absolute top-0 left-0 h-full' src={Fondo} alt="fondo" /> */}
-
-			<div className="flex-1 " data-aos="fade-up">
-				{/* <video className='flex object-cover w-full h-auto md:h-[30rem]' autoPlay loop muted controls={false} disablePictureInPicture={true} >
-                <source src={video} type='video/mp4' />
-            </video> */}
-				{/* <div className='shrink-0'>
-                
-            </div> */}
-
+			<div className="relative flex-1 " data-aos="fade-up">
 				<video
 					poster="https://lh3.googleusercontent.com/d/1YILduy_vDlm3Q2Rf3_JsD81uV2JblTkC"
 					src={video}
@@ -88,34 +79,35 @@ export const Hero = ({ video }) => {
 					controls={false}
 					disablePictureInPicture={true}
 				/>
-			</div>
-
-			<div
-				className="w-full flex bg-gradient-to-r from-cyan-400/90 to-blue-200/90 "
-				data-aos="fade-up"
-			>
-				<div className="w-[90%] mx-auto group text-black space-y-6 my-[2.5%] flex flex-col italic ">
-					<h1 className="font-semibold text-center text-xl md:text-2xl">
-						Bienvenidos a la página oficial de Capernova
-					</h1>
-					<p className="text-sm md:text-lg text-center">
-						En este sitio encontrarás todo lo que necesitas para ampliar tus
-						concocimientos, así como, adquirir productos para tu emprendimiento.{" "}
-					</p>
-					<p className="text-sm md:text-lg text-center">
-						Contámos con cursos y productos que te ayudarán a expandir tus ideas
-						y alcanzar tus sueños.
-					</p>
-					<p className="text-sm md:text-lg text-center">
-						Recuerda que tu potencial es infinito, atrévete a explorarlo junto a
-						nosotros.
-					</p>
-					<Link
-						to={"/register"}
-						className="text-sm md:text-lg px-3 py-2.5 self-center rounded-lg bg-gradient-to-r from-teal-400 to-blue-500 hover:from-pink-500 hover:to-orange-500"
-					>
-						Registrarse
-					</Link>
+				<div
+					className="w-full h-full bg-black/50 flex absolute top-0 left-0"
+				>
+					<div className="w-[95%] md:w-[70%] bg-slate-50/40 rounded-lg mx-auto group text-black space-y-2 sm:space-y-6 my-[2.5%] md:my-[5.5%] flex justify-center items-center flex-col shadow-md shadow-slate-50 ">
+						<h1 className="font-semibold md:font-bold text-center text-lg md:text-xl mt-2">
+							Bienvenidos a la página oficial de Capernova
+						</h1>
+						<div className="mx-2.5 md:mx-10 leading-5 md:leading-7 font-semibold text-xs md:text-sm text-justify md:text-center space-y-6">
+							<p className="">
+								En este sitio encontrarás todo lo que necesitas para ampliar tus
+								concocimientos, así como, adquirir productos para tu emprendimiento.{" "}
+							</p>
+							<p className="">
+								Contámos con cursos y productos que te ayudarán a expandir tus ideas
+								y alcanzar tus sueños.
+							</p>
+							<p className="">
+								Recuerda que tu potencial es infinito, atrévete a explorarlo junto a
+								nosotros.
+							</p>
+						</div>
+						<Link
+							to={"/register"}
+							className="text-xs md:text-sm px-3 py-2.5 rounded-lg bg-gradient-to-r from-teal-400 to-blue-500 hover:from-pink-500 hover:to-orange-500"
+						>
+							Registrarse
+						</Link>
+						<br />
+					</div>
 				</div>
 			</div>
 
