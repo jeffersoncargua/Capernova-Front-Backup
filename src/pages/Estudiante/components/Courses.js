@@ -1,11 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
-import { CoursesCard } from "../components";
-import { clearPlaylist } from "../../../redux/playlistSlice";
 import { useDispatch } from "react-redux";
+import { Navigation, Pagination } from "swiper/modules";
 //import { toast } from "react-toastify";
 import { Swiper, SwiperSlide } from "swiper/react";
-
-import { Pagination, Navigation } from "swiper/modules";
+import { clearPlaylist } from "../../../redux/playlistSlice";
+import { CoursesCard } from "../components";
 
 //Styles Swiper
 import "swiper/css";

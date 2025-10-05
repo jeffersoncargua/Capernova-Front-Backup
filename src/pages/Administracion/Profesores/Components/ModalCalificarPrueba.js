@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
-import { CalificarPrueba } from "../Components";
 import { toast } from "react-toastify";
 import { GetAllTest } from "../../../../apiServices/TeacherServices/TeacherServices";
+import { CalificarPrueba } from "../Components";
 
 export const ModalCalificarPrueba = ({
 	showModalCalificarPrueba,

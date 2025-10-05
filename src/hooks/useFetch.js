@@ -11,6 +11,7 @@ export const useFetch = async ({
 	const headers = {
 		"Content-Type": "application/json;charset=utf-8",
 		Accept: "application/json",
+		"Access-Control-Allow-Origin": `${apiURL}`,
 		Authorization: authToken !== null && `Bearer ${authToken}`,
 	};
 

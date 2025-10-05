@@ -1,9 +1,9 @@
-import { useRef, useState, useEffect, useCallback } from "react";
-import { ModalInscripcion } from "../Components";
-import { ModalDelete } from "../../Components";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import { GetMatricula } from "../../../../apiServices/ManagmentServices/ManagmentStudentServices";
 import { GetUser } from "../../../../apiServices/GeneralServices";
+import { GetMatricula } from "../../../../apiServices/ManagmentServices/ManagmentStudentServices";
+import { ModalDelete } from "../../Components";
+import { ModalInscripcion } from "../Components";
 
 export const Inscripcion = () => {
 	const [user, setUser] = useState({});

@@ -1,8 +1,8 @@
-import { useState, useRef, useEffect, useCallback } from "react";
-import { ModalDelete } from "../../Components";
-import { ModalTalento } from "../Components";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { GetTalent } from "../../../../apiServices/ManagmentServices/ManagmentTalentServices";
+import { ModalDelete } from "../../Components";
+import { ModalTalento } from "../Components";
 
 export const TalentoHumano = ({
 	setShowTalento,

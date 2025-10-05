@@ -1,22 +1,15 @@
-export { SideBar } from "./SideBar";
-
+export { CalificarDeber } from "./CalificarDeber";
+export { CalificarPrueba } from "./CalificarPrueba";
 export { Cursos } from "./Cursos";
-
+export { Deberes } from "./Deberes";
 export { Estudiantes } from "./Estudiantes";
 export { Informacion } from "./Informacion";
-
-export { ModalSuccess } from "./ModalSuccess";
-
-export { Deberes } from "./Deberes";
-export { ModalDeber } from "./ModalDeber";
-export { ModalCalificarDeber } from "./ModalCalificarDeber";
-export { CalificarDeber } from "./CalificarDeber";
-
-export { Pruebas } from "./Pruebas";
-export { ModalPrueba } from "./ModalPrueba";
-export { ModalCalificarPrueba } from "./ModalCalificarPrueba";
-export { CalificarPrueba } from "./CalificarPrueba";
-
-export { ModalCalificarNotaFinal } from "./ModalCalificarNotaFinal";
-
 export { Loading } from "./Loading";
+export { ModalCalificarDeber } from "./ModalCalificarDeber";
+export { ModalCalificarNotaFinal } from "./ModalCalificarNotaFinal";
+export { ModalCalificarPrueba } from "./ModalCalificarPrueba";
+export { ModalDeber } from "./ModalDeber";
+export { ModalPrueba } from "./ModalPrueba";
+export { ModalSuccess } from "./ModalSuccess";
+export { Pruebas } from "./Pruebas";
+export { SideBar } from "./SideBar";

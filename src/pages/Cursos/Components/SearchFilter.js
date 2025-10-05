@@ -2,8 +2,8 @@ import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { remove } from "../../../redux/searchProductSlice";
 import { GetCategoriaCursos } from "../../../apiServices/GeneralServices";
+import { remove } from "../../../redux/searchProductSlice";
 
 export const SearchFilter = () => {
 	const [showSearch, setShowSearch] = useState(true);

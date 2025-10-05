@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import { CreateMatricula } from "../../../../apiServices/ManagmentServices/ManagmentStudentServices";
 import { GetAllCourse } from "../../../../apiServices/ManagmentServices/ManagmentCourseServices";
+import { CreateMatricula } from "../../../../apiServices/ManagmentServices/ManagmentStudentServices";
 
 export const ModalInscripcion = ({
 	showModalInscripcion,

@@ -1,8 +1,8 @@
-import { useState, useEffect, useRef, useCallback } from "react";
-import { ModalDelete } from "../../Components";
-import { ModalPublicidad } from "../Components";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { GetAllMarketing } from "../../../../apiServices/GeneralServices";
+import { ModalDelete } from "../../Components";
+import { ModalPublicidad } from "../Components";
 
 export const Publicidad = () => {
 	const pageSize = 5;

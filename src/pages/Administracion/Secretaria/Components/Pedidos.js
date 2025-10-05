@@ -1,9 +1,8 @@
-import { useState, useRef, useEffect, useCallback } from "react";
-import { toast } from "react-toastify";
-import { PedidoDetails } from "../Components";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Datepicker from "react-tailwindcss-datepicker";
+import { toast } from "react-toastify";
 import { GetAllPedidos } from "../../../../apiServices/ManagmentServices/ManagmentVentas";
-import { Loading } from "../Components";
+import { Loading, PedidoDetails } from "../Components";
 
 export const Pedidos = () => {
 	const [pedidoList, setPedidoList] = useState([]);

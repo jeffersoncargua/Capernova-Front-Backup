@@ -1,9 +1,8 @@
 import { useRef, useState } from "react";
-import { Modal } from "./components";
-
-import Registro from "../../assets/registro.jpg";
 import { useNavigate } from "react-router-dom";
 import { Registration } from "../../apiServices/Authenticate/AuthenticateServices";
+import Registro from "../../assets/registro.jpg";
+import { Modal } from "./components";
 
 export const Register = ({ children }) => {
 	const [showPass1, setShowPass1] = useState(false);

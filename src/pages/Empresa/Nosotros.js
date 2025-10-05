@@ -1,6 +1,6 @@
-import { MisionVision, TalentoHumano } from "./Components";
-import { Loading } from "../../components";
 import { useState } from "react";
+import { Loading } from "../../components";
+import { MisionVision, TalentoHumano } from "./Components";
 
 export const Nosotros = () => {
 	const [loading, setLoading] = useState(true);

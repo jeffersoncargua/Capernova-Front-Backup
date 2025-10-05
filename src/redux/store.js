@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { cartReducer } from "./cartSlice";
-import { userReducer } from "./userSlice";
-import { searchReducer } from "./searchProductSlice";
 import { courseReducer } from "./courseSlice";
 import { orderReducer } from "./orderSlice";
 import { playListReducer } from "./playlistSlice";
+import { searchReducer } from "./searchProductSlice";
+import { userReducer } from "./userSlice";
 
 export const store = configureStore({
 	reducer: {

@@ -1,9 +1,7 @@
-import { useCallback, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-
 // Import AOS para el fade
 import AOS from "aos";
+import { useCallback, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "aos/dist/aos.css"; // You can also use <link> for styles
 import { GetAllMarketing } from "../../../apiServices/GeneralServices";
 

@@ -1,8 +1,7 @@
-import { useEffect } from "react";
-import { Link } from "react-router-dom";
-
 // Import AOS para el fade
 import AOS from "aos";
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import "aos/dist/aos.css"; // You can also use <link> for styles
 // ..
 

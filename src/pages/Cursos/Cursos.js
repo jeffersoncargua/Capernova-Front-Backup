@@ -1,13 +1,11 @@
-import { Beneficios } from "../../components";
-import { ProductCard } from "../../components";
-import { SearchFilter } from "./Components";
-import { useNavigate, useSearchParams } from "react-router-dom";
-
 // Import AOS para el fade
 import AOS from "aos";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { Beneficios, ProductCard } from "../../components";
+import { SearchFilter } from "./Components";
 import "aos/dist/aos.css"; // You can also use <link> for styles
+import { useCallback, useEffect, useRef, useState } from "react";
 import { GetAllCourseCategory } from "../../apiServices/ManagmentServices/ManagmentCourseServices";
-import { useCallback, useState, useRef, useEffect } from "react";
 // ..
 
 export const Cursos = ({ children }) => {

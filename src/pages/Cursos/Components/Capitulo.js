@@ -1,7 +1,7 @@
-import { useState, useEffect, useCallback } from "react";
-import { Temario } from "../Components";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { GetAllCapitulo } from "../../../apiServices/ManagmentServices/ManagmentCourseServices";
+import { Temario } from "../Components";
 
 export const Capitulo = ({ curso }) => {
 	const [capitulos, setCapitulos] = useState([]);

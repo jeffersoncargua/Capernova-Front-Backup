@@ -1,21 +1,21 @@
 import { useCallback, useEffect, useState } from "react";
-import {
-	PlayerVideo,
-	SideBar,
-	Logros,
-	Courses,
-	Informacion,
-	Deberes,
-	Pruebas,
-	Comentario,
-	DeberDetail,
-	PruebaDetail,
-	Biblioteca,
-	CursoLive,
-} from "./components";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { GetStudent } from "../../apiServices/StudentServices/StudentServices";
+import {
+	Biblioteca,
+	Comentario,
+	Courses,
+	CursoLive,
+	DeberDetail,
+	Deberes,
+	Informacion,
+	Logros,
+	PlayerVideo,
+	PruebaDetail,
+	Pruebas,
+	SideBar,
+} from "./components";
 
 export const Estudiante = () => {
 	const [showPlayer, setShowPlayer] = useState(false);

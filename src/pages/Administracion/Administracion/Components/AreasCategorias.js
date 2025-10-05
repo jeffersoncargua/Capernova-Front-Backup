@@ -1,8 +1,8 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import { ModalAreaCategoria } from "../Components";
-import { ModalDelete } from "../../Components";
 import { GetAllCategories } from "../../../../apiServices/ManagmentServices/ManagmentCategoriesServices";
+import { ModalDelete } from "../../Components";
+import { ModalAreaCategoria } from "../Components";
 
 // export const AreasCategorias = ({ response, setResponse }) => {
 export const AreasCategorias = () => {

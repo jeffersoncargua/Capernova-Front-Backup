@@ -1,15 +1,14 @@
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import {
-	PaymentInfo,
-	PaymentOrder,
-	PaymentMethod,
-	ModalError,
-} from "./components";
-import { useNavigate } from "react-router-dom";
-
 // Import AOS para el fade
 import AOS from "aos";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import {
+	ModalError,
+	PaymentInfo,
+	PaymentMethod,
+	PaymentOrder,
+} from "./components";
 import "aos/dist/aos.css"; // You can also use <link> for styles
 // ..
 

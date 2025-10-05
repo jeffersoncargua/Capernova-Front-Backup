@@ -1,7 +1,7 @@
-import { useState, useRef } from "react";
-import { ModalForget } from "./components";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ForgotPasswordPost } from "../../apiServices/Authenticate/AuthenticateServices";
+import { ModalForget } from "./components";
 
 export const ForgotPassword = ({ children }) => {
 	const [showButtonLoading, setShowButtonLoading] = useState(false);

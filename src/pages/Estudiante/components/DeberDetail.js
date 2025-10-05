@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
-import { NotaDeber, ModalDeber } from "../components";
 import { toast } from "react-toastify";
 import { GetTasksStudent } from "../../../apiServices/StudentServices/StudentServices";
+import { ModalDeber, NotaDeber } from "../components";
 
 export const DeberDetail = ({ matricula }) => {
 	const [deberList, setDeberList] = useState([]);

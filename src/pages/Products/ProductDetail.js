@@ -1,13 +1,12 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
-
-import { useDispatch } from "react-redux";
-import { toast } from "react-toastify";
-import { addToCart } from "../../redux/cartSlice";
-import { SliderProduct, Loading } from "./components";
-
 // Import AOS para el fade
 import AOS from "aos";
+import { useCallback, useEffect, useRef, useState } from "react";
+
+import { useDispatch } from "react-redux";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { addToCart } from "../../redux/cartSlice";
+import { Loading, SliderProduct } from "./components";
 import "aos/dist/aos.css"; // You can also use <link> for styles
 import { GetProduct } from "../../apiServices/ManagmentServices/ManagmentProductServices";
 // ..

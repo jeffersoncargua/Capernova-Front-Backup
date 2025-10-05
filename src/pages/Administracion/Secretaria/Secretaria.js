@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SideBar, Cursos, Ventas, Pedidos } from "./Components";
+import { Cursos, Pedidos, SideBar, Ventas } from "./Components";
 
 export const Secretaria = () => {
 	const [cursoList, setCursoList] = useState([]);

@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { ShoppingCart, EmptyCart } from "./components";
+import { EmptyCart, ShoppingCart } from "./components";
 
 export const Cart = () => {
 	const cartList = useSelector((state) => state.cartState.cartList);

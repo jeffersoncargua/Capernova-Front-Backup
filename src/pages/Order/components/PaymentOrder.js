@@ -1,11 +1,9 @@
-import { useRef, useState, useEffect, useId } from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { createOrder, cancelOrder } from "../../../redux/orderSlice";
-import { useDispatch } from "react-redux";
-
 // Import AOS para el fade
 import AOS from "aos";
+import { useEffect, useId, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { cancelOrder, createOrder } from "../../../redux/orderSlice";
 import "aos/dist/aos.css"; // You can also use <link> for styles
 // ..
 

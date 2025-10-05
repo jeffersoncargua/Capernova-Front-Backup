@@ -1,14 +1,12 @@
-import { useEffect, useRef, useState } from "react";
-import { ProductCard } from "../../components/ProductCard";
-import { SearchFilter } from "../Products/components";
-import { Beneficios } from "../../components";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { search } from "../../redux/searchProductSlice";
-import { useNavigate, useSearchParams } from "react-router-dom";
-
 // Import AOS para el fade
 import AOS from "aos";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { Beneficios } from "../../components";
+import { ProductCard } from "../../components/ProductCard";
+import { search } from "../../redux/searchProductSlice";
+import { SearchFilter } from "../Products/components";
 import "aos/dist/aos.css"; // You can also use <link> for styles
 import { GetAllProducts } from "../../apiServices/ManagmentServices/ManagmentProductServices";
 // ..

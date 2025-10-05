@@ -1,5 +1,5 @@
+import { Footer, Header } from "./components";
 import { AllRoutes } from "./routes/AllRoutes";
-import { Header, Footer } from "./components";
 
 import "./App.css";
 

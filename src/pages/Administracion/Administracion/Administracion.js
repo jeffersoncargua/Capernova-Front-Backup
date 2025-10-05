@@ -1,21 +1,21 @@
 import { useCallback, useEffect, useState } from "react";
-import { Videos } from "../Components";
-//import { SideBar , Publicidad,Cursos, Videos, TalentoHumano,Profesor} from "./Components";
-import {
-	SideBar,
-	Publicidad,
-	Cursos,
-	TalentoHumano,
-	Profesor,
-	Productos,
-	Ventas,
-	Pedidos,
-	AreasCategorias,
-	Inscripcion,
-} from "./Components";
 import { useNavigate } from "react-router-dom";
 //import { toast } from "react-toastify";
 import { GetAllCourse } from "../../../apiServices/ManagmentServices/ManagmentCourseServices";
+import { Videos } from "../Components";
+//import { SideBar , Publicidad,Cursos, Videos, TalentoHumano,Profesor} from "./Components";
+import {
+	AreasCategorias,
+	Cursos,
+	Inscripcion,
+	Pedidos,
+	Productos,
+	Profesor,
+	Publicidad,
+	SideBar,
+	TalentoHumano,
+	Ventas,
+} from "./Components";
 
 export const Administracion = () => {
 	const [cursoList, setCursoList] = useState([]);

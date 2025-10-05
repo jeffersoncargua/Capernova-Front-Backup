@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { ProductCard } from "../../../components/ProductCard";
 import { useNavigate } from "react-router-dom";
-
-import { Swiper, SwiperSlide } from "swiper/react";
 // import required modules
 import { Pagination } from "swiper/modules";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+import { ProductCard } from "../../../components/ProductCard";
 
 // Import Swiper styles
 import "swiper/css";

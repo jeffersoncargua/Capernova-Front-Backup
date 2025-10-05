@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
-import { Capitulo } from "../Components";
 import { toast } from "react-toastify";
 import { GetProductCode } from "../../../apiServices/ManagmentServices/ManagmentCourseServices";
+import { Capitulo } from "../Components";
 
 export const Contenido = ({ codigo }) => {
 	const [curso, setCurso] = useState({});

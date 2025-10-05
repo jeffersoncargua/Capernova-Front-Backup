@@ -1,5 +1,5 @@
-import { useSearchParams } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { ConfirmEmail } from "../../apiServices/Authenticate/AuthenticateServices";
 
 export const ConfirmationEmail = ({ children }) => {

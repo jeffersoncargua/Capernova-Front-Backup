@@ -1,10 +1,10 @@
-import { useState, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { CoursesCard } from "../components";
+
 //import { toast } from "react-toastify";
 
+import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-
-import { Pagination, Navigation } from "swiper/modules";
 
 //Styles Swiper
 import "swiper/css";

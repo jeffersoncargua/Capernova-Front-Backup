@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef, useCallback } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
-import { Modal } from "./components";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import {
 	ResetPassword,
 	ResetPasswordPost,
 } from "../../apiServices/Authenticate/AuthenticateServices";
+import { Modal } from "./components";
 
 export const ChangePassword = ({ children }) => {
 	const [showPass1, setShowPass1] = useState(false);

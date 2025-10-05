@@ -1,14 +1,12 @@
-import { useState, useEffect } from "react";
-import { removeToCart } from "../../../redux/cartSlice";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+// Import AOS para el fade
+import AOS from "aos";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Tooltip } from "react-tooltip";
+import { removeToCart } from "../../../redux/cartSlice";
 import { ModalCart } from "../components";
-
-// Import AOS para el fade
-import AOS from "aos";
 import "aos/dist/aos.css"; // You can also use <link> for styles
 // ..
 

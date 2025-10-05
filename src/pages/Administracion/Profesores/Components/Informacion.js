@@ -1,9 +1,9 @@
 import { useRef, useState } from "react";
-import { Tooltip } from "react-tooltip";
 import { toast } from "react-toastify";
-import { Loading } from "../Components";
-import Avatar from "../../../../assets/avatar.png";
+import { Tooltip } from "react-tooltip";
 import { UpdateTeacher } from "../../../../apiServices/TeacherServices/TeacherServices";
+import Avatar from "../../../../assets/avatar.png";
+import { Loading } from "../Components";
 
 export const Informacion = ({
 	profesor,

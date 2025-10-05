@@ -1,4 +1,4 @@
-import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {

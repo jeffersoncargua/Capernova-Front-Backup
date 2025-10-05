@@ -1,15 +1,12 @@
-import { Link } from "react-router-dom";
-import { useState, useEffect, useRef, useId } from "react";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { logout, signIn } from "../redux/userSlice";
-import { JWTDecode } from "../hooks/JWTDecode";
-import { search } from "../redux/searchProductSlice";
-import { DropDownCursos, DropDownProductos } from "./index";
-
+import { useEffect, useId, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import CaperNova2 from "../assets/Capernova2.png";
 import CapernovaOscuro from "../assets/CapernovaOscuro_preview_rev_1.png";
+import { JWTDecode } from "../hooks/JWTDecode";
+import { search } from "../redux/searchProductSlice";
+import { logout, signIn } from "../redux/userSlice";
+import { DropDownCursos, DropDownProductos } from "./index";
 
 export const Header = () => {
 	const navigate = useNavigate();

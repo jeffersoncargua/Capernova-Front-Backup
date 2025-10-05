@@ -1,20 +1,20 @@
-import { useState, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Videos } from "../Components";
-//import { SideBar,Cursos,Videos,Estudiantes,Informacion,Deberes,Pruebas } from "./Components" //Estos contiente los componentes del Profesor pero se quiere emplear componentes en comun con Administración
-import {
-	SideBar,
-	Cursos,
-	Estudiantes,
-	Informacion,
-	Deberes,
-	Pruebas,
-} from "./Components";
 import { toast } from "react-toastify";
 import {
 	GetTeacherAuthenticate,
 	GetTeacherCourse,
 } from "../../../apiServices/TeacherServices/TeacherServices";
+import { Videos } from "../Components";
+//import { SideBar,Cursos,Videos,Estudiantes,Informacion,Deberes,Pruebas } from "./Components" //Estos contiente los componentes del Profesor pero se quiere emplear componentes en comun con Administración
+import {
+	Cursos,
+	Deberes,
+	Estudiantes,
+	Informacion,
+	Pruebas,
+	SideBar,
+} from "./Components";
 
 export const Profesor = () => {
 	const userTeacher = useSelector((state) => state.userState.user); //permite obtener el id del profesor cuando se loguea

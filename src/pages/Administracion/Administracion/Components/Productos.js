@@ -1,9 +1,9 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { GetAllProducts } from "../../../../apiServices/ManagmentServices/ManagmentProductServices";
 //import { toast } from "react-toastify";
 import { ModalDelete } from "../../Components";
 import { ModalProducto } from "../Components";
-import { useNavigate } from "react-router-dom";
-import { GetAllProducts } from "../../../../apiServices/ManagmentServices/ManagmentProductServices";
 
 // export const Productos = ({ setShowProductos }) => {
 export const Productos = () => {

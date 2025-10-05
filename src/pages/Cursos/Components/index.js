@@ -1,9 +1,8 @@
-export { SearchFilter } from "./SearchFilter";
-export { Descripcion } from "./Descripcion";
-export { Contenido } from "./Contenido";
 export { Capitulo } from "./Capitulo";
-export { Temario } from "./Temario";
+export { Contenido } from "./Contenido";
+export { Descripcion } from "./Descripcion";
+export { Loading } from "./Loading";
+export { SearchFilter } from "./SearchFilter";
 
 export { SliderCurso } from "./SliderCurso";
-
-export { Loading } from "./Loading";
+export { Temario } from "./Temario";

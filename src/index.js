@@ -1,10 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
-import { store } from "./redux/store";
-import { ScrollToTop } from "./components";
+import { BrowserRouter as Router } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import { ScrollToTop } from "./components";
+import { store } from "./redux/store";
 import "react-toastify/dist/ReactToastify.css";
 
 import "react-loading-skeleton/dist/skeleton.css";

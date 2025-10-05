@@ -1,8 +1,8 @@
-import { useState, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { GetAllTask } from "../../../../apiServices/TeacherServices/TeacherServices";
 import { ModalDelete } from "../../Components";
 import { ModalDeber, ModalSuccess } from "../Components";
-import { GetAllTask } from "../../../../apiServices/TeacherServices/TeacherServices";
 
 export const Deberes = ({
 	setShowCursos,

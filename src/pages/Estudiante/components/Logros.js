@@ -1,13 +1,12 @@
-import { useState, useEffect, useCallback } from "react";
-import {
-	CoursesCard,
-	ProgressBar,
-	ModalDownload,
-} from "../../Estudiante/components";
+import { useCallback, useEffect, useState } from "react";
+import { Navigation, Pagination } from "swiper/modules";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-
-import { Pagination, Navigation } from "swiper/modules";
+import {
+	CoursesCard,
+	ModalDownload,
+	ProgressBar,
+} from "../../Estudiante/components";
 
 //Styles Swiper
 import "swiper/css";

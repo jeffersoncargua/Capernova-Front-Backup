@@ -1,18 +1,17 @@
-import { useState, useRef, useEffect, useCallback } from "react";
-import {
-	ModalCalificarDeber,
-	ModalCalificarNotaFinal,
-	ModalCalificarPrueba,
-	Loading,
-} from "../Components";
-import { toast } from "react-toastify";
-
+import { useCallback, useEffect, useRef, useState } from "react";
 //import para escoger la fecha de busqueda de registros de las ventas
 import Datepicker from "react-tailwindcss-datepicker";
+import { toast } from "react-toastify";
 import {
 	GetAllStudents,
 	UpdateMatriculaEstado,
 } from "../../../../apiServices/TeacherServices/TeacherServices";
+import {
+	Loading,
+	ModalCalificarDeber,
+	ModalCalificarNotaFinal,
+	ModalCalificarPrueba,
+} from "../Components";
 
 export const Estudiantes = ({ cursoList }) => {
 	const pageSize = 10;

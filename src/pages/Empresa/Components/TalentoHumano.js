@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
-import { TeacherCard } from "./TeacherCard";
 import { useNavigate } from "react-router-dom";
 import { GetAllTeachers } from "../../../apiServices/GeneralServices";
+import { TeacherCard } from "./TeacherCard";
 
 export const TalentoHumano = ({ setLoading }) => {
 	const [teacherList, setTeacherList] = useState([]);

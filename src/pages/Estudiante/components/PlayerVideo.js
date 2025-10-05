@@ -1,20 +1,17 @@
 import { useCallback, useEffect, useState } from "react";
-import { Videos, ModalCompleted } from "../components";
-import { useSelector } from "react-redux";
 //import VideoPlayer from "react-player/vimeo";
 import VideoPlayer from "react-player/youtube";
-import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import {
 	CreateViewVideo,
 	GetAllCapitulos,
-} from "../../../apiServices/StudentServices/StudentServices";
-
-import {
 	//GetVideos,
 	GetVideosCourse,
 	UpdateStateMatricula,
 } from "../../../apiServices/StudentServices/StudentServices"; //Quitar si no funciona correctamente lo hecho anteriormente
+import { ModalCompleted, Videos } from "../components";
 
 export const PlayerVideo = ({ estudiante, matricula, setMatricula }) => {
 	const playList = useSelector((state) => state.playListState.playList);

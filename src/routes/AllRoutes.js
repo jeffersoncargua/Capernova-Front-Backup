@@ -1,31 +1,31 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Navigate, Route, Routes } from "react-router-dom";
+import { WhatsappComponent } from "../components";
 import {
-	Home,
-	Login,
-	Register,
-	Products,
-	ProductDetail,
-	Cursos,
-	CursoDetail,
-	Estudiante,
+	Administracion,
+	CancelPayment,
 	Cart,
-	ForgotPassword,
 	ChangePassword,
 	ConfirmationEmail,
-	Order,
-	CancelPayment,
 	ConfirmPay,
-	Administracion,
-	Profesor,
-	Secretaria,
+	CursoDetail,
+	Cursos,
+	Estudiante,
+	ForgotPassword,
+	Home,
+	Login,
 	Nosotros,
-	PageNotFound,
+	Order,
 	PageError,
-	TerminosCondiciones,
+	PageNotFound,
 	Privacidad,
+	ProductDetail,
+	Products,
+	Profesor,
+	Register,
+	Secretaria,
+	TerminosCondiciones,
 } from "../pages/index";
-import { WhatsappComponent } from "../components";
-import { useSelector } from "react-redux";
 
 export const AllRoutes = () => {
 	const userAuth = useSelector((state) => state.userState.isAuth);

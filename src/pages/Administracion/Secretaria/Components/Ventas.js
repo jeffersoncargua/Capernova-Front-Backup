@@ -1,11 +1,10 @@
-import { useState, useRef, useEffect, useCallback } from "react";
-import { toast } from "react-toastify";
-import { VentaDetails, Loading } from "../Components";
-import Datepicker from "react-tailwindcss-datepicker";
-
+import { useCallback, useEffect, useRef, useState } from "react";
 import { DownloadTableExcel } from "react-export-table-to-excel";
+import Datepicker from "react-tailwindcss-datepicker";
+import { toast } from "react-toastify";
 import { GetAllVentas } from "../../../../apiServices/ManagmentServices/ManagmentVentas";
 import { UpdateVenta } from "../../../../apiServices/SecretaryServices/SecretaryServices";
+import { Loading, VentaDetails } from "../Components";
 
 export const Ventas = () => {
 	const [ventaList, setVentaList] = useState([]);

@@ -1,10 +1,9 @@
-import { useEffect } from "react";
-import { Link, useSearchParams } from "react-router-dom";
-import { clearToCart } from "../../redux/cartSlice";
-import { useDispatch } from "react-redux";
-
 // Import AOS para el fade
 import AOS from "aos";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { Link, useSearchParams } from "react-router-dom";
+import { clearToCart } from "../../redux/cartSlice";
 import "aos/dist/aos.css"; // You can also use <link> for styles
 // ..
 

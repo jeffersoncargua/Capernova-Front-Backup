@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
-import { CalificarDeber } from "../Components";
 import { toast } from "react-toastify";
 import { GetAllTask } from "../../../../apiServices/TeacherServices/TeacherServices";
+import { CalificarDeber } from "../Components";
 
 export const ModalCalificarDeber = ({
 	showModalCalificarDeber,

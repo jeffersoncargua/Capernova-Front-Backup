@@ -1,6 +1,6 @@
-export { Hero } from "./Hero";
-export { Nosotros } from "./Nosotros";
 export { Feedback } from "./Feedback";
-export { SliderProduct } from "./SliderProduct";
-export { SliderCursos } from "./SliderCursos";
+export { Hero } from "./Hero";
 export { Loading } from "./Loading";
+export { Nosotros } from "./Nosotros";
+export { SliderCursos } from "./SliderCursos";
+export { SliderProduct } from "./SliderProduct";

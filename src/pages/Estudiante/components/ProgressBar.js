@@ -1,8 +1,8 @@
-import { Tooltip } from "react-tooltip";
 import { useState } from "react";
-import { Loading } from "../components";
 import { useNavigate } from "react-router-dom";
+import { Tooltip } from "react-tooltip";
 import { GetCertificate } from "../../../apiServices/StudentServices/StudentServices";
+import { Loading } from "../components";
 
 export const ProgressBar = ({ matricula, setShowModalDownload, setResult }) => {
 	const [showLoading, setLoading] = useState(false);

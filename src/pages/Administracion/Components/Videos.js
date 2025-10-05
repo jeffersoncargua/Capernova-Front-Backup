@@ -1,5 +1,12 @@
-import { useRef, useState, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { GetCategoriaCursos } from "../../../apiServices/GeneralServices";
+import {
+	GetAllCapitulo,
+	GetProductCode,
+	UpdateCourse,
+} from "../../../apiServices/ManagmentServices/ManagmentCourseServices";
 import {
 	ModalCapitulo,
 	ModalDelete,
@@ -8,13 +15,6 @@ import {
 } from "../Components";
 //import { ModalCapitulo,ModalVideo,ModalDeleteCapitulo,ModalDeleteVideo,ModalSuccess ,VideoCard} from "../Components"; //son componentes de la carpeta administracion/profesor/components
 import { ModalSuccess } from "../Profesores/Components"; //son componentes de la carpeta administarcion/components
-import { useNavigate } from "react-router-dom";
-import {
-	GetAllCapitulo,
-	GetProductCode,
-	UpdateCourse,
-} from "../../../apiServices/ManagmentServices/ManagmentCourseServices";
-import { GetCategoriaCursos } from "../../../apiServices/GeneralServices";
 
 export const Videos = ({
 	setShowCursos,

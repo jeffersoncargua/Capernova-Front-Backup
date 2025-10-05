@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { remove } from "../../../redux/searchProductSlice";
 import { GetCategoriaProductos } from "../../../apiServices/GeneralServices";
+import { remove } from "../../../redux/searchProductSlice";
 
 export const SearchFilter = () => {
 	const [showSearch, setShowSearch] = useState(true);

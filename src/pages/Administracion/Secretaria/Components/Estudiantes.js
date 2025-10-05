@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { GetStudents } from "../../../../apiServices/ManagmentServices/ManagmentStudentServices";
 
 //export const Estudiantes = ({ setShowEstudiantes }) => {

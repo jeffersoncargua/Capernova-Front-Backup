@@ -1,9 +1,8 @@
-import { useSelector } from "react-redux";
-import PagandoCuenta from "../../../assets/MujerPagando.png";
-import { PaymentPaypal } from "../components";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import PagandoCuenta from "../../../assets/MujerPagando.png";
 import { cancelOrder } from "../../../redux/orderSlice";
-import { useDispatch } from "react-redux";
+import { PaymentPaypal } from "../components";
 
 export const PaymentInfo = ({
 	isValid,

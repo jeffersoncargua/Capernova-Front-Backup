@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
-import { ModalPruebaDetail, NotaPrueba } from "../components";
 import { toast } from "react-toastify";
 import { GetAllTests } from "../../../apiServices/StudentServices/StudentServices";
+import { ModalPruebaDetail, NotaPrueba } from "../components";
 
 export const PruebaDetail = ({ matricula }) => {
 	const [pruebaList, setPruebaList] = useState([]);

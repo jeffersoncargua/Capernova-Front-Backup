@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { GetAllTest } from "../../../../apiServices/TeacherServices/TeacherServices";
 import { ModalDelete } from "../../Components";
 //import {ModalPrueba, ModalDeletePrueba, ModalSuccess} from '../Components'
 import { ModalPrueba, ModalSuccess } from "../Components";
-import { GetAllTest } from "../../../../apiServices/TeacherServices/TeacherServices";
 
 export const Pruebas = ({
 	setShowCursos,

@@ -1,10 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-
-import Avatar from "../../../assets/avatar.png";
-
 // Import AOS para el fade
 import AOS from "aos";
+import { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Avatar from "../../../assets/avatar.png";
 import "aos/dist/aos.css"; // You can also use <link> for styles
 import { GetAllCommentaries } from "../../../apiServices/GeneralServices";
 // ..

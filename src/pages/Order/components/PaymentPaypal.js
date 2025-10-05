@@ -1,12 +1,10 @@
-import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { logout } from "../../../redux/userSlice";
-
+import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 // Import AOS para el fade
 import AOS from "aos";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { logout } from "../../../redux/userSlice";
 import "aos/dist/aos.css"; // You can also use <link> for styles
 import {
 	ConfirmPayByPayPal,

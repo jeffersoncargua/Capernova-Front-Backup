@@ -1,10 +1,10 @@
 import { useRef, useState } from "react";
-import { Tooltip } from "react-tooltip";
-import { toast } from "react-toastify";
-import { Loading } from "../components";
-import Avatar from "../../../assets/avatar.png";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { Tooltip } from "react-tooltip";
 import { UpdateStudent } from "../../../apiServices/StudentServices/StudentServices";
+import Avatar from "../../../assets/avatar.png";
+import { Loading } from "../components";
 
 export const Informacion = ({
 	estudiante,

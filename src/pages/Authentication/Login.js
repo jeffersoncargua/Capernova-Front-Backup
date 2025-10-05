@@ -1,12 +1,11 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useState, useRef } from "react";
-import { ModalLogin } from "./components";
-import { JWTDecode } from "../../hooks/JWTDecode";
+import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { signIn } from "../../redux/userSlice";
-
-import LogoImg from "../../assets/registro2.jpg";
+import { Link, useNavigate } from "react-router-dom";
 import { LoginPost } from "../../apiServices/Authenticate/AuthenticateServices";
+import LogoImg from "../../assets/registro2.jpg";
+import { JWTDecode } from "../../hooks/JWTDecode";
+import { signIn } from "../../redux/userSlice";
+import { ModalLogin } from "./components";
 
 export const Login = ({ children }) => {
 	const [showPass, setShowPass] = useState(false);
