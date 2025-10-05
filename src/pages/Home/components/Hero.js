@@ -79,9 +79,7 @@ export const Hero = ({ video }) => {
 					controls={false}
 					disablePictureInPicture={true}
 				/>
-				<div
-					className="w-full h-full bg-black/50 flex absolute top-0 left-0"
-				>
+				<div className="w-full h-full bg-black/50 flex absolute top-0 left-0">
 					<div className="w-[95%] md:w-[70%] bg-slate-50/40 rounded-lg mx-auto group text-black space-y-2 sm:space-y-6 my-[2.5%] md:my-[5.5%] flex justify-center items-center flex-col shadow-md shadow-slate-50 ">
 						<h1 className="font-semibold md:font-bold text-center text-lg md:text-xl mt-2">
 							Bienvenidos a la página oficial de Capernova
@@ -89,15 +87,16 @@ export const Hero = ({ video }) => {
 						<div className="mx-2.5 md:mx-10 leading-5 md:leading-7 font-semibold text-xs md:text-sm text-justify md:text-center space-y-6">
 							<p className="">
 								En este sitio encontrarás todo lo que necesitas para ampliar tus
-								concocimientos, así como, adquirir productos para tu emprendimiento.{" "}
+								concocimientos, así como, adquirir productos para tu
+								emprendimiento.{" "}
 							</p>
 							<p className="">
-								Contámos con cursos y productos que te ayudarán a expandir tus ideas
-								y alcanzar tus sueños.
+								Contámos con cursos y productos que te ayudarán a expandir tus
+								ideas y alcanzar tus sueños.
 							</p>
 							<p className="">
-								Recuerda que tu potencial es infinito, atrévete a explorarlo junto a
-								nosotros.
+								Recuerda que tu potencial es infinito, atrévete a explorarlo
+								junto a nosotros.
 							</p>
 						</div>
 						<Link
