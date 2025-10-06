@@ -30,4 +30,18 @@ const UpdatePedido = async (pedido) => {
 	return response;
 };
 
-export { UpdateVenta, UpdatePedido };
+const GetAllCourse = async (search = "") => {
+	const verbose = "GET";
+	const route = "/Managment/getAllCourse";
+	const query = `?search=${search}`;
+
+	var response = await useFetch({
+		verbose: verbose,
+		route: route,
+		query: query,
+	});
+
+	return response;
+};
+
+export { UpdateVenta, UpdatePedido, GetAllCourse};

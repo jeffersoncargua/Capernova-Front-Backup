@@ -2,9 +2,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
-	GetAllCourse,
 	GetProductCode,
 } from "../../../../apiServices/ManagmentServices/ManagmentCourseServices";
+import { GetAllCourse } from "../../../../apiServices/SecretaryServices/SecretaryServices";
 
 // export const Cursos = ({ setShowCursos, cursoList, setCursoList }) => {
 export const Cursos = ({ cursoList, setCursoList }) => {

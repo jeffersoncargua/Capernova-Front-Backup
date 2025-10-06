@@ -67,7 +67,7 @@ export const ModalProducto = ({
 
 			const resultFetch = await result.json();
 
-			if (result.status !== 200 && result.status !== 400) {
+			if (result.status !== 201 && result.status !== 400) {
 				throw resultFetch;
 			}
 

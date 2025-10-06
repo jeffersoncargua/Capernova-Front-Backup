@@ -40,7 +40,7 @@ export const ModalTalento = ({
 
 				const resultFetch = await resultFromApi.json();
 
-				if (resultFromApi.status !== 200 && resultFromApi.status !== 400) {
+				if (resultFromApi.status !== 201 && resultFromApi.status !== 400) {
 					throw resultFetch;
 				}
 
@@ -53,7 +53,8 @@ export const ModalTalento = ({
 				resultFetch.isSuccess
 					? toast.success(resultFetch.message)
 					: toast.error(resultFetch.message);
-			} catch (_error) {
+			} catch (error) {
+				console.error(error);
 				setShowButtonLoading(false);
 				setShowModalTalento(false);
 				toast.error("Algo ha fallado en nuestro servidor. Inténtelo más tarde");
